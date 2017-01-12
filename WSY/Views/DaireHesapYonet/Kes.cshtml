@@ -1,0 +1,26 @@
+﻿@model WSY.Models.DaireHesapVM
+
+<h3>Aşağıdaki Kullanıcı ile Daire arasındaki ilişkiyi kesmek istiyormusunuz?</h3>
+
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.KullaniciAdi)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.KullaniciAdi)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.DaireOturan)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.DaireOturan)
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="İlişki Kes" />
+    </p>
+}

@@ -1,0 +1,56 @@
+﻿@using WSY
+@using WSY.Models
+@model IEnumerable<WSY.Models.Daire>
+
+@{
+    ViewBag.Title = "DaireAidatDurum";
+}
+
+<h2>DaireAidatDurum</h2>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idBlok)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.daireAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.oturanAdi)
+        </th>
+        <th>Aidat Borç
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idBlok)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.daireAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.oturanAdi)
+            </td>
+            <td>
+                @if (item.DaireHesap == null)
+                {
+                    item.DaireHesap = new DaireHesap();
+                }
+                <span class="daireaidat">@item.DaireHesap.aidat</span>
+            </td>
+            <td>
+               @Html.DialogFormLink("Düzenle",Url.Action("Edit"),"Düzenle",Url.Action("DaireAidatDurum"))
+            </td>
+        </tr>
+    }
+</table>
+@section scripts{
+     @Scripts.Render("~/bundles/jqueryval")
+     @Scripts.Render("~/bundles/dialogform")
+}

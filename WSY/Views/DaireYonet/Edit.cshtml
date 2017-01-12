@@ -1,0 +1,27 @@
+﻿@model WSY.Models.Daire
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.idBlok)
+         
+    @Html.Partial("_CreateEdit", Model)
+      
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+   
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

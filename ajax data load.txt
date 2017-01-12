@@ -1,0 +1,67 @@
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            var target = $("#izinsizgelmeyenler");
+            var izinli = $("#izinligelmeyenler");
+            var now = new Date();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretsizGelmeyenler","PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (response) {
+                    target.append('<ul class="list-group">');
+                    for (var i = 0; i < response.length; i++) {
+                        target.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
+                    }
+                    target.append('</ul>');
+                    $('.loading').remove();
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretliGelmeyenler","PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (data) {
+                    izinli.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var product = data[i];
+                        izinli.append("<tr><td>" + product.adsoyad + "</td><td>"
+                        + product.aciklama + "</td></tr>");
+                    }
+                }
+            });
+
+           
+            $.ajax({
+                type: 'GET',
+                data: {
+                    'tarih1': now.toISOString(),
+                    'tarih2': now.toISOString()
+                },
+                url: '@Url.Action("GecKalanlar","PTakip")',
+                success: function (data) {
+                    var geckalan = $("#geckalanlartable");
+                    geckalan.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var gec = data[i];
+                        geckalan.append("<tr><td>" + gec.adsoyad + "</td><td>"
+                        + gec.geckalma + "</td></tr>");
+                    }
+                }
+            });
+
+
+        })
+    </script>
+}
+
+
+JsonResult kullanýlarak
+
+ var data =dset.personel_kartlari.Where(c => c.Takip == null)
+                        .Select(c => new { adsoyad = c.adi + " " + c.soyadi });
+            return Json(data,JsonRequestBehavior.AllowGet);

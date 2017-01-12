@@ -1,0 +1,30 @@
+﻿@model WSY.Models.Blok
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Bloklar","Index","BlokYonet")</li>
+    <li> > </li>
+    <li class="active">Blok Düzenle</li>
+</ul>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model=>model.id)
+    <div class="panel panel-default">
+        <div class="panel-heading">Blok Düzenle</div>
+        @Html.Partial("_CreateEdit")
+        <p>
+            <input type="submit" value="Kaydet" />
+        </p>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

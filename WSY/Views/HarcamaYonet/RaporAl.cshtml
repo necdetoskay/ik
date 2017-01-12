@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WSY.Models.Harcama>
+
+<div class="panel panel-default">
+    <div class="panel-body table-responsive">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.harcamaTip)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.harcamaTarih)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.harcamaTutar)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.not)
+                </th>
+             
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HarcamaTanım.harcamaAdi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.harcamaTarih)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.harcamaTutar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.not)
+                    </td>
+                  
+                </tr>
+            }
+        </table>
+    </div>
+</div>

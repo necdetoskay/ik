@@ -1,0 +1,28 @@
+﻿@model WSY.Models.Daire
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.daireAdi)
+    @Html.TextBoxFor(m => m.daireAdi, new { @class = "form-control", @placeholder = "Daire Adı" })
+    @Html.ValidationMessageFor(m => m.daireAdi)
+</div>
+
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.oturanAdi)
+    @Html.TextBoxFor(m => m.oturanAdi, new { @class = "form-control", @placeholder = "Oturan Adı" })
+    @Html.ValidationMessageFor(m => m.oturanAdi)
+</div>
+
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.tel)
+    @Html.TextBoxFor(m => m.tel, new { @class = "form-control", @placeholder = "Telefon No" })
+    @Html.ValidationMessageFor(m => m.tel)
+</div>
+
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.not)
+    @Html.TextBoxFor(m => m.not, new { @class = "form-control", @placeholder = "NOT" })
+    @Html.ValidationMessageFor(m => m.not)
+</div>

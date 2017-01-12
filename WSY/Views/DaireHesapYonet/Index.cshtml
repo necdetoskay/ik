@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WSY.Models.DaireHesapVM>
+
+@{
+    ViewBag.Title = "Kullanıcı Hesap-Daire İlişkileri";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>
+  
+</ul>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Daire Listesi</div>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DaireOturan)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.KullaniciAdi)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaireOturan)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.KullaniciAdi)
+                </td>
+                <td>
+                    @if (item.KullaniciAdi == null)
+                    {
+                        @Html.ActionLink("Kullanıcı ile ilişkindir", "Bagla", new {id = item.DaireID}, new {@class = "btn btn-primary btn-sm"})
+                    }
+                    else
+                    {
+                         @Html.ActionLink("Kullanıcı ilişki Hes", "Kes", new {id = item.DaireID}, new {@class = "btn btn-danger btn-sm"})
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

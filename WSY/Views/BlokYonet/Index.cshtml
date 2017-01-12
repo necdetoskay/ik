@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WSY.Models.Blok>
+
+@{
+    ViewBag.Title = "Site Yönetimi - Blok Listesi";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Ana Sayfa","Index","Home")</li>
+    <li> > </li>
+    <li class="active">Blok Listesi</li>
+</ul>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Blok Listesi <div class="pull-right">@Html.ActionLink("Yeni Blok Ekle", "Create",null,new{@class="btn btn-primary btn-small"})</div></div>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.blokAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.not)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                   <h4> @Html.ActionLink(item.blokAdi,"Index","DaireYonet",new{item.id},new{})</h4>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.not)
+                </td>
+                <td>
+                    @Html.ActionLink("Düzenle", "Edit", new { id = item.id },new{@class="btn btn-primary btn-small"}) 
+                   @* |@Html.ActionLink("Sil", "Delete", new { id = item.id })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

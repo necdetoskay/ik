@@ -1,0 +1,12 @@
+﻿@model WSY.Models.Ayar
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.ayarAdi)
+    @Html.TextBoxFor(m => m.ayarAdi, new { @class = "form-control", @placeholder = "Ayar Adı" })
+    @Html.ValidationMessageFor(m => m.ayarAdi)
+</div>
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.ayarDegeri)
+    @Html.TextBoxFor(m => m.ayarDegeri, new { @class = "form-control", @placeholder = "Değer" })
+    @Html.ValidationMessageFor(m => m.ayarDegeri)
+</div>

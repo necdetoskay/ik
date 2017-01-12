@@ -1,0 +1,63 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<WSY.Models.Daire>
+
+@{
+    ViewBag.Title = "Site Yönetim - Daire Listesi";
+}
+
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Ana Sayfa","Index","Home")</li>
+    <li> > </li>
+    <li>@Html.ActionLink("Bloklar","Index","BlokYonet")</li>
+    <li> > </li>
+    <li class="active">@ViewBag.BlokAdi</li>
+</ul>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+       @ViewBag.BlokAdi Daire Listesi
+        <div class="pull-right">@Html.ActionLink("Yeni Daire Ekle", "Create",new{@id=ViewBag.BlokId}, new { @class = "btn btn-primary btn-small" })</div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.daireAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.oturanAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.not)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.daireAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.oturanAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.not)
+                </td>
+                <td>
+                    @Html.ActionLink("Düzenle", "Edit", new { id = item.id,blokID=ViewBag.BlokId },new{@class="btn btn-info btn-small"})
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

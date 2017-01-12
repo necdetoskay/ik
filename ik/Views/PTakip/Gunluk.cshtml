@@ -1,0 +1,9 @@
+﻿@model List<ik.Models.ikDSet.personel_kartlariRow>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item list-group-item-danger">@item.adi @item.soyadi</li>
+    }
+
+</ul>

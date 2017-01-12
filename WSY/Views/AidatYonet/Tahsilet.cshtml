@@ -1,0 +1,127 @@
+﻿
+
+@model WSY.Models.AidatTahsilVM
+
+@{
+    ViewBag.Title = "Tahsilet";
+}
+@if (ViewData["Message"] != null)
+{
+    <div id="loading" style="color: red; font-size: 25px; padding-bottom: 20px;">
+        <span>@ViewData["Message"] </span>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <div class="panel panel-default ">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tarih)
+                    @Html.EditorFor(model => model.Tarih, new { htmlAttributes = new { @class = "datefield" } })
+                    @Html.ValidationMessageFor(model => model.Tarih)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BlokID)
+                    @Html.DropDownListFor(model => model.BlokID, (SelectList)ViewBag.BlokListe, "Blok Seçiniz", new { @class = "form-control " })
+                    @Html.ValidationMessageFor(model => model.BlokID)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DaireID)
+                    @Html.DropDownListFor(model => model.DaireID, (SelectList)ViewBag.DaireListe, "Daire Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DaireID)
+                </div>
+                <div class="form-group">
+                    <div id="durum">
+                        <div>Aidat Aidat :<span id="aidat"></span></div>
+                        <div>Gecikme Faizi :<span id="gecikmefaiz"></span></div>
+                        <div>Toplam :<span id="aidatdurum"></span></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tutar)
+                    @Html.TextBoxFor(model => model.Tutar, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Tutar)
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3>Son İşlemler</h3>
+               
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="col-md-12">
+        <input type="submit" value="Tahsil Et" />
+    </div>
+  
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datepick")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#loading').show().delay(3000).fadeOut();
+            $('#Tutar').val("");
+            $('#BlokID').val('');
+            $('#BlokID').on('change', function () {
+                var ID = $(this).val();
+                var procemessage = "<option value='0'>Bekleyiniz !</option>";
+                $('#DaireID').html(procemessage).show();
+                $.ajax({
+                    url: '@Url.Action("DaireListesi", "BlokYonet")',
+                        data: { id: ID },
+                        cache: false,
+                        type: "POST",
+                        success: function (data) {
+                            var markup = "<option value=''>Tümü</option>";
+                            for (var x = 0; x < data.length; x++) {
+                                markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                            }
+                            $('#DaireID').html(markup).show();
+                        }
+                    });
+                });
+
+            $('#DaireID').on('change', function () {
+                var ID = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("DaireAidatDurum", "AidatYonet")',
+                    data: { id: ID },
+                    type: 'POST',
+                    success: function (result) {
+                        $('#aidatdurum').html(result.toplam);
+                        $('#aidat').html(result.aidat);
+                        if (result.aidat < 0) {
+                            $('#aidat').css('color', 'red').css('font-size', '2em');
+                        }
+                        $('#gecikmefaiz').html(result.faiz);
+                        if (result.faiz > 0) {
+                            $('#gecikmefaiz').css('color', 'red').css('font-size', '2em');
+                        }
+
+                        if (result.toplam < 0) {
+                            $('#aidatdurum').css('color', 'red').css('font-size', '2em');
+                        }
+                    }
+                }).fail(function () {
+                    alert("hata");
+                });
+
+            });
+
+
+        });
+    </script>
+}

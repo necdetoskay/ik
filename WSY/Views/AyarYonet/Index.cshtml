@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WSY.Models.Ayar>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>
+    <li>> </li>
+    <li class="active">Ayar Listesi</li>
+</ul>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Ayarlar
+        <div class="pull-right">@Html.ActionLink("Yeni Ayar Ekle", "Create", null, new { @class = "btn btn-primary btn-small" })</div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ayarAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ayarDegeri)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ayarAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ayarDegeri)
+                </td>
+                <td>
+                    @Html.ActionLink("Düzenle", "Edit", new { id = item.id },new{@class="btn btn-primary btn-small"}) 
+         
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

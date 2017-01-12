@@ -1,0 +1,62 @@
+﻿@using Microsoft.Ajax.Utilities
+@using WSY
+@model IEnumerable<WSY.Models.Harcama>
+
+@{
+    ViewBag.Title = "Yapılan Harcamalar";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>
+    <li>> </li>
+    <li class="active">Harcama Listesi</li>
+</ul>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Ayarlar
+        <div class="pull-right">@Html.ActionLink("Yeni Harcama Ekle", "Create", null, new { @class = "btn btn-primary btn-sm" })</div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.harcamaTip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.harcamaTarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.harcamaTutar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.not)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HarcamaTanım.harcamaAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.harcamaTarih)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.harcamaTutar)
+                </td>
+                <td>
+                    @Html.Truncate(string.IsNullOrEmpty(item.not)?"":item.not,25)
+                  @*  @Html.DisplayFor(modelItem => item.not)*@
+                </td>
+                <td>
+                    @Html.ActionLink("Düzenle", "Edit", new { id = item.id }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Sil", "Delete", new { id = item.id }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

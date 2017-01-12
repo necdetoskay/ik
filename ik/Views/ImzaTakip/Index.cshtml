@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="form-group">
+    @Html.Label("Imza")
+    @Html.DropDownList("Imza", // 1. Store selected value in Model.State;
+                                                            // when page is rendered after postback,
+                                                            // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              (SelectList)ViewBag.imzaListe,
+
+                                              // 3. Text for the first 'default' option
+                                              "- İmza seçiniz -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "form-control" })
+</div>
+
+<div id="ImzaListe" class="form-group">
+    
+</div>
+
+
+
+    @section scripts{
+
+        <script type="text/javascript">
+            $(function () {
+               
+                
+                $('#Imza').on('change', function () {
+                    var imzaID = $(this).val();
+                    $('#ImzaListe').html('');
+                    var target = $("<div></div>");
+                    $.ajax({
+                        url: '@Url.Action("ImzaTakipListe")',
+                        data: { ID: imzaID },
+                        cache: false,
+                        type: "POST",
+                        success: function (response) {
+                            target.append('<ul class="list-group">');
+                            for (var i = 0; i < response.length; i++) {
+                                target.append('<li class="list-group-item list-group-item-danger">' + response[i].personel + '</li>');
+                            }
+                            target.append('</ul>');
+                          
+                            $('#ImzaListe').html(target);
+                        }
+                    });
+                });
+
+               
+
+
+            })
+        </script>
+    }

@@ -1,0 +1,14 @@
+﻿@model WSY.Models.Blok
+
+
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.blokAdi)
+    @Html.TextBoxFor(m => m.blokAdi, new { @class = "form-control", @placeholder = "Daire Adı" })
+    @Html.ValidationMessageFor(m => m.blokAdi)
+</div>
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.not)
+    @Html.TextBoxFor(m => m.not, new { @class = "form-control", @placeholder = "NOT" })
+</div>

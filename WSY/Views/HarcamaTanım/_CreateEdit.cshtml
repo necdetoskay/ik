@@ -1,0 +1,15 @@
+﻿@model WSY.Models.HarcamaTanım
+
+<div class="panel-heading">Yeni Harcama Ekle</div>
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.harcamaAdi)
+    @Html.TextBoxFor(m => m.harcamaAdi, new { @class = "form-control", @placeholder = "Harcama Adı" })
+    @Html.ValidationMessageFor(m => m.harcamaAdi)
+</div>
+
+<div class="form-group frm-mrg">
+    @Html.LabelFor(m => m.not)
+    @Html.TextBoxFor(m => m.not, new { @class = "form-control", @placeholder = "NOT" })
+    @Html.ValidationMessageFor(m => m.not)
+</div>

@@ -1,0 +1,119 @@
+﻿@using WSY
+@model IEnumerable<WSY.Models.AidatGenelDurumVM>
+@{
+    decimal aidat = 0;
+    decimal faiz = 0;
+    decimal geneltoplam = 0;
+}
+
+@helper AidatDurum(decimal aidat, decimal faiz)
+{
+    if (aidat <= 0) //borçlu
+    {
+        var adt = Math.Abs(aidat);
+        if (faiz > 0)
+        {
+            adt += faiz;
+        }
+    <span style="color: red; font-weight: bold; font-size: 1.5em;">@adt</span>
+    }
+    else//alacaklı
+    {
+    <span style="color: green; font-weight: bold; font-size: 1.5em;">@aidat</span>
+    }
+}
+@helper Aidat(decimal aidat)
+{
+    if (aidat < 0)
+    {
+    <span style="color: red">@aidat</span>
+    }
+    else
+    {
+    @aidat
+    }
+}
+@helper Faiz(decimal faiz)
+{
+    if (faiz > 0)
+    {
+    <span style="color: red">@faiz</span>
+    }
+    else
+    {
+    @faiz
+    }
+}
+<div class="panel panel-default">
+    <div class="panel-body table-responsive">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlokAdi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaireAdi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaireOturan)
+                </th>
+                <th>Aidat Toplam
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Aidat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Faiz)
+                </th>
+
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                aidat += item.Aidat;
+                faiz += item.Faiz;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BlokAdi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DaireAdi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DaireOturan)
+                    </td>
+                    <td>
+                        @AidatDurum(item.Aidat, item.Faiz)
+                    </td>
+                    <td>
+                        @Aidat(item.Aidat)
+                    </td>
+                    <td>
+                        @Faiz(item.Faiz)
+                    </td>
+                    <td>
+                        @Html.DialogFormLink("Değiştir", Url.Action("DaireAidatDegistir", new { item.DaireID }), "Daire Aidat Değiştir", Url.Action("DaireGenelDurum", new { id = ViewContext.RouteData.Values["BlokNo"] }))
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>Blok Genel Aidat Toplamı</dt>
+            <dd>@aidat</dd>
+
+            <dt>Blok Genel Faiz Toplamı</dt>
+            <dd>@faiz</dd>
+
+            <dt>Blok Genel Toplam</dt>
+            <dd>@(aidat - faiz)</dd>
+        </dl>
+        
+    </div>
+</div>
+
+

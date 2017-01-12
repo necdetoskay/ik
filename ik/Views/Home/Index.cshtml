@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>*@
+<div class="row">
+    <div class="col-md-4">
+        <p>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Rutin İş Takip</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>İş</th>
+                                <th>Son Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody id="istakip"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        <p>
+
+            <div id="istakipload">
+                <img class="loading" src="~/Content/Loading_icon.gif" />
+            </div>
+        </p>
+        @*<p>
+                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
+            </p>*@
+    </div>
+    <div class="col-md-4">
+        @*<h3>İzinli Gelmeyenler</h3>
+            <p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Personel AdSoyad</th>
+                            <th>Mazeret</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="izinligelmeyenler"></tbody>
+                </table>
+                <div id="izinligelmeyenler">
+                    <img class="loading" src="~/Content/Loading_icon.gif" />
+                </div>
+            </p>*@
+    </div>
+    <div class="col-md-4">
+        @*<h3>Geç Kalanlar</h3>
+            <p>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Personel AdSoyad</th>
+                            <th>Geç Kalma</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="geckalanlartable"></tbody>
+                </table>
+                <div id="geckalanlar">
+                    <img class="loading" src="~/Content/Loading_icon.gif" />
+                </div>
+            </p>*@
+    </div>
+
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Giriş Yapmayan Personeller</h3>
+        <p>
+            <div id="izinsizgelmeyenler">
+                <img class="loading" src="~/Content/Loading_icon.gif" />
+            </div>
+        </p>
+        @*<p>
+                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
+            </p>*@
+    </div>
+    <div class="col-md-4">
+        <h3>İzinli Gelmeyenler</h3>
+        <p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Personel AdSoyad</th>
+                        <th>Mazeret</th>
+
+                    </tr>
+                </thead>
+                <tbody id="izinligelmeyenler"></tbody>
+            </table>
+            <div id="izinligelmeyenler">
+                <img class="loading" src="~/Content/Loading_icon.gif" />
+            </div>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h3>Geç Kalanlar</h3>
+        <p>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Personel AdSoyad</th>
+                        <th>Geç Kalma</th>
+
+                    </tr>
+                </thead>
+                <tbody id="geckalanlartable"></tbody>
+            </table>
+            <div id="geckalanlar">
+                <img class="loading" src="~/Content/Loading_icon.gif" />
+            </div>
+        </p>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var target = $("#izinsizgelmeyenler");
+            var izinli = $("#izinligelmeyenler");
+            var takip = $('#istakip');
+            var now = new Date();
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("_RutinOzet","Takips")',
+                data: {
+                    'limit': 5
+                },
+                success: function (data) {
+                    takip.empty();
+                
+                    for (var i = 0; i < data.length; i++) {
+                        var product = data[i];
+                        var ek = "";
+                        if (moment(product.sontarih).isBefore(new Date(), 'day')) {
+                            ek = ' bgcolor="#FF0000">';
+                        } else { ek = ">" }
+                        takip.append("<tr" + ek + "<td>" + product.aciklama + "</td><td>"
+                            + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
+                    }
+                }
+            });
+
+
+
+
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretsizGelmeyenler","PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (response) {
+                    target.append('<ul class="list-group">');
+                    for (var i = 0; i < response.length; i++) {
+                        target.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
+                    }
+                    target.append('</ul>');
+                    $('.loading').remove();
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretliGelmeyenler","PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (data) {
+                    izinli.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var product = data[i];
+                        izinli.append("<tr><td>" + product.adsoyad + "</td><td>"
+                            + product.aciklama + "</td></tr>");
+                    }
+                }
+            });
+
+
+            $.ajax({
+                type: 'GET',
+                data: {
+                    'tarih1': now.toISOString(),
+                    'tarih2': now.toISOString()
+                },
+                url: '@Url.Action("GecKalanlar","PTakip")',
+                success: function (data) {
+                    var geckalan = $("#geckalanlartable");
+                    geckalan.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var gec = data[i];
+                        geckalan.append("<tr><td>" + gec.adsoyad + "</td><td>"
+                            + gec.geckalma + "</td></tr>");
+                    }
+                }
+            });
+
+
+        })
+    </script>
+}

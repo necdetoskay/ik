@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cd50c5c2b0b149549672ee044eb40f93" Name="Model" ZoomLevel="97">
+        <EntityTypeShape EntityType="WSYModel.Blok" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WSYModel.Ayar" Width="1.5" PointX="0.5" PointY="4.375" />
+        <EntityTypeShape EntityType="WSYModel.HarcamaTanım" Width="1.5" PointX="0.5" PointY="2.375" />
+        <EntityTypeShape EntityType="WSYModel.Harcama" Width="1.5" PointX="4.625" PointY="3.75" />
+        <AssociationConnector Association="WSYModel.FK__Harcama__harcama__58D1301D" />
+        <EntityTypeShape EntityType="WSYModel.Aidat" Width="1.5" PointX="5" PointY="0.5" />
+        <EntityTypeShape EntityType="WSYModel.Daire" Width="1.5" PointX="2.75" PointY="0.5" />
+        <AssociationConnector Association="WSYModel.FK__Aidat__daireID__2AD55B43" />
+        <AssociationConnector Association="WSYModel.FK__Daire__idBlok__1273C1CD" />
+        <AssociationConnector Association="WSYModel.DaireHesap" />
+        </Diagram>
+      <Diagram DiagramId="187d8a9ead1f44dd8f1ec5b2fbbc883f" Name="Membership" ZoomLevel="34" >
+        <EntityTypeShape EntityType="WSYModel.Application" Width="1.5" PointX="0.5" PointY="4.375" />
+        <EntityTypeShape EntityType="WSYModel.Membership" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="WSYModel.Profile" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="WSYModel.Role" Width="1.5" PointX="3.625" PointY="3.625" />
+        <EntityTypeShape EntityType="WSYModel.User" Width="1.5" PointX="2.75" PointY="0.5" />
+        <AssociationConnector Association="WSYModel.MembershipApplication" />
+        <AssociationConnector Association="WSYModel.RoleApplication" />
+        <AssociationConnector Association="WSYModel.UserApplication" />
+        <AssociationConnector Association="WSYModel.MembershipUser" />
+        <AssociationConnector Association="WSYModel.UserProfile" />
+        <AssociationConnector Association="WSYModel.UsersInRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

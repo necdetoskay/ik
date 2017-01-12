@@ -1,0 +1,68 @@
+﻿@using System.Security
+@model IEnumerable<WSY.Models.AidatGenelDurumVM>
+
+@{
+    ViewBag.Title = "GenelDurum";
+}
+
+<div class="row">
+    <div class="col-md-5 col-sm-5 col-xs-5 col-lg-5">
+        <div class="form-group frm-mrg">
+            @Html.Label("Blok Adı")
+            @Html.DropDownList("BlokNo", (SelectList)ViewBag.BlokListe, "Tümü", new { @class = "form-control" })
+        </div>
+    </div>
+
+   @* <div class="col-md-7 col-sm-7 col-xs-7 col-lg-7">
+        <dl class="dl-horizontal pull-right">
+            <dt>Site Aidat Toplamı</dt>
+            <dd>@ViewBag.aidat</dd>
+
+            <dt>Site Faiz Toplamı</dt>
+            <dd>@ViewBag.faiz</dd>
+
+            <dt>Site Genel Toplam</dt>
+            <dd>@ViewBag.aidatToplam</dd>
+        </dl>
+    </div>*@
+</div>
+<div id="geneldurum">
+    @Html.Partial("_DaireListe", Model)
+</div>
+ 
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#BlokNo').on('change', function () {
+                var ID = $(this).val();
+                var procemessage = "<option value='0'>Bekleyiniz !</option>";
+                $('#DaireID').html(procemessage).show();
+                $.ajax({
+                    url: '@Url.Action("DaireListesi", "BlokYonet")',
+                    data: { id: ID },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+                        var markup = "<option value=''>Tümü</option>";
+                        for (var x = 0; x < data.length; x++) {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        }
+                        $('#DaireNo').html(markup).show();
+                    }
+                });
+
+                $.ajax({
+                    url: '@Url.Action("DaireGenelDurum", "AidatYonet")',
+                    data: { id: ID },
+                    type: 'POST',
+                    success: function (result) {
+                        $('#geneldurum').html(result);
+                    }
+                }).fail(function () {
+                    alert("hata");
+                });
+
+            });
+        });
+    </script>
+}

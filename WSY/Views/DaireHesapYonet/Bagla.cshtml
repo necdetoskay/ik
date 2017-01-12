@@ -1,0 +1,35 @@
+﻿@model WSY.Models.DaireHesapBaglaVM
+
+@{
+    ViewBag.Title = "Bagla";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(c=>c.DaireID)
+    @Html.HiddenFor(c=>c.DairedeOturan)
+    <h2>@Html.DisplayFor(c=>c.DairedeOturan)</h2>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.UserID)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.UserID,(SelectList)ViewBag.KullaniciListe,"Kullanıcı Seçiniz")
+        @Html.ValidationMessageFor(model => model.UserID)
+    </div>
+
+    <p>
+        <input type="submit" value="Create" />
+    </p>
+  
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

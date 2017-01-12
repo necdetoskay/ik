@@ -1,0 +1,33 @@
+﻿@model WSY.Models.Daire
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>
+    <li>> </li>
+    <li>@Html.ActionLink("Bloklar", "Index", "BlokYonet")</li>
+    <li>> </li>
+    <li class="active">@ViewBag.BlokAdi</li>
+</ul>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.idBlok)
+    <div class="panel panel-default">
+        <div class="panel-heading">Yeni Daire Ekle</div>
+        @Html.Partial("_CreateEdit", Model)
+        <p>
+            <input type="submit" value="Ekle" />
+        </p>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+   
+}

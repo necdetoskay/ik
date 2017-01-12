@@ -1,0 +1,96 @@
+ public ActionResult AutoComplete(string term)
+        {
+            var queryable = from p in (from p in this.db.tbl_Personel
+                where p.PersonelAdiSoyadi.StartsWith(term)
+                select p).Take<tbl_Personel>(10) select new { label = p.PersonelAdiSoyadi };
+            return base.Json(queryable, 0);
+        }
+
+
+
+
+@model PagedList.IPagedList<zimmet.Models.tbl_Personel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Ajax.BeginForm("Personeller", new AjaxOptions
+{
+    HttpMethod = "get",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "personelListe"
+}))
+{
+    <input type="text" name="personel" data-autocomplete="@Url.Action("AutoComplete")"/>
+    <input type="submit" value="Ara" />
+}
+
+@Html.DropDownList("birim", (SelectList)ViewBag.birimListe, "Birim Seçiniz")
+
+
+
+@Html.Partial("_PersonelListe", Model)
+
+@section scripts{
+    
+    <script type="text/javascript">
+        $(function () {
+            $('#birim').on('change', function () {
+                var ID = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("PersonelListe")',
+                    data: { departmanID: ID },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+                        $('#personelListe').html(data);
+                    }
+                });
+            });
+        })
+    </script>
+}
+
+
+-----------------------------------------------------------------------
+_PersonelListe
+@model IPagedList<zimmet.Models.tbl_Personel>
+
+<div id="personelListe">
+
+    <div class="pagedList" data-target="#personelListe">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+            {
+                LinkToFirstPageFormat = "<< Ýlk",
+                LinkToLastPageFormat = ">> Son",
+                LinkToNextPageFormat = "> Sonraki",
+                LinkToPreviousPageFormat = "< Önceki"
+            })
+
+    </div>
+    <table class="table1">
+        <tr>
+            <th>Ad Soyad
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width: 80%">
+                    @Html.DisplayFor(modelItem => item.PersonelAdiSoyadi)
+                </td>
+
+                <td>
+                    @Html.AjaxLink(Url.Action("Index", "Zimmet", new { @id = item.idPersonel }), "aPage btn btn-primary", "", "Zimmet Listesi")
+                </td>
+            </tr>
+        }
+
+    </table>
+   
+</div>
+
