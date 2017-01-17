@@ -34,5 +34,7 @@ namespace ik.Models
         public virtual DbSet<Personel> Personels { get; set; }
         public virtual DbSet<YillikIzin> YillikIzins { get; set; }
         public virtual DbSet<Takip> Takips { get; set; }
+        public virtual DbSet<Grup> Grups { get; set; }
+        public virtual DbSet<PersonelGrup> PersonelGrups { get; set; }
     }
 }

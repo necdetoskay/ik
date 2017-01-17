@@ -8,112 +8,148 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ik.Models;
+using WebGrease.Css.Extensions;
 
 namespace ik.Controllers
 {
     [Authorize(Users = @"KENTKONUT\noskay")]
-    public class TakipsController : Controller
+    public class GrupsController : Controller
     {
         private ikEntities db = new ikEntities();
 
-        // GET: Takips
-        public async Task<ActionResult> Index()
+        public ActionResult PersonelGrup(int? grupid)
         {
-            return View(await db.Takips.ToListAsync());
+           
+            if (grupid == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var liste = db.PersonelGrups.Where(c => c.grupid == grupid).ToList();
+            ViewBag.grupid = grupid;
+            ViewBag.grupad = db.Grups.SingleOrDefault(c => c.id == grupid).ad;
+            return View(liste);
         }
 
-        // GET: Takips/Details/5
+        [HttpPost]
+        public JsonResult PersonelGrup(object personels,int grupid)
+        {
+            //personels string[]
+
+            var q = ((string[]) personels).Where(c => !db.PersonelGrups.Where(g=>g.grupid==grupid).Select(b => b.personelid).Contains(int.Parse(c)));
+            foreach (var p in q)
+            {
+                try
+                {
+                    db.PersonelGrups.Add(new PersonelGrup() { grupid = grupid, personelid = int.Parse(p) });
+                }
+                catch (Exception px)
+                {
+                }
+            }
+            db.SaveChanges();
+
+            return Json( new {message="Başarılı"}, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        // GET: Grups
+        public async Task<ActionResult> Index()
+        {
+            return View(await db.Grups.ToListAsync());
+        }
+
+        // GET: Grups/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Takip takip = await db.Takips.FindAsync(id);
-            if (takip == null)
+            Grup grup = await db.Grups.FindAsync(id);
+            if (grup == null)
             {
                 return HttpNotFound();
             }
-            return View(takip);
+            return View(grup);
         }
 
-        // GET: Takips/Create
+        // GET: Grups/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Takips/Create
+        // POST: Grups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,aciklama,sontarih")] Takip takip)
+        public async Task<ActionResult> Create([Bind(Include = "id,ad")] Grup grup)
         {
             if (ModelState.IsValid)
             {
-                takip.ekleme=DateTime.Now;
-                db.Takips.Add(takip);
+                db.Grups.Add(grup);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(takip);
+            return View(grup);
         }
 
-        // GET: Takips/Edit/5
+        // GET: Grups/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Takip takip = await db.Takips.FindAsync(id);
-            if (takip == null)
+            Grup grup = await db.Grups.FindAsync(id);
+            if (grup == null)
             {
                 return HttpNotFound();
             }
-            return View(takip);
+            return View(grup);
         }
 
-        // POST: Takips/Edit/5
+        // POST: Grups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,aciklama,ekleme,tamamlanma,sontarih")] Takip takip)
+        public async Task<ActionResult> Edit([Bind(Include = "id,ad")] Grup grup)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(takip).State = EntityState.Modified;
+                db.Entry(grup).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(takip);
+            return View(grup);
         }
 
-        // GET: Takips/Delete/5
+        // GET: Grups/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Takip takip = await db.Takips.FindAsync(id);
-            if (takip == null)
+            Grup grup = await db.Grups.FindAsync(id);
+            if (grup == null)
             {
                 return HttpNotFound();
             }
-            return View(takip);
+            return View(grup);
         }
 
-        // POST: Takips/Delete/5
+        // POST: Grups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Takip takip = await db.Takips.FindAsync(id);
-            db.Takips.Remove(takip);
+            Grup grup = await db.Grups.FindAsync(id);
+            db.Grups.Remove(grup);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -127,11 +163,10 @@ namespace ik.Controllers
             base.Dispose(disposing);
         }
 
-        public JsonResult _RutinOzet(int limit=5)
+      
+        public JsonResult PersonelListe(int grupid)
         {
-            //limit kadar kaydı çek döndür
-            var liste = db.Takips.Where(c => c.tamamlanma == null).OrderBy(c=>c.sontarih).Take(limit).Select(c=> new {aciklama=c.aciklama,sontarih=c.sontarih});
-
+            var liste = db.Personels.Where(c => !db.PersonelGrups.Where(g=>g.grupid==grupid).Select(b => b.personelid).Contains(c.id)).Select(c => new {id = c.id, adsoyad = c.adsoyad}).ToList();
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
     }

@@ -47,7 +47,7 @@ namespace ik.Controllers
 
             using (var con = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
-                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where sirket_kod=1 or sirket_kod=5", con);
+                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where sirket_kod=1 or sirket_kod=5 or sirket_kod=2", con);
                 if (con.State != ConnectionState.Open)
                     con.Open();
                 var adapter = new MySqlDataAdapter(com);
@@ -90,7 +90,7 @@ namespace ik.Controllers
            
             using (var con = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
-                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where sirket_kod=1 or sirket_kod=5",con);
+                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where sirket_kod=1 or sirket_kod=5 or sirket_kod=2",con);
                 if (con.State != ConnectionState.Open)
                     con.Open();
                 var adapter = new MySqlDataAdapter(com);
@@ -142,7 +142,7 @@ namespace ik.Controllers
 
                 com.CommandText = String.Format("select CONCAT(personel_kartlari.adi,' ',personel_kartlari.soyadi) as PersonelAdSoyad, personel_giriscikis.giris_saat as GirisSaati, MINUTE(personel_giriscikis.giris_saat)-30 as GecKalma from personel_giriscikis" +
  " inner join personel_kartlari on personel_giriscikis.personel_id = personel_kartlari.id "+
-"where personel_giriscikis.tarih >= '{0}' and personel_giriscikis.tarih <= '{1}' and(personel_kartlari.sirket_kod = 1 or personel_kartlari.sirket_kod = 5) and ( HOUR(personel_giriscikis.giris_saat) > 7 and MINUTE(personel_giriscikis.giris_saat) > 35)", tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
+"where personel_giriscikis.tarih >= '{0}' and personel_giriscikis.tarih <= '{1}' and(personel_kartlari.sirket_kod = 1 or personel_kartlari.sirket_kod = 5 or personel_kartlari.sirket_kod = 2) and ( HOUR(personel_giriscikis.giris_saat) > 7 and MINUTE(personel_giriscikis.giris_saat) > 35)", tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
                 var adapter = new MySqlDataAdapter(com);
                 adapter.Fill(dset.personel_geckalan);
                 con.Close();

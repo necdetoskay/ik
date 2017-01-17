@@ -20,6 +20,7 @@ namespace ik.Models
             this.ImzaTakips = new HashSet<ImzaTakip>();
             this.Izins = new HashSet<Izin>();
             this.YillikIzins = new HashSet<YillikIzin>();
+            this.PersonelGrups = new HashSet<PersonelGrup>();
         }
     
         public int id { get; set; }
@@ -40,5 +41,7 @@ namespace ik.Models
         public virtual ICollection<Izin> Izins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<YillikIzin> YillikIzins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonelGrup> PersonelGrups { get; set; }
     }
 }
