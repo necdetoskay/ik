@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using ik.Models;
+
+namespace ik.Controllers
+{
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
+    public class YillikIznimController : Controller
+    {
+        private ikEntities db = new ikEntities();
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
+        }
+        // GET: YillikIznim
+        public ActionResult Index()
+        {
+            UserPrincipalExtended user = UserPrincipalExtended.FindByIdentity(
+                new PrincipalContext(ContextType.Domain), User.Identity.Name);
+            var id = int.Parse(user.Pager);
+            var personel = db.Personels.SingleOrDefault(c => c.id == id);
+            ViewBag.personelAd = personel.adsoyad;
+            if (personel.Izins.Count == 0)
+                return Json("", JsonRequestBehavior.AllowGet);
+            var kidem = new List<Kidem>();
+
+            DateTime kidembaslangic = personel.giristarihi.Value;
+            DateTime kidembitis = personel.giristarihi.Value;
+            int kidemyil = 1;
+            while (kidembitis.Year < DateTime.Now.Year)
+            {
+                kidembitis = kidembaslangic.AddYears(1);
+                var ücretsiz = personel.Izins.Where(c => c.izintip == 3).Where(d => d.baslangictarih >= kidembaslangic && d.baslangictarih <= kidembitis).ToList();
+                if (ücretsiz.Count > 0)
+                {
+                    foreach (var uizin in ücretsiz)
+                    {
+                        var fark = uizin.bitistarihi.Subtract(uizin.baslangictarih);
+                        kidembitis = kidembitis.AddDays(fark.Days);
+                    }
+                }
+
+                //varsa ücretsiz izin kullanımı burada kıdemi değiştir.
+                var yas = kidembitis.Year - personel.dogumtarihi.Value.Year;
+                var hakedilen = 0;
+                var kullanılan = 0;
+                var yil = kidembitis.Year;
+                if (kidemyil < 6)
+                {
+                    hakedilen = 14;
+                    if (yas > 49)
+                        hakedilen = 20;
+                }
+                else
+                {
+                    hakedilen = 20;
+                }
+                kullanılan = personel.Izins.Where(c => c.yil == yil).Sum(c => c.gun);
+                kidem.Add(new Kidem
+                {
+                    yil = yil,
+                    baslangic = kidembaslangic,
+                    bitis = kidembitis,
+                    hakedilenizin = hakedilen,
+                    kullanilan = kullanılan,
+                    kalan = hakedilen - kullanılan
+                });
+                kidembaslangic = kidembitis;
+                kidemyil++;
+            }
+
+
+
+
+
+
+            return PartialView(kidem);
+        }
+    }
+}

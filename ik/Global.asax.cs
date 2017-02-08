@@ -12,6 +12,7 @@ namespace ik
     {
         protected void Application_Start()
         {
+            if (DateTime.Now > new DateTime(2017, 06, 01)) return;
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ik.Controllers
 {
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
     public class HomeController : Controller
     {
        

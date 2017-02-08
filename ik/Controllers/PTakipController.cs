@@ -9,15 +9,34 @@ using MySql.Data.MySqlClient;
 
 namespace ik.Controllers
 {
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
     public class PTakipController : Controller
     {
         // GET: PTakip
-      
+        ikEntities db = new ikEntities();
+
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
+        }
+
         public ActionResult Index()
         {
             return View();
         }
+
+        [HttpPost]
+     
+        public ActionResult AutoComplete(string term)
+        {
+            var queryable = from p in (from p in db.Personels
+                                       where p.adsoyad.StartsWith(term)
+                                       select p).Take(10)
+                            select new { label = p.adsoyad,val=p.id};
+            return base.Json(queryable.ToList());
+        }
+
 
         public ActionResult GunlukTakip(string date)
         {
@@ -47,12 +66,12 @@ namespace ik.Controllers
 
             using (var con = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
-                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where sirket_kod=1 or sirket_kod=5 or sirket_kod=2", con);
+                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where ozel_kod=0", con);
                 if (con.State != ConnectionState.Open)
                     con.Open();
                 var adapter = new MySqlDataAdapter(com);
                 adapter.Fill(dset.personel_kartlari);
-                com.CommandText = string.Format("select personel_izin.personel_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_id,tatil_tablo.aciklama as IzinTur from personel_izin inner join tatil_tablo on personel_izin.tatil_id=tatil_tablo.id  where tarih>='{0}'", tarih1.ToString("yyyy-MM-dd"));
+                com.CommandText = string.Format("select personel_izin.personel_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_id,tatil_tablo.aciklama as IzinTur from personel_izin inner join tatil_tablo on personel_izin.tatil_id=tatil_tablo.id  where tarih='{0}'", tarih1.ToString("yyyy-MM-dd"));
                 adapter.Fill(dset.personel_izin);
 
                
@@ -90,7 +109,7 @@ namespace ik.Controllers
            
             using (var con = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
-                var com = new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari where sirket_kod=1 or sirket_kod=5 or sirket_kod=2",con);
+                var com = new MySqlCommand("select id,sicilno,adi,soyadi from personel_kartlari where ozel_kod=0",con);
                 if (con.State != ConnectionState.Open)
                     con.Open();
                 var adapter = new MySqlDataAdapter(com);
@@ -130,7 +149,7 @@ namespace ik.Controllers
             return Json(data,JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GecKalanlar(DateTime tarih1,DateTime tarih2)
+        public JsonResult GecKalanlar(DateTime tarih1)
         {
             var dset = new ikDSet();
 
@@ -140,19 +159,22 @@ namespace ik.Controllers
                 if (con.State != ConnectionState.Open)
                     con.Open();
 
-                com.CommandText = String.Format("select CONCAT(personel_kartlari.adi,' ',personel_kartlari.soyadi) as PersonelAdSoyad, personel_giriscikis.giris_saat as GirisSaati, MINUTE(personel_giriscikis.giris_saat)-30 as GecKalma from personel_giriscikis" +
- " inner join personel_kartlari on personel_giriscikis.personel_id = personel_kartlari.id "+
-"where personel_giriscikis.tarih >= '{0}' and personel_giriscikis.tarih <= '{1}' and(personel_kartlari.sirket_kod = 1 or personel_kartlari.sirket_kod = 5 or personel_kartlari.sirket_kod = 2) and ( HOUR(personel_giriscikis.giris_saat) > 7 and MINUTE(personel_giriscikis.giris_saat) > 35)", tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
+                com.CommandText = String.Format("select CONCAT(personel_kartlari.adi,' ',personel_kartlari.soyadi) as PersonelAdSoyad,personel_giriscikis.tarih as Tarih, personel_giriscikis.giris_saat as GirisSaati, MINUTE(personel_giriscikis.giris_saat)-30 as GecKalma from personel_giriscikis" +
+" inner join personel_kartlari on personel_giriscikis.personel_id = personel_kartlari.id "+
+" where personel_giriscikis.tarih = '{0}' and (personel_kartlari.ozel_kod = 0) and ( HOUR(personel_giriscikis.giris_saat) > 7 and MINUTE(personel_giriscikis.giris_saat) > 35)", tarih1.ToString("yyyy-MM-dd"));
                 var adapter = new MySqlDataAdapter(com);
                 adapter.Fill(dset.personel_geckalan);
+                
                 con.Close();
             }
             var data =
                     dset.personel_geckalan
-                        .Select(c => new {
+                        .Select(c => new
+                        {
                             adsoyad = c.PersonelAdSoyad,
-                            giris =c.GirisSaati.ToString(@"hh\:mm"),
-                            geckalma =c.GecKalma});
+                            giris = c.GirisSaati.ToString(@"hh\:mm"),
+                            geckalma = c.GecKalma
+                        });
             return Json(data, JsonRequestBehavior.AllowGet);
         }
     }

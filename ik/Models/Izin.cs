@@ -21,6 +21,7 @@ namespace ik.Models
         public System.DateTime bitistarihi { get; set; }
         public int izintip { get; set; }
         public string aciklama { get; set; }
+        public int gun { get; set; }
     
         public virtual IzinTip IzinTip1 { get; set; }
         public virtual Personel Personel { get; set; }

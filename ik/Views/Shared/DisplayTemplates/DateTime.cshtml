@@ -1,4 +1,7 @@
-﻿@model System.DateTime
+﻿@model System.DateTime?
 <span>
-    @Model.ToString("dd.MM.yyyy")
-</span> 
+    
+    <span>@String.Format("{0:d}", Model.HasValue ? Model.Value.ToShortDateString() : string.Empty)</span>
+   
+
+</span>

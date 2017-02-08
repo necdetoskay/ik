@@ -26,12 +26,12 @@ namespace ik.Models
         }
     
         public virtual DbSet<birim> birims { get; set; }
-        public virtual DbSet<Imza> Imzas { get; set; }
+        
         public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
         public virtual DbSet<Izin> Izins { get; set; }
         public virtual DbSet<IzinTip> IzinTips { get; set; }
         public virtual DbSet<ihale> ihales { get; set; }
         public virtual DbSet<Personel> Personels { get; set; }
-        public virtual DbSet<YillikIzin> YillikIzins { get; set; }
+      
     }
 }

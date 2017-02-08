@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using ik.Models
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -17,16 +18,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Kent Konut İnsan Kaynakları", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Personel Takip", "Index", "PTakip")</li>
-                    <li>@Html.ActionLink("İmza", "Index", "Imza")</li>
-                    <li>@Html.ActionLink("İmza Listesi", "Index", "ImzaTakip")</li>
-                    <li>@Html.ActionLink("Rutin İşler", "Index", "Takips")</li>
-                    <li>@Html.ActionLink("Grup Tanım", "Index", "Grups")</li>
+                    <li>@Html.ActionLink("Personel Takip", "Index", "PTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                    <li class=" dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            İmza Takip
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("İmza Listesi", "Index", "ImzaTakip")</li>
+                            <li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Grup Tanım", "Index", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                    <li>@Html.ActionLink("Yıllık İzinler", "Index", "izin")</li>
                 </ul>
                 <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
             </div>

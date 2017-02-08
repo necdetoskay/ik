@@ -1,0 +1,94 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.Takip>
+
+@{
+    ViewBag.Title = "Index";
+    var cls = "";
+}
+
+@helper Tamamlanma(Takip it)
+{
+if (it.tamamlanma != null)
+{
+        <p>@it.tamamlanma.Value.ToShortDateString()</p>
+}
+else
+{
+    if (it.sontarih.Date < DateTime.Now.Date)
+    {
+            <p class="text-warning">Süresi Geçmiş</p>
+    }
+    else if (it.sontarih.Date == DateTime.Now.Date)
+    {
+            <p class="text-danger">Son Gün</p>
+    }
+    else
+    {
+            <p>Devam Ediyor</p>
+    }
+}
+
+}
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.aciklama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ekleme)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.sontarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tamamlanma)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        {
+            if (item.tamamlanma != null)
+            {
+                cls = "success";
+            }
+            else
+            {
+                cls = "warning";
+            }
+        }
+        <tr class="@cls">
+            <td>
+                @Html.DisplayFor(modelItem => item.aciklama)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ekleme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sontarih)
+            </td>
+
+            <td>
+                @Tamamlanma(item)
+                @*@Html.DisplayFor(modelItem => item.tamamlanma)*@
+            </td>
+
+            <td>
+                @if (item.tamamlanma == null)
+                {
+                    @Html.ActionLink("Tamamla", "Tamamla", new { id = item.id }) 
+           } |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

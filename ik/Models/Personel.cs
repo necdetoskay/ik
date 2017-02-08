@@ -17,10 +17,9 @@ namespace ik.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Personel()
         {
-            this.ImzaTakips = new HashSet<ImzaTakip>();
             this.Izins = new HashSet<Izin>();
-            this.YillikIzins = new HashSet<YillikIzin>();
             this.PersonelGrups = new HashSet<PersonelGrup>();
+            this.ImzaTakips = new HashSet<ImzaTakip>();
         }
     
         public int id { get; set; }
@@ -33,15 +32,15 @@ namespace ik.Models
         public Nullable<int> pdksid { get; set; }
         public Nullable<System.DateTime> giristarihi { get; set; }
         public Nullable<System.DateTime> kidemtarihi { get; set; }
+        public Nullable<int> mikroid { get; set; }
+        public Nullable<System.DateTime> dogumtarihi { get; set; }
     
         public virtual birim birim { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ImzaTakip> ImzaTakips { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Izin> Izins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<YillikIzin> YillikIzins { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelGrup> PersonelGrups { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImzaTakip> ImzaTakips { get; set; }
     }
 }

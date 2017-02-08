@@ -63,6 +63,18 @@
               <xs:element name="PersonelAdSoyad" msprop:Generator_ColumnVarNameInTable="columnPersonelAdSoyad" msprop:Generator_ColumnPropNameInRow="PersonelAdSoyad" msprop:Generator_ColumnPropNameInTable="PersonelAdSoyadColumn" msprop:Generator_UserColumnName="PersonelAdSoyad" type="xs:string" minOccurs="0" />
               <xs:element name="GirisSaati" msprop:Generator_ColumnVarNameInTable="columnGirisSaati" msprop:Generator_ColumnPropNameInRow="GirisSaati" msprop:Generator_ColumnPropNameInTable="GirisSaatiColumn" msprop:Generator_UserColumnName="GirisSaati" type="xs:duration" minOccurs="0" />
               <xs:element name="GecKalma" msprop:Generator_ColumnVarNameInTable="columnGecKalma" msprop:Generator_ColumnPropNameInRow="GecKalma" msprop:Generator_ColumnPropNameInTable="GecKalmaColumn" msprop:Generator_UserColumnName="GecKalma" type="xs:int" minOccurs="0" />
+              <xs:element name="Tarih" msprop:Generator_ColumnVarNameInTable="columnTarih" msprop:Generator_ColumnPropNameInRow="Tarih" msprop:Generator_ColumnPropNameInTable="TarihColumn" msprop:Generator_UserColumnName="Tarih" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="kidem_personel" msprop:Generator_TableClassName="kidem_personelDataTable" msprop:Generator_TableVarName="tablekidem_personel" msprop:Generator_RowChangedName="kidem_personelRowChanged" msprop:Generator_TablePropName="kidem_personel" msprop:Generator_RowDeletingName="kidem_personelRowDeleting" msprop:Generator_RowChangingName="kidem_personelRowChanging" msprop:Generator_RowEvHandlerName="kidem_personelRowChangeEventHandler" msprop:Generator_RowDeletedName="kidem_personelRowDeleted" msprop:Generator_RowClassName="kidem_personelRow" msprop:Generator_UserTableName="kidem_personel" msprop:Generator_RowEvArgName="kidem_personelRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="personelid" msprop:Generator_ColumnVarNameInTable="columnpersonelid" msprop:Generator_ColumnPropNameInRow="personelid" msprop:Generator_ColumnPropNameInTable="personelidColumn" msprop:Generator_UserColumnName="personelid" type="xs:int" minOccurs="0" />
+              <xs:element name="yil" msprop:Generator_ColumnVarNameInTable="columnyil" msprop:Generator_ColumnPropNameInRow="yil" msprop:Generator_ColumnPropNameInTable="yilColumn" msprop:Generator_UserColumnName="yil" type="xs:int" minOccurs="0" />
+              <xs:element name="baslangic" msprop:Generator_ColumnVarNameInTable="columnbaslangic" msprop:Generator_ColumnPropNameInRow="baslangic" msprop:Generator_ColumnPropNameInTable="baslangicColumn" msprop:Generator_UserColumnName="baslangic" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="hakedis" msprop:Generator_ColumnVarNameInTable="columnhakedis" msprop:Generator_ColumnPropNameInRow="hakedis" msprop:Generator_ColumnPropNameInTable="hakedisColumn" msprop:Generator_UserColumnName="hakedis" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="kidem" msprop:Generator_ColumnVarNameInTable="columnkidem" msprop:Generator_ColumnPropNameInRow="kidem" msprop:Generator_ColumnPropNameInTable="kidemColumn" msprop:Generator_UserColumnName="kidem" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

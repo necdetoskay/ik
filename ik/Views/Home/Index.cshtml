@@ -1,4 +1,5 @@
-﻿@{
+﻿@using ik.Models
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -10,27 +11,29 @@
 <div class="row">
     <div class="col-md-6">
         <p>
-            <div class="panel panel-primary">
-                <div class="panel-heading">Rutin İş Takip</div>
+            
+            <div class="panel panel-success">
+                <div class="panel-heading ">@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name== @"KENTKONUT\noskay")</div>
                 <div class="panel-body">
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th>İş</th>
-                                <th>Son Tarih</th>
-                            </tr>
+                        <tr>
+                            <th>İş</th>
+                            <th>Son Tarih</th>
+                        </tr>
                         </thead>
                         <tbody id="istakip"></tbody>
                     </table>
+                    <div id="istakipload">
+                        <img class="loading" src="~/Content/Loading_icon.gif" />
+                    </div>
                 </div>
 
             </div>
 
         <p>
 
-            <div id="istakipload">
-                <img class="loading" src="~/Content/Loading_icon.gif" />
-            </div>
+            
         </p>
         @*<p>
                 <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
@@ -82,7 +85,7 @@
         <h3>Giriş Yapmayan Personeller</h3>
         <p>
             <div id="izinsizgelmeyenler">
-                <img class="loading" src="~/Content/Loading_icon.gif" />
+                <img class="loading" src="~/Content/Loading_icon.gif"/>
             </div>
         </p>
         @*<p>
@@ -94,16 +97,15 @@
         <p>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Personel AdSoyad</th>
-                        <th>Mazeret</th>
-
-                    </tr>
+                <tr>
+                    <th>Personel AdSoyad</th>
+                    <th>Mazeret</th>
+                </tr>
                 </thead>
                 <tbody id="izinligelmeyenler"></tbody>
             </table>
             <div id="izinligelmeyenler">
-                <img class="loading" src="~/Content/Loading_icon.gif" />
+                <img class="loading" src="~/Content/Loading_icon.gif"/>
             </div>
         </p>
     </div>
@@ -112,18 +114,39 @@
         <p>
             <table class="table table-sm">
                 <thead>
-                    <tr>
-                        <th>Personel AdSoyad</th>
-                        <th>Geç Kalma</th>
+                <tr>
+                    <th>Personel AdSoyad</th>
+                    <th>Giriş</th>
+                    <th>Geç Kalma</th>
 
-                    </tr>
+                </tr>
                 </thead>
                 <tbody id="geckalanlartable"></tbody>
             </table>
             <div id="geckalanlar">
-                <img class="loading" src="~/Content/Loading_icon.gif" />
+                <img class="loading" src="~/Content/Loading_icon.gif"/>
             </div>
         </p>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <div id="aciklama"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="rutintamamla" class="btn btn-primary">Tamamla</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -132,6 +155,42 @@
     <script type="text/javascript">
 
         $(function () {
+
+            $('#myModal').on('shown.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var recipient = button.data('aciklama');
+                var id = button.data('rutinid');
+                var modal = $(this);
+                modal.find('.modal-title').text("İş Tamamla");
+                modal.find('.modal-body #aciklama').text(recipient);
+                modal.find('.modal-footer #rutintamamla').on('click', function () {
+                    $.ajax({
+                        type: 'get',
+                        data: {
+                            'id': id
+                        },
+                        url: '@Url.Action("RutinTamamla","Takip")',
+                        success: function (data) {
+                            var takip = $('#istakip');
+                            var now = new Date();
+                            takip.empty();
+                            for (var i = 0; i < data.length; i++) {
+                                var product = data[i];
+                                var ek = "";
+                                if (moment(product.sontarih).isBefore(new Date(), 'day')) {
+                                    ek = ' bgcolor="#FF0000">';
+                                } else { ek = ">" }
+                                takip.append("<tr" + ek + "<td><button type='button' class='btn btn-primary' data-toggle='modal' data-rutinID='" + product.id + "' data-aciklama='" + product.aciklama + "' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
+                                    + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
+                            }
+                            modal.modal('hide');
+                        }
+                    });
+                });
+            });
+
+
+
             var target = $("#izinsizgelmeyenler");
             var izinli = $("#izinligelmeyenler");
             var takip = $('#istakip');
@@ -139,7 +198,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("_RutinOzet","Takips")',
+                url: '@Url.Action("_RutinOzet","Takip")',
                 data: {
                     'limit': 5
                 },
@@ -152,7 +211,7 @@
                         if (moment(product.sontarih).isBefore(new Date(), 'day')) {
                             ek = ' bgcolor="#FF0000">';
                         } else { ek = ">" }
-                        takip.append("<tr" + ek + "<td>" + product.aciklama + "</td><td>"
+                        takip.append("<tr" + ek + "<td><button type='button' class='btn btn-primary' data-toggle='modal' data-rutinID='"+product.id+"' data-aciklama='"+product.aciklama+"' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
                             + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
                     }
                 }
@@ -207,6 +266,7 @@
                     for (var i = 0; i < data.length; i++) {
                         var gec = data[i];
                         geckalan.append("<tr><td>" + gec.adsoyad + "</td><td>"
+                            + gec.giris + "</td><td>"
                             + gec.geckalma + "</td></tr>");
                     }
                 }

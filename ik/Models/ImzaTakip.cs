@@ -15,12 +15,11 @@ namespace ik.Models
     public partial class ImzaTakip
     {
         public int id { get; set; }
-        public int imzaID { get; set; }
         public int personelID { get; set; }
         public System.DateTime Tarih { get; set; }
         public Nullable<System.DateTime> ImzaTarih { get; set; }
+        public string Aciklama { get; set; }
     
-        public virtual Imza Imza { get; set; }
         public virtual Personel Personel { get; set; }
     }
 }

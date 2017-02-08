@@ -1,0 +1,71 @@
+﻿
+@model IEnumerable<ik.Models.Izin>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    @Html.ActionLink("İzin Ekle","Create",null,new {@class="btn btn-primary"})
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Personel Ad Soyad")
+        </th>
+
+        <th>
+            @Html.DisplayName("İzin Yılı")
+        </th>
+        <th>
+            @Html.DisplayName("Başlangıç Tarihi")
+        </th>
+        <th>
+            @Html.DisplayName("Bitiş Tarihi")
+        </th>
+        <th>
+            @Html.DisplayName("İzin Günü")
+        </th>
+        <th>
+            @Html.DisplayName("Açıklama")
+        </th>
+        <th>
+            @Html.DisplayName("İzin Türü")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Personel.adsoyad,"PersonelIzinDurum",new {personelid=item.personelid},null)
+                @*@Html.DisplayFor(modelItem => item.Personel.adsoyad)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.yil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.baslangictarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bitistarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gun)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.aciklama)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IzinTip1.ad)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+

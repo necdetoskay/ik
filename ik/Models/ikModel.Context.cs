@@ -26,15 +26,15 @@ namespace ik.Models
         }
     
         public virtual DbSet<birim> birims { get; set; }
-        public virtual DbSet<Imza> Imzas { get; set; }
-        public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
+        public virtual DbSet<Grup> Grups { get; set; }
         public virtual DbSet<Izin> Izins { get; set; }
         public virtual DbSet<IzinTip> IzinTips { get; set; }
         public virtual DbSet<ihale> ihales { get; set; }
         public virtual DbSet<Personel> Personels { get; set; }
-        public virtual DbSet<YillikIzin> YillikIzins { get; set; }
-        public virtual DbSet<Takip> Takips { get; set; }
-        public virtual DbSet<Grup> Grups { get; set; }
         public virtual DbSet<PersonelGrup> PersonelGrups { get; set; }
+        public virtual DbSet<Takip> Takips { get; set; }
+        public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
+
+        public System.Data.Entity.DbSet<ik.Models.ImzaTakipVM> ImzaTakipVMs { get; set; }
     }
 }

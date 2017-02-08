@@ -1,0 +1,6 @@
+UserPrincipalExtended user = UserPrincipalExtended.FindByIdentity(
+                new PrincipalContext(ContextType.Domain), User.Identity.Name);
+          
+        
+               user.Pager
+              
