@@ -29,7 +29,7 @@
           <Property Name="personelID" Type="int" Nullable="false" />
           <Property Name="Tarih" Type="datetime" Nullable="false" />
           <Property Name="ImzaTarih" Type="datetime" />
-          <Property Name="Aciklama" Type="text" />
+          <Property Name="Aciklama" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Izin">
           <Key>
@@ -78,6 +78,14 @@
           <Property Name="kidemtarihi" Type="date" />
           <Property Name="mikroid" Type="int" />
           <Property Name="dogumtarihi" Type="date" />
+        </EntityType>
+        <EntityType Name="PersonelDevir">
+          <Key>
+            <PropertyRef Name="personelID" />
+          </Key>
+          <Property Name="personelID" Type="int" Nullable="false" />
+          <Property Name="kidemTarih" Type="datetime" Nullable="false" />
+          <Property Name="izinDevir" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonelGrup">
           <Key>
@@ -153,6 +161,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PersonelD__perso__74AE54BC">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PersonelDevir" Type="Self.PersonelDevir" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PersonelDevir">
+              <PropertyRef Name="personelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__PersonelG__grupi__6E01572D">
           <End Role="Grup" Type="Self.Grup" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -189,6 +211,7 @@
           <EntitySet Name="IzinTip" EntityType="Self.IzinTip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ihale" EntityType="Self.ihale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonelDevir" EntityType="Self.PersonelDevir" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelGrup" EntityType="Self.PersonelGrup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Takip" EntityType="Self.Takip" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__ImzaTakip__perso__60A75C0F" Association="Self.FK__ImzaTakip__perso__60A75C0F">
@@ -206,6 +229,10 @@
           <AssociationSet Name="FK__personel__birimi__4CA06362" Association="Self.FK__personel__birimi__4CA06362">
             <End Role="birim" EntitySet="birim" />
             <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonelD__perso__74AE54BC" Association="Self.FK__PersonelD__perso__74AE54BC">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelDevir" EntitySet="PersonelDevir" />
           </AssociationSet>
           <AssociationSet Name="FK__PersonelG__grupi__6E01572D" Association="Self.FK__PersonelG__grupi__6E01572D">
             <End Role="Grup" EntitySet="Grup" />
@@ -253,6 +280,11 @@
           <AssociationSet Name="FK__ImzaTakip__perso__60A75C0F" Association="ikModel.FK__ImzaTakip__perso__60A75C0F">
             <End Role="Personel" EntitySet="Personels" />
             <End Role="ImzaTakip" EntitySet="ImzaTakips" />
+          </AssociationSet>
+          <EntitySet Name="PersonelDevirs" EntityType="ikModel.PersonelDevir" />
+          <AssociationSet Name="FK__PersonelD__perso__74AE54BC" Association="ikModel.FK__PersonelD__perso__74AE54BC">
+            <End Role="Personel" EntitySet="Personels" />
+            <End Role="PersonelDevir" EntitySet="PersonelDevirs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="birim">
@@ -327,6 +359,7 @@
           <Property Name="mikroid" Type="Int32" />
           <Property Name="dogumtarihi" Type="DateTime" Precision="0" />
           <NavigationProperty Name="ImzaTakips" Relationship="ikModel.FK__ImzaTakip__perso__60A75C0F" FromRole="Personel" ToRole="ImzaTakip" />
+          <NavigationProperty Name="PersonelDevir" Relationship="ikModel.FK__PersonelD__perso__74AE54BC" FromRole="Personel" ToRole="PersonelDevir" />
         </EntityType>
         <EntityType Name="PersonelGrup">
           <Key>
@@ -427,7 +460,7 @@
           <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ImzaTarih" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Personel" Relationship="ikModel.FK__ImzaTakip__perso__60A75C0F" FromRole="ImzaTakip" ToRole="Personel" />
-          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <Association Name="FK__ImzaTakip__perso__60A75C0F">
           <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
@@ -439,6 +472,29 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ImzaTakip">
+              <PropertyRef Name="personelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PersonelDevir">
+          <Key>
+            <PropertyRef Name="personelID" />
+          </Key>
+          <Property Name="personelID" Type="Int32" Nullable="false" />
+          <Property Name="kidemTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="izinDevir" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelD__perso__74AE54BC" FromRole="PersonelDevir" ToRole="Personel" />
+        </EntityType>
+        <Association Name="FK__PersonelD__perso__74AE54BC">
+          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.PersonelDevir" Role="PersonelDevir" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PersonelDevir">
               <PropertyRef Name="personelID" />
             </Dependent>
           </ReferentialConstraint>
@@ -547,6 +603,15 @@
                 <ScalarProperty Name="Tarih" ColumnName="Tarih" />
                 <ScalarProperty Name="personelID" ColumnName="personelID" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonelDevirs">
+            <EntityTypeMapping TypeName="ikModel.PersonelDevir">
+              <MappingFragment StoreEntitySet="PersonelDevir">
+                <ScalarProperty Name="izinDevir" ColumnName="izinDevir" />
+                <ScalarProperty Name="kidemTarih" ColumnName="kidemTarih" />
+                <ScalarProperty Name="personelID" ColumnName="personelID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

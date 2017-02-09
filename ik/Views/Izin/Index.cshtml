@@ -1,16 +1,18 @@
 ﻿
+@using ik.Models
 @model IEnumerable<ik.Models.Izin>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Son 25 İzin</h2>
 
-<div class="row">
-    @Html.ActionLink("İzin Ekle","Create",null,new {@class="btn btn-primary"})
+<br/>
+<div class="row ">
+    @Html.ActionLink("İzin Ekle","Create",null,new {@class="btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
 </div>
-
+<br />
 <table class="table">
     <tr>
         <th>

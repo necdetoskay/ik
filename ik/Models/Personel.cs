@@ -42,5 +42,6 @@ namespace ik.Models
         public virtual ICollection<PersonelGrup> PersonelGrups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImzaTakip> ImzaTakips { get; set; }
+        public virtual PersonelDevir PersonelDevir { get; set; }
     }
 }

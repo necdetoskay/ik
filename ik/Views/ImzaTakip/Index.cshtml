@@ -8,47 +8,53 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create").If(User.Identity.Name == @"KENTKONUT\noskay")
+    @Html.ActionLink("Yeni Takip Ekle", "Create", null, new { @class = "btn btn-primary" }).If(User.Identity.Name == @"KENTKONUT\noskay")
 </p>
+<br />
 <table class="table">
+    <thead>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Personel.adsoyad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tarih)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImzaTarih)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Aciklama)
-        </th>
-
-        <th></th>
+        <th>Takip Edilen Konu</th>
+        <th>Takip Edilen Kişi Adedi</th>
+        <th>İmzalanan</th>
+        <th>İmzalanmayan</th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personel.adsoyad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tarih)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImzaTarih)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Aciklama)
-        </td>
-
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.id}) |
-            @Html.ActionLink("Details", "Details", new {id = item.id}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.id})
-        </td>
-    </tr>
-}
+    </thead>
+    <tbody id="takipedilenler">
+    
+    </tbody>
 
 </table>
+@section scripts{
+
+    <script type="text/javascript">
+        
+        $(function () {
+            function takipedilenliste(data) {
+                var tablo = $('#takipedilenler');
+                tablo.empty();
+
+                for (var i = 0; i < data.length; i++) {
+                    var kalan = data[i].Toplam - data[i].Imzalanan;
+                    tablo.append('<tr>');
+                    tablo.append("<td>" + data[i].Aciklama + "</td>");
+                    tablo.append("<td>" + data[i].Toplam + "</td>");
+                    tablo.append("<td>" + data[i].Imzalanan + "</td>");
+                    tablo.append("<td>" + kalan + "</td>");
+                    tablo.append('</tr>');
+                }
+            }
+
+
+            $.ajax({
+                url: '@Url.Action("TakipEdilenler")',
+                data: {
+                },
+                method: 'get',
+                success: takipedilenliste
+            });
+
+            
+        });
+    </script>
+}

@@ -34,7 +34,6 @@ namespace ik.Models
         public virtual DbSet<PersonelGrup> PersonelGrups { get; set; }
         public virtual DbSet<Takip> Takips { get; set; }
         public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
-
-        public System.Data.Entity.DbSet<ik.Models.ImzaTakipVM> ImzaTakipVMs { get; set; }
+        public virtual DbSet<PersonelDevir> PersonelDevirs { get; set; }
     }
 }

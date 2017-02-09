@@ -20,7 +20,14 @@ namespace ik.Controllers
         // GET: ImzaTakip
         public ActionResult Index()
         {
-            return View(db.ImzaTakips.OrderByDescending(c => c.Tarih).Take(25).ToList());
+            return View();
+        }
+
+        public JsonResult TakipEdilenler()
+        {
+            var liste = db.ImzaTakips.GroupBy(c => c.Aciklama).Where(c=> c.Count()>1).Select(c=>new {Aciklama=c.Key,Toplam=c.Count(),Imzalanan=c.Count(d=>d.ImzaTarih!=null)});
+
+            return Json(liste,JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PersonelImza()

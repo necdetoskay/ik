@@ -32,10 +32,29 @@ namespace ik.Controllers
             DateTime kidembaslangic = personel.giristarihi.Value;
             DateTime kidembitis = personel.giristarihi.Value;
             int kidemyil = 1;
+
+            if (personel.PersonelDevir != null)
+            {
+                var hakedilen = personel.PersonelDevir.izinDevir;
+                var kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year).Sum(c => c.gun);
+
+                kidem.Add(new Kidem
+                {
+                    baslangic = personel.PersonelDevir.kidemTarih,
+                    bitis = personel.giristarihi.Value,
+                    yil = personel.giristarihi.Value.Year,
+                    hakedilenizin = hakedilen,
+                    kullanilan = kullanılan,
+                    kalan = hakedilen - kullanılan
+                });
+            }
+
             while (kidembitis.Year < DateTime.Now.Year)
             {
                 kidembitis = kidembaslangic.AddYears(1);
                 var ücretsiz = personel.Izins.Where(c => c.izintip == 3).Where(d => d.baslangictarih >= kidembaslangic && d.baslangictarih <= kidembitis).ToList();
+                
+                #region ücretsiz izin var sa kıdem tarihini ötele
                 if (ücretsiz.Count > 0)
                 {
                     foreach (var uizin in ücretsiz)
@@ -43,7 +62,8 @@ namespace ik.Controllers
                         var fark = uizin.bitistarihi.Subtract(uizin.baslangictarih);
                         kidembitis = kidembitis.AddDays(fark.Days);
                     }
-                }
+                } 
+                #endregion
 
                 //varsa ücretsiz izin kullanımı burada kıdemi değiştir.
                 var yas = kidembitis.Year - personel.dogumtarihi.Value.Year;

@@ -152,6 +152,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImzaTakipController.cs" />
     <Compile Include="Controllers\IzinController.cs" />
+    <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\PTakipController.cs" />
     <Compile Include="Controllers\TakipController.cs" />
     <Compile Include="Controllers\YillikIznimController.cs" />
@@ -228,6 +229,9 @@
     </Compile>
     <Compile Include="Models\partials.cs" />
     <Compile Include="Models\Personel.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonelDevir.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonelGrup.cs">
@@ -397,6 +401,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\ptakip.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -446,6 +451,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Personel\" />
     <Folder Include="Views\Takips\" />
   </ItemGroup>
   <ItemGroup>

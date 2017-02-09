@@ -24,13 +24,13 @@ namespace ik.Controllers
         // GET: Izin
         public ActionResult Index()
         {
-            var liste = db.Izins.Where(c => c.izintip == 1).OrderByDescending(c => c.baslangictarih).ToList();
+          var liste = db.Izins.Where(c => c.izintip == 1).Take(25).OrderByDescending(c => c.baslangictarih).ToList();
           return View(liste);
         }
 
         public ActionResult YillikIzin()
         {
-            ViewBag.personelListe = new SelectList(db.Personels, "id", "adsoyad");
+            ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
             return View();
         }
 
@@ -63,6 +63,24 @@ namespace ik.Controllers
             DateTime kidembaslangic = personel.giristarihi.Value;
             DateTime kidembitis = personel.giristarihi.Value;
             int kidemyil = 1;
+
+            if (personel.PersonelDevir != null)
+            {
+                var hakedilen = personel.PersonelDevir.izinDevir;
+                var kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year).Sum(c => c.gun);
+
+                kidem.Add(new Kidem
+                {
+                    baslangic = personel.PersonelDevir.kidemTarih,
+                    bitis = personel.giristarihi.Value,
+                    yil = personel.giristarihi.Value.Year,
+                    hakedilenizin = hakedilen,
+                    kullanilan = kullanılan,
+                    kalan = hakedilen-kullanılan
+                });
+            }
+
+
             while (kidembitis.Year<DateTime.Now.Year)
             {
                 kidembitis = kidembaslangic.AddYears(1);

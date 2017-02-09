@@ -4,9 +4,9 @@
     ViewBag.Title = "PersonelImza";
 }
 <style type="text/css">
-    .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover{
-    background: blue;
-}
+    .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
+        background: blue;
+    }
 
     .ui-autocomplete {
         position: absolute;
@@ -73,7 +73,6 @@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script type="text/javascript">
         $(function () {
-
             function personelListe(data) {
                 var imzalar = $('#personeltakipListe');
                 var sira = 1;
@@ -81,10 +80,8 @@
                 for (var i = 0; i < data.length; i++) {
                     var imza = data[i];
                     imzalar.attr('personelID', imza.personelid);
-                    @*var link = $('@Html.ActionLink("Tamamla", "ImzaTamamla",null, new { @class = "takipbtn btn btn-primary" })');
-                    var href = link.attr("href");
-                    link.attr("href",href + "?imzaID=" + imza.imzaID);*@
-                            
+
+
                     imzalar.append('<tr>' +
                         '<td>' + sira + '</td>' +
                         '<td>' + imza.aciklama + '</td>' +
@@ -92,7 +89,6 @@
                         '</tr>');
                     sira++;
                 }
-
                 $('.takipbtn').each(function () {
                     var btn = $(this);
                     btn.on('click', function () {
@@ -119,8 +115,7 @@
 
                     });
                 });
-            }
-
+            };
 
 
             $("#personel").autocomplete({
@@ -154,8 +149,6 @@
                     });
                 }
             });
-
-            
         });
     </script>
 }
