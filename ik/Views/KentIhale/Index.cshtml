@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<form class="form-group">
+    <div class="form-group">
+        <label class="sr-only">Email</label>
+        <p class="form-control-static">Aranacak Personel Adı / Soyadı</p>
+    </div>
+    <div class="form-group">
+        <label for="inputadsoyad" class="sr-only">Ad Soyad</label>
+        <div><input type="text" id="adsoyad" placeholder="ad soyad">
+            <img id="loading"  style="height: 50px; display: none;" src="~/Content/Loading_icon.gif" /></div>
+    </div>
+    <button type="button" id="btnAra" class="btn btn-default">Ara</button>
+</form>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Personel Kodu</th>
+        <th>Adı</th>
+        <th>Soyadı</th>
+        <th>İhale</th>
+    </tr>
+    </thead>
+    <tbody id="personel">
+        
+    </tbody>
+</table>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#adsoyad").on("propertychange change keyup paste input", function () {
+                if ($(this).val() == "") {
+                    $('#personel').empty();
+                }
+            });
+
+            $('#btnAra').on('click', function() {
+                var term = $('#adsoyad').val();
+                var body = $('#personel');
+                $('#loading').toggle();
+                $.ajax({
+                    url: '@Url.Action("PersonelAra")',
+                    data: {'term':term},
+                    type: "get",
+                    success: function (data) {
+
+                        body.empty();
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            body.append('<tr><td>' + data[i].SicilNo + '</td><td>' + data[i].Ad + '</td><td>' + data[i].Soyad + '</td><td>' + data[i].Ihale + '</td></tr>');
+                        }
+                        $('#loading').toggle();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                        alert(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

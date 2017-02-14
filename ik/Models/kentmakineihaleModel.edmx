@@ -1,0 +1,901 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="kentmakineihaleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PERSONELLER">
+          <Key>
+            <PropertyRef Name="per_RECno" />
+          </Key>
+          <Property Name="per_RECno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="per_RECid_DBCno" Type="smallint" Nullable="false" />
+          <Property Name="per_RECid_RECno" Type="int" Nullable="false" />
+          <Property Name="per_SpecRECno" Type="int" />
+          <Property Name="per_iptal" Type="bit" />
+          <Property Name="per_fileid" Type="smallint" />
+          <Property Name="per_hidden" Type="bit" />
+          <Property Name="per_kilitli" Type="bit" />
+          <Property Name="per_degisti" Type="bit" />
+          <Property Name="per_checksum" Type="int" />
+          <Property Name="per_create_user" Type="smallint" />
+          <Property Name="per_create_date" Type="datetime" />
+          <Property Name="per_lastup_user" Type="smallint" />
+          <Property Name="per_lastup_date" Type="datetime" />
+          <Property Name="per_special1" Type="nvarchar" MaxLength="4" />
+          <Property Name="per_special2" Type="nvarchar" MaxLength="4" />
+          <Property Name="per_special3" Type="nvarchar" MaxLength="4" />
+          <Property Name="per_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_soyadi" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_orjdildeadisoyadi" Type="nvarchar" MaxLength="80" />
+          <Property Name="per_sicil_no" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_firma_no" Type="int" />
+          <Property Name="per_sube_no" Type="int" />
+          <Property Name="per_caripers_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_tip" Type="tinyint" />
+          <Property Name="per_dept_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_is_grup" Type="tinyint" />
+          <Property Name="per_giris_tar" Type="datetime" />
+          <Property Name="per_cikis_tar" Type="datetime" />
+          <Property Name="per_cikis_neden" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_kod" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_kim_tahsil" Type="tinyint" />
+          <Property Name="per_kim_meslek" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_kim_gorev" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_kim_sakat_derece" Type="tinyint" />
+          <Property Name="per_kim_gocmen" Type="tinyint" />
+          <Property Name="per_kim_gorev_kod" Type="tinyint" />
+          <Property Name="per_kim_SGK_kod" Type="tinyint" />
+          <Property Name="per_kim_cocuk" Type="tinyint" />
+          <Property Name="per_kim_okuloncesi" Type="tinyint" />
+          <Property Name="per_kim_ilkokul" Type="tinyint" />
+          <Property Name="per_kim_ortaokul" Type="tinyint" />
+          <Property Name="per_kim_lise" Type="tinyint" />
+          <Property Name="per_kim_yuksek" Type="tinyint" />
+          <Property Name="per_nuf_uyruk" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_nuf_cinsiyet" Type="tinyint" />
+          <Property Name="per_nuf_medeni_hal" Type="tinyint" />
+          <Property Name="per_nuf_din" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_nuf_dogum_tarih" Type="datetime" />
+          <Property Name="per_nuf_dogum_yer" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_nuf_kangrup" Type="tinyint" />
+          <Property Name="per_nuf_seri_no" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_nuf_il" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_ilce" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_mahalle" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_koy" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_ciltno" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_nuf_sayfano" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_nuf_kutukno" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_nuf_ver_neden" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_ver_yer" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_ver_tarih" Type="datetime" />
+          <Property Name="per_nuf_cuz_kayitno" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_ucr_tip" Type="tinyint" />
+          <Property Name="per_ucret" Type="float" />
+          <Property Name="per_Brut_net" Type="tinyint" />
+          <Property Name="per_ucr_send_durum" Type="tinyint" />
+          <Property Name="per_ucr_send" Type="tinyint" />
+          <Property Name="per_ucr_PSSK_sube" Type="int" />
+          <Property Name="per_ucr_hesapno" Type="nvarchar" MaxLength="30" />
+          <Property Name="per_ucr_sig_yuzde_gr" Type="tinyint" />
+          <Property Name="per_ucr_bode_yapilma" Type="tinyint" />
+          <Property Name="per_ucr_vdaire" Type="nvarchar" MaxLength="14" />
+          <Property Name="per_ucr_vkarneno" Type="nvarchar" MaxLength="12" />
+          <Property Name="per_ucr_vkarne_tarih" Type="datetime" />
+          <Property Name="per_ucr_konutfon" Type="tinyint" />
+          <Property Name="per_ucr_onceod" Type="smallint" />
+          <Property Name="per_ozelavansorani" Type="float" />
+          <Property Name="per_yard_yol" Type="tinyint" />
+          <Property Name="per_yard_yemek" Type="tinyint" />
+          <Property Name="per_yard_yakacak" Type="tinyint" />
+          <Property Name="per_yard_bayram" Type="tinyint" />
+          <Property Name="per_yard_cocuk" Type="tinyint" />
+          <Property Name="per_yard_aile" Type="tinyint" />
+          <Property Name="per_yard_ozelindirim" Type="tinyint" />
+          <Property Name="per_adr_cadde" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_adr_mahalle" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_adr_sokak" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_adr_semt" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_adr_apartman_no" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_adr_daire_no" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_adr_posta_kod" Type="nvarchar" MaxLength="8" />
+          <Property Name="per_adr_ilce" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_adr_il" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_adr_ulke" Type="nvarchar" MaxLength="15" />
+          <Property Name="per_adr_adres_kodu" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_tel_ulke_kod" Type="nvarchar" MaxLength="5" />
+          <Property Name="per_tel_bolge_kod" Type="nvarchar" MaxLength="5" />
+          <Property Name="per_tel_no1" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_tel_no2" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_tel_faxno" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_tel_cepno" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_doviz_cinsi" Type="tinyint" />
+          <Property Name="per_muh_grpkod" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_muh_ozelc1" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc2" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc3" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc4" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc5" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc6" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc7" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc8" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc9" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc10" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc11" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc12" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc13" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc14" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc15" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc16" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc17" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc18" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc19" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc20" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc21" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc22" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc23" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_muh_ozelc24" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_old_ucret" Type="float" />
+          <Property Name="per_old_tarih" Type="datetime" />
+          <Property Name="per_maas_ikramiye" Type="tinyint" />
+          <Property Name="per_ozel_not" Type="nvarchar" MaxLength="12" />
+          <Property Name="per_VkfKesOd_fl" Type="bit" />
+          <Property Name="per_Kidem_Tarih" Type="datetime" />
+          <Property Name="per_iszlksig" Type="tinyint" />
+          <Property Name="per_Calismatipi" Type="tinyint" />
+          <Property Name="per_dil1" Type="bit" />
+          <Property Name="per_dil2" Type="bit" />
+          <Property Name="per_dil3" Type="bit" />
+          <Property Name="per_dil4" Type="bit" />
+          <Property Name="per_dil5" Type="bit" />
+          <Property Name="per_dil6" Type="bit" />
+          <Property Name="per_dil7" Type="bit" />
+          <Property Name="per_dil8" Type="bit" />
+          <Property Name="per_dil9" Type="bit" />
+          <Property Name="per_dil10" Type="bit" />
+          <Property Name="per_dil11" Type="bit" />
+          <Property Name="per_dil12" Type="bit" />
+          <Property Name="per_mevsim" Type="tinyint" />
+          <Property Name="per_kapsam" Type="tinyint" />
+          <Property Name="per_asgari_ucretli" Type="bit" />
+          <Property Name="Per_PerCariCins1" Type="tinyint" />
+          <Property Name="Per_PerCariCins2" Type="tinyint" />
+          <Property Name="Per_PerCariCins3" Type="tinyint" />
+          <Property Name="Per_PerCariCins4" Type="tinyint" />
+          <Property Name="Per_PerCariCins5" Type="tinyint" />
+          <Property Name="Per_PerCariCins6" Type="tinyint" />
+          <Property Name="Per_PerCariCins7" Type="tinyint" />
+          <Property Name="Per_PerCariCins8" Type="tinyint" />
+          <Property Name="Per_PerCariCins9" Type="tinyint" />
+          <Property Name="Per_PerCariCins10" Type="tinyint" />
+          <Property Name="Per_PerCariCins11" Type="tinyint" />
+          <Property Name="Per_PerCariCins12" Type="tinyint" />
+          <Property Name="Per_PerCariCins13" Type="tinyint" />
+          <Property Name="Per_PerCariCins14" Type="tinyint" />
+          <Property Name="Per_PerCariCins15" Type="tinyint" />
+          <Property Name="Per_PerCariCins16" Type="tinyint" />
+          <Property Name="Per_PerCariCins17" Type="tinyint" />
+          <Property Name="Per_PerCariCins18" Type="tinyint" />
+          <Property Name="Per_PerCariCins19" Type="tinyint" />
+          <Property Name="Per_PerCariCins20" Type="tinyint" />
+          <Property Name="Per_PerCariCins21" Type="tinyint" />
+          <Property Name="Per_PerCariCins22" Type="tinyint" />
+          <Property Name="Per_PerCariCins23" Type="tinyint" />
+          <Property Name="Per_PerCariCins24" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno1" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno2" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno3" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno4" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno5" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno6" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno7" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno8" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno9" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno10" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno11" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno12" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno13" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno14" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno15" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno16" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno17" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno18" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno19" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno20" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno21" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno22" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno23" Type="tinyint" />
+          <Property Name="Per_PerCariCins_grupno24" Type="tinyint" />
+          <Property Name="Per_TcKimlikNo" Type="nvarchar" MaxLength="11" />
+          <Property Name="Per_PersMailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="Per_Aylik_calisma_saati" Type="float" />
+          <Property Name="Per_Muh_Grup_Kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_bolge_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_okul_ad" Type="nvarchar" MaxLength="40" />
+          <Property Name="per_IdariAmirKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_TeknikAmirKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_CikisSebebiSecimli" Type="tinyint" />
+          <Property Name="per_ilksoyad" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_tabiioldugukanun" Type="tinyint" />
+          <Property Name="per_semada_gosterme_fl" Type="bit" />
+          <Property Name="per_Ehl_Bel_No" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_Ehl_Bel_Tar" Type="datetime" />
+          <Property Name="per_Ehl_Sinif" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_Ehl_Ver_Tar" Type="datetime" />
+          <Property Name="per_Ehl_Ver_Il" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_Ehl_Ver_Ilce" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_Ehl_Kart_No" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_Pasaprot_No" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_Pas_Alindigi_Tar" Type="datetime" />
+          <Property Name="per_Pas_Gec_Tar" Type="datetime" />
+          <Property Name="per_nuf_asker_cuzdan" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_nuf_asker_bastarih" Type="datetime" />
+          <Property Name="per_nuf_asker_bittarih" Type="datetime" />
+          <Property Name="per_nuf_asker_durum" Type="tinyint" />
+          <Property Name="per_Isy_KimlikNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_boyu" Type="float" />
+          <Property Name="per_kilo" Type="float" />
+          <Property Name="per_gomlek_bed" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_pant_bed" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_etek_bed" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_ayak_no" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_sapka_bed" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_onluk_bed" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_diger_bed1" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_diger_bed2" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_diger_bed3" Type="nvarchar" MaxLength="10" />
+          <Property Name="per_UserNo" Type="int" />
+          <Property Name="per_uye_dernek" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_uye_dernek_sicil_no" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_sinyority_uygulamasi_fl" Type="bit" />
+          <Property Name="per_izinparasi_uygulamasi_fl" Type="bit" />
+          <Property Name="per_YemekKarti_ID" Type="nvarchar" MaxLength="30" />
+          <Property Name="per_srmmrkbaglanti_tip" Type="tinyint" />
+          <Property Name="per_srmmrkdaganah_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_maas_banka" Type="tinyint" />
+          <Property Name="per_calisma_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_meslek_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_servis_guzergahi" Type="nvarchar" MaxLength="60" />
+          <Property Name="per_vize_no" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_vize_alindigi_tarih" Type="datetime" />
+          <Property Name="per_vize_tarihi" Type="datetime" />
+          <Property Name="per_sskbelge_turu" Type="tinyint" />
+          <Property Name="per_agine_tabii" Type="tinyint" />
+          <Property Name="per_ozur_5763_kont_dahili_fl" Type="bit" />
+          <Property Name="per_yabanci_ulke" Type="nvarchar" MaxLength="30" />
+          <Property Name="per_sigortalilik_turu" Type="tinyint" />
+          <Property Name="per_eski_sicil_no" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_tabiioldugukanun2" Type="tinyint" />
+          <Property Name="per_maaskiminhesabina" Type="tinyint" />
+          <Property Name="per_maassistemikodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_is_grup_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_unvan_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_raporlama_yapacagi_per_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_okul_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_okul_bolum_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_bolum_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_alt_dept_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_kanun_gecerlilik_tarihi" Type="datetime" />
+          <Property Name="per_tabiioldugukanun3" Type="tinyint" />
+          <Property Name="per_mezuniyetyili" Type="smallint" />
+          <Property Name="per_proje_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="per_hazine_destegine_tabi_fl" Type="bit" />
+          <Property Name="per_KEP_adresi" Type="nvarchar" MaxLength="80" />
+          <Property Name="per_sigara_fl" Type="bit" />
+          <Property Name="per_otobes_fl" Type="bit" />
+          <Property Name="per_otobes_sigorta" Type="tinyint" />
+          <Property Name="per_otobes_orani" Type="float" />
+        </EntityType>
+        <EntityContainer Name="kentmakineihaleModelStoreContainer">
+          <EntitySet Name="PERSONELLER" EntityType="Self.PERSONELLER" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kentmakineihaleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PERSONELLER">
+          <Key>
+            <PropertyRef Name="per_RECno" />
+          </Key>
+          <Property Name="per_RECno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="per_RECid_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="per_RECid_RECno" Type="Int32" Nullable="false" />
+          <Property Name="per_SpecRECno" Type="Int32" />
+          <Property Name="per_iptal" Type="Boolean" />
+          <Property Name="per_fileid" Type="Int16" />
+          <Property Name="per_hidden" Type="Boolean" />
+          <Property Name="per_kilitli" Type="Boolean" />
+          <Property Name="per_degisti" Type="Boolean" />
+          <Property Name="per_checksum" Type="Int32" />
+          <Property Name="per_create_user" Type="Int16" />
+          <Property Name="per_create_date" Type="DateTime" Precision="3" />
+          <Property Name="per_lastup_user" Type="Int16" />
+          <Property Name="per_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="per_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="per_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="per_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="per_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_soyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_orjdildeadisoyadi" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="per_sicil_no" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_firma_no" Type="Int32" />
+          <Property Name="per_sube_no" Type="Int32" />
+          <Property Name="per_caripers_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_tip" Type="Byte" />
+          <Property Name="per_dept_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_is_grup" Type="Byte" />
+          <Property Name="per_giris_tar" Type="DateTime" Precision="3" />
+          <Property Name="per_cikis_tar" Type="DateTime" Precision="3" />
+          <Property Name="per_cikis_neden" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_kod" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_kim_tahsil" Type="Byte" />
+          <Property Name="per_kim_meslek" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_kim_gorev" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_kim_sakat_derece" Type="Byte" />
+          <Property Name="per_kim_gocmen" Type="Byte" />
+          <Property Name="per_kim_gorev_kod" Type="Byte" />
+          <Property Name="per_kim_SGK_kod" Type="Byte" />
+          <Property Name="per_kim_cocuk" Type="Byte" />
+          <Property Name="per_kim_okuloncesi" Type="Byte" />
+          <Property Name="per_kim_ilkokul" Type="Byte" />
+          <Property Name="per_kim_ortaokul" Type="Byte" />
+          <Property Name="per_kim_lise" Type="Byte" />
+          <Property Name="per_kim_yuksek" Type="Byte" />
+          <Property Name="per_nuf_uyruk" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_cinsiyet" Type="Byte" />
+          <Property Name="per_nuf_medeni_hal" Type="Byte" />
+          <Property Name="per_nuf_din" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_dogum_tarih" Type="DateTime" Precision="3" />
+          <Property Name="per_nuf_dogum_yer" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_kangrup" Type="Byte" />
+          <Property Name="per_nuf_seri_no" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_il" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_ilce" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_mahalle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_koy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_ciltno" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_sayfano" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_kutukno" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_ver_neden" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_ver_yer" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_ver_tarih" Type="DateTime" Precision="3" />
+          <Property Name="per_nuf_cuz_kayitno" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_ucr_tip" Type="Byte" />
+          <Property Name="per_ucret" Type="Double" />
+          <Property Name="per_Brut_net" Type="Byte" />
+          <Property Name="per_ucr_send_durum" Type="Byte" />
+          <Property Name="per_ucr_send" Type="Byte" />
+          <Property Name="per_ucr_PSSK_sube" Type="Int32" />
+          <Property Name="per_ucr_hesapno" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="per_ucr_sig_yuzde_gr" Type="Byte" />
+          <Property Name="per_ucr_bode_yapilma" Type="Byte" />
+          <Property Name="per_ucr_vdaire" Type="String" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="per_ucr_vkarneno" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="per_ucr_vkarne_tarih" Type="DateTime" Precision="3" />
+          <Property Name="per_ucr_konutfon" Type="Byte" />
+          <Property Name="per_ucr_onceod" Type="Int16" />
+          <Property Name="per_ozelavansorani" Type="Double" />
+          <Property Name="per_yard_yol" Type="Byte" />
+          <Property Name="per_yard_yemek" Type="Byte" />
+          <Property Name="per_yard_yakacak" Type="Byte" />
+          <Property Name="per_yard_bayram" Type="Byte" />
+          <Property Name="per_yard_cocuk" Type="Byte" />
+          <Property Name="per_yard_aile" Type="Byte" />
+          <Property Name="per_yard_ozelindirim" Type="Byte" />
+          <Property Name="per_adr_cadde" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_mahalle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_sokak" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_semt" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_apartman_no" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_daire_no" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_posta_kod" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_ilce" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_il" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_ulke" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="per_adr_adres_kodu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_tel_ulke_kod" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="per_tel_bolge_kod" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="per_tel_no1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_tel_no2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_tel_faxno" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_tel_cepno" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_doviz_cinsi" Type="Byte" />
+          <Property Name="per_muh_grpkod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc3" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc4" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc5" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc6" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc7" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc8" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc9" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc10" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc11" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc12" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc13" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc14" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc15" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc16" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc17" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc18" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc19" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc20" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc21" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc22" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc23" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_muh_ozelc24" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_old_ucret" Type="Double" />
+          <Property Name="per_old_tarih" Type="DateTime" Precision="3" />
+          <Property Name="per_maas_ikramiye" Type="Byte" />
+          <Property Name="per_ozel_not" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="per_VkfKesOd_fl" Type="Boolean" />
+          <Property Name="per_Kidem_Tarih" Type="DateTime" Precision="3" />
+          <Property Name="per_iszlksig" Type="Byte" />
+          <Property Name="per_Calismatipi" Type="Byte" />
+          <Property Name="per_dil1" Type="Boolean" />
+          <Property Name="per_dil2" Type="Boolean" />
+          <Property Name="per_dil3" Type="Boolean" />
+          <Property Name="per_dil4" Type="Boolean" />
+          <Property Name="per_dil5" Type="Boolean" />
+          <Property Name="per_dil6" Type="Boolean" />
+          <Property Name="per_dil7" Type="Boolean" />
+          <Property Name="per_dil8" Type="Boolean" />
+          <Property Name="per_dil9" Type="Boolean" />
+          <Property Name="per_dil10" Type="Boolean" />
+          <Property Name="per_dil11" Type="Boolean" />
+          <Property Name="per_dil12" Type="Boolean" />
+          <Property Name="per_mevsim" Type="Byte" />
+          <Property Name="per_kapsam" Type="Byte" />
+          <Property Name="per_asgari_ucretli" Type="Boolean" />
+          <Property Name="Per_PerCariCins1" Type="Byte" />
+          <Property Name="Per_PerCariCins2" Type="Byte" />
+          <Property Name="Per_PerCariCins3" Type="Byte" />
+          <Property Name="Per_PerCariCins4" Type="Byte" />
+          <Property Name="Per_PerCariCins5" Type="Byte" />
+          <Property Name="Per_PerCariCins6" Type="Byte" />
+          <Property Name="Per_PerCariCins7" Type="Byte" />
+          <Property Name="Per_PerCariCins8" Type="Byte" />
+          <Property Name="Per_PerCariCins9" Type="Byte" />
+          <Property Name="Per_PerCariCins10" Type="Byte" />
+          <Property Name="Per_PerCariCins11" Type="Byte" />
+          <Property Name="Per_PerCariCins12" Type="Byte" />
+          <Property Name="Per_PerCariCins13" Type="Byte" />
+          <Property Name="Per_PerCariCins14" Type="Byte" />
+          <Property Name="Per_PerCariCins15" Type="Byte" />
+          <Property Name="Per_PerCariCins16" Type="Byte" />
+          <Property Name="Per_PerCariCins17" Type="Byte" />
+          <Property Name="Per_PerCariCins18" Type="Byte" />
+          <Property Name="Per_PerCariCins19" Type="Byte" />
+          <Property Name="Per_PerCariCins20" Type="Byte" />
+          <Property Name="Per_PerCariCins21" Type="Byte" />
+          <Property Name="Per_PerCariCins22" Type="Byte" />
+          <Property Name="Per_PerCariCins23" Type="Byte" />
+          <Property Name="Per_PerCariCins24" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno1" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno2" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno3" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno4" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno5" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno6" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno7" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno8" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno9" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno10" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno11" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno12" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno13" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno14" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno15" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno16" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno17" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno18" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno19" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno20" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno21" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno22" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno23" Type="Byte" />
+          <Property Name="Per_PerCariCins_grupno24" Type="Byte" />
+          <Property Name="Per_TcKimlikNo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="Per_PersMailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Per_Aylik_calisma_saati" Type="Double" />
+          <Property Name="Per_Muh_Grup_Kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_bolge_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_okul_ad" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="per_IdariAmirKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_TeknikAmirKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_CikisSebebiSecimli" Type="Byte" />
+          <Property Name="per_ilksoyad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_tabiioldugukanun" Type="Byte" />
+          <Property Name="per_semada_gosterme_fl" Type="Boolean" />
+          <Property Name="per_Ehl_Bel_No" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_Ehl_Bel_Tar" Type="DateTime" Precision="3" />
+          <Property Name="per_Ehl_Sinif" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_Ehl_Ver_Tar" Type="DateTime" Precision="3" />
+          <Property Name="per_Ehl_Ver_Il" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_Ehl_Ver_Ilce" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_Ehl_Kart_No" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_Pasaprot_No" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_Pas_Alindigi_Tar" Type="DateTime" Precision="3" />
+          <Property Name="per_Pas_Gec_Tar" Type="DateTime" Precision="3" />
+          <Property Name="per_nuf_asker_cuzdan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_nuf_asker_bastarih" Type="DateTime" Precision="3" />
+          <Property Name="per_nuf_asker_bittarih" Type="DateTime" Precision="3" />
+          <Property Name="per_nuf_asker_durum" Type="Byte" />
+          <Property Name="per_Isy_KimlikNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_boyu" Type="Double" />
+          <Property Name="per_kilo" Type="Double" />
+          <Property Name="per_gomlek_bed" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_pant_bed" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_etek_bed" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_ayak_no" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_sapka_bed" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_onluk_bed" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_diger_bed1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_diger_bed2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_diger_bed3" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="per_UserNo" Type="Int32" />
+          <Property Name="per_uye_dernek" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_uye_dernek_sicil_no" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_sinyority_uygulamasi_fl" Type="Boolean" />
+          <Property Name="per_izinparasi_uygulamasi_fl" Type="Boolean" />
+          <Property Name="per_YemekKarti_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="per_srmmrkbaglanti_tip" Type="Byte" />
+          <Property Name="per_srmmrkdaganah_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_maas_banka" Type="Byte" />
+          <Property Name="per_calisma_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_meslek_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_servis_guzergahi" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="per_vize_no" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_vize_alindigi_tarih" Type="DateTime" Precision="3" />
+          <Property Name="per_vize_tarihi" Type="DateTime" Precision="3" />
+          <Property Name="per_sskbelge_turu" Type="Byte" />
+          <Property Name="per_agine_tabii" Type="Byte" />
+          <Property Name="per_ozur_5763_kont_dahili_fl" Type="Boolean" />
+          <Property Name="per_yabanci_ulke" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="per_sigortalilik_turu" Type="Byte" />
+          <Property Name="per_eski_sicil_no" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_tabiioldugukanun2" Type="Byte" />
+          <Property Name="per_maaskiminhesabina" Type="Byte" />
+          <Property Name="per_maassistemikodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_is_grup_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_unvan_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_raporlama_yapacagi_per_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_okul_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_okul_bolum_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_bolum_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_alt_dept_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_kanun_gecerlilik_tarihi" Type="DateTime" Precision="3" />
+          <Property Name="per_tabiioldugukanun3" Type="Byte" />
+          <Property Name="per_mezuniyetyili" Type="Int16" />
+          <Property Name="per_proje_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_hazine_destegine_tabi_fl" Type="Boolean" />
+          <Property Name="per_KEP_adresi" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="per_sigara_fl" Type="Boolean" />
+          <Property Name="per_otobes_fl" Type="Boolean" />
+          <Property Name="per_otobes_sigorta" Type="Byte" />
+          <Property Name="per_otobes_orani" Type="Double" />
+        </EntityType>
+        <EntityContainer Name="kentmakineihaleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PERSONELLERs" EntityType="Self.PERSONELLER" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="kentmakineihaleModelStoreContainer" CdmEntityContainer="kentmakineihaleEntities">
+          <EntitySetMapping Name="PERSONELLERs">
+            <EntityTypeMapping TypeName="kentmakineihaleModel.PERSONELLER">
+              <MappingFragment StoreEntitySet="PERSONELLER">
+                <ScalarProperty Name="per_RECno" ColumnName="per_RECno" />
+                <ScalarProperty Name="per_RECid_DBCno" ColumnName="per_RECid_DBCno" />
+                <ScalarProperty Name="per_RECid_RECno" ColumnName="per_RECid_RECno" />
+                <ScalarProperty Name="per_SpecRECno" ColumnName="per_SpecRECno" />
+                <ScalarProperty Name="per_iptal" ColumnName="per_iptal" />
+                <ScalarProperty Name="per_fileid" ColumnName="per_fileid" />
+                <ScalarProperty Name="per_hidden" ColumnName="per_hidden" />
+                <ScalarProperty Name="per_kilitli" ColumnName="per_kilitli" />
+                <ScalarProperty Name="per_degisti" ColumnName="per_degisti" />
+                <ScalarProperty Name="per_checksum" ColumnName="per_checksum" />
+                <ScalarProperty Name="per_create_user" ColumnName="per_create_user" />
+                <ScalarProperty Name="per_create_date" ColumnName="per_create_date" />
+                <ScalarProperty Name="per_lastup_user" ColumnName="per_lastup_user" />
+                <ScalarProperty Name="per_lastup_date" ColumnName="per_lastup_date" />
+                <ScalarProperty Name="per_special1" ColumnName="per_special1" />
+                <ScalarProperty Name="per_special2" ColumnName="per_special2" />
+                <ScalarProperty Name="per_special3" ColumnName="per_special3" />
+                <ScalarProperty Name="per_kod" ColumnName="per_kod" />
+                <ScalarProperty Name="per_adi" ColumnName="per_adi" />
+                <ScalarProperty Name="per_soyadi" ColumnName="per_soyadi" />
+                <ScalarProperty Name="per_orjdildeadisoyadi" ColumnName="per_orjdildeadisoyadi" />
+                <ScalarProperty Name="per_sicil_no" ColumnName="per_sicil_no" />
+                <ScalarProperty Name="per_firma_no" ColumnName="per_firma_no" />
+                <ScalarProperty Name="per_sube_no" ColumnName="per_sube_no" />
+                <ScalarProperty Name="per_caripers_kodu" ColumnName="per_caripers_kodu" />
+                <ScalarProperty Name="per_tip" ColumnName="per_tip" />
+                <ScalarProperty Name="per_dept_kod" ColumnName="per_dept_kod" />
+                <ScalarProperty Name="per_is_grup" ColumnName="per_is_grup" />
+                <ScalarProperty Name="per_giris_tar" ColumnName="per_giris_tar" />
+                <ScalarProperty Name="per_cikis_tar" ColumnName="per_cikis_tar" />
+                <ScalarProperty Name="per_cikis_neden" ColumnName="per_cikis_neden" />
+                <ScalarProperty Name="per_muh_kod" ColumnName="per_muh_kod" />
+                <ScalarProperty Name="per_kim_tahsil" ColumnName="per_kim_tahsil" />
+                <ScalarProperty Name="per_kim_meslek" ColumnName="per_kim_meslek" />
+                <ScalarProperty Name="per_kim_gorev" ColumnName="per_kim_gorev" />
+                <ScalarProperty Name="per_kim_sakat_derece" ColumnName="per_kim_sakat_derece" />
+                <ScalarProperty Name="per_kim_gocmen" ColumnName="per_kim_gocmen" />
+                <ScalarProperty Name="per_kim_gorev_kod" ColumnName="per_kim_gorev_kod" />
+                <ScalarProperty Name="per_kim_SGK_kod" ColumnName="per_kim_SGK_kod" />
+                <ScalarProperty Name="per_kim_cocuk" ColumnName="per_kim_cocuk" />
+                <ScalarProperty Name="per_kim_okuloncesi" ColumnName="per_kim_okuloncesi" />
+                <ScalarProperty Name="per_kim_ilkokul" ColumnName="per_kim_ilkokul" />
+                <ScalarProperty Name="per_kim_ortaokul" ColumnName="per_kim_ortaokul" />
+                <ScalarProperty Name="per_kim_lise" ColumnName="per_kim_lise" />
+                <ScalarProperty Name="per_kim_yuksek" ColumnName="per_kim_yuksek" />
+                <ScalarProperty Name="per_nuf_uyruk" ColumnName="per_nuf_uyruk" />
+                <ScalarProperty Name="per_nuf_cinsiyet" ColumnName="per_nuf_cinsiyet" />
+                <ScalarProperty Name="per_nuf_medeni_hal" ColumnName="per_nuf_medeni_hal" />
+                <ScalarProperty Name="per_nuf_din" ColumnName="per_nuf_din" />
+                <ScalarProperty Name="per_nuf_dogum_tarih" ColumnName="per_nuf_dogum_tarih" />
+                <ScalarProperty Name="per_nuf_dogum_yer" ColumnName="per_nuf_dogum_yer" />
+                <ScalarProperty Name="per_nuf_kangrup" ColumnName="per_nuf_kangrup" />
+                <ScalarProperty Name="per_nuf_seri_no" ColumnName="per_nuf_seri_no" />
+                <ScalarProperty Name="per_nuf_il" ColumnName="per_nuf_il" />
+                <ScalarProperty Name="per_nuf_ilce" ColumnName="per_nuf_ilce" />
+                <ScalarProperty Name="per_nuf_mahalle" ColumnName="per_nuf_mahalle" />
+                <ScalarProperty Name="per_nuf_koy" ColumnName="per_nuf_koy" />
+                <ScalarProperty Name="per_nuf_ciltno" ColumnName="per_nuf_ciltno" />
+                <ScalarProperty Name="per_nuf_sayfano" ColumnName="per_nuf_sayfano" />
+                <ScalarProperty Name="per_nuf_kutukno" ColumnName="per_nuf_kutukno" />
+                <ScalarProperty Name="per_nuf_ver_neden" ColumnName="per_nuf_ver_neden" />
+                <ScalarProperty Name="per_nuf_ver_yer" ColumnName="per_nuf_ver_yer" />
+                <ScalarProperty Name="per_nuf_ver_tarih" ColumnName="per_nuf_ver_tarih" />
+                <ScalarProperty Name="per_nuf_cuz_kayitno" ColumnName="per_nuf_cuz_kayitno" />
+                <ScalarProperty Name="per_ucr_tip" ColumnName="per_ucr_tip" />
+                <ScalarProperty Name="per_ucret" ColumnName="per_ucret" />
+                <ScalarProperty Name="per_Brut_net" ColumnName="per_Brut_net" />
+                <ScalarProperty Name="per_ucr_send_durum" ColumnName="per_ucr_send_durum" />
+                <ScalarProperty Name="per_ucr_send" ColumnName="per_ucr_send" />
+                <ScalarProperty Name="per_ucr_PSSK_sube" ColumnName="per_ucr_PSSK_sube" />
+                <ScalarProperty Name="per_ucr_hesapno" ColumnName="per_ucr_hesapno" />
+                <ScalarProperty Name="per_ucr_sig_yuzde_gr" ColumnName="per_ucr_sig_yuzde_gr" />
+                <ScalarProperty Name="per_ucr_bode_yapilma" ColumnName="per_ucr_bode_yapilma" />
+                <ScalarProperty Name="per_ucr_vdaire" ColumnName="per_ucr_vdaire" />
+                <ScalarProperty Name="per_ucr_vkarneno" ColumnName="per_ucr_vkarneno" />
+                <ScalarProperty Name="per_ucr_vkarne_tarih" ColumnName="per_ucr_vkarne_tarih" />
+                <ScalarProperty Name="per_ucr_konutfon" ColumnName="per_ucr_konutfon" />
+                <ScalarProperty Name="per_ucr_onceod" ColumnName="per_ucr_onceod" />
+                <ScalarProperty Name="per_ozelavansorani" ColumnName="per_ozelavansorani" />
+                <ScalarProperty Name="per_yard_yol" ColumnName="per_yard_yol" />
+                <ScalarProperty Name="per_yard_yemek" ColumnName="per_yard_yemek" />
+                <ScalarProperty Name="per_yard_yakacak" ColumnName="per_yard_yakacak" />
+                <ScalarProperty Name="per_yard_bayram" ColumnName="per_yard_bayram" />
+                <ScalarProperty Name="per_yard_cocuk" ColumnName="per_yard_cocuk" />
+                <ScalarProperty Name="per_yard_aile" ColumnName="per_yard_aile" />
+                <ScalarProperty Name="per_yard_ozelindirim" ColumnName="per_yard_ozelindirim" />
+                <ScalarProperty Name="per_adr_cadde" ColumnName="per_adr_cadde" />
+                <ScalarProperty Name="per_adr_mahalle" ColumnName="per_adr_mahalle" />
+                <ScalarProperty Name="per_adr_sokak" ColumnName="per_adr_sokak" />
+                <ScalarProperty Name="per_adr_semt" ColumnName="per_adr_semt" />
+                <ScalarProperty Name="per_adr_apartman_no" ColumnName="per_adr_apartman_no" />
+                <ScalarProperty Name="per_adr_daire_no" ColumnName="per_adr_daire_no" />
+                <ScalarProperty Name="per_adr_posta_kod" ColumnName="per_adr_posta_kod" />
+                <ScalarProperty Name="per_adr_ilce" ColumnName="per_adr_ilce" />
+                <ScalarProperty Name="per_adr_il" ColumnName="per_adr_il" />
+                <ScalarProperty Name="per_adr_ulke" ColumnName="per_adr_ulke" />
+                <ScalarProperty Name="per_adr_adres_kodu" ColumnName="per_adr_adres_kodu" />
+                <ScalarProperty Name="per_tel_ulke_kod" ColumnName="per_tel_ulke_kod" />
+                <ScalarProperty Name="per_tel_bolge_kod" ColumnName="per_tel_bolge_kod" />
+                <ScalarProperty Name="per_tel_no1" ColumnName="per_tel_no1" />
+                <ScalarProperty Name="per_tel_no2" ColumnName="per_tel_no2" />
+                <ScalarProperty Name="per_tel_faxno" ColumnName="per_tel_faxno" />
+                <ScalarProperty Name="per_tel_cepno" ColumnName="per_tel_cepno" />
+                <ScalarProperty Name="per_doviz_cinsi" ColumnName="per_doviz_cinsi" />
+                <ScalarProperty Name="per_muh_grpkod" ColumnName="per_muh_grpkod" />
+                <ScalarProperty Name="per_muh_ozelc1" ColumnName="per_muh_ozelc1" />
+                <ScalarProperty Name="per_muh_ozelc2" ColumnName="per_muh_ozelc2" />
+                <ScalarProperty Name="per_muh_ozelc3" ColumnName="per_muh_ozelc3" />
+                <ScalarProperty Name="per_muh_ozelc4" ColumnName="per_muh_ozelc4" />
+                <ScalarProperty Name="per_muh_ozelc5" ColumnName="per_muh_ozelc5" />
+                <ScalarProperty Name="per_muh_ozelc6" ColumnName="per_muh_ozelc6" />
+                <ScalarProperty Name="per_muh_ozelc7" ColumnName="per_muh_ozelc7" />
+                <ScalarProperty Name="per_muh_ozelc8" ColumnName="per_muh_ozelc8" />
+                <ScalarProperty Name="per_muh_ozelc9" ColumnName="per_muh_ozelc9" />
+                <ScalarProperty Name="per_muh_ozelc10" ColumnName="per_muh_ozelc10" />
+                <ScalarProperty Name="per_muh_ozelc11" ColumnName="per_muh_ozelc11" />
+                <ScalarProperty Name="per_muh_ozelc12" ColumnName="per_muh_ozelc12" />
+                <ScalarProperty Name="per_muh_ozelc13" ColumnName="per_muh_ozelc13" />
+                <ScalarProperty Name="per_muh_ozelc14" ColumnName="per_muh_ozelc14" />
+                <ScalarProperty Name="per_muh_ozelc15" ColumnName="per_muh_ozelc15" />
+                <ScalarProperty Name="per_muh_ozelc16" ColumnName="per_muh_ozelc16" />
+                <ScalarProperty Name="per_muh_ozelc17" ColumnName="per_muh_ozelc17" />
+                <ScalarProperty Name="per_muh_ozelc18" ColumnName="per_muh_ozelc18" />
+                <ScalarProperty Name="per_muh_ozelc19" ColumnName="per_muh_ozelc19" />
+                <ScalarProperty Name="per_muh_ozelc20" ColumnName="per_muh_ozelc20" />
+                <ScalarProperty Name="per_muh_ozelc21" ColumnName="per_muh_ozelc21" />
+                <ScalarProperty Name="per_muh_ozelc22" ColumnName="per_muh_ozelc22" />
+                <ScalarProperty Name="per_muh_ozelc23" ColumnName="per_muh_ozelc23" />
+                <ScalarProperty Name="per_muh_ozelc24" ColumnName="per_muh_ozelc24" />
+                <ScalarProperty Name="per_old_ucret" ColumnName="per_old_ucret" />
+                <ScalarProperty Name="per_old_tarih" ColumnName="per_old_tarih" />
+                <ScalarProperty Name="per_maas_ikramiye" ColumnName="per_maas_ikramiye" />
+                <ScalarProperty Name="per_ozel_not" ColumnName="per_ozel_not" />
+                <ScalarProperty Name="per_VkfKesOd_fl" ColumnName="per_VkfKesOd_fl" />
+                <ScalarProperty Name="per_Kidem_Tarih" ColumnName="per_Kidem_Tarih" />
+                <ScalarProperty Name="per_iszlksig" ColumnName="per_iszlksig" />
+                <ScalarProperty Name="per_Calismatipi" ColumnName="per_Calismatipi" />
+                <ScalarProperty Name="per_dil1" ColumnName="per_dil1" />
+                <ScalarProperty Name="per_dil2" ColumnName="per_dil2" />
+                <ScalarProperty Name="per_dil3" ColumnName="per_dil3" />
+                <ScalarProperty Name="per_dil4" ColumnName="per_dil4" />
+                <ScalarProperty Name="per_dil5" ColumnName="per_dil5" />
+                <ScalarProperty Name="per_dil6" ColumnName="per_dil6" />
+                <ScalarProperty Name="per_dil7" ColumnName="per_dil7" />
+                <ScalarProperty Name="per_dil8" ColumnName="per_dil8" />
+                <ScalarProperty Name="per_dil9" ColumnName="per_dil9" />
+                <ScalarProperty Name="per_dil10" ColumnName="per_dil10" />
+                <ScalarProperty Name="per_dil11" ColumnName="per_dil11" />
+                <ScalarProperty Name="per_dil12" ColumnName="per_dil12" />
+                <ScalarProperty Name="per_mevsim" ColumnName="per_mevsim" />
+                <ScalarProperty Name="per_kapsam" ColumnName="per_kapsam" />
+                <ScalarProperty Name="per_asgari_ucretli" ColumnName="per_asgari_ucretli" />
+                <ScalarProperty Name="Per_PerCariCins1" ColumnName="Per_PerCariCins1" />
+                <ScalarProperty Name="Per_PerCariCins2" ColumnName="Per_PerCariCins2" />
+                <ScalarProperty Name="Per_PerCariCins3" ColumnName="Per_PerCariCins3" />
+                <ScalarProperty Name="Per_PerCariCins4" ColumnName="Per_PerCariCins4" />
+                <ScalarProperty Name="Per_PerCariCins5" ColumnName="Per_PerCariCins5" />
+                <ScalarProperty Name="Per_PerCariCins6" ColumnName="Per_PerCariCins6" />
+                <ScalarProperty Name="Per_PerCariCins7" ColumnName="Per_PerCariCins7" />
+                <ScalarProperty Name="Per_PerCariCins8" ColumnName="Per_PerCariCins8" />
+                <ScalarProperty Name="Per_PerCariCins9" ColumnName="Per_PerCariCins9" />
+                <ScalarProperty Name="Per_PerCariCins10" ColumnName="Per_PerCariCins10" />
+                <ScalarProperty Name="Per_PerCariCins11" ColumnName="Per_PerCariCins11" />
+                <ScalarProperty Name="Per_PerCariCins12" ColumnName="Per_PerCariCins12" />
+                <ScalarProperty Name="Per_PerCariCins13" ColumnName="Per_PerCariCins13" />
+                <ScalarProperty Name="Per_PerCariCins14" ColumnName="Per_PerCariCins14" />
+                <ScalarProperty Name="Per_PerCariCins15" ColumnName="Per_PerCariCins15" />
+                <ScalarProperty Name="Per_PerCariCins16" ColumnName="Per_PerCariCins16" />
+                <ScalarProperty Name="Per_PerCariCins17" ColumnName="Per_PerCariCins17" />
+                <ScalarProperty Name="Per_PerCariCins18" ColumnName="Per_PerCariCins18" />
+                <ScalarProperty Name="Per_PerCariCins19" ColumnName="Per_PerCariCins19" />
+                <ScalarProperty Name="Per_PerCariCins20" ColumnName="Per_PerCariCins20" />
+                <ScalarProperty Name="Per_PerCariCins21" ColumnName="Per_PerCariCins21" />
+                <ScalarProperty Name="Per_PerCariCins22" ColumnName="Per_PerCariCins22" />
+                <ScalarProperty Name="Per_PerCariCins23" ColumnName="Per_PerCariCins23" />
+                <ScalarProperty Name="Per_PerCariCins24" ColumnName="Per_PerCariCins24" />
+                <ScalarProperty Name="Per_PerCariCins_grupno1" ColumnName="Per_PerCariCins_grupno1" />
+                <ScalarProperty Name="Per_PerCariCins_grupno2" ColumnName="Per_PerCariCins_grupno2" />
+                <ScalarProperty Name="Per_PerCariCins_grupno3" ColumnName="Per_PerCariCins_grupno3" />
+                <ScalarProperty Name="Per_PerCariCins_grupno4" ColumnName="Per_PerCariCins_grupno4" />
+                <ScalarProperty Name="Per_PerCariCins_grupno5" ColumnName="Per_PerCariCins_grupno5" />
+                <ScalarProperty Name="Per_PerCariCins_grupno6" ColumnName="Per_PerCariCins_grupno6" />
+                <ScalarProperty Name="Per_PerCariCins_grupno7" ColumnName="Per_PerCariCins_grupno7" />
+                <ScalarProperty Name="Per_PerCariCins_grupno8" ColumnName="Per_PerCariCins_grupno8" />
+                <ScalarProperty Name="Per_PerCariCins_grupno9" ColumnName="Per_PerCariCins_grupno9" />
+                <ScalarProperty Name="Per_PerCariCins_grupno10" ColumnName="Per_PerCariCins_grupno10" />
+                <ScalarProperty Name="Per_PerCariCins_grupno11" ColumnName="Per_PerCariCins_grupno11" />
+                <ScalarProperty Name="Per_PerCariCins_grupno12" ColumnName="Per_PerCariCins_grupno12" />
+                <ScalarProperty Name="Per_PerCariCins_grupno13" ColumnName="Per_PerCariCins_grupno13" />
+                <ScalarProperty Name="Per_PerCariCins_grupno14" ColumnName="Per_PerCariCins_grupno14" />
+                <ScalarProperty Name="Per_PerCariCins_grupno15" ColumnName="Per_PerCariCins_grupno15" />
+                <ScalarProperty Name="Per_PerCariCins_grupno16" ColumnName="Per_PerCariCins_grupno16" />
+                <ScalarProperty Name="Per_PerCariCins_grupno17" ColumnName="Per_PerCariCins_grupno17" />
+                <ScalarProperty Name="Per_PerCariCins_grupno18" ColumnName="Per_PerCariCins_grupno18" />
+                <ScalarProperty Name="Per_PerCariCins_grupno19" ColumnName="Per_PerCariCins_grupno19" />
+                <ScalarProperty Name="Per_PerCariCins_grupno20" ColumnName="Per_PerCariCins_grupno20" />
+                <ScalarProperty Name="Per_PerCariCins_grupno21" ColumnName="Per_PerCariCins_grupno21" />
+                <ScalarProperty Name="Per_PerCariCins_grupno22" ColumnName="Per_PerCariCins_grupno22" />
+                <ScalarProperty Name="Per_PerCariCins_grupno23" ColumnName="Per_PerCariCins_grupno23" />
+                <ScalarProperty Name="Per_PerCariCins_grupno24" ColumnName="Per_PerCariCins_grupno24" />
+                <ScalarProperty Name="Per_TcKimlikNo" ColumnName="Per_TcKimlikNo" />
+                <ScalarProperty Name="Per_PersMailAddress" ColumnName="Per_PersMailAddress" />
+                <ScalarProperty Name="Per_Aylik_calisma_saati" ColumnName="Per_Aylik_calisma_saati" />
+                <ScalarProperty Name="Per_Muh_Grup_Kodu" ColumnName="Per_Muh_Grup_Kodu" />
+                <ScalarProperty Name="per_bolge_kodu" ColumnName="per_bolge_kodu" />
+                <ScalarProperty Name="per_okul_ad" ColumnName="per_okul_ad" />
+                <ScalarProperty Name="per_IdariAmirKodu" ColumnName="per_IdariAmirKodu" />
+                <ScalarProperty Name="per_TeknikAmirKodu" ColumnName="per_TeknikAmirKodu" />
+                <ScalarProperty Name="per_CikisSebebiSecimli" ColumnName="per_CikisSebebiSecimli" />
+                <ScalarProperty Name="per_ilksoyad" ColumnName="per_ilksoyad" />
+                <ScalarProperty Name="per_tabiioldugukanun" ColumnName="per_tabiioldugukanun" />
+                <ScalarProperty Name="per_semada_gosterme_fl" ColumnName="per_semada_gosterme_fl" />
+                <ScalarProperty Name="per_Ehl_Bel_No" ColumnName="per_Ehl_Bel_No" />
+                <ScalarProperty Name="per_Ehl_Bel_Tar" ColumnName="per_Ehl_Bel_Tar" />
+                <ScalarProperty Name="per_Ehl_Sinif" ColumnName="per_Ehl_Sinif" />
+                <ScalarProperty Name="per_Ehl_Ver_Tar" ColumnName="per_Ehl_Ver_Tar" />
+                <ScalarProperty Name="per_Ehl_Ver_Il" ColumnName="per_Ehl_Ver_Il" />
+                <ScalarProperty Name="per_Ehl_Ver_Ilce" ColumnName="per_Ehl_Ver_Ilce" />
+                <ScalarProperty Name="per_Ehl_Kart_No" ColumnName="per_Ehl_Kart_No" />
+                <ScalarProperty Name="per_Pasaprot_No" ColumnName="per_Pasaprot_No" />
+                <ScalarProperty Name="per_Pas_Alindigi_Tar" ColumnName="per_Pas_Alindigi_Tar" />
+                <ScalarProperty Name="per_Pas_Gec_Tar" ColumnName="per_Pas_Gec_Tar" />
+                <ScalarProperty Name="per_nuf_asker_cuzdan" ColumnName="per_nuf_asker_cuzdan" />
+                <ScalarProperty Name="per_nuf_asker_bastarih" ColumnName="per_nuf_asker_bastarih" />
+                <ScalarProperty Name="per_nuf_asker_bittarih" ColumnName="per_nuf_asker_bittarih" />
+                <ScalarProperty Name="per_nuf_asker_durum" ColumnName="per_nuf_asker_durum" />
+                <ScalarProperty Name="per_Isy_KimlikNo" ColumnName="per_Isy_KimlikNo" />
+                <ScalarProperty Name="per_boyu" ColumnName="per_boyu" />
+                <ScalarProperty Name="per_kilo" ColumnName="per_kilo" />
+                <ScalarProperty Name="per_gomlek_bed" ColumnName="per_gomlek_bed" />
+                <ScalarProperty Name="per_pant_bed" ColumnName="per_pant_bed" />
+                <ScalarProperty Name="per_etek_bed" ColumnName="per_etek_bed" />
+                <ScalarProperty Name="per_ayak_no" ColumnName="per_ayak_no" />
+                <ScalarProperty Name="per_sapka_bed" ColumnName="per_sapka_bed" />
+                <ScalarProperty Name="per_onluk_bed" ColumnName="per_onluk_bed" />
+                <ScalarProperty Name="per_diger_bed1" ColumnName="per_diger_bed1" />
+                <ScalarProperty Name="per_diger_bed2" ColumnName="per_diger_bed2" />
+                <ScalarProperty Name="per_diger_bed3" ColumnName="per_diger_bed3" />
+                <ScalarProperty Name="per_UserNo" ColumnName="per_UserNo" />
+                <ScalarProperty Name="per_uye_dernek" ColumnName="per_uye_dernek" />
+                <ScalarProperty Name="per_uye_dernek_sicil_no" ColumnName="per_uye_dernek_sicil_no" />
+                <ScalarProperty Name="per_sinyority_uygulamasi_fl" ColumnName="per_sinyority_uygulamasi_fl" />
+                <ScalarProperty Name="per_izinparasi_uygulamasi_fl" ColumnName="per_izinparasi_uygulamasi_fl" />
+                <ScalarProperty Name="per_YemekKarti_ID" ColumnName="per_YemekKarti_ID" />
+                <ScalarProperty Name="per_srmmrkbaglanti_tip" ColumnName="per_srmmrkbaglanti_tip" />
+                <ScalarProperty Name="per_srmmrkdaganah_kodu" ColumnName="per_srmmrkdaganah_kodu" />
+                <ScalarProperty Name="per_maas_banka" ColumnName="per_maas_banka" />
+                <ScalarProperty Name="per_calisma_kodu" ColumnName="per_calisma_kodu" />
+                <ScalarProperty Name="per_meslek_kodu" ColumnName="per_meslek_kodu" />
+                <ScalarProperty Name="per_servis_guzergahi" ColumnName="per_servis_guzergahi" />
+                <ScalarProperty Name="per_vize_no" ColumnName="per_vize_no" />
+                <ScalarProperty Name="per_vize_alindigi_tarih" ColumnName="per_vize_alindigi_tarih" />
+                <ScalarProperty Name="per_vize_tarihi" ColumnName="per_vize_tarihi" />
+                <ScalarProperty Name="per_sskbelge_turu" ColumnName="per_sskbelge_turu" />
+                <ScalarProperty Name="per_agine_tabii" ColumnName="per_agine_tabii" />
+                <ScalarProperty Name="per_ozur_5763_kont_dahili_fl" ColumnName="per_ozur_5763_kont_dahili_fl" />
+                <ScalarProperty Name="per_yabanci_ulke" ColumnName="per_yabanci_ulke" />
+                <ScalarProperty Name="per_sigortalilik_turu" ColumnName="per_sigortalilik_turu" />
+                <ScalarProperty Name="per_eski_sicil_no" ColumnName="per_eski_sicil_no" />
+                <ScalarProperty Name="per_tabiioldugukanun2" ColumnName="per_tabiioldugukanun2" />
+                <ScalarProperty Name="per_maaskiminhesabina" ColumnName="per_maaskiminhesabina" />
+                <ScalarProperty Name="per_maassistemikodu" ColumnName="per_maassistemikodu" />
+                <ScalarProperty Name="per_is_grup_kodu" ColumnName="per_is_grup_kodu" />
+                <ScalarProperty Name="per_unvan_kodu" ColumnName="per_unvan_kodu" />
+                <ScalarProperty Name="per_raporlama_yapacagi_per_kod" ColumnName="per_raporlama_yapacagi_per_kod" />
+                <ScalarProperty Name="per_okul_kodu" ColumnName="per_okul_kodu" />
+                <ScalarProperty Name="per_okul_bolum_kodu" ColumnName="per_okul_bolum_kodu" />
+                <ScalarProperty Name="per_bolum_kodu" ColumnName="per_bolum_kodu" />
+                <ScalarProperty Name="per_alt_dept_kod" ColumnName="per_alt_dept_kod" />
+                <ScalarProperty Name="per_kanun_gecerlilik_tarihi" ColumnName="per_kanun_gecerlilik_tarihi" />
+                <ScalarProperty Name="per_tabiioldugukanun3" ColumnName="per_tabiioldugukanun3" />
+                <ScalarProperty Name="per_mezuniyetyili" ColumnName="per_mezuniyetyili" />
+                <ScalarProperty Name="per_proje_kodu" ColumnName="per_proje_kodu" />
+                <ScalarProperty Name="per_hazine_destegine_tabi_fl" ColumnName="per_hazine_destegine_tabi_fl" />
+                <ScalarProperty Name="per_KEP_adresi" ColumnName="per_KEP_adresi" />
+                <ScalarProperty Name="per_sigara_fl" ColumnName="per_sigara_fl" />
+                <ScalarProperty Name="per_otobes_fl" ColumnName="per_otobes_fl" />
+                <ScalarProperty Name="per_otobes_sigorta" ColumnName="per_otobes_sigorta" />
+                <ScalarProperty Name="per_otobes_orani" ColumnName="per_otobes_orani" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

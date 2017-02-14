@@ -13,10 +13,10 @@ namespace ik.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ikMdfEntities : DbContext
+    public partial class kentmakineihaleEntities : DbContext
     {
-        public ikMdfEntities()
-            : base("name=ikMdfEntities")
+        public kentmakineihaleEntities()
+            : base("name=kentmakineihaleEntities")
         {
         }
     
@@ -25,13 +25,6 @@ namespace ik.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<birim> birims { get; set; }
-        
-        public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
-        public virtual DbSet<Izin> Izins { get; set; }
-        public virtual DbSet<IzinTip> IzinTips { get; set; }
-        public virtual DbSet<ihale> ihales { get; set; }
-        public virtual DbSet<Personel> Personels { get; set; }
-      
+        public virtual DbSet<PERSONELLER> PERSONELLERs { get; set; }
     }
 }

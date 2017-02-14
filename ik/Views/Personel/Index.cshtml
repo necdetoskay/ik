@@ -1,0 +1,112 @@
+﻿@using ik.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="col-md-12 form form-group">
+    <div class="col-md-4">
+        @Html.Label("Personel Liste", null, new { @class = "form-control" })
+        <select id="personelListe" class="form-control">
+            <option value="">Personel Seçiniz </option>
+        </select>
+        <br />
+        @Html.Label("Birimler", null, new { @class = "form-control" })
+        <select id="birimListe" class="form-control">
+            <option value="">Birim Seçiniz </option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        @Html.Label("Personel Mikro Liste", null, new { @class = "form-control" })
+        <select id="personelmikro" class="form-control">
+            <option value="">Personel Seçiniz </option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        @Html.Label("Personel PDKS Liste", null, new { @class = "form-control" })
+        <select id="personelpdks" class="form-control">
+            <option value="">Personel Seçiniz </option>
+        </select>
+    </div>
+</div>
+
+<br />
+
+<div class="col-md-12 row">
+    <div class="form-group">
+        <label>Ad Soyad:</label>
+        <label class="md-col-6" id="adsoyad"></label>
+    </div>
+    <div class="form-group">
+        <label>Giriş Tarihi:</label>
+        <label class="md-col-6" id="giristarih"></label>
+    </div>
+    <div class="form-group">
+        <label>T.C. No:</label>
+        <label class="md-col-6" id="tcno"></label>
+    </div>
+    <div class="form-group">
+        <label>Doğum Tarihi:</label>
+        <label class="md-col-6" id="dogumtarihi"></label>
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/Scripts/moment.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+
+            $.ajax({
+                url: '@Url.Action("PersonelListe","Personel")',
+                method: 'get',
+                success: function (data) {
+                    var list = $('#personelListe');
+                    //list.empty();
+                    $.each(data.personelListe, function () {
+                        list.append($("<option/>").val(this.id).text(this.adsoyad));
+                    });
+
+                    var mikro = $('#personelmikro');
+                    $.each(data.mikro, function () {
+                        mikro.append($("<option/>").val(this.id).text(this.adsoyad));
+                    });
+
+                    var birim = $('#birimListe');
+                    $.each(data.birim, function () {
+                        birim.append($("<option/>").val(this.id).text(this.birimad));
+                    });
+
+                    var pdks = $('#personelpdks');
+                    $.each(data.pdks, function () {
+                        pdks.append($("<option/>").val(this.id).text(this.adsoyad));
+                    });
+                }
+            });
+
+
+
+            $('#personelmikro').on('change', function () {
+                var id = this.value;
+                $.ajax({
+                    url: '@Url.Action("MikroDetay")',
+                    data: {
+                        id: id
+                    },
+                    method: 'get',
+                    success: function (data) {
+                        $('#adsoyad').text(data.adsoyad);
+                        $('#giristarih').text(data.giristarihi.toDDMMYYY());
+                        $('#tcno').text(data.tcno);
+                        $('#dogumtarihi').text(data.dogumtarihi.toDDMMYYY());
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -41,23 +41,24 @@ namespace ik.Models
                 if (ExtensionGet("pager").Length != 1)
                     return null;
 
-                return (string)ExtensionGet("pager")[0];
+                return (string) ExtensionGet("pager")[0];
             }
 
-            set
-            {
-                ExtensionSet("pager", value);
-            }
+            set { ExtensionSet("pager", value); }
         }
 
-        public static new UserPrincipalExtended FindByIdentity(PrincipalContext context, string identityValue)
+        public new static UserPrincipalExtended FindByIdentity(PrincipalContext context, string identityValue)
         {
-            return (UserPrincipalExtended)FindByIdentityWithType(context, typeof(UserPrincipalExtended), identityValue);
+            return
+                (UserPrincipalExtended) FindByIdentityWithType(context, typeof (UserPrincipalExtended), identityValue);
         }
 
-        public static new UserPrincipalExtended FindByIdentity(PrincipalContext context, IdentityType identityType, string identityValue)
+        public new static UserPrincipalExtended FindByIdentity(PrincipalContext context, IdentityType identityType,
+            string identityValue)
         {
-            return (UserPrincipalExtended)FindByIdentityWithType(context, typeof(UserPrincipalExtended), identityType, identityValue);
+            return
+                (UserPrincipalExtended)
+                    FindByIdentityWithType(context, typeof (UserPrincipalExtended), identityType, identityValue);
         }
     }
 }

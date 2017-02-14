@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MikroDB_V15_KENTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MikroDB_V15_KENTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012"
+              Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PERSONEL_IZINLERI">
           <Key>
             <PropertyRef Name="pz_RECno" />
@@ -328,7 +332,10 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MikroDB_V15_KENTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MikroDB_V15_KENTModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="PERSONEL_IZINLERI">
           <Key>
             <PropertyRef Name="pz_RECno" />
@@ -631,7 +638,8 @@
           <Property Name="per_maassistemikodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="per_is_grup_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="per_unvan_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="per_raporlama_yapacagi_per_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="per_raporlama_yapacagi_per_kod" Type="String" MaxLength="25" FixedLength="false"
+                    Unicode="true" />
           <Property Name="per_okul_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="per_okul_bolum_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="per_bolum_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
@@ -653,7 +661,8 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MikroDB_V15_KENTModelStoreContainer" CdmEntityContainer="KENTEntities">
+        <EntityContainerMapping StorageEntityContainer="MikroDB_V15_KENTModelStoreContainer"
+                                CdmEntityContainer="KENTEntities">
           <EntitySetMapping Name="PERSONEL_IZINLERI">
             <EntityTypeMapping TypeName="MikroDB_V15_KENTModel.PERSONEL_IZINLERI">
               <MappingFragment StoreEntitySet="PERSONEL_IZINLERI">

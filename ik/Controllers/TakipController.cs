@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ik.Models;
 
@@ -10,18 +8,18 @@ namespace ik.Controllers
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
     public class TakipController : Controller
     {
-        ikEntities db = new ikEntities();
+        private readonly ikEntities db = new ikEntities();
 
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
         }
+
         // GET: Takip
         public ActionResult Index()
         {
-          
-            var liste = db.Takips.OrderBy(c=>c.tamamlanma!=null).ThenBy(c => c.sontarih).Take(10).ToList();
+            var liste = db.Takips.OrderBy(c => c.tamamlanma != null).ThenBy(c => c.sontarih).Take(10).ToList();
             return View(liste);
         }
 
@@ -117,11 +115,11 @@ namespace ik.Controllers
         public JsonResult _RutinOzet(int limit)
         {
             var date = DateTime.Now.Date.AddDays(10);
-            var liste = db.Takips.Where(c => c.sontarih<date & c.tamamlanma == null).OrderBy(c=>c.sontarih).Take(limit);
+            var liste =
+                db.Takips.Where(c => c.sontarih < date & c.tamamlanma == null).OrderBy(c => c.sontarih).Take(limit);
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
-       
         public JsonResult RutinTamamla(int id)
         {
             var takip = db.Takips.SingleOrDefault(c => c.id == id);

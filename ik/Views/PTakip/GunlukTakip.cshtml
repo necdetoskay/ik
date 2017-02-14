@@ -14,21 +14,22 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model.pGunlukTakipDT.ToList()) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.personelAdSoyad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.giris_saat)
-        </td>
-       
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.pGunlukTakipDT.ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.personelAdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.giris_saat)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+            </td>
+        </tr>
+    }
 
 </table>

@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ikModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ikModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="birim">
           <Key>
             <PropertyRef Name="id" />
@@ -243,10 +247,14 @@
             <End Role="PersonelGrup" EntitySet="PersonelGrup" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ikModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ikModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ikEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="birims" EntityType="ikModel.birim" />
           <EntitySet Name="Grups" EntityType="ikModel.Grup" />
@@ -295,7 +303,8 @@
           <Property Name="birimad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fullad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="sira" Type="Int32" />
-          <NavigationProperty Name="Personels" Relationship="ikModel.FK__personel__birimi__4CA06362" FromRole="birim" ToRole="Personel" />
+          <NavigationProperty Name="Personels" Relationship="ikModel.FK__personel__birimi__4CA06362" FromRole="birim"
+                              ToRole="Personel" />
         </EntityType>
         <EntityType Name="Grup">
           <Key>
@@ -303,7 +312,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PersonelGrups" Relationship="ikModel.FK__PersonelG__grupi__6E01572D" FromRole="Grup" ToRole="PersonelGrup" />
+          <NavigationProperty Name="PersonelGrups" Relationship="ikModel.FK__PersonelG__grupi__6E01572D"
+                              FromRole="Grup" ToRole="PersonelGrup" />
         </EntityType>
         <EntityType Name="Izin">
           <Key>
@@ -317,8 +327,10 @@
           <Property Name="izintip" Type="Int32" Nullable="false" />
           <Property Name="aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="gun" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="IzinTip1" Relationship="ikModel.FK__Izin__izintip__66603565" FromRole="Izin" ToRole="IzinTip" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__Izin__personelid__656C112C" FromRole="Izin" ToRole="Personel" />
+          <NavigationProperty Name="IzinTip1" Relationship="ikModel.FK__Izin__izintip__66603565" FromRole="Izin"
+                              ToRole="IzinTip" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__Izin__personelid__656C112C" FromRole="Izin"
+                              ToRole="Personel" />
         </EntityType>
         <EntityType Name="IzinTip">
           <Key>
@@ -326,7 +338,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ad" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Izins" Relationship="ikModel.FK__Izin__izintip__66603565" FromRole="IzinTip" ToRole="Izin" />
+          <NavigationProperty Name="Izins" Relationship="ikModel.FK__Izin__izintip__66603565" FromRole="IzinTip"
+                              ToRole="Izin" />
         </EntityType>
         <EntityType Name="ihale">
           <Key>
@@ -335,7 +348,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="dosyano" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ihaleadi" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="isyeritescilno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isyeritescilno" Type="String" Nullable="false" MaxLength="50" FixedLength="false"
+                    Unicode="true" />
           <Property Name="yolucret" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="yemekucret" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
@@ -353,13 +367,18 @@
           <Property Name="pdksid" Type="Int32" />
           <Property Name="giristarihi" Type="DateTime" Precision="0" />
           <Property Name="kidemtarihi" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="birim" Relationship="ikModel.FK__personel__birimi__4CA06362" FromRole="Personel" ToRole="birim" />
-          <NavigationProperty Name="Izins" Relationship="ikModel.FK__Izin__personelid__656C112C" FromRole="Personel" ToRole="Izin" />
-          <NavigationProperty Name="PersonelGrups" Relationship="ikModel.FK__PersonelG__perso__6EF57B66" FromRole="Personel" ToRole="PersonelGrup" />
+          <NavigationProperty Name="birim" Relationship="ikModel.FK__personel__birimi__4CA06362" FromRole="Personel"
+                              ToRole="birim" />
+          <NavigationProperty Name="Izins" Relationship="ikModel.FK__Izin__personelid__656C112C" FromRole="Personel"
+                              ToRole="Izin" />
+          <NavigationProperty Name="PersonelGrups" Relationship="ikModel.FK__PersonelG__perso__6EF57B66"
+                              FromRole="Personel" ToRole="PersonelGrup" />
           <Property Name="mikroid" Type="Int32" />
           <Property Name="dogumtarihi" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="ImzaTakips" Relationship="ikModel.FK__ImzaTakip__perso__60A75C0F" FromRole="Personel" ToRole="ImzaTakip" />
-          <NavigationProperty Name="PersonelDevir" Relationship="ikModel.FK__PersonelD__perso__74AE54BC" FromRole="Personel" ToRole="PersonelDevir" />
+          <NavigationProperty Name="ImzaTakips" Relationship="ikModel.FK__ImzaTakip__perso__60A75C0F"
+                              FromRole="Personel" ToRole="ImzaTakip" />
+          <NavigationProperty Name="PersonelDevir" Relationship="ikModel.FK__PersonelD__perso__74AE54BC"
+                              FromRole="Personel" ToRole="PersonelDevir" />
         </EntityType>
         <EntityType Name="PersonelGrup">
           <Key>
@@ -368,8 +387,10 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="grupid" Type="Int32" Nullable="false" />
           <Property Name="personelid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Grup" Relationship="ikModel.FK__PersonelG__grupi__6E01572D" FromRole="PersonelGrup" ToRole="Grup" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelG__perso__6EF57B66" FromRole="PersonelGrup" ToRole="Personel" />
+          <NavigationProperty Name="Grup" Relationship="ikModel.FK__PersonelG__grupi__6E01572D" FromRole="PersonelGrup"
+                              ToRole="Grup" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelG__perso__6EF57B66"
+                              FromRole="PersonelGrup" ToRole="Personel" />
         </EntityType>
         <EntityType Name="Takip">
           <Key>
@@ -459,7 +480,8 @@
           <Property Name="personelID" Type="Int32" Nullable="false" />
           <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ImzaTarih" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__ImzaTakip__perso__60A75C0F" FromRole="ImzaTakip" ToRole="Personel" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__ImzaTakip__perso__60A75C0F"
+                              FromRole="ImzaTakip" ToRole="Personel" />
           <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <Association Name="FK__ImzaTakip__perso__60A75C0F">
@@ -483,7 +505,8 @@
           <Property Name="personelID" Type="Int32" Nullable="false" />
           <Property Name="kidemTarih" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="izinDevir" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelD__perso__74AE54BC" FromRole="PersonelDevir" ToRole="Personel" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelD__perso__74AE54BC"
+                              FromRole="PersonelDevir" ToRole="Personel" />
         </EntityType>
         <Association Name="FK__PersonelD__perso__74AE54BC">
           <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">

@@ -1,5 +1,5 @@
 ﻿@using ik.Models
-@model IEnumerable<ik.Models.Takip>
+@model IEnumerable<Takip>
 
 @{
     ViewBag.Title = "Index";
@@ -8,26 +8,25 @@
 
 @helper Tamamlanma(Takip it)
 {
-if (it.tamamlanma != null)
-{
+    if (it.tamamlanma != null)
+    {
         <p>@it.tamamlanma.Value.ToShortDateString()</p>
-}
-else
-{
-    if (it.sontarih.Date < DateTime.Now.Date)
-    {
-            <p class="text-warning">Süresi Geçmiş</p>
-    }
-    else if (it.sontarih.Date == DateTime.Now.Date)
-    {
-            <p class="text-danger">Son Gün</p>
     }
     else
     {
+        if (it.sontarih.Date < DateTime.Now.Date)
+        {
+            <p class="text-warning">Süresi Geçmiş</p>
+        }
+        else if (it.sontarih.Date == DateTime.Now.Date)
+        {
+            <p class="text-danger">Son Gün</p>
+        }
+        else
+        {
             <p>Devam Ediyor</p>
+        }
     }
-}
-
 }
 <h2>Index</h2>
 
@@ -84,9 +83,9 @@ else
             <td>
                 @if (item.tamamlanma == null)
                 {
-                    @Html.ActionLink("Tamamla", "Tamamla", new { id = item.id }) 
-           } |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                    @Html.ActionLink("Tamamla", "Tamamla", new {item.id})
+                } |
+                @Html.ActionLink("Delete", "Delete", new {item.id})
             </td>
         </tr>
     }

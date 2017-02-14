@@ -1,14 +1,13 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "YillikIzin";
 }
 
 <h2>YillikIzin</h2>
 
 <div class="form-group">
-    @Html.Label("Personel Ad", htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.Label("Personel Ad", new {@class = "control-label col-md-2"})
     <div class="col-md-10">
-        @Html.DropDownList("PersonelListe", (SelectList)ViewBag.personelListe, "Personel Seçiniz..", new { htmlAttributes = new { @class = "form-control datetime" } })
+        @Html.DropDownList("PersonelListe", (SelectList) ViewBag.personelListe, "Personel Seçiniz..", new {htmlAttributes = new {@class = "form-control datetime"}})
 
     </div>
 </div>
@@ -17,12 +16,13 @@
 <div class="form-group">
     <table class="table">
         <thead>
-            <tr>
-                <th>Yıl</th>
-                <th>Hakedilen</th>
-                <th>Kullanılan</th>
-                <th>Kalan</th>
-            </tr>
+        <tr>
+            <th>Yıl</th>
+            <th>Hakedilen</th>
+            <th>Kullanılan</th>
+            <th>Kalan</th>
+            <th>Kanuni</th>
+        </tr>
         </thead>
         <tbody id="result"></tbody>
     </table>
@@ -33,14 +33,14 @@
 
 @section scripts{
     <script type="text/javascript">
-        $(function () {
-            $('#PersonelListe').on('change', function () {
+        $(function() {
+            $('#PersonelListe').on('change', function() {
                 var id = $(this).val();
                 $.ajax({
                     url: '@Url.Action("PersonelYillikIzinDurum")',
                     data: { personelid: id },
                     type: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         var izinler = $('#result');
                         izinler.empty();
                         var toplamkalan = 0;
@@ -50,11 +50,14 @@
                             var ek = "";
                             if (izin.kalan < 1) {
                                 ek = ' bgcolor="#ffad99">';
-                            } else { ek = ">" }
+                            } else {
+                                ek = ">";
+                            }
                             izinler.append("<tr" + ek + "<td>" + izin.yil + "</td>" +
                                 "<td>" + izin.hakedilenizin + "</td>" +
-                                 "<td>" + izin.kullanilan + "</td>" +
-                                  "<td>" + izin.kalan + "</td>" +
+                                "<td>" + izin.kullanilan + "</td>" +
+                                "<td>" + izin.kalan + "</td>" +
+                                 "<td>" + (izin.Kanuni?'Kullanmış':'Kullanmamış') + "</td>" +
                                 "</tr>");
 
                         }

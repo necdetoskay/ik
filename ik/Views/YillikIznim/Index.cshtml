@@ -3,9 +3,7 @@
     ViewBag.Title = "Index";
 }
 <style type="text/css">
-    table, th, td {
-   border: 1px solid black;
-}
+    table, th, td { border: 1px solid black; }
 </style>
 <h1>@ViewBag.personelAd</h1>
 <table class="table">
@@ -23,7 +21,7 @@
         <th>
             @Html.DisplayName("Kalan")
         </th>
-       
+
     </tr>
 
     @foreach (var item in Model)
@@ -41,11 +39,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.kalan)
             </td>
-           
+
 
         </tr>
     }
 
 </table>
 
-<h2>Toplam İzin: @Model.Sum(c=>c.kalan).ToString()</h2>
+<h2>Toplam İzin: @Model.Sum(c => c.kalan).ToString()</h2>

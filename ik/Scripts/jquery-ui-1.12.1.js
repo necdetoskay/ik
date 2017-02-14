@@ -6232,7 +6232,7 @@ $.widget( "ui.autocomplete", $.ui.autocomplete, {
 			message = this.options.messages.noResults;
 		}
 		this.liveRegion.children().hide();
-		$( "<div>" ).text( message ).appendTo( this.liveRegion );
+		//$( "<div>" ).text( message ).appendTo( this.liveRegion );
 	}
 } );
 

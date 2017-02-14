@@ -290,5 +290,8 @@ namespace ik.Models
         public Nullable<bool> per_hazine_destegine_tabi_fl { get; set; }
         public string per_KEP_adresi { get; set; }
         public Nullable<bool> per_sigara_fl { get; set; }
+        public Nullable<bool> per_otobes_fl { get; set; }
+        public Nullable<byte> per_otobes_sigorta { get; set; }
+        public Nullable<double> per_otobes_orani { get; set; }
     }
 }

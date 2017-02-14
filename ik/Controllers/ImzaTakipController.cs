@@ -1,22 +1,21 @@
-﻿using ik.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using ik.Models;
 
 namespace ik.Controllers
 {
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
     public class ImzaTakipController : Controller
     {
-        private ikEntities db = new ikEntities();
+        private readonly ikEntities db = new ikEntities();
 
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
         }
+
         // GET: ImzaTakip
         public ActionResult Index()
         {
@@ -25,9 +24,13 @@ namespace ik.Controllers
 
         public JsonResult TakipEdilenler()
         {
-            var liste = db.ImzaTakips.GroupBy(c => c.Aciklama).Where(c=> c.Count()>1).Select(c=>new {Aciklama=c.Key,Toplam=c.Count(),Imzalanan=c.Count(d=>d.ImzaTarih!=null)});
+            var liste =
+                db.ImzaTakips.GroupBy(c => c.Aciklama)
+                    .Where(c => c.Count() > 1)
+                    .Select(
+                        c => new {Aciklama = c.Key, Toplam = c.Count(), Imzalanan = c.Count(d => d.ImzaTarih != null)});
 
-            return Json(liste,JsonRequestBehavior.AllowGet);
+            return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PersonelImza()
@@ -35,9 +38,12 @@ namespace ik.Controllers
             ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
             return View();
         }
+
         public JsonResult PersonelImzaListe(int personelid)
         {
-            var liste = db.ImzaTakips.Where(c => c.personelID == personelid & c.ImzaTarih == null).Select(c => new { aciklama = c.Aciklama, personelid = c.personelID, imzaID = c.id });
+            var liste =
+                db.ImzaTakips.Where(c => c.personelID == personelid & c.ImzaTarih == null)
+                    .Select(c => new {aciklama = c.Aciklama, personelid = c.personelID, imzaID = c.id});
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
@@ -72,7 +78,12 @@ namespace ik.Controllers
             {
                 if (takip.PersonelID > 0)
                 {
-                    db.ImzaTakips.Add(new ImzaTakip { personelID = takip.PersonelID, Aciklama = takip.Aciklama,Tarih = DateTime.Now});
+                    db.ImzaTakips.Add(new ImzaTakip
+                    {
+                        personelID = takip.PersonelID,
+                        Aciklama = takip.Aciklama,
+                        Tarih = DateTime.Now
+                    });
                     db.SaveChanges();
                 }
             }
@@ -80,9 +91,14 @@ namespace ik.Controllers
             {
                 if (takip.ImzaGrupID > 0)
                 {
-                    foreach (var personel in db.PersonelGrups.Where(c=>c.grupid==takip.ImzaGrupID))
+                    foreach (var personel in db.PersonelGrups.Where(c => c.grupid == takip.ImzaGrupID))
                     {
-                        db.ImzaTakips.Add(new ImzaTakip { personelID = personel.personelid, Aciklama = takip.Aciklama,Tarih = DateTime.Now});
+                        db.ImzaTakips.Add(new ImzaTakip
+                        {
+                            personelID = personel.personelid,
+                            Aciklama = takip.Aciklama,
+                            Tarih = DateTime.Now
+                        });
                     }
                     db.SaveChanges();
                 }
@@ -90,7 +106,6 @@ namespace ik.Controllers
 
             return RedirectToAction("Index");
         }
-
 
         //public JsonResult ImzaTakipListe(int ID)
         //{
@@ -126,14 +141,15 @@ namespace ik.Controllers
         //    db.SaveChanges();
         //    return Json("");
         //}
-        public JsonResult ImzaTamamla(int imzaid,int personelid)
+        public JsonResult ImzaTamamla(int imzaid, int personelid)
         {
-            var imza=db.ImzaTakips.SingleOrDefault(c => c.id == imzaid);
-            imza.ImzaTarih=DateTime.Now;
+            var imza = db.ImzaTakips.SingleOrDefault(c => c.id == imzaid);
+            imza.ImzaTarih = DateTime.Now;
             db.SaveChanges();
-            var liste = db.ImzaTakips.Where(c => c.personelID == personelid & c.ImzaTarih==null).Select(c => new { aciklama = c.Aciklama, personelid = c.personelID, imzaID = c.id });
+            var liste =
+                db.ImzaTakips.Where(c => c.personelID == personelid & c.ImzaTarih == null)
+                    .Select(c => new {aciklama = c.Aciklama, personelid = c.personelID, imzaID = c.id});
             return Json(liste, JsonRequestBehavior.AllowGet);
-          
         }
     }
 }

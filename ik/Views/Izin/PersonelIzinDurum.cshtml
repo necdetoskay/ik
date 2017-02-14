@@ -12,7 +12,8 @@
 
             @foreach (var yil in Model)
             {
-                <a href="#"  data-yil="@yil.IzinYıl" data-izin="@yil.ToplamIzin" class="list-group-item"><span class="badge">@yil.ToplamIzin</span>  @yil.IzinYıl</a>
+                <a href="#" data-yil="@yil.IzinYıl" data-izin="@yil.ToplamIzin" class="list-group-item">
+                    <span class="badge">@yil.ToplamIzin</span>  @yil.IzinYıl</a>
             }
 
             @*<a href="#" class="list-group-item active">
@@ -31,11 +32,11 @@
         <div class="list-group ">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Başlangıç</th>
-                        <th>Bitiş</th>
-                        <th>İzin Günü</th>
-                    </tr>
+                <tr>
+                    <th>Başlangıç</th>
+                    <th>Bitiş</th>
+                    <th>İzin Günü</th>
+                </tr>
                 </thead>
                 <tbody id="izindetay"></tbody>
             </table>
@@ -46,30 +47,30 @@
 
 @section scripts{
 
-<script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
 
             $('.list-group-item').each(function() {
-                var item = $(this).on('click', function () {
+                var item = $(this).on('click', function() {
                     var yil = $(this).attr('data-yil');
                     var izin = $(this).attr('data-izin');
-                    var id=@ViewBag.personelID;
+                    var id = @ViewBag.personelID;
                     $.ajax({
                         type: 'GET',
-                        url: '@Url.Action("PersonelIzınDetay", "Izin")', 
+                        url: '@Url.Action("PersonelIzınDetay", "Izin")',
                         data: {
                             'personelid': id,
-                            'izinyil':yil
+                            'izinyil': yil
                         },
-                        success: function (response) {
+                        success: function(response) {
                             var izindetay = $('#izindetay');
                             izindetay.empty();
                             for (var i = 0; i < response.length; i++) {
-                                izindetay.append("<tr><td>" 
-                              + moment(response[i].baslangictarih).format('DD-MM-YYYY') + "</td><td>"
-                              + moment(response[i].bitistarih).format('DD-MM-YYYY')+ "</td><td>"
-                              + response[i].gun+ "</td></tr>");  
+                                izindetay.append("<tr><td>"
+                                    + moment(response[i].baslangictarih).format('DD-MM-YYYY') + "</td><td>"
+                                    + moment(response[i].bitistarih).format('DD-MM-YYYY') + "</td><td>"
+                                    + response[i].gun + "</td></tr>");
                             }
                             //$('.loading').remove();
                             // moment(response[i].bitistarih).format('DD-MM-YYYY')
@@ -77,10 +78,8 @@
                     });
 
 
-
-
                 });
-               
+
 
             });
 

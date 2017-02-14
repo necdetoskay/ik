@@ -1,6 +1,5 @@
-﻿
-@using ik.Models
-@model IEnumerable<ik.Models.Izin>
+﻿@using ik.Models
+@model IEnumerable<Izin>
 
 @{
     ViewBag.Title = "Index";
@@ -10,9 +9,9 @@
 
 <br/>
 <div class="row ">
-    @Html.ActionLink("İzin Ekle","Create",null,new {@class="btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
+    @Html.ActionLink("İzin Ekle", "Create", null, new {@class = "btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
 </div>
-<br />
+<br/>
 <table class="table">
     <tr>
         <th>
@@ -43,7 +42,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Personel.adsoyad,"PersonelIzinDurum",new {personelid=item.personelid},null)
+                @Html.ActionLink(item.Personel.adsoyad, "PersonelIzinDurum", new {item.personelid}, null)
                 @*@Html.DisplayFor(modelItem => item.Personel.adsoyad)*@
             </td>
             <td>
@@ -69,5 +68,3 @@
     }
 
 </table>
-
-

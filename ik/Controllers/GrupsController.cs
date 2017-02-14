@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using ik.Models;
-using WebGrease.Css.Extensions;
 
 namespace ik.Controllers
 {
     [Authorize(Users = @"KENTKONUT\noskay")]
     public class GrupsController : Controller
     {
-        private ikEntities db = new ikEntities();
+        private readonly ikEntities db = new ikEntities();
 
         public ActionResult PersonelGrup(int? grupid)
         {
             if (User.Identity.Name != @"KENTKONUT\noskay")
                 return RedirectToAction("Index");
-           
+
             if (grupid == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -33,16 +29,21 @@ namespace ik.Controllers
         }
 
         [HttpPost]
-        public JsonResult PersonelGrup(object personels,int grupid)
+        public JsonResult PersonelGrup(object personels, int grupid)
         {
             //personels string[]
 
-            var q = ((string[]) personels).Where(c => !db.PersonelGrups.Where(g=>g.grupid==grupid).Select(b => b.personelid).Contains(int.Parse(c)));
+            var q =
+                ((string[]) personels).Where(
+                    c =>
+                        !db.PersonelGrups.Where(g => g.grupid == grupid)
+                            .Select(b => b.personelid)
+                            .Contains(int.Parse(c)));
             foreach (var p in q)
             {
                 try
                 {
-                    db.PersonelGrups.Add(new PersonelGrup() { grupid = grupid, personelid = int.Parse(p) });
+                    db.PersonelGrups.Add(new PersonelGrup {grupid = grupid, personelid = int.Parse(p)});
                 }
                 catch (Exception px)
                 {
@@ -50,10 +51,8 @@ namespace ik.Controllers
             }
             db.SaveChanges();
 
-            return Json( new {message="Başarılı"}, JsonRequestBehavior.AllowGet);
+            return Json(new {message = "Başarılı"}, JsonRequestBehavior.AllowGet);
         }
-
-
 
         // GET: Grups
         public async Task<ActionResult> Index()
@@ -68,7 +67,7 @@ namespace ik.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Grup grup = await db.Grups.FindAsync(id);
+            var grup = await db.Grups.FindAsync(id);
             if (grup == null)
             {
                 return HttpNotFound();
@@ -110,7 +109,7 @@ namespace ik.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Grup grup = await db.Grups.FindAsync(id);
+            var grup = await db.Grups.FindAsync(id);
             if (grup == null)
             {
                 return HttpNotFound();
@@ -141,7 +140,7 @@ namespace ik.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Grup grup = await db.Grups.FindAsync(id);
+            var grup = await db.Grups.FindAsync(id);
             if (grup == null)
             {
                 return HttpNotFound();
@@ -154,7 +153,7 @@ namespace ik.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Grup grup = await db.Grups.FindAsync(id);
+            var grup = await db.Grups.FindAsync(id);
             db.Grups.Remove(grup);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -169,10 +168,13 @@ namespace ik.Controllers
             base.Dispose(disposing);
         }
 
-      
         public JsonResult PersonelListe(int grupid)
         {
-            var liste = db.Personels.Where(c => !db.PersonelGrups.Where(g=>g.grupid==grupid).Select(b => b.personelid).Contains(c.id)).Select(c => new {id = c.id, adsoyad = c.adsoyad}).ToList();
+            var liste =
+                db.Personels.Where(
+                    c => !db.PersonelGrups.Where(g => g.grupid == grupid).Select(b => b.personelid).Contains(c.id))
+                    .Select(c => new {c.id, c.adsoyad})
+                    .ToList();
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
     }

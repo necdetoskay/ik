@@ -1688,6 +1688,8 @@ namespace ik.Models {
             
             private global::System.Data.DataColumn columnTarih;
             
+            private global::System.Data.DataColumn columnpersonelID;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public personel_geckalanDataTable() {
@@ -1755,6 +1757,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn personelIDColumn {
+                get {
+                    return this.columnpersonelID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1790,13 +1800,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public personel_geckalanRow Addpersonel_geckalanRow(string PersonelAdSoyad, System.TimeSpan GirisSaati, int GecKalma, System.DateTime Tarih) {
+            public personel_geckalanRow Addpersonel_geckalanRow(string PersonelAdSoyad, System.TimeSpan GirisSaati, int GecKalma, System.DateTime Tarih, int personelID) {
                 personel_geckalanRow rowpersonel_geckalanRow = ((personel_geckalanRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PersonelAdSoyad,
                         GirisSaati,
                         GecKalma,
-                        Tarih};
+                        Tarih,
+                        personelID};
                 rowpersonel_geckalanRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowpersonel_geckalanRow);
                 return rowpersonel_geckalanRow;
@@ -1823,6 +1834,7 @@ namespace ik.Models {
                 this.columnGirisSaati = base.Columns["GirisSaati"];
                 this.columnGecKalma = base.Columns["GecKalma"];
                 this.columnTarih = base.Columns["Tarih"];
+                this.columnpersonelID = base.Columns["personelID"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1836,6 +1848,8 @@ namespace ik.Models {
                 base.Columns.Add(this.columnGecKalma);
                 this.columnTarih = new global::System.Data.DataColumn("Tarih", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTarih);
+                this.columnpersonelID = new global::System.Data.DataColumn("personelID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnpersonelID);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2993,6 +3007,22 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int personelID {
+                get {
+                    try {
+                        return ((int)(this[this.tablepersonel_geckalan.personelIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'personelID\' in table \'personel_geckalan\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablepersonel_geckalan.personelIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsPersonelAdSoyadNull() {
                 return this.IsNull(this.tablepersonel_geckalan.PersonelAdSoyadColumn);
             }
@@ -3037,6 +3067,18 @@ namespace ik.Models {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetTarihNull() {
                 this[this.tablepersonel_geckalan.TarihColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IspersonelIDNull() {
+                return this.IsNull(this.tablepersonel_geckalan.personelIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetpersonelIDNull() {
+                this[this.tablepersonel_geckalan.personelIDColumn] = global::System.Convert.DBNull;
             }
         }
         

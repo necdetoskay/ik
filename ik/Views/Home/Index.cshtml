@@ -2,6 +2,40 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<style type="text/css">
+    .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
+        background: blue;
+    }
+
+    .ui-autocomplete {
+        -moz-background-clip: padding;
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background-clip: padding-box;
+        background-color: #ffffff;
+        *border-bottom-width: 2px;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        *border-right-width: 2px;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        float: left;
+        left: 0;
+        list-style: none;
+        margin: 0 0 10px 25px;
+        min-width: 160px;
+        padding: 4px 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
+    }
+</style>
 
 @*<div class="jumbotron">
         <h1>ASP.NET</h1>
@@ -11,16 +45,16 @@
 <div class="row">
     <div class="col-md-6">
         <p>
-            
+
             <div class="panel panel-success">
-                <div class="panel-heading ">@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name== @"KENTKONUT\noskay")</div>
+                <div class="panel-heading ">@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name == @"KENTKONUT\noskay")</div>
                 <div class="panel-body">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>İş</th>
-                            <th>Son Tarih</th>
-                        </tr>
+                            <tr>
+                                <th>İş</th>
+                                <th>Son Tarih</th>
+                            </tr>
                         </thead>
                         <tbody id="istakip"></tbody>
                     </table>
@@ -33,12 +67,43 @@
 
         <p>
 
-            
+
         </p>
         @*<p>
                 <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
             </p>*@
     </div>
+    <div class="col-md-6">
+        <p>
+        <div class="panel panel-default">
+            <div class="panel-heading ">Personel Telefon Numarası</div>
+            <div class="form-group form-control">
+                <div class="">
+                    <input type="text" class="col-md-12" id="personel" name="personel"/>
+
+                </div>
+            </div>
+            <br/>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Telefon 1</h3>
+                </div>
+                <div class="panel-body">
+                    <span id="tel1"></span>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Telefon 2</h3>
+                </div>
+                <div class="panel-body">
+                    <span id="tel2"></span>
+                </div>
+            </div>
+        </div>
+            </p>
+</div>
+
     <div class="col-md-4">
         @*<h3>İzinli Gelmeyenler</h3>
             <p>
@@ -82,10 +147,10 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h3>Giriş Yapmayan Personeller</h3>
+        <h3>Giriş Yapmayan Personeller [<span id="girisyapmayan"></span>]</h3>
         <p>
             <div id="izinsizgelmeyenler">
-                <img class="loading" src="~/Content/Loading_icon.gif"/>
+                <img class="loading" src="~/Content/Loading_icon.gif" />
             </div>
         </p>
         @*<p>
@@ -97,15 +162,15 @@
         <p>
             <table class="table">
                 <thead>
-                <tr>
-                    <th>Personel AdSoyad</th>
-                    <th>Mazeret</th>
-                </tr>
+                    <tr>
+                        <th>Personel AdSoyad</th>
+                        <th>Mazeret</th>
+                    </tr>
                 </thead>
                 <tbody id="izinligelmeyenler"></tbody>
             </table>
             <div id="izinligelmeyenler">
-                <img class="loading" src="~/Content/Loading_icon.gif"/>
+                <img class="loading" src="~/Content/Loading_icon.gif" />
             </div>
         </p>
     </div>
@@ -114,17 +179,17 @@
         <p>
             <table class="table table-sm">
                 <thead>
-                <tr>
-                    <th>Personel AdSoyad</th>
-                    <th>Giriş</th>
-                    <th>Geç Kalma</th>
+                    <tr>
+                        <th>Personel AdSoyad</th>
+                        <th>Giriş</th>
+                        <th>Geç Kalma</th>
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody id="geckalanlartable"></tbody>
             </table>
             <div id="geckalanlar">
-                <img class="loading" src="~/Content/Loading_icon.gif"/>
+                <img class="loading" src="~/Content/Loading_icon.gif" />
             </div>
         </p>
     </div>
@@ -140,7 +205,7 @@
                 </button>
             </div>
             <div class="modal-body">
-              <div id="aciklama"></div>
+                <div id="aciklama"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -152,9 +217,51 @@
 
 @section Scripts{
     <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script type="text/javascript">
 
         $(function () {
+            $("#personel").on("propertychange change keyup paste input", function () {
+                if ($(this).val() == "") {
+                    $('#tel1').html('');
+                    $('#tel2').html('');
+                }
+            });
+            $("#personel").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("PersonelListe","Dahililer")',
+                        minLength: 3,
+                        dataType: "json",
+                        type: "post",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }));
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("error: " + errorThrown);
+                        }
+                    });
+                },
+                minLeght: 3,
+                select: function (event, ui) {
+                    // alert(ui.item.val);
+                    $.ajax({
+                        url: '@Url.Action("PersonelTelefon","Dahililer")',
+                        data: { personelid: ui.item.val },
+                        type: 'GET',
+                        success: function (data) {
+                            $('#tel1').text(data[0].Telefon1);
+                            $('#tel2').text(data[0].Telefon2);
+                        }
+                    });
+                }
+            });
+
+
+
 
             $('#myModal').on('shown.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
@@ -169,7 +276,7 @@
                         data: {
                             'id': id
                         },
-                        url: '@Url.Action("RutinTamamla","Takip")',
+                        url: '@Url.Action("RutinTamamla", "Takip")',
                         success: function (data) {
                             var takip = $('#istakip');
                             var now = new Date();
@@ -179,7 +286,9 @@
                                 var ek = "";
                                 if (moment(product.sontarih).isBefore(new Date(), 'day')) {
                                     ek = ' bgcolor="#FF0000">';
-                                } else { ek = ">" }
+                                } else {
+                                    ek = ">";
+                                }
                                 takip.append("<tr" + ek + "<td><button type='button' class='btn btn-primary' data-toggle='modal' data-rutinID='" + product.id + "' data-aciklama='" + product.aciklama + "' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
                                     + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
                             }
@@ -190,7 +299,6 @@
             });
 
 
-
             var target = $("#izinsizgelmeyenler");
             var izinli = $("#izinligelmeyenler");
             var takip = $('#istakip');
@@ -198,32 +306,31 @@
 
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("_RutinOzet","Takip")',
+                url: '@Url.Action("_RutinOzet", "Takip")',
                 data: {
                     'limit': 5
                 },
                 success: function (data) {
                     takip.empty();
-                
+
                     for (var i = 0; i < data.length; i++) {
                         var product = data[i];
                         var ek = "";
                         if (moment(product.sontarih).isBefore(new Date(), 'day')) {
                             ek = ' bgcolor="#FF0000">';
-                        } else { ek = ">" }
-                        takip.append("<tr" + ek + "<td><button type='button' class='btn btn-primary' data-toggle='modal' data-rutinID='"+product.id+"' data-aciklama='"+product.aciklama+"' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
+                        } else {
+                            ek = ">";
+                        }
+                        takip.append("<tr" + ek + "<td><button type='button' class='btn btn-primary' data-toggle='modal' data-rutinID='" + product.id + "' data-aciklama='" + product.aciklama + "' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
                             + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
                     }
                 }
             });
 
 
-
-
-
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("MazeretsizGelmeyenler","PTakip")',
+                url: '@Url.Action("MazeretsizGelmeyenler", "PTakip")',
                 data: {
                     'tarih1': now.toISOString()
                 },
@@ -234,11 +341,12 @@
                     }
                     target.append('</ul>');
                     $('.loading').remove();
+                    $('#girisyapmayan').html(response.length);
                 }
             });
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("MazeretliGelmeyenler","PTakip")',
+                url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
                 data: {
                     'tarih1': now.toISOString()
                 },
@@ -259,7 +367,7 @@
                     'tarih1': now.toISOString(),
                     'tarih2': now.toISOString()
                 },
-                url: '@Url.Action("GecKalanlar","PTakip")',
+                url: '@Url.Action("GecKalanlar", "PTakip")',
                 success: function (data) {
                     var geckalan = $("#geckalanlartable");
                     geckalan.empty();

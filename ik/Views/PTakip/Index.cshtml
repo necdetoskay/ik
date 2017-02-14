@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
@@ -7,9 +6,7 @@
 
 
 <style>
-    .editor-datetime {
-        position: relative;
-    }
+    .editor-datetime { position: relative; }
 </style>
 
 
@@ -21,29 +18,26 @@
 }))
 {
     <div class="editor-datetime">
-        @Html.TextBox("date", "", new { @class = "datetime" })
+        @Html.TextBox("date", "", new {@class = "datetime"})
     </div>
 
-    <input type="submit" value="Ara" />
+    <input type="submit" value="Ara"/>
 }
 <div id="gunlukliste"></div>
 
 
-
-
-
 @section scripts{
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet"/>
     <script src="~/Scripts/moment-with-locales.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             $('.datetime').datetimepicker({
                 locale: 'tr',
-                format:'L'
+                format: 'L'
             });
         })
     </script>

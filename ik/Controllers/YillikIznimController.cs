@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ik.Models;
 
@@ -11,16 +10,18 @@ namespace ik.Controllers
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
     public class YillikIznimController : Controller
     {
-        private ikEntities db = new ikEntities();
+        private readonly ikEntities db = new ikEntities();
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
         }
+
         // GET: YillikIznim
         public ActionResult Index()
         {
-            UserPrincipalExtended user = UserPrincipalExtended.FindByIdentity(
+            var user = UserPrincipalExtended.FindByIdentity(
                 new PrincipalContext(ContextType.Domain), User.Identity.Name);
             var id = int.Parse(user.Pager);
             var personel = db.Personels.SingleOrDefault(c => c.id == id);
@@ -29,9 +30,9 @@ namespace ik.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             var kidem = new List<Kidem>();
 
-            DateTime kidembaslangic = personel.giristarihi.Value;
-            DateTime kidembitis = personel.giristarihi.Value;
-            int kidemyil = 1;
+            var kidembaslangic = personel.giristarihi.Value;
+            var kidembitis = personel.giristarihi.Value;
+            var kidemyil = 1;
 
             if (personel.PersonelDevir != null)
             {
@@ -52,9 +53,13 @@ namespace ik.Controllers
             while (kidembitis.Year < DateTime.Now.Year)
             {
                 kidembitis = kidembaslangic.AddYears(1);
-                var ücretsiz = personel.Izins.Where(c => c.izintip == 3).Where(d => d.baslangictarih >= kidembaslangic && d.baslangictarih <= kidembitis).ToList();
-                
+                var ücretsiz =
+                    personel.Izins.Where(c => c.izintip == 3)
+                        .Where(d => d.baslangictarih >= kidembaslangic && d.baslangictarih <= kidembitis)
+                        .ToList();
+
                 #region ücretsiz izin var sa kıdem tarihini ötele
+
                 if (ücretsiz.Count > 0)
                 {
                     foreach (var uizin in ücretsiz)
@@ -62,7 +67,8 @@ namespace ik.Controllers
                         var fark = uizin.bitistarihi.Subtract(uizin.baslangictarih);
                         kidembitis = kidembitis.AddDays(fark.Days);
                     }
-                } 
+                }
+
                 #endregion
 
                 //varsa ücretsiz izin kullanımı burada kıdemi değiştir.
@@ -93,10 +99,6 @@ namespace ik.Controllers
                 kidembaslangic = kidembitis;
                 kidemyil++;
             }
-
-
-
-
 
 
             return PartialView(kidem);

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ik.Models
 {
+  
     public static class Helpers
     {
         public static MvcHtmlString If(this MvcHtmlString value, bool evaluation)
@@ -17,12 +14,10 @@ namespace ik.Models
         }
     }
 
-    [MetadataType(typeof(TakipMetaData))]
+    [MetadataType(typeof (TakipMetaData))]
     public partial class Takip
     {
-
     }
-
 
 
     public class ImzaTakipVM
@@ -36,6 +31,7 @@ namespace ik.Models
         [Key]
         public int id { get; set; }
     }
+
     public class TakipMetaData
     {
         [Required(ErrorMessage = "Gerekli")]
@@ -45,11 +41,7 @@ namespace ik.Models
         [Required(ErrorMessage = "Gerekli")]
         [DisplayName("Son Tarih")]
         public DateTime sontarih { get; set; }
-
     }
-
-
-
 
 
     public class PersonelIzinVM
@@ -67,5 +59,6 @@ namespace ik.Models
         public int hakedilenizin { get; set; }
         public int kullanilan { get; set; }
         public int kalan { get; set; }
+        public bool Kanuni { get; set; }
     }
 }

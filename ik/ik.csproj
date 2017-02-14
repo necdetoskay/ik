@@ -148,10 +148,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\GrupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImzaTakipController.cs" />
     <Compile Include="Controllers\IzinController.cs" />
+    <Compile Include="Controllers\KentIhaleController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\PTakipController.cs" />
     <Compile Include="Controllers\TakipController.cs" />
@@ -172,21 +174,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ikDSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ikMdfModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ikMdfModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ikMdfModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ikMdfModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ikMdfModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ikMdfModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ikModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -211,6 +198,36 @@
     </Compile>
     <Compile Include="Models\IzinTip.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentihaleModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentihaleModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentihaleModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentihaleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentihaleModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentihaleModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentmakineihaleModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentmakineihaleModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentmakineihaleModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentmakineihaleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentmakineihaleModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\kentModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -238,7 +255,7 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PERSONELLER.cs">
-      <DependentUpon>kentModel.tt</DependentUpon>
+      <DependentUpon>kentmakineihaleModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PERSONEL_IZINLERI.cs">
       <DependentUpon>kentModel.tt</DependentUpon>
@@ -250,10 +267,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Database1.mdf" />
-    <Content Include="App_Data\Database1_log.ldf">
-      <DependentUpon>Database1.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -307,16 +320,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\ikMdfModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ikMdfModel.edmx</DependentUpon>
-      <LastGenOutput>ikMdfModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ikMdfModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ikMdfModel.edmx</DependentUpon>
-      <LastGenOutput>ikMdfModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Models\ikModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ikModel.edmx</DependentUpon>
@@ -326,13 +329,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ikModel.edmx</DependentUpon>
       <LastGenOutput>ikModel.cs</LastGenOutput>
-    </Content>
-    <EntityDeploy Include="Models\ikMdfModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ikMdfModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ikMdfModel.edmx.diagram">
-      <DependentUpon>ikMdfModel.edmx</DependentUpon>
     </Content>
     <EntityDeploy Include="Models\ikModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -364,8 +360,42 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>kentModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Models\kentihaleModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>kentihaleModel.edmx</DependentUpon>
+      <LastGenOutput>kentihaleModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\kentihaleModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>kentihaleModel.edmx</DependentUpon>
+      <LastGenOutput>kentihaleModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\kentmakineihaleModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
+      <LastGenOutput>kentmakineihaleModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\kentmakineihaleModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
+      <LastGenOutput>kentmakineihaleModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\kentModel.edmx.diagram">
       <DependentUpon>kentModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\kentihaleModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>kentihaleModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\kentihaleModel.edmx.diagram">
+      <DependentUpon>kentihaleModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\kentmakineihaleModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>kentmakineihaleModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\kentmakineihaleModel.edmx.diagram">
+      <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\ik.pubxml" />
     <Content Include="Models\kentModel.Context.tt">
@@ -389,6 +419,7 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.PrintArea.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -449,9 +480,13 @@
     <Content Include="Views\ImzaTakip\Create.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Personel\Index.cshtml" />
+    <Content Include="Views\Dahililer\Index.cshtml" />
+    <Content Include="Views\KentIhale\Index.cshtml" />
+    <Content Include="Views\Personel\Avans.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Personel\" />
+    <Folder Include="App_Data\" />
     <Folder Include="Views\Takips\" />
   </ItemGroup>
   <ItemGroup>

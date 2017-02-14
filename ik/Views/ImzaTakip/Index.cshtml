@@ -1,5 +1,5 @@
 ﻿@using ik.Models
-@model IEnumerable<ik.Models.ImzaTakip>
+@model IEnumerable<ImzaTakip>
 
 @{
     ViewBag.Title = "Index";
@@ -8,9 +8,9 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Yeni Takip Ekle", "Create", null, new { @class = "btn btn-primary" }).If(User.Identity.Name == @"KENTKONUT\noskay")
+    @Html.ActionLink("Yeni Takip Ekle", "Create", null, new {@class = "btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
 </p>
-<br />
+<br/>
 <table class="table">
     <thead>
     <tr>
@@ -21,15 +21,15 @@
     </tr>
     </thead>
     <tbody id="takipedilenler">
-    
+
     </tbody>
 
 </table>
 @section scripts{
 
     <script type="text/javascript">
-        
-        $(function () {
+
+        $(function() {
             function takipedilenliste(data) {
                 var tablo = $('#takipedilenler');
                 tablo.empty();
@@ -49,12 +49,13 @@
             $.ajax({
                 url: '@Url.Action("TakipEdilenler")',
                 data: {
+                
                 },
                 method: 'get',
                 success: takipedilenliste
             });
 
-            
+
         });
     </script>
 }
