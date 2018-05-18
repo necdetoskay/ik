@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ik.Models.DataClasslari.PersonelIzinYilDetayVM>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Başlangıç)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bitiş)
+        </th>
+        <th>@Html.DisplayNameFor(model => model.Gün)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Başlangıç.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bitiş.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gün)
+            </td>
+            <td><input type="button" data-id="@item.id" class="btnsil btn btn-danger btn-sm" value="Sil" /></td>
+        </tr>
+    }
+    <tr bgcolor="#FF0000">
+        <td colspan="2">TOPLAM</td>
+        <td>@Model.Sum(c => c.Gün)</td>
+    </tr>
+</table>
+
+
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.btnsil').each(function () {
+            var btn = $(this);
+            btn.on('click', function () {
+                BootstrapDialog.confirm('Kayıt silinecek ona göre', function (result) {
+                    if (result) {
+
+                        var pdksid = "";
+                        var tarih1 = "";
+                        var tarih2 = "";
+                        alert('Sil Gitsin');
+                        //pdks kayıtlarını sil PDKS id tarih1 tarih2
+                        $.ajax({
+                            url: '',
+                            type: 'POST',
+                            data: {
+                                pdksid,tarih1,tarih2
+                            },
+                            success: function() {
+                                //silme başarılı is 
+                                //ik izin kaydını sil
+                            }
+                        });
+                        //ik kaydını sil
+
+                    } else {
+                        alert('Dur');
+                    }
+                });
+            });
+        });
+
+    })
+</script>

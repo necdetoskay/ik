@@ -5,92 +5,112 @@
 }
 
 <style>
-    .editor-datetime { position: relative; }
-</style>
-<h2>Create</h2>
-<div  class="row">
-<div>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal col-md-6">
-            <h4>Izin</h4>
-            <hr/>
-            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-            <div class="form-group">
-                @Html.LabelFor(model => model.personelid, "personelid", new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.DropDownList("personelid", (SelectList) ViewBag.personelListe, "Personel Seçiniz", new {@class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.personelid, "", new {@class = "text-danger"})
-                    <input id="mikroizin" type="button" value="Mikro İzin Sorgula"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.izintip, "izintip", new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.DropDownList("izintip", (SelectList) ViewBag.izintipListe, new {@class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.izintip, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.yil, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.yil, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.yil, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.baslangictarih, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.baslangictarih, new {htmlAttributes = new {@class = "form-control datetime"}})
-                    @Html.ValidationMessageFor(model => model.baslangictarih, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.bitistarihi, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.bitistarihi, new {htmlAttributes = new {@class = "form-control datetime"}})
-                    @Html.ValidationMessageFor(model => model.bitistarihi, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.gun, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.gun, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.gun, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.aciklama, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.aciklama, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.aciklama, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default"/>
-                </div>
-            </div>
-        </div>
+    .editor-datetime {
+        position: relative;
     }
-</div>
+</style>
+<ul class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("İzin Durumu", "YillikIzin")</li>
+    <li class="breadcrumb-item"><a id="pdksizinekle" href="@Url.Action("IzinEkle","Pdks")">PDKS İzin Ekle</a></li>
+</ul>
+<h2>Create</h2>
+
+@*<div class="row">
+    @Html.Action("PdksEksikIzinler")
+</div>*@
+
+<div class="row">
     <div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal col-md-4">
+                <h4>Izin</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.personelid, "personelid", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("personelid", (SelectList)ViewBag.personelListe, "Personel Seçiniz", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.personelid, "", new { @class = "text-danger" })
+                        <input id="mikroizin" type="button" value="Mikro İzin Sorgula" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.izintip, "izintip", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("izintip", (SelectList)ViewBag.izintipListe, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.izintip, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.yil, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.yil, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.yil, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.gun, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.gun, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.gun, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.baslangictarih, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.baslangictarih, new { htmlAttributes = new { @class = "form-control datetime" } })
+                        @Html.ValidationMessageFor(model => model.baslangictarih, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.bitistarihi, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.bitistarihi, new { htmlAttributes = new { @class = "form-control datetime" } })
+                        @Html.ValidationMessageFor(model => model.bitistarihi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.aciklama, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.aciklama, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.aciklama, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="form-horizontal col-md-4">
         <table style="width: auto;" class="table  table-striped  table-condensed">
-            <thead><tr><td>Açıklama</td><td>Başlangıç Tarihi</td><td>Bitiş Tarihi</td></tr></thead>
+            <thead><tr><td>Açıklama</td><td>Başlangıç Tarihi</td><td>Bitiş Tarihi</td><td></td></tr></thead>
             <tbody id="mikroizinliste"></tbody>
         </table>
-        asdasdad
+
+    </div>
+    <div class="form-horizontal col-md-4">
+        <table style="width: auto;" class="table  table-striped  table-condensed">
+            <thead><tr><td>Açıklama</td><td>Başlangıç Tarihi</td><td>Bitiş Tarihi</td><td></td></tr></thead>
+            <tbody id="pdksizinliste"></tbody>
+        </table>
+
     </div>
 </div>
 <div>
@@ -98,11 +118,12 @@
 </div>
 
 @section scripts{
+
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
-    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
     <script src="~/Scripts/moment-with-locales.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
@@ -112,7 +133,8 @@
 
         $(function () {
 
-            jQuery.validator.methods.date = function(value, element) {
+
+            jQuery.validator.methods.date = function (value, element) {
                 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
                 if (isChrome) {
                     var d = new Date();
@@ -123,35 +145,119 @@
             };
 
 
-            $('.datetime').datetimepicker({
-                locale: 'tr',
-                format: 'L'
+            $('#pdksizinekle').click(function (e) {
+               e.preventDefault();
+                var a = $(this);
+                var href = a.attr("href");
+                var personelid = $('#personelid').val();
+                if (personelid === '') return;
+                $.ajax({
+                    url: href,
+                    type: 'post',
+                    data: {
+                         'personelid': personelid
+                    },
+                    success: function (response) {
+                        $('#Info').html(response);
+                    },
+                    error: function (response) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+                });
             });
+
+            //$('.datetime').datetimepicker({
+            //    locale: 'tr',
+            //    format: 'L',
+            //    focusOnShow:false
+            //});
 
             function izinlistetemizle() {
                 $('#mikroizinliste').html('');
+                $('#pdksizinliste').html('');
             }
 
             $('#izintip').change(izinlistetemizle);
             $('#personelid').change(izinlistetemizle);
 
-
-            $('#mikroizin').on('click', function() {
+            $('#yil').keyup(function (e) {
+                $('#aciklama').val($(this).val() + ' IZNINDEN ' + $('#gun').val() + ' GUN');
+            });
+            $('#gun').keyup(function (e) {
+                $('#aciklama').val($('#yil').val() + ' IZNINDEN ' + $(this).val() + ' GUN');
+            });
+            $('#mikroizin').on('click', function () {
                 var personelid = $('#personelid').val();
                 var izintip = $('#izintip').val();
                 if (personelid === '') return;
                 if (izintip == 1) {
-                    
+
                     $.ajax({
                         type: 'get',
                         url: '@Url.Action("PersonelMikroIzin")',
                         data: {
-                            personelid:personelid
+                            personelid: personelid
                         },
                         dataType: "json",
-                        success:function(data) {
-                            $.each(data, function (i, item) {
-                                $('<tr>').html("<td>" + data[i].Aciklama + "</td><td>" + data[i].Baslangic.toDDMMYYY() + "</td><td>" + data[i].Bitis.toDDMMYYY() + "</td>").appendTo('#mikroizinliste');
+                        success: function (data) {
+                            //if (confirm('Some message')) {
+                            //    alert('Thanks for confirming');
+                            //} else {
+                            //    alert('Why did you press cancel? You should have confirmed');
+                            //}
+                            console.log(data);
+                            izinlistetemizle();
+                            /// mikro izin ve pdks izinlerini tablolara listele
+                            if (data.mikro.Success === true) {
+                                $.each(data.mikro.Data, function (i, item) {
+                                    var tr = $('<tr>').html("<td>" + item.Aciklama + "</td><td>" + item.Baslangic.toDDMMYYY() + "</td><td>" + item.Bitis.toDDMMYYY() + "</td><td><a pdksid=" + $('#personelid').val() + " data-id=" + item.ID + " class='mikropdksekle' href='#'>Ekle</a></td>");
+                                    $.each(data.pdks.Data, function (ip, pdks) {
+                                        if (item.Baslangic === pdks.Baslangic & item.Bitis === pdks.Bitis) {
+                                            tr.css("background-color", "green");
+                                            return false;
+                                        }
+                                    });
+
+                                    tr.appendTo('#mikroizinliste');
+                                });
+
+                            };
+                            if (data.pdks.Success === true) {
+                                console.log(data.pdks.Data);
+                                $.each(data.pdks.Data, function (i, item) {
+                                    $('<tr>').html("<td>" + item.Aciklama + "</td><td>" + item.Baslangic.toDDMMYYY() + "</td><td>" + item.Bitis.toDDMMYYY() + "</td>").appendTo('#pdksizinliste');
+                                });
+                            };
+
+                            $('.mikropdksekle').each(function () {
+                                var a = $(this);
+                                a.click(function () {
+                                    var id = a.attr("data-id");
+                                    var pid = a.attr("pdksid");
+                                    $.ajax({
+                                        url: '@Url.Action("MikrodanPDKSGir")',
+                                        data: { mikroid: id, pdksid: pid },
+                                        method: 'get',
+                                        success: function (data) {
+                                            if (data.Success === false) {
+                                                return;
+                                            }
+                                            $('#pdksizinliste').empty();
+                                            $.each(data.Data, function (i, item) {
+                                                //console.log(item);
+                                                var tr = $("<tr><td>" + item.Aciklama + "</td><td>" + item.Baslangic.toDDMMYYY() + "</td><td>" + item.Bitis.toDDMMYYY() + "</td></tr>");
+                                                tr.css("background-color", "green");
+                                                tr.appendTo('#pdksizinliste');
+                                            });
+                                        }
+                                    });
+
+
+                                    console.log(id);
+                                });
                             });
                         },
                         error: function (xhr, ajaxOptions, thrownError) {

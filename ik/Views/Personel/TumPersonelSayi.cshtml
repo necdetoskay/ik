@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ik.Controllers.PersonelListeSayıVM>
+
+@{
+    ViewBag.Title = "TumPersonelSayi";
+    var toplamsayı = 0;
+}
+
+<h2>TumPersonelSayi</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Firma)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sayı)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+       toplamsayı += item.Sayı;
+       
+    <tr data-id="@item.FirmaID">
+            <td>
+                @Html.ActionLink(item.Firma, "PersonelsByFirma", new {id = item.FirmaID})
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sayı)
+            </td>
+        </tr>
+    }
+
+</table>
+<div>Toplam Sayı: <span>@toplamsayı.ToString()</span></div>

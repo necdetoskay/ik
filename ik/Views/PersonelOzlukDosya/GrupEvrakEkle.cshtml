@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "GrupEvrakEkle";
+}
+
+<h2>GrupEvrakEkle</h2>
+
+<div class="form-group">
+    <label for="grupListe">Grup</label>
+    @Html.DropDownList("grupListe", (SelectList) ViewBag.grupListe, ".......Grup Seçiniz.......", new {@class = "form-control"})
+</div>
+
+<div class="form-group">
+    <label for="evrakListe">Evrak Tipi</label>
+    @Html.DropDownList("evrakListe", (SelectList) ViewBag.evrakListe, ".......Evrak Seçiniz.....", new {@class = "form-control"})
+</div>
+<input type="button" value="Ekle" id="btnEkle"/><span id="message"></span>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            var btnEkle = $('#btnEkle');
+            var grupListe = $('#grupListe');
+            var evrakListe = $('#evrakListe');
+            btnEkle.on('click', function() {
+                var grup = grupListe.val();
+                var evrak = evrakListe.val();
+                if (grup == "" || evrak == "") return;
+                $.ajax({
+                    url: '@Url.Action("GrupEvrakEkle")',
+                    method: 'post',
+                    data: {
+                        grupID:grup,
+                        evrakID:evrak
+                    },
+                    success: function (data) {
+                        var message = $('#message');
+                        message.show();
+
+                        message.html(data.Message+' adet Kaydedildi!!!');
+                        message.fadeOut("3000");
+                       
+                    }
+                });
+
+
+            });
+
+        })
+    </script>
+}

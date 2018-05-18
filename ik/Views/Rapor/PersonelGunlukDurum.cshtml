@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "PersonelGunlukDurum";
+}
+
+<h2>PersonelGunlukDurum</h2>
+
+
+<input type="text" id="baslangic" class="datepicker" />
+<input type="text" id="bitis" class="datepicker" />
+
+<label>Departman:</label>
+@Html.DropDownList("departmanad", (SelectList)ViewBag.DepartmanListe, "Departman Seçiniz")
+
+<label>Personel Adı:</label>
+<select id="personelad">
+    <option value="0">Personel Seçiniz</option>
+</select>
+
+    
+<div class="checkbox">
+    <label><input id="haftatatili" type="checkbox" checked="checked" value="">Hafta Tatillerini Göster</label>
+</div>
+<div class="checkbox">
+    <label><input id="resmitatil" type="checkbox" checked="checked" value="">Resmi Tatillerini Göster</label>
+</div>
+<div class="radio">
+    <label><input id="tumkayitlar" checked="checked" type="radio" name="optradio">Tüm Kayıtları Getir</label>
+</div>
+<div class="radio">
+    <label><input id="eksikkayitlar" type="radio" name="optradio">Sadece Eksik Hareketleri Getir</label>
+</div>
+
+<input type="button" class="btn btn-primary" id="sorgula" value="Sorgula" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Gün</th>
+            <th>Giriş</th>
+            <th>Çıkış</th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+
+@section scripts{
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet"/>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#departmanad').change(function() {var dept = $(this).val();
+                var pers = $('#personelad');
+                $.ajax({
+                    url: '@Url.Action("_PersonelListbyDepartman","Personel")',
+                    type: 'GET',
+                    data: {
+                        id:dept
+                    },
+                    success:function(response) {
+                        if (response.Success === false) return;
+                        pers.empty();
+                        pers.append('<option value="0">Personel Seçiniz</option>');
+                        $.each(response.Data, function(i, item) {
+                            pers.append('<option value="'+item.Value+'">'+item.Text+'</option>');
+                        });
+                    }
+                });
+
+            });
+
+
+            $('.datepicker').datepicker({ format: 'dd/mm/yyyy', language: 'tr' });
+            $('#sorgula').on('click', function() {
+                var personelid = $('#personelad').val();
+                var tarih1 = $('#baslangic').datepicker('getDate').toISOString();
+                var tarih2 = $('#bitis').datepicker('getDate').toISOString();
+                var haftatatili = $('#haftatatili').is(':checked');
+                var resmitatil = $('#resmitatil').is(':checked');
+                var tumu = $('#tumkayitlar').is(':checked');
+                var result = $('#body');
+                result.empty();
+                $.ajax({
+                    url: '@Url.Action("_Personelikitariharasıgiriscikis")',
+                    type: 'GET',
+                    data: {
+                        personelid,
+                        tarih1,
+                        tarih2,
+                        haftatatili,
+                        resmitatil,
+                        tumu
+                    },
+                    success: function(response) {
+                        //console.table(response.Data);
+                        if (response.Success === false) return;
+                        result.empty();
+
+                        $.each(response.Data, function(i, item) {
+                            //console.table(item);
+                            if (item.Durum == "") {
+                                console.log(item);
+                                result.append('<tr><' +
+                                    'td>' + item.Tarih.toDDMMYYY() + '</td>' +
+                                    '<td>' + item.Gün + '</td>' +
+                                    '<td>' + item.Giris + '</td>' +
+                                    '<td>' + item.Cikis + '</td>' +
+                                    '</tr>');
+                            } else {
+                                result.append('<tr><td>' + item.Tarih.toDDMMYYY() + '</td><td>' + item.Gün + '</td><td colspan="2">' + item.Durum + '</td></tr>');
+                            }
+                        });
+                    }
+                });
+
+            });
+
+        })
+    </script>
+}
+

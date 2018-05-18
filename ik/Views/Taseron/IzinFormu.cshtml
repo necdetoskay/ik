@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "IzinFormu";
+}
+
+<h2>IzinFormu</h2>
+
+<div class="container">
+    <form class="col-md-6">
+        <div class="form-group row">
+            <label for="sirket" class="col-sm-2 col-form-label">Şirket Adı</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="sirket" placeholder="Şirket">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="gorev" class="col-sm-2 col-form-label">Görevi</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="gorev" placeholder="Görevi">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tarih1" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control datetime" id="tarih1" placeholder="Başlangıç tarihi">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tarih2" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control datetime" id="tarih2" placeholder="Bitiş Tarihi">
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <button id="yazdir" type="button" class="btn btn-primary">Yazdır</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="col-md-6">
+        <div class="form-group row">
+            <label for="yil" class="col-sm-2 col-form-label">Yıl</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="yil" placeholder="İzin Yılı">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="gun" class="col-sm-2 col-form-label">İzin Günü</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="gun" placeholder="İzin Günü">
+            </div>
+        </div>
+    </form>
+</div>
+<div id="izinformu" style="margin: 50px; margin-bottom: 200px;" class="container">
+    
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/jquery.PrintArea.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#yazdir').on('click', function () {
+                var form = $('#izinformu');
+                form.html('');
+
+                form.append('<div style="text-align: center;font-size: large; padding:100px;"><strong>KENT KONUT A.Ş. GENEL MÜDÜRLÜĞÜ\'NE<strong><div>');
+                form.append('<div style="text-indent: 120px; text-align:justify;">Şirketinizde, ' + $('#sirket').val() + ' şirketi  üzerinden ' + $('#gorev').val() + ' personeli olarak çalışmaktayım. ' + $('#yil').val() + ' yılı senelik iznimin ' + $('#gun').val() + ' gününü ' + $('#tarih1').val() + ' ile ' + $('#tarih2').val() + ' tarihleri arasında kullanmak istiyorum.</div>');
+                form.append('<div style="text-indent: 70px;margin-top:25px;">Gereğini bilgilerinize arz ederim.<div>');
+
+                form.append('<div style="margin-top: 100px;margin-bottom: 100px">Adres:<div>');
+                form.append('<div style="">Telefon:<div>');
+                form.append('<div style="text-align:center;margin-top: 100px;">UYGUNDUR<div>');
+
+                var mode = 'iframe'; //popup
+                var close = mode == "popup";
+                var options = { mode: mode, popClose: close };
+                $("#izinformu").printArea(options);
+
+            });
+
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+            $('.datetime').datetimepicker({
+                locale: 'tr',
+                format: 'L'
+            });
+        })
+    </script>
+}

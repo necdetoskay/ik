@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "PersonelDurum";
+}
+<style>
+    .table > tbody > tr > td {
+        vertical-align: middle;
+        border: 1px solid;
+    }
+</style>
+<div>
+    <div class="md-col-6 col-sm-6">
+        <div class="form-group">
+            <label class="col-md-4" for="birimler">Departman</label>
+            <select id="birimler" multiple="multiple" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4" for="lokasyonlar">Lokasyonu</label>
+            <select id="lokasyonlar" multiple="multiple" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4" for="cinsiyet">Cinsiyeti</label>
+            <select id="cinsiyet" multiple="multiple" class="form-control">
+                <option value="0">Erkek</option>
+                <option value="1">Kadın</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="md-col-6 col-sm-6">
+        <div class="form-group">
+            <label class="col-md-4" for="kadro">Kadro Tipi</label>
+            <select id="kadro" multiple="multiple" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4" for="tahsil">Tahsil Durumu</label>
+            <select id="tahsil" multiple="multiple" class="form-control"></select>
+        </div>
+    </div>
+</div>
+
+<input type="button" id="btnSelected" value="Sorgula"/>
+
+<div id="toplam"></div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Sicil No</th>
+        <th>Fotoğraf</th>
+        <th>Ad Soyad</th>
+        <th>Firma</th>
+        <th>Görev Yeri</th>
+        <th>Kadro</th>
+        <th>Görev</th>
+        <th>Eğitim Durumu</th>
+    </tr>
+    </thead>
+    <tfoot id="ptablefoot">
+        @*<tr><td id="toplam"></td></tr>*@
+    </tfoot>
+    <tbody id="ptablebody"></tbody>
+
+</table>
+
+
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var ROOT = '@Url.Content("~")';
+            $('#btnSelected').click(function () {
+                var birimlist = [];
+                var lokasyonlist = [];
+                var cinsiyetlist = [];
+                var kadrolist = [];
+                var tahsillist = [];
+                var birim = $("#birimler option:selected");
+                birim.each(function () {
+                    birimlist.push($(this).val());
+                }); var lokasyon = $("#lokasyonlar option:selected");
+                lokasyon.each(function () {
+                    lokasyonlist.push($(this).val());
+                });
+
+                var cinsiyet = $("#cinsiyet option:selected");
+                cinsiyet.each(function () {
+                    cinsiyetlist.push($(this).val());
+                });
+
+                var kadro = $("#kadro option:selected");
+                kadro.each(function () {
+                    kadrolist.push($(this).val());
+                });
+
+                var tahsil = $("#tahsil option:selected");
+                tahsil.each(function () {
+                    tahsillist.push($(this).val());
+                });
+
+                $.ajax({
+                    url: '@Url.Action("PersonelListeGetir")',
+                    type: 'POST',
+                    data: {
+                        birimlist, lokasyonlist, cinsiyetlist, kadrolist, tahsillist
+                    },
+                    success: function (result) {
+                        var table = $('#ptablebody');
+                        var row = $('');
+                        table.empty();
+                        if (result.Success === true) {
+                            $.each(result.Data, function (i, item) {
+                                //console.log(item);
+                                var tr = $('<tr></tr>');
+                                tr.append('<td>'+item.SicilNo+'</td><td><img src="' +ROOT+item.Foto + '"></td><td>' +
+                                    item.AdSoyad +'</td><td>' +
+                                    item.Firma + '</td><td>' +
+                                    item.GorevYer +'</td><td>' +
+                                    item.Kadro + '</td><td>' +
+                                    item.Gorev + '</td><td>' +
+                                    item.Egitim + '</td>');
+                                table.append(tr);
+                            });
+                            $('#toplam').html('<h1>' + result.Data.length + '</h1>');
+
+                        }
+                    }
+                });
+
+
+            });
+
+
+
+
+
+            $.ajax({
+                url: '@Url.Action("PersonelKriterler","Rapor")',
+                type: 'GET',
+                data: {},
+                success: function (result) {
+                    if (result.Success === true) {
+                        var birimler = $('#birimler');
+                        var lokasyon = $('#lokasyonlar');
+                        var cinsiyet = $('#cinsiyet');
+                        var kadro = $('#kadro');
+                        var tahsil = $('#tahsil');
+                        // console.log(result.Data.birimler);
+                        $.each(result.Data.birimler, function (i, item) {
+                            birimler.append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+                        });
+
+                        $.each(result.Data.lokasyon, function (i, item) {
+                            lokasyon.append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+                        });
+
+                        $.each(result.Data.kadro, function (i, item) {
+                            kadro.append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+                        });
+
+                        $.each(result.Data.tahsil, function (i, item) {
+                            tahsil.append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+                        });
+
+
+                        birimler.multiselect({
+                            includeSelectAllOption: true,
+                            selectAllText: 'Tümünü Seç', nonSelectedText: 'Birim Seçiniz',
+                            allSelectedText: 'Tümü Seçildi'
+                        });
+
+                        lokasyon.multiselect({
+                            includeSelectAllOption: true,
+                            selectAllText: 'Tümünü Seç', nonSelectedText: 'Lokasyon Seçiniz',
+                            allSelectedText: 'Tümü Seçildi'
+                        });
+
+                        cinsiyet.multiselect({
+                            includeSelectAllOption: true,
+                            selectAllText: 'Tümünü Seç', nonSelectedText: 'Cinsiyeti',
+                            allSelectedText: 'Tümü Seçildi'
+                        });
+                        kadro.multiselect({
+                            includeSelectAllOption: true,
+                            selectAllText: 'Tümünü Seç', nonSelectedText: 'Kadro Tipi',
+                            allSelectedText: 'Tümü Seçildi'
+                        });
+
+                        tahsil.multiselect({
+                            includeSelectAllOption: true,
+                            selectAllText: 'Tümünü Seç', nonSelectedText: 'Tahsil Durumu',
+                            allSelectedText: 'Tümü Seçildi'
+                        });
+
+                    }
+                }
+            });
+        });
+    </script>
+
+}

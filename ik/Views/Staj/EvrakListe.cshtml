@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ik.Models.Staj_Ogrenci_Evrak>
+
+<ul class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Stajer Listesi","Index")</li>
+</ul>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+
+        if (item.alindi == true)
+        {
+            <li evrakid="@item.id" class="list-group-item list-group-item-success"> @item.Staj_Evrak.ad </li>
+        }
+        else
+        {
+            <li class="list-group-item list-group-item-danger"><input evrakid="@item.id" class="btn btn-success evrakguncelle" type="button" value="Ekle" /> @item.Staj_Evrak.ad </li>
+        }
+
+    }
+
+    @*<li class="list-group-item list-group-item-danger">Fourth item</li>*@
+</ul>
+
+
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-notify.min.js"></script>
+    <script type="text/javascript">
+
+
+
+
+
+        $(function () {
+            $('.evrakguncelle').each(function () {
+                var btn = $(this);
+                btn.on('click', function () {
+                    var evrakid = btn.attr("evrakid");
+                    //alert(btn.attr("evrakid"));
+                    $.ajax({
+                        url: '@Url.Action("_EvrakGuncelle")',
+                        type: 'POST',
+                        data: { evrakid },
+                        success: function (result) {
+                            var li = btn.closest('li');
+                            console.log(li);
+                            li.removeClass("list-group-item-danger");
+                            li.addClass("list-group-item-success");
+                            btn.remove();
+                            $.notify({
+                                title: '<strong>' + result.AdSoyad + ':</strong>',
+                                message: '' + result.EvrakAd + ' Evrak Kaydı Güncellendi.'
+                            }, {
+                                type: 'success'
+                            });
+                        }
+                    });
+                });
+
+            });
+
+        });
+    </script>
+}

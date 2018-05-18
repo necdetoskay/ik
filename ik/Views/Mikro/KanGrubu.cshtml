@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "KanGrubu";
+}
+
+<h2>KanGrubu</h2>
+
+@Html.DropDownList("kangrubu", (SelectList) ViewBag.kanListe, "Kangrubu Seçiniz", null)<input id="sorgu" type="button" value="Sorgula"/>
+<br/>
+<br/>
+<div class="container">
+    <ol id="liste"></ol>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('#sorgu').on('click', function() {
+                var val = $('#kangrubu').val();
+                console.log(val);
+                $.ajax({
+                    url:'@Url.Action("KanGrupAdSoyad","Mikro")',
+                    method:'get',
+                    data: {
+                        kangrubu:val
+                    },
+                    success:function(data) {
+                        if (data.Success === true) {
+                            var liste = $('#liste');
+                            liste.empty();
+                            $.each(data.Data, function(index, item) {
+                                liste.append('<li>'+item.adsoyad+'</li>');
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@Html.Action("_PersonelAdSec", "Personel")
+
+<input type="button" value="Özlük" id="btnozluk"/>
+
+<div id="evrakTable"></div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var personel = $('#personel');
+            var btnozluk = $('#btnozluk');
+            var tablediv = $('#evrakTable');
+
+            function evrakTamamla(personelid) {
+                $('.evraktamamla').each(function () {
+                    var btn = $(this);
+                    btn.on('click', function () {
+                        var r = confirm("Evrak Tamamlansın mı?");
+                        if (r === false) return;
+
+
+                        var evrakkayitid = btn.attr("data-id");
+                        $.ajax({
+                            url: '@Url.Action("EksikEvrakTamamla")',
+                            method: 'post',
+                            data: {
+                                personelID: personelid,
+                                evrakID: evrakkayitid
+                            },
+                            success: function (result) {
+                                PersonelEvrakTable(result, personelid);
+                            }
+                        });
+                    });
+
+                });
+            }
+
+            function PersonelEvrakTable(data, personelid) {
+                tablediv.html('');
+                //console.table(data.Data);
+                var table = $('<table>').addClass("table");
+                var tbody = $('<tbody></tbody>');
+                table.append('<thead><tr><th>Evrak Tipi</th><th>Evrak Durumu</th><th></th></tr></thead>');
+                jQuery.each(data.Data, function(index, item) {
+                    var durum = item.Durum ? "Tamam" : '<input type="button"  class="btn btn-primary evraktamamla" data-id="' + item.ID + '" value="Tamamla"></input>';
+                    tbody.append('<tr data-ID='+item.ID+'><td>' + item.Evrak + '</td><td class="durum">' + durum + '</td><td>' + item.Aciklama + '</td></tr>');
+                });
+                table.append(tbody);
+                tablediv.append('<h1>' + $('#personel').val() + ' Özlük Evrak Durumları</h1>');
+                tablediv.append(table);
+                $('#evrakTable tr').hover(function () {
+                    var tr = $(this);
+                    var ID = tr.attr("data-ID");
+                    var td = $(this).find('td:last');
+                    var aciklama = td.html();
+
+
+                    $(this).find('td:last').append('<input type="button" id="evrakduzenle" class="btn btn-info" value="Düzenle">');
+
+                    $('#evrakduzenle').on('click', function() {
+                        var acik = prompt("Açıklama Giriniz", aciklama);
+                        if (acik != null || acik !== aciklama) {
+                            $.ajax({
+                                url: '@Url.Action("AciklamaKaydet")',
+                                method: 'post',
+                                data: {
+                                    id: ID,
+                                    aciklama:acik
+                                },
+                                success:function(aciklamaresult) {
+                                    td.html(aciklamaresult);
+                                    tr.find(".durum").html('<input type="button"  class="btn btn-primary evraktamamla" data-id="' + ID + '" value="Tamamla"></input>');
+                                    evrakTamamla(personelid);
+                                }
+                            });
+                            
+                        }
+                    });
+
+
+                }, function() {
+                    $(this).find('td:last #evrakduzenle').remove();
+                });
+                evrakTamamla(personelid);
+                
+                
+            }
+
+            btnozluk.on('click', function() {
+                var personelid = personel.attr('data-id');
+                if (typeof personelid !== typeof undefined && personelid !== false) {
+                    //console.log(personelid);
+                    $.ajax({
+                        url: '@Url.Action("PersonelEvrakListe")',
+                        method: 'get',
+                        data: { personelid: personelid },
+                        success: function(data) {
+                            PersonelEvrakTable(data, personelid);
+                        }
+
+                    });
+
+                }
+            });
+
+        })
+    </script>
+}

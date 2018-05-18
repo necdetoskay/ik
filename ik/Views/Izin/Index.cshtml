@@ -5,66 +5,117 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Son 25 İzin</h2>
 
-<br/>
-<div class="row ">
-    @Html.ActionLink("İzin Ekle", "Create", null, new {@class = "btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
+
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Personel İzin Durumu", "YillikIzin")</li>
+    <li class="active">Son Girilen İzinler</li>
+</ol>
+
+<div class="col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#izin">Yıllık İzinler</a></li>
+        <li><a data-toggle="tab" href="#yarimizin">Yarım Gün İzinler</a></li>
+        @*<li><a data-toggle="tab" href="#giriscikis">Ay Giriş Çıkış</a></li>
+            <li><a data-toggle="tab" href="#izinrapor">Son İzinler/ Raporlar</a></li>*@
+    </ul>
+
 </div>
-<br/>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Personel Ad Soyad")
-        </th>
+<div class="col-lg-12">
 
-        <th>
-            @Html.DisplayName("İzin Yılı")
-        </th>
-        <th>
-            @Html.DisplayName("Başlangıç Tarihi")
-        </th>
-        <th>
-            @Html.DisplayName("Bitiş Tarihi")
-        </th>
-        <th>
-            @Html.DisplayName("İzin Günü")
-        </th>
-        <th>
-            @Html.DisplayName("Açıklama")
-        </th>
-        <th>
-            @Html.DisplayName("İzin Türü")
-        </th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink(item.Personel.adsoyad, "PersonelIzinDurum", new {item.personelid}, null)
-                @*@Html.DisplayFor(modelItem => item.Personel.adsoyad)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.yil)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.baslangictarih)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bitistarihi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.gun)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.aciklama)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IzinTip1.ad)
-            </td>
+    <div class="tab-content">
+        <div id="izin" class="tab-pane fade in active">
+            <div class="content">
+                <h2>Son 25 İzin</h2>
+                <br/>
+                <div class="row ">
+                    @Html.ActionLink("İzin Ekle", "Create", null, new {@class = "btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
+                </div>
+                <br/>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Personel Ad Soyad")
+                        </th>
 
-        </tr>
-    }
+                        <th>
+                            @Html.DisplayName("İzin Yılı")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Başlangıç Tarihi")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Bitiş Tarihi")
+                        </th>
+                        <th>
+                            @Html.DisplayName("İzin Günü")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Açıklama")
+                        </th>
+                        <th>
+                            @Html.DisplayName("İzin Türü")
+                        </th>
+                    </tr>
 
-</table>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.Personel.adsoyad, "PersonelIzinDurum", new {item.personelid}, null)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.yil)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.baslangictarih)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.bitistarihi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.gun)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aciklama)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IzinTip1.ad)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+        <div id="yarimizin" class="tab-pane fade in active">
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            var yarim = $('#yarimizin');
+            $.ajax({
+                url: '@Url.Action("PersonelYarimİzinListe")',
+                type:'GET',
+                data:{},
+                success:function(result) {
+                    yarim.html(result);
+                }
+            });
+        })
+    </script>
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+﻿@model ik.Models.ImzaTakipDetay
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.HiddenFor(model => model.takipid)
+        @Html.HiddenFor(model => model.personelID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.aciklama, htmlAttributes: new { @class = "control-label" })
+            <div>
+              
+                <textarea rows="4" cols="50" name="aciklama"></textarea>
+                @*@Html.TextAreaFor(model => model.aciklama, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.aciklama, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+    </div>
+}
+

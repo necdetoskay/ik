@@ -1,0 +1,237 @@
+﻿
+@{
+    ViewBag.Title = "EksikHareketler";
+}
+
+<div class="form-group">
+    <label class="col-md-4" for="departman">Departman</label>
+    <select id="departman" class="form-control"></select>
+</div>
+
+<div class="form-group">
+    <label class="col-md-4" for="personel">Personel</label>
+    <select id="personel" multiple="multiple" class="form-control"></select>
+</div>
+
+
+<div class="form-group" style="position: relative">
+    <label class="col-md-4" for="tarih">Tarih</label>
+    <input style="display: initial" id="tarih" type="text" class="datetime form-control"/> 
+    @*<button id="cleardates" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-remove"></span></button>*@
+</div>
+
+
+
+
+
+
+
+<input type="button" id="sorgula" value="Ekle" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Ad Soyad</th>
+            <th>Giriş Saat</th>
+            <th>Çıkış Saat</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+
+<input type="button" id="kaydet" value="Kaydet" />
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/mdtimepicker.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />*@
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/mdtimepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.cleardates').on('click', function() {
+              
+            });
+
+
+            $('#kaydet').on('click', function () {
+                var data = [];
+                $('#body tr').each(function () {
+                    var td = [];
+                    var tr = $(this);
+                    // console.log(tr.find("td:eq(2)").html());
+                    td.push(tr.attr("data-id"));
+                    td.push(tr.find("td:eq(0)").html());
+                    td.push(tr.find("td:eq(1)").html());
+                    var giris = $(tr.find("td:eq(2)").find('.timepicker')).attr("value");
+                    td.push(typeof giris !== typeof undefined && giris !== false ? giris : "");
+                    var cikis = $(tr.find("td:eq(3)").find('.timepicker')).attr("value");
+                    td.push(typeof cikis !== typeof undefined && cikis !== false ? cikis : "");
+                    td.push(tr.attr("id"));
+                    //tr.find('td').each(function () {
+
+                    //    td.push($(this).html());
+                    //});
+                    data.push(td);
+                    
+                });
+                console.log(data);
+                $.ajax({
+                    url: '@Url.Action("_EksikHareketEkle","Pdks")',
+                    type: 'POST',
+                    data: { data },
+                    success: function (result) {
+                        console.log(result);
+
+                        $.each(result, function (i, item) {
+                            //alert(item.dateid);
+                            $("[id='" + item.dateid + "']").remove();
+                        });
+
+
+//id ve tarih uyan varsa sil
+                    }
+                });
+            });
+
+          
+
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+
+
+            $('.datetime').datepicker({
+                language:'tr',
+                multidate: true,
+                clearBtn: true});
+
+           
+
+
+
+            $('#sorgula').on('click', function () {
+
+                var tarihler = $('.datetime').datepicker().val().split(',');
+
+                var selected = $("#personel option:selected");
+                var liste = $('#liste');
+                var tarih = $('#tarih');
+                var body = $('#body');
+                selected.each(function () {
+                    var p = $(this);
+                    $.each(tarihler,function(i,item) {
+                        var tr = $('<tr id="'+(i+1)+'" data-id="' + p.val() + '">');
+                        tr.append('<td>' + item+ '</td>');
+                        tr.append('<td>' + p.text() + '</td>');
+                        tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                        tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                        tr.append('<td><input class="btn btn-sm sil" type="button" value="Sil"/></td>');
+                        body.append(tr);
+                    });
+                 
+                    $('.cpy').each(function () {
+                        $(this).on('click', function () {
+                            var cpy = $(this);
+                            var time = cpy.parent().find('.timepicker').attr("value");
+                            sessionStorage.setItem("time", time);
+                        });
+                    });
+
+                    $('.pst').each(function () {
+                        $(this).on('click', function () {
+                            var cpy = $(this);
+                            cpy.parent().find('.timepicker').attr("value",sessionStorage.getItem("time"));
+                          
+                        });
+                    });
+
+
+
+                });
+                $('.sil').each(function () {
+                    $(this).on('click', function () {
+                        $(this).closest('tr').remove();
+                    });
+                });
+
+
+                $('.timepicker').mdtimepicker({ format: 'hh:mm' });
+                $('.timepicker').mdtimepicker().each(function () {
+                    $(this).on('timechanged', function (e) {
+                        $(this).attr("value", e.value);
+                        $(this).attr("time", e.time);
+                    });
+                });
+            });
+
+            var departman = $('#departman');
+            var personel = $('#personel');
+            personel.multiselect({
+                includeSelectAllOption: true,
+                selectAllText: 'Tümünü Seç', nonSelectedText: 'Personel Seçiniz',
+                allSelectedText: 'Tümü Seçildi'
+            });
+            departman.change(function () {
+                var value = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("_PersonelByDepartman","Personel")',
+                    type: 'GET',
+                    data: {
+                        id: value
+                    },
+                    success: function (result) {
+                        if (result.Success === true) {
+                            personel.empty();
+                            $.each(result.Data, function (i, item) {
+                                personel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
+                            });
+                            personel.multiselect('rebuild');
+                        }
+                    }
+                });
+            });
+
+
+
+            $.ajax({
+                url: '@Url.Action("_Departmanlar","Personel")',
+                type: 'GET',
+                data: {},
+                success: function (result) {
+                    var departman = $('#departman');
+
+                    $.each(result.Data, function (i, item) {
+                        departman.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                    });
+                    departman.prop("selectedIndex", '-1');
+
+                    //
+
+                    //departman.multiselect({
+                    //    includeSelectAllOption: true,
+                    //    selectAllText: 'Tümünü Seç', nonSelectedText: 'Departman Seçiniz',
+                    //    allSelectedText: 'Tümü Seçildi'
+                    //});
+                }
+            });
+        })
+    </script>
+}

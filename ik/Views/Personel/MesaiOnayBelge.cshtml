@@ -1,0 +1,68 @@
+﻿@using ik.Models
+
+@{
+    ViewBag.Title = "MesaiOnayBelge";
+}
+
+<h2>MesaiOnayBelge</h2>
+
+@Html.Action("_PersonelAdSec", "Personel")
+
+
+<div class="row">
+    <input type="text" id="tcno" placeholder="T.C. Numarası" />   <input type="text" id="sicilno" placeholder="Sicil Numarası" /><input type="button" value="Hazırla" id="hazirla" />
+</div>
+<div class="form-group">
+    <input type="button" value="Yazdır" id="yazdir" />
+</div>
+
+<div id="form"></div>
+
+@section scripts{
+<script src="~/Scripts/jquery.PrintArea.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#hazirla').on('click', function () {
+                var id = $('#personel').attr('data-id');
+                if (id != null) {
+                    $.ajax({
+                        url: '@Url.Action("_PersonelSicil","Personel")',
+                        method: 'get',
+                        data: {
+                            'personelid': id
+                        },
+                        success: function (data) {
+                            var tcno = data.tcno;
+                            var sicilno = data.sicilno;
+                          
+                            $('#tcno').val(tcno);
+                            $('#sicilno').val(sicilno);
+
+
+                        }
+                    });
+
+                   
+                }
+            });
+            $('#yazdir').on('click', function() {
+                var form = $('#form');
+                form.html('');
+                form.append('<div style="text-align: center;font-size: 16px;"><strong>FAZLA MESAİ ONAY BELGESİ<strong></div>');
+                form.append('<div style="margin-top:75px;text-indent: 50px; text-align:justify;">' + $('#sicilno').val() + '   Sicil  ' + $('#tcno').val() + ' TC Kimlik numarası ile çalışmakta ' +
+                    'olduğum Kent Konut İnşaat ve Ticaret A.Ş. ünvanlı işyerinde, işverenin gerekli' +
+                    ' gördüğü zamanlarda (Hafta tatili, Resmi ve Dini tatil günlerinde) ' +
+                    'işlerin aksatılmadan yürütülmesi için 01/01/2017 - 31.12.2017 tarihleri arasında ' +
+                    'istenilen gün ve saatte fazla mesai yapmak içinmuvafakatim olduğunu ve bu çalışmam ' +
+                    'karşılığında yürürlükte olan İş Kanunu çerçevesinde ücretimi almayı kabul ve beyan ederim. </div>');
+                form.append('<div class="col-md-8"></div>');
+                form.append('<div class="col-md-4" style="float:right;margin-top:50px; text-align:center">İŞÇİ<br/><strong> ' + $('#personel').val() + ' <strong></div>');
+                var mode = 'iframe'; //popup
+                var close = mode == "popup";
+                var options = { mode: mode, popClose: close };
+                $("#form").printArea(options);
+            });
+        })
+    </script>
+}
+

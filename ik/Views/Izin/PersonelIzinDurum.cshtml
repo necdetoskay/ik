@@ -55,8 +55,7 @@
                 var item = $(this).on('click', function() {
                     var yil = $(this).attr('data-yil');
                     var izin = $(this).attr('data-izin');
-                    var id = @ViewBag.personelID;
-                    $.ajax({
+                    var id = @ViewBag.personelID;$.ajax({
                         type: 'GET',
                         url: '@Url.Action("PersonelIzınDetay", "Izin")',
                         data: {

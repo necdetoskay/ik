@@ -1,0 +1,154 @@
+﻿@model ik.Models.Personel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Personel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.adsoyad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.puantaj)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puantaj)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sira)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sira)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sicilno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sicilno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tcno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tcno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pdksid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pdksid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.giristarihi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.giristarihi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kidemtarihi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kidemtarihi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mikroid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mikroid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dogumtarihi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dogumtarihi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cikistarihi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cikistarihi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.iban)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.iban)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.birim.birimad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.birim.birimad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kadro1.ad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kadro1.ad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonelIhaleDonemleri.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonelIhaleDonemleri.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonelDetay.thumb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonelDetay.thumb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonelDevir.personelID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonelDevir.personelID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Ozet";
+}
+
+<h2>Ozet</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Staj Başlam Tarihleri ve Öğrenci Sayıları</div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Başlama Tarihi</th>
+                <th>Stajer Sayısı</th>
+            </tr>
+            </thead>
+            <tbody id="stajbaslama"></tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <div>Toplam : <span id="toplam">15</span></div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script type="text/javascript">
+
+        function stajTarihYukle() {
+            $.ajax({
+                url:'@Url.Action("StajTarihleri")',
+                type: 'GET',
+                data:{},
+                success: function (result) {
+                    if (result.Success === true) {
+                        var body = $('#stajbaslama');
+                        var toplam = 0;
+                        $.each(result.Data, function(i, item) {
+                            body.append('<tr><td>' + item.Tarih.toDDMMYYY() + '</td><td>' + item.Adet + '</td></tr>');
+                            toplam += item.Adet;
+                        });
+                    }
+                    $('#toplam').html(toplam);
+                }
+            });
+        }
+
+
+        $(function () {
+
+          
+
+            stajTarihYukle();
+        });
+    </script>
+}

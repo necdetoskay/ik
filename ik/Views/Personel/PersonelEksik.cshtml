@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "PersonelEksik";
+}
+
+<h2>PersonelEksik</h2>
+
+<div class="form-group">
+    <div class="form-group col-md-6 ">
+        @Html.Label("Personel Ad Soyad", new {@class = "control-label"})
+
+        @Html.DropDownList("personel", (SelectList) ViewBag.personelListe, "...Personel Seçiniz....", new {@class = "form-control"})
+
+    </div>
+
+    <div class="form-group col-md-6 ">
+        @Html.Label("Eksik Açıklama", new {@class = "control-label"})
+        @Html.TextBox("aciklama", "", new {@class = "form-control",autocomplete="off"})
+        <br/>
+        <br/>
+        <input id="btnkaydet" class="btn btn-primary" type="button" value="Ekle"/>
+    </div>
+</div>
+
+<div class="form-group">
+    Buraya Personelin diğer eklene kayıtları gelecek
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#btnkaydet').on('click', function() {
+                var personel = $('#personel').val();
+                var aciklama = $('#aciklama').val();
+                if (personel === '' && aciklama==='')
+                    console.log("boş");
+                else {
+                  
+                }
+            });
+
+            
+
+        })
+    </script>
+}

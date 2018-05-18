@@ -1,0 +1,141 @@
+ //////////////////////ilk açılırken formu temizle
+ $("#myModal").on('show.bs.modal', function(e) {
+                $('#myModal  input').val('');
+            });
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////form hazırlık yap	
+ $("#myModal").on('shown.bs.modal', function(e) {
+
+                var form = $(e.relatedTarget);
+                var yil = form.data("yil");
+                if (typeof yil === "undefined" || yil === false || yil === null)
+                    yil = -1;
+                var id = form.data("id");
+                var yilinput = $('#myModal #izinyil');
+                if (yil > 0) {
+                    yilinput.val(yil);
+                    yilinput.attr("disabled", true);
+                } else {
+                    yilinput.attr("disabled", false);
+                }
+                $('#myModal').attr("data-id", id);
+                $('#myModal').attr("data-yil", yil);
+                $('.modal-title').html(id);
+
+            });
+		
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////form validation
+ $('#yarimkaydet').on('click', function() {
+                var form = $("#myModal");
+                var id = form.attr("data-id");
+                var yil = form.attr("data-yil");
+
+                $('#yarimform').validate({
+                    rules: {
+                        izinyil: {
+                            required: true
+                        },
+                        belgeno: {
+                            required: true
+                        },
+                        tarih: {
+                            required: true
+                        },
+                        baslangic: {
+                            required: true
+                        },
+                        bitis: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        izinyil: 'izin yılı belirtilmemiş',
+                        belgeno: 'belge no belirtilmemiş',
+                        tarih: 'izin tarihi belirtilmemiş',
+                        baslangic: 'baslangıç saati belirtilmemiş',
+                        bitis: 'bitiş saati belirtilmemiş'
+                    },
+                    submitHandler: function(frm) {
+                        $.ajax({
+                            url: $(frm).attr('action'),
+                            type: 'post',
+                            data: $(frm).serialize(),
+                            beforeSend: function (xhr, settings) {
+
+                                settings.data += '&personelid=' +  $('#myModal').attr("data-id");
+                                if ($('#izinyil').attr("disabled")) {
+                                    settings.data += '&yeni=false';
+                                    settings.data += '&izinyil=' +$('#myModal').attr("data-yil");
+                                } else {
+                                    settings.data += '&yeni=true';
+                                }
+                            },
+                            success: function(result) {
+                                if (result.Success === true) {
+                                    alert("başarılı");
+                                    $("#myModal").modal('hide');
+                                } else {
+                                    alert("hatalı");
+                                    console.log(result.Error);
+                                }
+                            }
+                        });
+                    }
+                });
+                $('#yarimform').submit();
+                yarimizinkontrol(id);
+
+            });
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////form sybmit
+     $('#yarimform').submit();
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////modal html
+<div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close">&times;</button>
+                <h4 class="modal-title">Personel Adı</h4>
+            </div>
+            <div class="modal-body">
+                <form id="yarimform" method="post" action="@Url.Action("_yarimizinkaydet")">
+                    <div class="form-group">
+                        <label>İzin Yılı</label>
+                        <input type="number" id="izinyil" name="izinyil" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Belge No</label>
+                        <input type="text" name="belgeno" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tarih</label>
+                        <input type="date" name="tarih" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Başlangıç Saati</label>
+                        <input type="time" name="baslangic" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Bitiş Saati</label>
+                        <input type="time" name="bitis" class="form-control" />
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="yarimkaydet" class="btn btn-default">Kaydet</button>
+            </div>
+        </div>
+
+    </div>
+</div>

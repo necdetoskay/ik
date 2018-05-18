@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<style type="text/css">
+    .ui-helper-hidden-accessible { position: absolute; left: -9999px; }
+     .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
+         background: blue;
+     }
+
+    .ui-autocomplete {
+        -moz-background-clip: padding;
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background-clip: padding-box;
+        background-color: #ffffff;
+        *border-bottom-width: 2px;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        *border-right-width: 2px;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        float: left;
+        left: 0;
+        list-style: none;
+        margin: 0 0 10px 25px;
+        min-width: 160px;
+        padding: 4px 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
+    }
+</style>
+
+
+<h2>Index</h2>
+
+<div class="form-group">
+   @*@Html.Label("Personel Ad", new { @class = "control-label col-md-2" })*@
+    <div class="col-md-6">
+        <input type="text" id="personel" name="personel" />
+        @*@Html.DropDownList("PersonelListe", (SelectList) ViewBag.personelListe, "Personel Seçiniz..", new {htmlAttributes = new {@class = "form-control datetime"}})*@
+
+    </div>
+    <div class="col-md-6">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Adı Soyadı</label>
+            <div class="col-sm-8">
+                <span data-bind="text: adsoyad"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Giriş Tarihi</label>
+            <div class="col-sm-8">
+                <span data-bind="text: Giris"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Çıkış Tarihi</label>
+            <div class="col-sm-8">
+                <span data-bind="text: Cikis"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Arşiv Klasörü</label>
+            <div class="col-sm-8">
+                <span data-bind="text: klasorno"></span>
+            </div>
+        </div>
+        <div class="form-group row"><label class="col-sm-4 col-form-label">İhale Tipi</label>
+            <div class="col-sm-8">
+                <span data-bind="text: ihaletipi"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Sicil No</label>
+            <div class="col-sm-8">
+                <span data-bind="text: sicilno"></span>
+            </div>
+        </div>
+    </div>
+
+   
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/ik.js"></script>
+    <script src="~/Scripts/knockout-min.js"></script>
+    <script type="text/javascript">
+
+
+        var viewModel = {
+            adsoyad: ko.observable(),
+            Giris: ko.observable(),
+            Cikis: ko.observable(),
+            klasorno: ko.observable(),
+            ihaletipi: ko.observable(),
+            sicilno:ko.observable()
+        };
+        ko.applyBindings(viewModel);
+
+
+        //bilgi.adsoyad,
+        //      bilgi.sicilno,
+        //      Giris = bilgi.giristarihi.ToShortDateString(),
+        //      Cikis = bilgi.cikistarihi.ToShortDateString(),
+        //      bilgi.klasorno,
+        //      bilgi.Arsiv_Ihaletip.ihaletipi
+
+
+
+        function AutoCompleteSelect(id) {
+            //bilgileri göster
+            $.ajax({
+                url: '@Url.Action("ArsivPersonelBilgi")',
+                type: 'post',
+                data: { id: id },
+                success: function (result) {
+                    if (result.Success === true) {
+                        console.log(result.Data);
+                        viewModel.adsoyad(result.Data.adsoyad);
+                        viewModel.Giris(result.Data.Giris);
+                        viewModel.Cikis(result.Data.Cikis);
+                        viewModel.klasorno(result.Data.klasorno);
+                        viewModel.ihaletipi(result.Data.ihaletipi);
+                        viewModel.sicilno(result.Data.sicilno);
+
+                    }
+                    else {
+                        alert("KAyıt getirilemedi");
+                    }
+                }
+            });
+
+        }
+
+        $(function () {
+
+
+
+
+
+            AutoComplete("#personel", '@Url.Action("PersonelAra")', AutoCompleteSelect);
+        });
+
+    </script>
+}

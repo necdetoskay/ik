@@ -1,0 +1,58 @@
+﻿@model ik.Models.Kurul
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Kurul</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.adsoyad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kurultip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kurultip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.giristarih)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.giristarih)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cikistarih)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cikistarih)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KurulGorevTip.ad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KurulGorevTip.ad)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,5 +1,5 @@
 ﻿@using ik.Models
-@model IEnumerable<ImzaTakip>
+@model IEnumerable<ik.Models.ImzaTakip>
 
 @{
     ViewBag.Title = "Index";
@@ -8,54 +8,60 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Yeni Takip Ekle", "Create", null, new {@class = "btn btn-primary"}).If(User.Identity.Name == @"KENTKONUT\noskay")
+    @Html.DialogFormLink("Yeni Ekle", Url.Action("Create"), "Takip Ekle", "Info", Url.Action("Index"))
+
 </p>
-<br/>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Takip Edilen Konu</th>
-        <th>Takip Edilen Kişi Adedi</th>
-        <th>İmzalanan</th>
-        <th>İmzalanmayan</th>
-    </tr>
-    </thead>
-    <tbody id="takipedilenler">
 
-    </tbody>
 
-</table>
+<div id="takiplist">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tarih)
+            </th>
+            <th>
+                Durum
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aciklama)
+            </th><th></th>
+        </tr>@foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.ad,"ImzaTakipDetay",new {item.id})
+                    @*@Html.DisplayFor(modelItem => item.ad)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tarih)
+                </td>
+                <td>@item.ImzaTakipDetays.Count(c=>c.imzaTarih!=null) / @item.ImzaTakipDetays.Count()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.aciklama)
+                </td>
+                <td>@*@Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id })*@
+                </td>
+            </tr>}
+
+    </table>
+</div>
+
 @section scripts{
-
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
     <script type="text/javascript">
-
-        $(function() {
-            function takipedilenliste(data) {
-                var tablo = $('#takipedilenler');
-                tablo.empty();
-
-                for (var i = 0; i < data.length; i++) {
-                    var kalan = data[i].Toplam - data[i].Imzalanan;
-                    tablo.append('<tr>');
-                    tablo.append("<td>" + data[i].Aciklama + "</td>");
-                    tablo.append("<td>" + data[i].Toplam + "</td>");
-                    tablo.append("<td>" + data[i].Imzalanan + "</td>");
-                    tablo.append("<td>" + kalan + "</td>");
-                    tablo.append('</tr>');
-                }
-            }
-
-
-            $.ajax({
-                url: '@Url.Action("TakipEdilenler")',
-                data: {
-                
-                },
-                method: 'get',
-                success: takipedilenliste
-            });
-
-
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('.dialogLink').makeDialog();
         });
     </script>
 }

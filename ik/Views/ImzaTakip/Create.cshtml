@@ -1,73 +1,49 @@
-﻿@model ik.Models.ImzaTakipVM
-
-@{
-    ViewBag.Title = "Create";
-}
-
-
+﻿@model ik.Models.ImzaTakip
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <br/>
-    <br/>
-
-    <div class="form-group form-horizontal col-sm-6">
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.ImzaGrupID, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.ad, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ImzaGrupID, (SelectList) ViewBag.imzagrupListe, "Grup Seçiniz", new {htmlAttributes = new {@class = "form-control dropdown"}})
-                @*@Html.ValidationMessageFor(model => model.ImzaGrupID, "", new { @class = "text-danger" })*@
+                @Html.EditorFor(model => model.ad, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.ad, "", new {@class = "text-danger"})
             </div>
         </div>
 
-        <span>VEYA</span>
+        <div class="form-group">
+            @Html.LabelFor(model => model.grupID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.grupID,(SelectList)ViewBag.grupListe,"Grup Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.grupID, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PersonelID, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.tarih, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.PersonelID, (SelectList) ViewBag.personelListe, "Personel Seçiniz", new {htmlAttributes = new {@class = "form-control dropdown"}})
-                @*@Html.ValidationMessageFor(model => model.PersonelID, "", new { @class = "text-danger" })*@
+                @Html.EditorFor(model => model.tarih, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tarih, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.sonTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sonTarih, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sonTarih, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.aciklama, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.aciklama,8,60, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.aciklama, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-
-
-    <div class="form-horizontal col-sm-6">
-
-
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Aciklama, new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Aciklama, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Aciklama, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default"/>
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-@section scripts{
-    <script type="text/javascript">
-        $(function() {
-            $('select').each(function() {
-                $(this).change(function() {
-                    var value = this.value;
-                    var ust = $(this);
-                    $("select[id!=" + ust.attr('id') + "]").prop("selectedIndex", 0);
-                });
-            });
-        });
-    </script>
 }

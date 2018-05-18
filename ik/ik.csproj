@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ik</RootNamespace>
     <AssemblyName>ik</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -51,6 +51,39 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v15.2.Web, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v15.2.Web.Mvc5, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.SpellChecker.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Spreadsheet.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxGauges.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxRichEdit.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxScheduler.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxThemes.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.Mvc5.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v15.2.Web, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGauges.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGauges.v15.2.Presets, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v15.2.Web, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -148,23 +181,82 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AileFertleriController.cs" />
+    <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
+    <Compile Include="Controllers\DatatablesTestController.cs" />
+    <Compile Include="Controllers\GenelController.cs" />
     <Compile Include="Controllers\GrupsController.cs" />
+    <Compile Include="Controllers\HFRYTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IcraController.cs" />
+    <Compile Include="Controllers\IcraOdemeController.cs" />
     <Compile Include="Controllers\ImzaTakipController.cs" />
     <Compile Include="Controllers\IzinController.cs" />
     <Compile Include="Controllers\KentIhaleController.cs" />
+    <Compile Include="Controllers\KurulsController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
+    <Compile Include="Controllers\MikroController.cs" />
+    <Compile Include="Controllers\PdksController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
+    <Compile Include="Controllers\PersonelOzlukDosyaController.cs" />
     <Compile Include="Controllers\PTakipController.cs" />
+    <Compile Include="Controllers\RaporController.cs" />
+    <Compile Include="Controllers\StajController.cs" />
     <Compile Include="Controllers\TakipController.cs" />
+    <Compile Include="Controllers\TaseronController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TestTestController.cs" />
     <Compile Include="Controllers\YillikIznimController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Arsiv_Ihaletip.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Arsiv_Personel.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Avanslar.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\birim.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CARI_HESAPLAR.cs">
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CARI_HESAP_HAREKETLERI.cs">
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataClasslari\IzinVM.cs" />
+    <Compile Include="Models\DataClasslari\PersonelFirmaVM.cs" />
+    <Compile Include="Models\DataClasslari\PersonelGorevVM.cs" />
+    <Compile Include="Models\DataClasslari\PersonelIzinYilDetayVM.cs" />
+    <Compile Include="Models\DataClasslari\PersonelKadroListeVM.cs" />
+    <Compile Include="Models\DataClasslari\TumPersonelVM.cs" />
+    <Compile Include="Models\DiniGunler.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EvrakListe.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Firma.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GeciciMazeret.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gorev.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Grup.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Icralar.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IcraOdeme.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ihale.cs">
@@ -193,10 +285,16 @@
     <Compile Include="Models\ImzaTakip.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ImzaTakipDetay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Izin.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IzinTip.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kadro.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\kentihaleModel.Context.cs">
@@ -244,36 +342,376 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>kentModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Kurul.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KurulGorevTip.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KurulTip.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Lokasyon.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\partials.cs" />
     <Compile Include="Models\Personel.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonelDetay.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonelDevir.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PersonelFirma.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PersonelGrup.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PersonelIhale.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonelIhaleDonemleri.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PERSONELLER.cs">
-      <DependentUpon>kentmakineihaleModel.tt</DependentUpon>
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonelOzlukEvrak.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PERSONEL_AILE_TANIMLARI.cs">
+      <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PERSONEL_IZINLERI.cs">
       <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PredicateExtensions.cs" />
+    <Compile Include="Models\Rapor.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rapor_HastalikTip.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rapor_RaporTip.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ResmiTatil.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SgkDosya.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Staj_Bolum.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Staj_Evrak.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Staj_Ogrenci.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Staj_Ogrenci_Evrak.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Staj_Okul.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tahsil.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Takip.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Task.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Task_Details.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\userdomain.cs" />
+    <Compile Include="Models\Yizin.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YizinDetay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
+    <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\autoFill.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.dataTables.css" />
+    <Content Include="Content\DataTables\css\autoFill.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.foundation.css" />
+    <Content Include="Content\DataTables\css\autoFill.foundation.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.jqueryui.css" />
+    <Content Include="Content\DataTables\css\autoFill.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.semanticui.css" />
+    <Content Include="Content\DataTables\css\autoFill.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\buttons.dataTables.css" />
+    <Content Include="Content\DataTables\css\buttons.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\buttons.foundation.css" />
+    <Content Include="Content\DataTables\css\buttons.foundation.min.css" />
+    <Content Include="Content\DataTables\css\buttons.jqueryui.css" />
+    <Content Include="Content\DataTables\css\buttons.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\buttons.semanticui.css" />
+    <Content Include="Content\DataTables\css\buttons.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.bootstrap.css" />
+    <Content Include="Content\DataTables\css\colReorder.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\colReorder.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.dataTables.css" />
+    <Content Include="Content\DataTables\css\colReorder.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.foundation.css" />
+    <Content Include="Content\DataTables\css\colReorder.foundation.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.jqueryui.css" />
+    <Content Include="Content\DataTables\css\colReorder.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.semanticui.css" />
+    <Content Include="Content\DataTables\css\colReorder.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.foundation.css" />
+    <Content Include="Content\DataTables\css\dataTables.foundation.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.jqueryui.css" />
+    <Content Include="Content\DataTables\css\dataTables.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.material.css" />
+    <Content Include="Content\DataTables\css\dataTables.material.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.semanticui.css" />
+    <Content Include="Content\DataTables\css\dataTables.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.uikit.css" />
+    <Content Include="Content\DataTables\css\dataTables.uikit.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.bootstrap.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.dataTables.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.foundation.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.foundation.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.jqueryui.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.semanticui.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.bootstrap.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.dataTables.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.foundation.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.foundation.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.jqueryui.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.semanticui.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\jquery.dataTables.css" />
+    <Content Include="Content\DataTables\css\jquery.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\DataTables\css\keyTable.bootstrap.css" />
+    <Content Include="Content\DataTables\css\keyTable.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\keyTable.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.dataTables.css" />
+    <Content Include="Content\DataTables\css\keyTable.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.foundation.css" />
+    <Content Include="Content\DataTables\css\keyTable.foundation.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.jqueryui.css" />
+    <Content Include="Content\DataTables\css\keyTable.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.semanticui.css" />
+    <Content Include="Content\DataTables\css\keyTable.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\responsive.bootstrap.css" />
+    <Content Include="Content\DataTables\css\responsive.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\responsive.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\responsive.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\responsive.dataTables.css" />
+    <Content Include="Content\DataTables\css\responsive.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\responsive.foundation.css" />
+    <Content Include="Content\DataTables\css\responsive.foundation.min.css" />
+    <Content Include="Content\DataTables\css\responsive.jqueryui.css" />
+    <Content Include="Content\DataTables\css\responsive.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\responsive.semanticui.css" />
+    <Content Include="Content\DataTables\css\responsive.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.bootstrap.css" />
+    <Content Include="Content\DataTables\css\rowReorder.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\rowReorder.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.dataTables.css" />
+    <Content Include="Content\DataTables\css\rowReorder.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.foundation.css" />
+    <Content Include="Content\DataTables\css\rowReorder.foundation.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.jqueryui.css" />
+    <Content Include="Content\DataTables\css\rowReorder.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.semanticui.css" />
+    <Content Include="Content\DataTables\css\rowReorder.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\scroller.bootstrap.css" />
+    <Content Include="Content\DataTables\css\scroller.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\scroller.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\scroller.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\scroller.dataTables.css" />
+    <Content Include="Content\DataTables\css\scroller.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\scroller.foundation.css" />
+    <Content Include="Content\DataTables\css\scroller.foundation.min.css" />
+    <Content Include="Content\DataTables\css\scroller.jqueryui.css" />
+    <Content Include="Content\DataTables\css\scroller.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\scroller.semanticui.css" />
+    <Content Include="Content\DataTables\css\scroller.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\select.bootstrap.css" />
+    <Content Include="Content\DataTables\css\select.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\select.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\select.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\select.dataTables.css" />
+    <Content Include="Content\DataTables\css\select.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\select.foundation.css" />
+    <Content Include="Content\DataTables\css\select.foundation.min.css" />
+    <Content Include="Content\DataTables\css\select.jqueryui.css" />
+    <Content Include="Content\DataTables\css\select.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\select.semanticui.css" />
+    <Content Include="Content\DataTables\css\select.semanticui.min.css" />
+    <Content Include="Content\DataTables\images\details_close.png" />
+    <Content Include="Content\DataTables\images\details_open.png" />
+    <Content Include="Content\DataTables\images\sort_asc.png" />
+    <Content Include="Content\DataTables\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables\images\sort_both.png" />
+    <Content Include="Content\DataTables\images\sort_desc.png" />
+    <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
+    <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\jquery.treegrid.css" />
     <Content Include="Content\Loading_icon.gif" />
+    <Content Include="Content\mdtimepicker index.html" />
+    <Content Include="Content\mdtimepicker.css" />
+    <Content Include="Content\collapse.png" />
+    <Content Include="Content\expand.png" />
+    <Content Include="Content\Media\pers_resim\abdullah ersin kocabıçak.jpg" />
+    <Content Include="Content\Media\pers_resim\abdülmecit özcan.jpg" />
+    <Content Include="Content\Media\pers_resim\abidin sipahi.jpg" />
+    <Content Include="Content\Media\pers_resim\akif karakaş.jpg" />
+    <Content Include="Content\Media\pers_resim\anıl bölgen.jpg" />
+    <Content Include="Content\Media\pers_resim\arif aytepe.jpg" />
+    <Content Include="Content\Media\pers_resim\aylin yılmaz.jpg" />
+    <Content Include="Content\Media\pers_resim\ayşegül aydoğmuş.jpg" />
+    <Content Include="Content\Media\pers_resim\binnur büyükdurmuş.jpg" />
+    <Content Include="Content\Media\pers_resim\burak gülsoy.jpg" />
+    <Content Include="Content\Media\pers_resim\burak özer.jpg" />
+    <Content Include="Content\Media\pers_resim\cabir çalık.jpg" />
+    <Content Include="Content\Media\pers_resim\can mengüç.jpg" />
+    <Content Include="Content\Media\pers_resim\cavit üzmez.jpg" />
+    <Content Include="Content\Media\pers_resim\derya aslan.jpg" />
+    <Content Include="Content\Media\pers_resim\didem kaya.jpg" />
+    <Content Include="Content\Media\pers_resim\ebru nigiz.jpg" />
+    <Content Include="Content\Media\pers_resim\emel koçoğlu.jpg" />
+    <Content Include="Content\Media\pers_resim\emine kotil akbulut.jpg" />
+    <Content Include="Content\Media\pers_resim\ender ırmak.jpg" />
+    <Content Include="Content\Media\pers_resim\enes bilikli.jpg" />
+    <Content Include="Content\Media\pers_resim\erci yılmaz.jpg" />
+    <Content Include="Content\Media\pers_resim\erhan aydemir.jpg" />
+    <Content Include="Content\Media\pers_resim\erhan coşan.jpg" />
+    <Content Include="Content\Media\pers_resim\erkan aksoy.jpg" />
+    <Content Include="Content\Media\pers_resim\ertuğrul elimoğlu.jpg" />
+    <Content Include="Content\Media\pers_resim\esra koç.jpg" />
+    <Content Include="Content\Media\pers_resim\esra sert.jpg" />
+    <Content Include="Content\Media\pers_resim\esra taşpınar.jpg" />
+    <Content Include="Content\Media\pers_resim\fatih işçi.jpg" />
+    <Content Include="Content\Media\pers_resim\ferhat duymuş.jpg" />
+    <Content Include="Content\Media\pers_resim\fettah davut.jpg" />
+    <Content Include="Content\Media\pers_resim\filiz demir.jpg" />
+    <Content Include="Content\Media\pers_resim\gizem şenol.jpg" />
+    <Content Include="Content\Media\pers_resim\gökhan şen-orta okul.jpg" />
+    <Content Include="Content\Media\pers_resim\gözde hocaoğlu.jpg" />
+    <Content Include="Content\Media\pers_resim\gülhanım devrim.jpg" />
+    <Content Include="Content\Media\pers_resim\gülşah şahin.jpg" />
+    <Content Include="Content\Media\pers_resim\hakan ernalbant.jpg" />
+    <Content Include="Content\Media\pers_resim\hakan çelikiz.jpg" />
+    <Content Include="Content\Media\pers_resim\harun saral.jpg" />
+    <Content Include="Content\Media\pers_resim\hasibe şahin.jpg" />
+    <Content Include="Content\Media\pers_resim\hatice burcu mısır.jpg" />
+    <Content Include="Content\Media\pers_resim\hurişen ergezer.jpg" />
+    <Content Include="Content\Media\pers_resim\hüseyin bayram.jpg" />
+    <Content Include="Content\Media\pers_resim\hüseyin sert.jpg" />
+    <Content Include="Content\Media\pers_resim\ilker behlül onay.jpg" />
+    <Content Include="Content\Media\pers_resim\kadir ustaoğlu.jpg" />
+    <Content Include="Content\Media\pers_resim\kaptan serdar.jpg" />
+    <Content Include="Content\Media\pers_resim\kenan ceylan.jpg" />
+    <Content Include="Content\Media\pers_resim\kudbettin alptekin.jpg" />
+    <Content Include="Content\Media\pers_resim\medine yıldız.jpg" />
+    <Content Include="Content\Media\pers_resim\mehmet ersen.jpg" />
+    <Content Include="Content\Media\pers_resim\mehmet öztürk.jpg" />
+    <Content Include="Content\Media\pers_resim\mehtap ergün başaran.jpg" />
+    <Content Include="Content\Media\pers_resim\melike umut yıldırım gündüz.jpg" />
+    <Content Include="Content\Media\pers_resim\mert ibrahim türkmen.jpg" />
+    <Content Include="Content\Media\pers_resim\merve çatal.jpg" />
+    <Content Include="Content\Media\pers_resim\metin akay.jpg" />
+    <Content Include="Content\Media\pers_resim\metin çağdaş.jpg" />
+    <Content Include="Content\Media\pers_resim\muhammed tarık ziyad üşenmez.jpg" />
+    <Content Include="Content\Media\pers_resim\muharrem öztürk.jpg" />
+    <Content Include="Content\Media\pers_resim\muhsin tekol.jpg" />
+    <Content Include="Content\Media\pers_resim\murat sağlam.jpg" />
+    <Content Include="Content\Media\pers_resim\murat ürek.jpg" />
+    <Content Include="Content\Media\pers_resim\mustafa adem demir.jpg" />
+    <Content Include="Content\Media\pers_resim\mustafa duman.jpg" />
+    <Content Include="Content\Media\pers_resim\mustafa timuçin küçükgüner.jpg" />
+    <Content Include="Content\Media\pers_resim\mustafa umutlu.jpg" />
+    <Content Include="Content\Media\pers_resim\muzaffer aydoğdu.jpg" />
+    <Content Include="Content\Media\pers_resim\muzaffer eyüboğlu.jpg" />
+    <Content Include="Content\Media\pers_resim\münir karaman.jpg" />
+    <Content Include="Content\Media\pers_resim\necdet oskay.jpg" />
+    <Content Include="Content\Media\pers_resim\nesrin yaman.jpg" />
+    <Content Include="Content\Media\pers_resim\neşe öztürk kişmir.jpg" />
+    <Content Include="Content\Media\pers_resim\nino bagashvili.jpg" />
+    <Content Include="Content\Media\pers_resim\nurcan tanta.jpg" />
+    <Content Include="Content\Media\pers_resim\pınar demir.jpg" />
+    <Content Include="Content\Media\pers_resim\ramazan serim.jpg" />
+    <Content Include="Content\Media\pers_resim\ramazan sevencan.jpg" />
+    <Content Include="Content\Media\pers_resim\remziye bazna.jpg" />
+    <Content Include="Content\Media\pers_resim\sabiha şeyma yılmaz.jpg" />
+    <Content Include="Content\Media\pers_resim\samet san.jpg" />
+    <Content Include="Content\Media\pers_resim\seda tekin.jpg" />
+    <Content Include="Content\Media\pers_resim\seda özkaraaslan.jpg" />
+    <Content Include="Content\Media\pers_resim\seddat özel-lise.jpg" />
+    <Content Include="Content\Media\pers_resim\serkan akgüner.jpg" />
+    <Content Include="Content\Media\pers_resim\serkan küçük.jpg" />
+    <Content Include="Content\Media\pers_resim\serpil küçükgüner.jpg" />
+    <Content Include="Content\Media\pers_resim\sibel uzun.jpg" />
+    <Content Include="Content\Media\pers_resim\songül evci.jpg" />
+    <Content Include="Content\Media\pers_resim\tahir aslan.jpg" />
+    <Content Include="Content\Media\pers_resim\tahir cevdet tekçe.jpg" />
+    <Content Include="Content\Media\pers_resim\umut giresunlu.jpg" />
+    <Content Include="Content\Media\pers_resim\volkan kavanoz.jpg" />
+    <Content Include="Content\Media\pers_resim\yalçın özön.jpg" />
+    <Content Include="Content\Media\pers_resim\yasemin idir.jpg" />
+    <Content Include="Content\Media\pers_resim\yavuz dönmez.jpg" />
+    <Content Include="Content\Media\pers_resim\Yusuf ERDOĞAN.jpg" />
+    <Content Include="Content\Media\pers_resim\yılmaz yazıcı.jpg" />
+    <Content Include="Content\Media\pers_resim\zakir atıcı.jpg" />
+    <Content Include="Content\Media\pers_resim\zerrin soylu.jpg" />
+    <Content Include="Content\Media\pers_resim\zeynep taşkan duman.jpg" />
+    <Content Include="Content\Media\pers_resim\zeynep ışıl eryıldırım.jpg" />
+    <Content Include="Content\Media\pers_resim\özer yıldız.jpg" />
+    <Content Include="Content\Media\pers_resim\özlem öztürk çalışkan.jpg" />
+    <Content Include="Content\Media\pers_resim\ümit bostan.jpg" />
+    <Content Include="Content\Media\pers_resim\şenol civa.jpg" />
+    <Content Include="Content\Media\pers_resim\şevki köseoğlu.jpg" />
+    <Content Include="Content\Media\pers_resim\şevki uzun.jpg" />
+    <Content Include="Content\Media\pers_resim\şeyda yıldız.jpg" />
+    <Content Include="Content\multiselect örnek.htm" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -320,6 +758,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="modal form.txt" />
+    <Content Include="Models\CODE.txt" />
     <Content Include="Models\ikModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ikModel.edmx</DependentUpon>
@@ -330,6 +770,7 @@
       <DependentUpon>ikModel.edmx</DependentUpon>
       <LastGenOutput>ikModel.cs</LastGenOutput>
     </Content>
+    <Content Include="yapılacaklar.txt" />
     <EntityDeploy Include="Models\ikModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ikModel.Designer.cs</LastGenOutput>
@@ -348,6 +789,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\DataTables\css\semanticui.scss" />
+    <Content Include="Content\DataTables\css\mixins.scss" />
+    <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="Content\bootstrap-datepicker.css.map" />
     <None Include="Models\ikDSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -409,17 +854,110 @@
       <LastGenOutput>kentModel.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="multiselect grupped.txt" />
+    <Content Include="Scripts\bootstrap-confirmation.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker.tr.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-dialog.js" />
+    <Content Include="Scripts\bootstrap-multiselect.js" />
+    <Content Include="Scripts\bootstrap-notify.js" />
+    <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.foundation.js" />
+    <Content Include="Scripts\DataTables\autoFill.foundation.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.jqueryui.js" />
+    <Content Include="Scripts\DataTables\autoFill.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.semanticui.js" />
+    <Content Include="Scripts\DataTables\autoFill.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\buttons.colVis.js" />
+    <Content Include="Scripts\DataTables\buttons.colVis.min.js" />
+    <Content Include="Scripts\DataTables\buttons.flash.js" />
+    <Content Include="Scripts\DataTables\buttons.flash.min.js" />
+    <Content Include="Scripts\DataTables\buttons.foundation.js" />
+    <Content Include="Scripts\DataTables\buttons.foundation.min.js" />
+    <Content Include="Scripts\DataTables\buttons.html5.js" />
+    <Content Include="Scripts\DataTables\buttons.html5.min.js" />
+    <Content Include="Scripts\DataTables\buttons.jqueryui.js" />
+    <Content Include="Scripts\DataTables\buttons.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\buttons.print.js" />
+    <Content Include="Scripts\DataTables\buttons.print.min.js" />
+    <Content Include="Scripts\DataTables\buttons.semanticui.js" />
+    <Content Include="Scripts\DataTables\buttons.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.autoFill.js" />
+    <Content Include="Scripts\DataTables\dataTables.autoFill.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.buttons.js" />
+    <Content Include="Scripts\DataTables\dataTables.buttons.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.colReorder.js" />
+    <Content Include="Scripts\DataTables\dataTables.colReorder.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedColumns.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedColumns.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedHeader.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedHeader.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.foundation.js" />
+    <Content Include="Scripts\DataTables\dataTables.foundation.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.jqueryui.js" />
+    <Content Include="Scripts\DataTables\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.keyTable.js" />
+    <Content Include="Scripts\DataTables\dataTables.keyTable.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.material.js" />
+    <Content Include="Scripts\DataTables\dataTables.material.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.responsive.js" />
+    <Content Include="Scripts\DataTables\dataTables.responsive.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.rowReorder.js" />
+    <Content Include="Scripts\DataTables\dataTables.rowReorder.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.scroller.js" />
+    <Content Include="Scripts\DataTables\dataTables.scroller.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.select.js" />
+    <Content Include="Scripts\DataTables\dataTables.select.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.semanticui.js" />
+    <Content Include="Scripts\DataTables\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.uikit.js" />
+    <Content Include="Scripts\DataTables\dataTables.uikit.min.js" />
+    <Content Include="Scripts\DataTables\jquery.dataTables.editable.js" />
+    <Content Include="Scripts\DataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\responsive.foundation.js" />
+    <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
+    <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
+    <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\responsive.semanticui.js" />
+    <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\DialogForm.js" />
+    <Content Include="Scripts\editableselectlist.min.js" />
+    <Content Include="Scripts\ik.js" />
+    <Content Include="Scripts\imzatakip.js" />
+    <Content Include="Scripts\izin.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.bootstrap-growl.min.js" />
+    <Content Include="Scripts\jquery.dataTables.editable.js" />
+    <Content Include="Scripts\jquery.ddslick.min.js" />
     <Content Include="Scripts\jquery.PrintArea.js" />
+    <Content Include="Scripts\jquery.sticky.js" />
+    <Content Include="Scripts\jquery.treegrid.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -427,19 +965,27 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-min.js" />
+    <Content Include="Scripts\mdtimepicker.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\personel.js" />
     <Content Include="Scripts\ptakip.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Staj.js" />
+    <Content Include="Scripts\editableselectlist.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="theme.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Grups\YeniGrup.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -455,11 +1001,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PTakip\Index.cshtml" />
     <Content Include="Views\PTakip\GunlukTakip.cshtml" />
-    <Content Include="Views\Imza\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
-    <Content Include="Views\Imza\Create.cshtml" />
     <Content Include="Views\PTakip\Gunluk.cshtml" />
-    <Content Include="Views\ImzaTakip\Indexold.cshtml" />
     <Content Include="Views\Grups\Create.cshtml" />
     <Content Include="Views\Grups\Delete.cshtml" />
     <Content Include="Views\Grups\Details.cshtml" />
@@ -474,19 +1017,93 @@
     <Content Include="Views\Takip\Index.cshtml" />
     <Content Include="Views\Takip\Create.cshtml" />
     <Content Include="Views\Takip\Delete.cshtml" />
-    <Content Include="Views\ImzaTakip\Index.cshtml" />
-    <Content Include="Views\ImzaTakip\PersonelImzaListe.cshtml" />
-    <Content Include="Views\ImzaTakip\PersonelImza.cshtml" />
-    <Content Include="Views\ImzaTakip\Create.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Views\Personel\Index.cshtml" />
+    <Content Include="Views\Personel\IndexOld.cshtml" />
     <Content Include="Views\Dahililer\Index.cshtml" />
     <Content Include="Views\KentIhale\Index.cshtml" />
-    <Content Include="Views\Personel\Avans.cshtml" />
+    <Content Include="Views\Taseron\Index.cshtml" />
+    <Content Include="Views\Taseron\IzinFormu.cshtml" />
+    <Content Include="Views\Personel\MesaiOnayBelge.cshtml" />
+    <Content Include="Views\Personel\_PersonelAdSec.cshtml" />
+    <Content Include="Views\Personel\AvansForm.cshtml" />
+    <Content Include="Views\Personel\Avanslar.cshtml" />
+    <Content Include="Views\Icra\Index.cshtml" />
+    <Content Include="Views\Icra\Create.cshtml" />
+    <Content Include="Views\IcraOdeme\Index.cshtml" />
+    <Content Include="Views\Personel\PersonelEksik.cshtml" />
+    <Content Include="Views\Personel\Create.cshtml" />
+    <Content Include="Views\Mikro\KanGrubu.cshtml" />
+    <Content Include="Views\HFRYT\Index.cshtml" />
+    <Content Include="Views\AileFertleri\Index.cshtml" />
+    <Content Include="Views\PersonelOzlukDosya\GrupEvrakEkle.cshtml" />
+    <Content Include="Views\PersonelOzlukDosya\Index.cshtml" />
+    <Content Include="Views\Pdks\IzinEkle.cshtml" />
+    <Content Include="Views\DatatablesTest\Index.cshtml" />
+    <Content Include="Views\Arsiv\Index.cshtml" />
+    <Content Include="Views\PTakip\GunlukPTakip.cshtml" />
+    <Content Include="Views\Personel\PersonelGorev.cshtml" />
+    <Content Include="Views\Staj\Create.cshtml" />
+    <Content Include="Views\Staj\Delete.cshtml" />
+    <Content Include="Views\Staj\Details.cshtml" />
+    <Content Include="Views\Staj\Edit.cshtml" />
+    <Content Include="Views\Staj\Index.cshtml" />
+    <Content Include="Views\Staj\Ozet.cshtml" />
+    <Content Include="Views\Staj\EvrakAta.cshtml" />
+    <Content Include="Views\Staj\EvrakListe.cshtml" />
+    <Content Include="Views\Personel\PersonelFirma.cshtml" />
+    <Content Include="Views\Personel\PersonelKadroListe.cshtml" />
+    <Content Include="Views\Staj\_CreateEditJS.cshtml" />
+    <Content Include="Views\Staj\_CreateEdit.cshtml" />
+    <Content Include="Views\Staj\Create - Copy.cshtml" />
+    <Content Include="Views\Personel\TumPersonelListe.cshtml" />
+    <Content Include="Views\Personel\TumPersonelSayi.cshtml" />
+    <Content Include="Views\Personel\PersonelsByFirma.cshtml" />
+    <Content Include="Views\Personel\TumPersonel.cshtml" />
+    <Content Include="Views\Izin\_PersonelIzinYilDetay.cshtml" />
+    <Content Include="Views\Rapor\PersonelGunlukDurum.cshtml" />
+    <Content Include="Views\Shared\_PersonelAdSec.cshtml" />
+    <Content Include="Views\Rapor\DepartmanGunlukDurum.cshtml" />
+    <Content Include="Views\Rapor\PersonelDurum.cshtml" />
+    <Content Include="Views\Pdks\EksikHareketler.cshtml" />
+    <Content Include="Views\Personel\SaglikRapor.cshtml" />
+    <Content Include="Views\Personel\SaglikRaporEkle.cshtml" />
+    <Content Include="Views\Personel\PersonelDetay.cshtml" />
+    <Content Include="Views\Personel\_PersonelResimleri.cshtml" />
+    <Content Include="Views\Kuruls\Create.cshtml" />
+    <Content Include="Views\Kuruls\Delete.cshtml" />
+    <Content Include="Views\Kuruls\Details.cshtml" />
+    <Content Include="Views\Kuruls\Edit.cshtml" />
+    <Content Include="Views\Kuruls\Index.cshtml" />
+    <Content Include="Views\Rapor\SaglikRapor.cshtml" />
+    <Content Include="Views\Izin\_YarimIzin.cshtml" />
+    <Content Include="Views\Izin\YarimYillikİzin.cshtml" />
+    <Content Include="Views\ImzaTakip\Index.cshtml" />
+    <Content Include="Views\ImzaTakip\Create.cshtml" />
+    <Content Include="Views\ImzaTakip\_Index.cshtml" />
+    <Content Include="Views\Izin\_YarimIzinEkle.cshtml" />
+    <Content Include="Views\Izin\_PersonelYarimİzinListele.cshtml" />
+    <Content Include="Views\ImzaTakip\ImzaTakipDetay.cshtml" />
+    <Content Include="Views\ImzaTakip\TakipImzala.cshtml" />
+    <Content Include="Views\Takip\RutinEkle.cshtml" />
+    <Content Include="Views\Shared\_Loading.cshtml" />
+    <Content Include="Views\Test\Create.cshtml" />
+    <Content Include="Views\Test\Delete.cshtml" />
+    <Content Include="Views\Test\Details.cshtml" />
+    <Content Include="Views\Test\Edit.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\TestTest\Create.cshtml" />
+    <Content Include="Views\TestTest\Delete.cshtml" />
+    <Content Include="Views\TestTest\Details.cshtml" />
+    <Content Include="Views\TestTest\Edit.cshtml" />
+    <Content Include="Views\TestTest\Index.cshtml" />
+    <Content Include="Views\Personel\Index.cshtml" />
+    <Content Include="Views\Personel\Edit.cshtml" />
+    <Content Include="Views\Izin\PersonelYarimİzinListe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />
   </ItemGroup>
   <ItemGroup>
@@ -496,9 +1113,18 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PtakipDAL\PtakipDAL.csproj">
+      <Project>{0ff7a883-d923-4428-b7d4-92cace118e88}</Project>
+      <Name>PtakipDAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -531,6 +1157,12 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

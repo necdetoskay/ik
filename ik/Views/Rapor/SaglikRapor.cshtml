@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "SaglikRapor";
+}
+
+<h2>Sağlık Rapor</h2>
+<div class="form-group">
+    @Html.Label("Personel Adı", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <select id="personel" class="form-control"></select>
+
+    </div>
+</div>
+<div style="display: table">
+    <table class="table table-bordered">
+        <tr>
+            <th>Rapor Yeri</th>
+            <th>Rapor Tipi</th>
+            <th>Başlangıç Tarihi</th>
+            <th>Bitiş Tarihi</th>
+            <th>Açıklama</th>
+        </tr>
+        <tbody id="result">
+        
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/Scripts/editableselectlist.js"></script>
+    <script type="text/javascript">
+        String.prototype.toDDMMYYY = function () {
+
+
+            var giris = new Date(parseInt(this.substr(6)));
+            return giris.getDate() + "/" + (giris.getMonth() + 1) + "/" + giris.getFullYear();
+        }
+        $(function () {
+            $('#personel').MakeEditable({
+                fill: {
+                    url: '@Url.Action("_PersonelListe","Personel")',
+                    action: function (id) {
+                        console.log(id);
+                        $.ajax({
+                            url: '_PersonelSaglikRapor',
+                            data: { id: id },
+                            type: 'get', success: function (result) {
+                                console.log(result.Data);
+                                var body = $('#result');
+                                body.empty();
+                                $.each(result.Data, function(i, item) {
+                                    body.append('<tr><td>' + item.RaporTip + '</td><td>' + item.HastalikTip + '</td><td>'+item.Baslangic.toDDMMYYY()+'</td>' +
+                                        '<td>' + item.Bitis.toDDMMYYY() + '</td><td>' + item.Aciklama + '</td></tr>');
+                                });
+                               
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+
+}

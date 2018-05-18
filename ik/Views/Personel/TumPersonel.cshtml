@@ -1,0 +1,115 @@
+﻿@model ik.Models.DataClasslari.TumPersonelVM
+
+@{
+    ViewBag.Title = "TumPersonel";
+}
+
+<h2>TumPersonel</h2>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Birimi, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Birimi, (SelectList)ViewBag.BirimListe, "Birim Seçiniz")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.KadroTipi, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.KadroTipi, (SelectList)ViewBag.KadroListe, "Kadro Tipi Seçiniz")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Firma, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Firma, (SelectList)ViewBag.FirmaListe, "Firma Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Lokasyon, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Lokasyon, (SelectList)ViewBag.LokasyonListe, "Lokasyon Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Gorev, (SelectList)ViewBag.GorevListe, "Görev Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cinsiyeti, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Cinsiyeti, (IEnumerable<SelectListItem>)ViewBag.CinsiyetListe, "Cinsiyet", new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input id="sorgula" type="button" value="Sorgula" class="btn btn-primary btn-sm" />
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Sıra</th>
+            <th>Adı Soyadı</th>
+            <th>Birimi</th>
+            <th>Firma Adı</th>
+            <th>Kadro Tipi</th>
+            <th>Lokasyon</th>
+            <th>Görevi</th>
+        </tr>
+        </thead>
+        <tbody id="personelliste"></tbody>
+
+    </table>
+
+
+
+
+</div>
+
+
+@section scripts {
+
+    <script type="text/javascript">
+        $(function () {
+            $('#sorgula').on('click', function () {
+                var birim = $('#Birimi').val() !== '' ? $('#Birimi').val() : 0;
+                var kadro = $('#KadroTipi').val() !== '' ? $('#KadroTipi').val() : 0;
+                var firma = $('#Firma').val() !== '' ? $('#Firma').val() : 0;
+                var lokasyon = $('#Lokasyon').val() !== '' ? $('#Lokasyon').val() : 0;
+                var gorev = $('#Gorev').val() !== '' ? $('#Gorev').val() : 0;
+                var cinsiyet = $('#Cinsiyeti').val() !== '' ? $('#Cinsiyeti').val() : -1;
+
+                $.ajax({
+                    url: '@Url.Action("_TumPersonelFiltre")',
+                    type: 'POST',
+                    data: {
+                        birim: birim,
+                        kadro: kadro,
+                        firma: firma,
+                        lokasyon: lokasyon,
+                        gorev: gorev,
+                        cinsiyet: cinsiyet
+                    },
+                    success: function (result) {
+                       var body = $('#personelliste');
+                       body.empty();
+
+                        $.each(result.Data, function(i, item) {
+                            body.append('<tr><td>' + (i + 1) +
+                                '</td><td>' + item.adsoyad + '</td><td>Birim</td><td>' + item.firma + '</td><td>' + item.kadrotipi + '</td><td>' + item.lokasyon + '</td><td>' + item.gorev + '</td></tr>');
+                        });
+                     
+                    }
+                });
+
+            });
+
+        })
+    </script>
+}

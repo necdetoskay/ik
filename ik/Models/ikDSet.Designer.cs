@@ -755,6 +755,8 @@ namespace ik.Models {
             
             private global::System.Data.DataColumn columnTakip;
             
+            private global::System.Data.DataColumn columnisbasi;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public personel_kartlariDataTable() {
@@ -838,6 +840,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn isbasiColumn {
+                get {
+                    return this.columnisbasi;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -873,7 +883,7 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public personel_kartlariRow Addpersonel_kartlariRow(int id, string sicilno, string adi, string soyadi, int sirket_kod, string Takip) {
+            public personel_kartlariRow Addpersonel_kartlariRow(int id, string sicilno, string adi, string soyadi, int sirket_kod, string Takip, string isbasi) {
                 personel_kartlariRow rowpersonel_kartlariRow = ((personel_kartlariRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         id,
@@ -881,7 +891,8 @@ namespace ik.Models {
                         adi,
                         soyadi,
                         sirket_kod,
-                        Takip};
+                        Takip,
+                        isbasi};
                 rowpersonel_kartlariRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowpersonel_kartlariRow);
                 return rowpersonel_kartlariRow;
@@ -910,6 +921,7 @@ namespace ik.Models {
                 this.columnsoyadi = base.Columns["soyadi"];
                 this.columnsirket_kod = base.Columns["sirket_kod"];
                 this.columnTakip = base.Columns["Takip"];
+                this.columnisbasi = base.Columns["isbasi"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -927,6 +939,8 @@ namespace ik.Models {
                 base.Columns.Add(this.columnsirket_kod);
                 this.columnTakip = new global::System.Data.DataColumn("Takip", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTakip);
+                this.columnisbasi = new global::System.Data.DataColumn("isbasi", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnisbasi);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1074,6 +1088,8 @@ namespace ik.Models {
             
             private global::System.Data.DataColumn columnIzinTur;
             
+            private global::System.Data.DataColumn columnid;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public personel_izinDataTable() {
@@ -1165,6 +1181,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn idColumn {
+                get {
+                    return this.columnid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1200,7 +1224,7 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public personel_izinRow Addpersonel_izinRow(int personel_id, System.DateTime tarih, System.TimeSpan gidis_saat, System.TimeSpan gelis_saat, string aciklama, int tatil_id, string IzinTur) {
+            public personel_izinRow Addpersonel_izinRow(int personel_id, System.DateTime tarih, System.TimeSpan gidis_saat, System.TimeSpan gelis_saat, string aciklama, int tatil_id, string IzinTur, int id) {
                 personel_izinRow rowpersonel_izinRow = ((personel_izinRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         personel_id,
@@ -1209,7 +1233,8 @@ namespace ik.Models {
                         gelis_saat,
                         aciklama,
                         tatil_id,
-                        IzinTur};
+                        IzinTur,
+                        id};
                 rowpersonel_izinRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowpersonel_izinRow);
                 return rowpersonel_izinRow;
@@ -1239,6 +1264,7 @@ namespace ik.Models {
                 this.columnaciklama = base.Columns["aciklama"];
                 this.columntatil_id = base.Columns["tatil_id"];
                 this.columnIzinTur = base.Columns["IzinTur"];
+                this.columnid = base.Columns["id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1258,6 +1284,8 @@ namespace ik.Models {
                 base.Columns.Add(this.columntatil_id);
                 this.columnIzinTur = new global::System.Data.DataColumn("IzinTur", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIzinTur);
+                this.columnid = new global::System.Data.DataColumn("id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnid);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2440,11 +2468,11 @@ namespace ik.Models {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string sicilno {
                 get {
-                    try {
-                        return ((string)(this[this.tablepersonel_kartlari.sicilnoColumn]));
+                    if (this.IssicilnoNull()) {
+                        return null;
                     }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'sicilno\' in table \'personel_kartlari\' is DBNull.", e);
+                    else {
+                        return ((string)(this[this.tablepersonel_kartlari.sicilnoColumn]));
                     }
                 }
                 set {
@@ -2518,6 +2546,22 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string isbasi {
+                get {
+                    try {
+                        return ((string)(this[this.tablepersonel_kartlari.isbasiColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'isbasi\' in table \'personel_kartlari\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablepersonel_kartlari.isbasiColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsidNull() {
                 return this.IsNull(this.tablepersonel_kartlari.idColumn);
             }
@@ -2586,6 +2630,18 @@ namespace ik.Models {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetTakipNull() {
                 this[this.tablepersonel_kartlari.TakipColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsisbasiNull() {
+                return this.IsNull(this.tablepersonel_kartlari.isbasiColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetisbasiNull() {
+                this[this.tablepersonel_kartlari.isbasiColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2717,6 +2773,22 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int id {
+                get {
+                    try {
+                        return ((int)(this[this.tablepersonel_izin.idColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'id\' in table \'personel_izin\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablepersonel_izin.idColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool Ispersonel_idNull() {
                 return this.IsNull(this.tablepersonel_izin.personel_idColumn);
             }
@@ -2797,6 +2869,18 @@ namespace ik.Models {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetIzinTurNull() {
                 this[this.tablepersonel_izin.IzinTurColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsidNull() {
+                return this.IsNull(this.tablepersonel_izin.idColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetidNull() {
+                this[this.tablepersonel_izin.idColumn] = global::System.Convert.DBNull;
             }
         }
         

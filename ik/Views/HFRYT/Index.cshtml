@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@Html.DropDownList("musteri", (SelectList) ViewBag.musteriListe, "Müşteri Seçiniz") <input id="sorgula" type="button" value="Sorgula"/>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <td>Meblağ</td><td>Ara Toplam</td><td>Vade</td><td>Açıklama</td><td>Belge Tarihi</td><td>Cinsi</td><td>Tarihi</td>
+    </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            var sorgula = $('#sorgula');
+            var musteri = $('#musteri');
+            var body = $('#tbody');
+            sorgula.on('click', function() {
+                var val = musteri.val();
+                $.ajax({
+                    url:'@Url.Action("CariHareketler")',
+                    method:'get',
+                    data:{musteriID:val},
+                    success: function (data) {
+                       
+                        if (data.Success == false) return;
+                        body.empty();
+                        //var str = JSON.stringify(data.Data);
+                      
+                        jQuery.each(data.Data, function (index, value) {
+                            body.append('<tr><td>' + value.cha_meblag + '</td><td>' + value.cha_aratoplam + '</td><td>' + value.cha_vade + '</td><td>' + value.cha_aciklama + '</td><td>' + value.cha_belge_tarih.toString().toDDMMYYY() + '</td><td>' + value.cha_cinsi + '</td><td>' + value.cha_tarihi.toString().toDDMMYYY() + '</td></tr>');
+                           
+                        });
+
+                       // console.log(str);
+                    }
+
+                });
+            });
+        })
+    </script>
+}

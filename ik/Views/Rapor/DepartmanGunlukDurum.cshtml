@@ -1,0 +1,101 @@
+﻿@using ik.Models
+
+@{
+    ViewBag.Title = "DepartmanGunlukDurum";
+}
+
+<h2>DepartmanGunlukDurum</h2>
+
+
+
+<input type="text" id="baslangic" class="datepicker" />
+<input type="text" id="bitis" class="datepicker" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @foreach (var item in (List<birim>)ViewBag.BirimList)
+            {
+                <div class="checkbox">
+                    <label>
+                        <input data-id="@item.id" type="checkbox"> @item.birimad
+                    </label>
+                </div>
+            }
+
+        </div>
+        <div id="personellist" class="col-md-6">
+            buraya birimler içerisindeki personel adları gelecek
+        </div>
+    </div>
+</div>
+
+
+<div class="checkbox">
+    <label><input id="haftatatili" type="checkbox" checked="checked" value="">Hafta Tatillerini Göster</label>
+</div>
+<div class="checkbox">
+    <label><input id="resmitatil" type="checkbox" checked="checked" value="">Resmi Tatillerini Göster</label>
+</div>
+<div class="radio">
+    <label><input id="tumkayitlar" checked="checked" type="radio" name="optradio">Tüm Kayıtları Getir</label>
+</div>
+<div class="radio">
+    <label><input id="eksikkayitlar" type="radio" name="optradio">Sadece Eksik Hareketleri Getir</label>
+</div>
+
+<input type="button" class="btn btn-primary" id="sorgula" value="Sorgula" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Gün</th>
+            <th>Giriş</th>
+            <th>Çıkış</th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('input[type=checkbox]').click(function () {
+                var birimid = $(this).attr("data-id");
+                if ($(this).is(':checked')) {
+                    $.ajax({
+                        url: '@Url.Action("PersonelByBirim", "Personel")',
+                        type: 'GET',
+                        data: {birimid: birimid
+                        },
+                        success: function (result) {
+                            if (result.Success === false) return;
+                            var liste = $('#personellist');
+                            $.each(result.Data, function (i, item) {
+                                liste.append('<div class="checkbox personelcheckbox"> <label><input birimi-id="' + item.birimid + '" data-id="' + item.id + '" type="checkbox">' + item.adsoyad + ' </label></div>');
+                            });
+                        }
+                    });
+                    //birim personel listesini getir
+                    //sağdaki listeye ekle
+                } else {
+                    $('.personelcheckbox').each(function (e,v) {
+
+                        $(v).remove();
+                        // alert($(v).closest('input[birim-id="' + birimid + '"]').attr("data-id"));
+
+
+                    });
+                    //birim id si olanları listeden çıkart
+                }
+            });
+        })
+    </script>
+}
+
+@*<div class="checkbox">
+        <label>
+            <input data-id="@item.id" type="checkbox"> @item.birimad
+        </label>
+    </div>*@

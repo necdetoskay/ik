@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using ik.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace ik.Controllers
 {
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay")]
     public class ImzaTakipController : Controller
     {
         private readonly ikEntities db = new ikEntities();
@@ -19,137 +24,93 @@ namespace ik.Controllers
         // GET: ImzaTakip
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public JsonResult TakipEdilenler()
-        {
-            var liste =
-                db.ImzaTakips.GroupBy(c => c.Aciklama)
-                    .Where(c => c.Count() > 1)
-                    .Select(
-                        c => new {Aciklama = c.Key, Toplam = c.Count(), Imzalanan = c.Count(d => d.ImzaTarih != null)});
-
-            return Json(liste, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult PersonelImza()
-        {
-            ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
-            return View();
-        }
-
-        public JsonResult PersonelImzaListe(int personelid)
-        {
-            var liste =
-                db.ImzaTakips.Where(c => c.personelID == personelid & c.ImzaTarih == null)
-                    .Select(c => new {aciklama = c.Aciklama, personelid = c.personelID, imzaID = c.id});
-            return Json(liste, JsonRequestBehavior.AllowGet);
+            var liste = db.ImzaTakips.OrderByDescending(c=>c.id).ToList();
+            return View(liste);
         }
 
         public ActionResult Create()
         {
-            if (User.Identity.Name != @"KENTKONUT\noskay")
-                return RedirectToAction("Index");
-            ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
-            ViewBag.imzagrupListe = new SelectList(db.Grups, "id", "ad");
-            return View();
+            ViewBag.grupListe = new SelectList(db.Grups, "id", "ad");
+            return PartialView();
         }
 
         [HttpPost]
-        public ActionResult Create(ImzaTakipVM takip)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(ImzaTakip takip)
         {
-            if (takip.ImzaGrupID == 0 && takip.PersonelID == 0)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("Aciklama", "Grup veya Personel Seçilmesi Zorunludur.");
-                ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
-                ViewBag.imzagrupListe = new SelectList(db.Grups, "id", "ad");
-                return View(takip);
-            }
-            if (takip.Aciklama == null)
-            {
-                ModelState.AddModelError("Aciklama", "Açıklama Seçilmesi Zorunludur.");
-                ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
-                ViewBag.imzagrupListe = new SelectList(db.Grups, "id", "ad");
-                return View(takip);
-            }
-
-            if (takip.ImzaGrupID == 0)
-            {
-                if (takip.PersonelID > 0)
+                db.ImzaTakips.Add(takip);
+                db.SaveChanges();
+                var grup = db.Grups.FirstOrDefault(c => c.id == takip.grupID);
+                grup.PersonelGrups.ForEach(c=>takip.ImzaTakipDetays.Add(new ImzaTakipDetay
                 {
-                    db.ImzaTakips.Add(new ImzaTakip
-                    {
-                        personelID = takip.PersonelID,
-                        Aciklama = takip.Aciklama,
-                        Tarih = DateTime.Now
-                    });
-                    db.SaveChanges();
-                }
+                    takipid = takip.id,personelID = c.personelid
+                }));
+                //kaydet
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-            if (takip.PersonelID == 0)
-            {
-                if (takip.ImzaGrupID > 0)
-                {
-                    foreach (var personel in db.PersonelGrups.Where(c => c.grupid == takip.ImzaGrupID))
-                    {
-                        db.ImzaTakips.Add(new ImzaTakip
-                        {
-                            personelID = personel.personelid,
-                            Aciklama = takip.Aciklama,
-                            Tarih = DateTime.Now
-                        });
-                    }
-                    db.SaveChanges();
-                }
-            }
+            ViewBag.grupListe = new SelectList(db.Grups, "id", "ad");
+            return PartialView(takip);
 
-            return RedirectToAction("Index");
         }
 
-        //public JsonResult ImzaTakipListe(int ID)
-        //{
-        //    var liste =
-        //        db.ImzaTakips.Where(c => c.imzaID == ID).Select(c => new { personel = c.Personel.adsoyad, takipid = c.imzaID, personelid = c.personelID, tarih = c.Tarih }).ToList();
 
-        //    return Json(liste, JsonRequestBehavior.AllowGet);
-        //}
 
-        //[HttpPost]
-        //public ActionResult ImzaListe(string[] personelliste, int imzaid)
-        //{
-        //    //var imzaid = int.Parse(firstOrDefault[1]);
-        //    // var mevcut = personelliste.ToList();
-        //    var q =
-        //        db.Personels.Where(
-        //            c => !db.ImzaTakips.Where(g => g.imzaID == imzaid).Select(b => b.personelID).Contains(c.id))
-        //            .Select(c => new { Value = c.id, Text = c.adsoyad })
-        //            .ToList();
-        //    ;
-        //    return Json(q, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public JsonResult ImzaListeKaydet(string[] personelliste, int imzaid)
-        //{
-        //    var q =
-        //        ((string[])personelliste).Where(
-        //            c => !db.ImzaTakips.Where(i => i.imzaID == imzaid).Select(j => j.personelID).Contains(int.Parse(c)));
-        //    foreach (var p in q)
-        //    {
-        //        db.ImzaTakips.Add(new ImzaTakip() {Tarih = DateTime.Now, imzaID = imzaid, personelID = int.Parse(p)});
-        //    }
-        //    db.SaveChanges();
-        //    return Json("");
-        //}
-        public JsonResult ImzaTamamla(int imzaid, int personelid)
+        [HttpPost]
+        public JsonResult _imzalistekaydet(int[] liste,string ad)
         {
-            var imza = db.ImzaTakips.SingleOrDefault(c => c.id == imzaid);
-            imza.ImzaTarih = DateTime.Now;
+            var grup = new Grup
+            {
+                ad = ad
+            };
+            db.Grups.Add(grup);
+            liste.ForEach(c=>grup.PersonelGrups.Add(new PersonelGrup
+            {
+                personelid = c
+            }));
+
             db.SaveChanges();
-            var liste =
-                db.ImzaTakips.Where(c => c.personelID == personelid & c.ImzaTarih == null)
-                    .Select(c => new {aciklama = c.Aciklama, personelid = c.personelID, imzaID = c.id});
-            return Json(liste, JsonRequestBehavior.AllowGet);
+            
+            return Json(new {Success=true,Data=string.Format("{0} adet personel {1} adlı gruba kaydedildi",grup.PersonelGrups.Count,grup.ad)},JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">imza takip id</param>
+        /// <returns></returns>
+        public ActionResult ImzaTakipDetay(int id)
+        {
+            ViewBag.ImzaTakipID = id;
+            var liste = db.ImzaTakipDetays.Where(c => c.takipid == id);
+            return View(liste);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">imzatakipid bu id den personel id si bulunabilir</param>
+        /// <returns></returns>
+        public ActionResult TakipImzala(int id)
+        {
+            var detay = db.ImzaTakipDetays.SingleOrDefault(c => c.id == id);
+            return PartialView(detay);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TakipImzala(int id,ImzaTakipDetay model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.imzaTarih=DateTime.Now;
+                db.Entry(model).State= EntityState.Modified;
+                db.SaveChanges();
+                return Json(new {success = true}, JsonRequestBehavior.AllowGet);
+            }
+            return PartialView(model);
         }
     }
 }

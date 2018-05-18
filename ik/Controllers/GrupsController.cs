@@ -8,10 +8,16 @@ using ik.Models;
 
 namespace ik.Controllers
 {
+    [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay")]
     public class GrupsController : Controller
     {
         private readonly ikEntities db = new ikEntities();
+
+        public ActionResult YeniGrup()
+        {
+            return View();
+        }
 
         public ActionResult PersonelGrup(int? grupid)
         {
@@ -45,8 +51,9 @@ namespace ik.Controllers
                 {
                     db.PersonelGrups.Add(new PersonelGrup {grupid = grupid, personelid = int.Parse(p)});
                 }
-                catch (Exception px)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
                 }
             }
             db.SaveChanges();

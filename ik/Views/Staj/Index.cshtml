@@ -1,0 +1,144 @@
+﻿@model IEnumerable<ik.Models.Staj_Ogrenci>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.baslangic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bitis)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.donem)
+        </th>
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.Staj_Bolum.ad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staj_Okul.ad)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var cls = item.Staj_Ogrenci_Evrak.Any(c => !c.alindi) ? (item.Staj_Ogrenci_Evrak.Any(c => c.alindi) ? "bg-info" : "bg-dangerd") : "bg-success";
+        <tr class="@cls">
+            <td>
+                @Html.DisplayFor(modelItem => item.adsoyad)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.baslangic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bitis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.donem)
+            </td>
+
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Staj_Bolum.ad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Staj_Okul.ad)
+                </td>*@
+            <td>
+                @Html.ActionLink(" ", "Edit", new { id = item.id }, new { title = "Düzenle", @class = "glyphicon glyphicon-pencil" }) |
+                @Html.ActionLink(" ", "Details", new { id = item.id }, new { title = "Detay", @class = "detail glyphicon glyphicon-user", data_id = item.id }) |
+                @Html.ActionLink(" ", "Delete", new { id = item.id }, new { title = "Sil", @class = "glyphicon glyphicon-floppy-remove" }) |
+                @Html.ActionLink(" ", "EvrakListe", new { id = item.id }, new { title = "Evrak Listesi", @class = "glyphicon glyphicon-list-alt" })
+                @if (item.tamamlanmatarih == null)
+                {
+                    <input type="button" data-id="@item.id" class="stajtamamla btn btn-danger" value="Staj Bitiş" />
+                }
+               
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.stajtamamla').each(function () {
+                var staj = $(this);
+                staj.on('click', function () {
+                    BootstrapDialog.show({
+                        title: 'Öğrenci Staj Sonu Evrağı',
+                        buttons: [
+                            {
+                                label: 'Tamamla',
+                                action: function (dialogItself) {
+                                    var id = staj.attr("data-id");
+                                    if (id === '') return;
+                                    $.ajax({
+                                        url: '@Url.Action("_StajTamamla")',
+                                        data: { id},
+                                        type: 'POST',
+                                        success: function (result) {
+                                            if (result.Success === true) {
+                                               staj.remove();
+                                            }
+                                        }
+                                    });
+                                    dialogItself.close();
+                                }
+                            }, {
+                                label: 'İptal',
+                                cssClass: 'btn-primary',
+                                action: function (dialogItself) {
+                                    dialogItself.close();
+                                }
+                            }
+                        ]
+                    });
+                });
+            });
+
+
+            $('.detail').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+                    e.preventDefault();
+                    BootstrapDialog.show({
+                        title: 'Öğrenci Bilgileri',
+                        message: function (dialog) {
+                            var $message = $('<div></div>');
+                            var pageToLoad = dialog.getData('pageToLoad');
+                            $message.load(pageToLoad);
+                            return $message;
+                        },
+                        data: {
+                            'pageToLoad': item.attr("href"),
+                            'id': item.attr("data_id")
+                        }
+                    });
+
+
+                });
+
+            });
+
+
+        })
+    </script>
+}

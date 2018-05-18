@@ -14,12 +14,19 @@ namespace ik.Models
     
     public partial class ImzaTakip
     {
-        public int id { get; set; }
-        public int personelID { get; set; }
-        public System.DateTime Tarih { get; set; }
-        public Nullable<System.DateTime> ImzaTarih { get; set; }
-        public string Aciklama { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ImzaTakip()
+        {
+            this.ImzaTakipDetays = new HashSet<ImzaTakipDetay>();
+        }
     
-        public virtual Personel Personel { get; set; }
+        public int id { get; set; }
+        public string ad { get; set; }
+        public System.DateTime tarih { get; set; }
+        public Nullable<System.DateTime> sonTarih { get; set; }
+        public string aciklama { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImzaTakipDetay> ImzaTakipDetays { get; set; }
     }
 }

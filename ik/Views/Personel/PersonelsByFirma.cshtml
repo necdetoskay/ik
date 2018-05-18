@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ik.Controllers.PersonelsByFirmasVM>
+
+@{
+    ViewBag.Title = "PersonelsByFirma";
+}
+
+<h2>@ViewBag.Firma</h2>
+
+<p>
+    @Html.ActionLink("Tüm Personel Sayı", "TumPersonelSayi")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th @Html.DisplayNameFor(model => model.Görevi)></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Görevi)
+        </td>
+    </tr>
+}
+
+</table>

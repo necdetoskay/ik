@@ -1,0 +1,249 @@
+﻿
+@{
+    ViewBag.Title = "Personel Avans Formu";
+}
+
+<style type="text/css">
+    .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
+        background: blue;
+    }
+
+    .ui-autocomplete {
+        -moz-background-clip: padding;
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background-clip: padding-box;
+        background-color: #ffffff;
+        *border-bottom-width: 2px;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        *border-right-width: 2px;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        float: left;
+        left: 0;
+        list-style: none;
+        margin: 0 0 10px 25px;
+        min-width: 160px;
+        padding: 4px 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
+    }
+</style>
+
+<div class="col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#avansform">Avans Girişi</a></li>
+        <li><a data-toggle="tab" href="#avanskontrol">Avans Kontrol</a></li>
+    </ul>
+
+
+
+
+    <div class="tab-content">
+        <div id="avansform" class="tab-pane fade in active">
+            <form class="form-group">
+                <div class="form-group">
+                    <label class="sr-only">Email</label>
+                    <p class="form-control-static">Ad Soyad ve Avans Miktarı</p>
+                </div>
+                <div class="form-group">
+                    <label for="adsoyad" class="sr-only">Ad Soyad</label>
+                    <div>
+                        <input type="text" id="adsoyad">
+                        <input type="text" id="avanstutar" placeholder="Avans Miktarı">
+                    </div>
+                </div>
+
+                <button type="button" id="btnAra" class="btn btn-default">Hazırla</button>
+            </form>
+
+            <div id="avans" style="margin: 50px;">
+
+            </div>
+            <div style="clear: both;"></div>
+            <div style="margin-top: 50px;">
+                <button type="button" id="btnYazdir" class="btn btn-default">Yazdır</button>
+            </div>
+        </div>
+        <div id="avanskontrol" class="tab-pane fade">
+            <button onclick="avanskarsılastir()">Karşılaştır</button>
+            <div id="avanslar"></div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.PrintArea.js"></script>
+    <script type="text/javascript">
+
+        function avanskaydet() {
+            var pid = $("#adsoyad").attr("data-id");
+            var tutar = $("#avanstutar").val();
+            console.log(pid);
+            console.log(tutar);
+            if (pid == "" || tutar == "") return;
+            var r = confirm("Avans kaydedilsin mi");
+            if (r == false) return;
+
+            $.ajax({
+                url: '@Url.Action("AvansEkle")',
+                type: "post",
+                data: {
+                    personelid: pid, tutar: tutar
+                }, success: function () {
+
+                }
+            });
+        }
+        var avanskarsılastir = function () {
+            $.ajax({
+                url: '@Url.Action("_AvansKontrol","Personel")',
+                type: 'GET',
+                success: function (result) {
+                    // console.log(result);
+                    var avanslar = $('#avanslar');
+                    avanslar.html('');
+                    var table = $('<table class="table table-bordered"><thead><tr><th>Personel Ad Soyad</th><th>Geçen Ayki Avans tutarı</th><th>Bu Ayki Avans Tutarı</th></tr></thead></table>');
+                    table.append('<tbody></tbody>');
+                    var row;
+                    if (result.Success === true) {
+
+                        $.each(result.Data, function (di, ditem) {
+                            row = $('<tr></tr>');
+                            row.append('<td>' + ditem.AdSoyad + '</td><td>' + ditem.GeçenAyTutar + '</td><td>' + ditem.BuAyTutar + '</td>');
+
+
+                            table.append(row);
+                        });
+
+
+                    }
+                    avanslar.append(table);
+                }
+            });
+        };
+
+
+
+
+        $(function () {
+
+            //AdSoyad = avans.Key,
+            //       GeçenAyTutar = tutar1,
+            //       BuAyTutar = tutar2
+
+            avanskarsılastir();
+
+            $('#avanstutar').bind('keypress', function (e) {
+                return !(e.which != 8 && e.which != 0 &&
+                (e.which < 48 || e.which > 57) && e.which != 46);
+            });
+
+
+            $('#btnYazdir').on('click', function () {
+                var mode = 'iframe'; //popup
+                var close = mode == "popup";
+                var options = { mode: mode, popClose: close };
+                avanskaydet();
+                $("#avans").printArea(options);
+                //avans ı database e kaydet
+
+
+            });
+
+            $('#btnAra').on('click', function () {
+
+                var avans = $('#avans');
+                avans.html('');
+                var adsoyad = $("#adsoyad");
+                var miktar = $('#avanstutar');
+                if (adsoyad.val() == '' | miktar.val() == '') {
+                    console.log(adsoyad.val());
+                    console.log(miktar.val());
+                    return;
+                }
+
+
+                avans.append('<div class="text-right" style=" margin-top:100px;display:block;"> @DateTime.Now.ToShortDateString()</div>');
+                avans.append('<div style="margin-top: 100px;font-size:16px;text-align:center;"><strong>KENT KONUT İNŞAAT SAN.VE TİC. A.Ş. GENEL MÜDÜRLÜĞÜ\'NE</strong></div>');
+                avans.append('<div class="text-justify" style="text-indent: 100px;margin-top: 50px;">@DateTime.Now.ToString("MMMM") @DateTime.Now.Year dönemine ait maaşıma mahsuben <span id="tutar"></span>TL (<span id="tutarstr"></span>) avans talebimi olurlarınıza arz ederim.</div>');
+
+                avans.append('<div class="col-md-8 col-sm-8 col-lg-8""></div><div class="col-md-4" style="float:right;"><div style="margin-top: 150px;text-align: center;">Saygılarımla</div><div style="font-size:medium;margin-top:20px;text-align: center;" id="ad"></div></div>');
+                avans.append('<div style="clear:both;"></div><div style="margin-top:100px;border:1px solid;"></div>');
+                avans.append('<div style="margin-top:50px"></div>');
+                avans.append('<div style="float:left">İnsan Kaynakları</div><div style="float:right">Mali İşler</div>');
+
+
+                // alert($("#adsoyad").attr('data-id'));
+                $('#ad').html(adsoyad.val());
+                $('#tutar').html(miktar.val());
+                $.ajax({
+                    url: '@Url.Action("yaziyaCevir")',
+                    method: 'get',
+                    data: { 'tutar': miktar.val() },
+                    success: function (data) {
+                        $('#tutarstr').html(data);
+                    }
+                });
+
+
+            });
+
+            $("#adsoyad").on("propertychange change keyup paste input", function () {
+                if ($(this).val() == "") {
+                    //$('#personel').empty();
+                }
+            });
+            $("#adsoyad").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("PersonelAra")',
+                        minLength: 3,
+                        dataType: "json",
+                        type: "post",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }));
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("error: " + errorThrown);
+                        }
+
+                    });
+                },
+                select: function (event, ui) {
+                    $('#adsoyad').attr('data-id', ui.item.val);
+                },
+                focus: function (event, ui) {
+                    $(".ui-helper-hidden-accessible").hide();
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+}
+
+
+

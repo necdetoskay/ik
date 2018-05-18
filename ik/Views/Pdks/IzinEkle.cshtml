@@ -1,0 +1,149 @@
+﻿@using ik.Models
+@model System.Collections.Generic.IEnumerable<ik.Models.Izin>
+
+@{
+    ViewBag.Title = "IzinEkle";
+}
+
+@Html.ActionLink("İzin Ekle", "Create", "Izin", null, new { @class = "btn btn-primary" })
+
+<h2>Personelin İK İzin Listesi</h2>
+
+@*@Html.Hidden("personelID", (string)ViewBag.pID)*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Personel.adsoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.yil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.baslangictarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.bitistarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aciklama)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gun)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="pdksizinliste">
+        @foreach (var item in Model)
+        {
+
+            <tr id="@item.id" style='@(item.Mevcut ? "background-color: green;" : "background-color: red;")'>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Personel.adsoyad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.yil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.baslangictarih)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.bitistarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.aciklama)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gun)
+                </td>
+                <td>
+                    @if (!item.Mevcut)
+                {
+                        <input type="button" class="pdksbtn" data-ID="@item.id" value="PDKS İzin Ekle" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<link href="~/Content/themes/base/dialog.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function ConfirmDialog(message) {
+        $('<div></div>').appendTo('body')
+            .html('<div><h6>' + message + '?</h6></div>')
+            .dialog({
+                modal: true, title: '', zIndex: 10000, autoOpen: true,
+                width: 'auto', resizable: false,
+                buttons: {
+                    Yes: function () {
+                        // $(obj).removeAttr('onclick');
+                        // $(obj).parents('.Parent').remove();
+
+                        // $('body').append('<h1>Confirm Dialog Result: <i>Yes</i></h1>');
+
+                        $(this).dialog("close");
+                    },
+                    No: function () {
+                        // $('body').append('<h1>Confirm Dialog Result: <i>No</i></h1>');
+
+                        $(this).dialog("close");
+                    }
+                },
+                close: function (event, ui) {
+                    $(this).remove();
+                }
+            });
+    };
+
+
+    $(function () {
+        $('.pdksbtn').each(function () {
+            var btn = $(this);
+            btn.click(function () {
+                var izinid = btn.attr('data-id');
+                $.ajax({
+                    url: '@Url.Action("PDKSIzinEkle","Pdks")',
+                    type: 'post',
+                    data: { 'izinid': izinid },
+                    success: function (data) {
+                       
+                        if (data.Success === true) {
+                           
+                            var izinid = data.izinid;
+                           
+                            $('.pdksbtn').each(function () {
+                                var btn = $(this);
+                                //console.log(this);
+                                var id = btn.attr("data-id");
+                               // alert("başarılı " + izinid +"/ "+id);
+                                if (id == izinid) {
+                                    btn.closest("tr").css("background-color", "green");
+                                    btn.remove();
+                                    //console.log(izinid + " izin ekleden sonra id geri döndü");
+                                }
+
+                            });
+
+                            //ConfirmDialog('Kayıt Başarılı');
+                            //var body = $('#pdksizinliste');
+
+                        } else {
+
+                        }
+                    }
+                });
+            });
+
+        });
+    })
+</script>
+

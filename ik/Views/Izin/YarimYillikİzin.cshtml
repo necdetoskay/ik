@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "YarimYillikİzin";
+}
+
+<h2>YillikIzin</h2>
+
+
+<div class="form-group">
+    @Html.Label("Personel Ad", new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("PersonelListe", (SelectList)ViewBag.personelListe, "Personel Seçiniz..", new { htmlAttributes = new { @class = "form-control datetime" } })
+        <button type="button" id="btnEkle" class="btn btn-default">Yazdır</button>
+
+        
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('#PersonelListe').on('change', function() {
+                var id = $(this).val();
+                //varsa tamamlanmamış yıllık izinleri listele
+
+            });
+        })
+    </script>
+}

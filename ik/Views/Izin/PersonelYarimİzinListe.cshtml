@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ik.Models.YizinDetay>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Yizin.Personel.adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.belgesayi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.baslangic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bitis)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Yizin.Personel.adsoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.belgesayi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tarih)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.baslangic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bitis)
+        </td>
+
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+        </td>
+    </tr>
+}
+
+</table>

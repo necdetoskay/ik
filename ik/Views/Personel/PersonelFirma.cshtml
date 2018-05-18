@@ -1,0 +1,257 @@
+﻿@model ik.Models.DataClasslari.PersonelFirmaVM
+
+@{
+    ViewBag.Title = "PersonelFirma";
+    var a = ViewData["Message"];
+    if (((bool)ViewData["Success"]) == true)
+    {
+        @*<script>
+
+            $.bootstrapGrowl('Kayıt Başarılı', {
+                type: 'success',
+                delay: 2000
+            });
+        </script>*@
+    }
+}
+
+<h2>PersonelFirma</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PersonelFirmaVM</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="PersonelID">Personel</label>
+            <div>
+                @Html.DropDownListFor(c => c.PersonelID, (SelectList)ViewBag.PersonelListe, "Personel Seçiniz")
+                @Html.ValidationMessageFor(c => c.PersonelID)
+                <input id="prev" class="btn btn-primary btn-sm" value="Önceki" />
+                <input id="next" class="btn btn-primary btn-sm" value="Sonraki" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="FirmaId">Firma</label>
+            <div>
+                @Html.DropDownListFor(c => c.FirmaId, (SelectList)ViewBag.FirmaListe, "Firma Seçiniz")
+                @Html.ValidationMessageFor(c => c.FirmaId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="IhaleDonem">İhale Dönemi</label>
+            <div>
+                @Html.DropDownListFor(c => c.IhaleDonem, (SelectList)ViewBag.IhaleListe, "İhale Seçiniz")
+                @Html.ValidationMessageFor(c => c.IhaleDonem)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="KadroTipi">Kadro Tipi</label>
+            <div>
+                @Html.DropDownListFor(c => c.KadroTipi, (SelectList)ViewBag.KadroListe, "Kadro Tipi Seçiniz")
+                @Html.ValidationMessageFor(c => c.KadroTipi)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Birimi">Birimi</label>
+            <div>
+                @Html.DropDownListFor(c => c.Birimi, (SelectList)ViewBag.BirimListe, "Birim Seçiniz")
+                @Html.ValidationMessageFor(c => c.Birimi)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Birimi">Lokasyon</label>
+            <div>
+                @Html.DropDownListFor(c => c.Lokasyon, (SelectList)ViewBag.LokasyonListe, "Lokasyon Seçiniz")
+                @Html.ValidationMessageFor(c => c.Lokasyon)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Gorevi">Görevi</label>
+            <div>
+                @Html.DropDownListFor(c => c.Gorevi, (SelectList)ViewBag.GorevListe, "Görev Seçiniz")
+                @Html.ValidationMessageFor(c => c.Gorevi)
+                <input id="gorevbtn" class="btn btn-primary btn-sm" value="Görev Ekle" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Tahsili">Tahsili</label>
+            <div>
+                @Html.DropDownListFor(c => c.Tahsili, (SelectList)ViewBag.TahsilListe, "Tahsil Seçiniz")
+                @Html.ValidationMessageFor(c => c.Tahsili)
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/personel.js"></script>
+    <script src="~/Scripts/jquery.bootstrap-growl.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var success ='@ViewData["Success"]';
+            console.log(success);
+            if (success === 'True') {
+
+                $.bootstrapGrowl('Kayıt Başarılı', {
+                    type: 'success',
+                    delay: 2000
+                });
+            }
+
+            $('#gorevbtn').dialogify({
+                url: '@Url.Action("_GorevEkle")',
+                title: 'Yeni Görev ekle',
+                label: 'Görev Adı Giriniz Giriniz',
+                callback: function (result) {
+                    if (result.Success === false) return;
+                    var okullar = $('#Gorevi');
+                    okullar.empty();
+                    $.each(result.Data, function (i, item) {
+                        okullar.append('<option Value="' + item.Value + '" >' + item.Text + '</option>');
+                    });
+                    okullar.val(result.Selected);
+                }
+            });
+
+
+
+
+
+            //seçilen personelin varsa son çalışma kaydını getirir firma listesi ve o firmaya bağlı ihaleleri getir listelere yukle
+            var ihaledonemyukle = function (data) {
+                var ihale = $('#IhaleDonem');
+                ihale.empty();
+                $.each(data, function (i, ih) {
+                    ihale.append('<option value="' + ih.Value + '">' + ih.Tarih1.toDDMMYYY() + "--" + (ih.Tarih2 === null ? "...." : ih.Tarih2.toDDMMYYY()) + '</option>');
+                });
+            };
+            $('#PersonelID').change(function () {
+                var personelid = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("_PersonelIhale")',
+                    type: 'GET',
+                    data: {
+                        personelid
+                    }, success: function (result) {
+                        if (result.Success === true) {
+
+                            //console.log(result);
+                            $('#FirmaId').val(result.firmaid);
+                            ihaledonemyukle(result.donemler);
+                            $('#IhaleDonem').val(result.secilidonem);
+                            $('#KadroTipi').val(result.kadrotipi);
+                            $('#Birimi').val(result.birimi);
+                            $('#Lokasyon').val(result.lokasyon);
+                            $('#Gorevi').val(result.gorevi);
+                            $('#Tahsili').val(result.tahsili);
+
+
+                        } else {
+                            $("#FirmaId").val($("#FirmaId option:first").val());
+                            $('#IhaleDonem').empty();
+                            $('#KadroTipi').val($("#KadroTipi option:first").val());
+                            $('#Birimi').val($("#Birimi option:first").val());
+                            $('#Lokasyon').val($("#Lokasyon option:first").val());
+                            $('#Gorevi').val(result.gorevi);
+                            $('#Tahsili').val(result.tahsili);
+                        }
+                    }
+                });
+            });
+
+
+            $('#FirmaId').change(function () {
+
+                $.ajax({
+                    url: '@Url.Action("_FirmaIhale", "Personel")',
+                    type: 'POST',
+                    data: { id: $(this).val() },
+                    success: function (result) {
+                        // console.log(result.Data);
+                        ihaledonemyukle(result.Data);
+
+                    }
+                });
+            });
+
+            @*$('#gorevbtn').on('click', function() {
+                BootstrapDialog.show({
+                    title: 'Yeni Görev ekle',
+                    message: 'Görev Adı Giriniz Giriniz: <input id="gorevad" type="text" class="form-control">',
+                    buttons: [
+                        {
+                            label: 'İptal',
+                            action: function (dialogRef) {
+                                dialogRef.close();
+                            }
+                        },
+                        {
+                            label: 'Kaydet',
+                            action: function (dialogRef) {
+                                $.ajax({
+                                    url: '@Url.Action("_GorevEkle")',
+                                    type: 'POST',
+                                    data: {
+                                        ad: $('#gorevad').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === false) return;
+                                        var okullar = $('#Gorevi');
+                                        okullar.empty();
+                                        $.each(result.Data, function (i, item) {
+                                            okullar.append('<option Value="' + item.Value + '" >' + item.Text + '</option>');
+                                        });
+                                        okullar.val(result.Selected);
+                                        dialogRef.close();
+                                    }
+                                });
+                            }
+                        }
+                    ]
+                });
+            });*@
+
+            $('#next').on('click', function () {
+                var nextElement = $('#PersonelID > option:selected').next('option');
+                if (nextElement.length > 0) {
+                    $('#PersonelID > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
+                    $('#PersonelID').trigger('change');
+                }
+            });
+
+            $("#prev").click(function () {
+                var nextElement = $('#PersonelID > option:selected').prev('option');
+                if (nextElement.length > 0) {
+                    $('#PersonelID > option:selected').removeAttr('selected').prev('option').attr('selected', 'selected');
+                    $('#PersonelID').trigger('change');
+                }
+            });
+        })
+    </script>
+}

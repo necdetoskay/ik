@@ -1,0 +1,249 @@
+﻿
+  
+  
+  jQuery.validator.methods.date = function(value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+
+
+mikroya girilen fakat ik ve pdks ye girilmeyen izinler izin durumunda listelendi. ik ve pdksye kaydetme işlemleri kaldı
+
+
+   var BirimListe = db.birims.Select(c => new SelectListItem()
+            {
+                Text = c.birimad,
+                Value = c.id.ToString()
+            });
+ $.each(data.BirimListe, function(i, brm) {
+ birim.append('<option value="' + brm.Value + '">' + brm.Text + '</option>');
+ });
+
+ *************************************liste oluşturma
+ <ul class="list-group">
+  <li class="list-group-item list-group-item-success">First item</li>
+  <li class="list-group-item list-group-item-info">Second item</li>
+  <li class="list-group-item list-group-item-warning">Third item</li>
+  <li class="list-group-item list-group-item-danger">Fourth item</li>
+</ul>
+
+
+http://bootstrap-confirmation.js.org/#usage
+
+
+http://bootstrap-notify.remabledesigns.com/
+
+$.notify({
+	title: '<strong>Heads up!</strong>',
+	message: 'You can use any of bootstraps other alert styles as well by default.'
+},{
+	type: 'danger'
+});
+
+
+var attr = $(this).attr('name');
+if (typeof attr !== typeof undefined && attr !== false) {
+    // ...
+}
+
+
+$('<form><input type="text" style="z-index:10000" name="name"><br></form>').dialog({
+  modal: true,
+  buttons: {
+    'OK': function () {
+      var name = $('input[name="name"]').val();
+      storeData(name);
+      $(this).dialog('close');
+      $(this).remove();
+    },
+    'Cancel': function () {
+      $(this).dialog('close');
+      $(this).remove();
+    }
+  }
+});
+
+
+
+
+
+
+<button onclick="myFunction()">Try it</button>
+<p id="demo"></p>
+<script>
+function myFunction() {
+    var person = prompt("Please enter your name", "Harry Potter");
+    if (person != null) {
+        document.getElementById("demo").innerHTML =
+        "Hello " + person + "! How are you today?";
+    }
+}
+</script>
+
+
+var txt;
+var r = confirm("Press a button!");
+if (r == true) {
+    txt = "You pressed OK!";
+} else {
+    txt = "You pressed Cancel!";
+}
+
+
+
+{"_id":745028,"name":"Izmit","country":"TR","coord":{"lon":29.916941,"lat":40.766941}}
+
+
+http://api.openweathermap.org/data/2.5/forecast/city?id=745028&APPID=8f7a341898fa36cb468cf9ddd7f1ada7
+
+
+(function($) {
+
+    $.fn.helloWorld = function( options ) {
+
+        // Establish our default settings
+        var settings = $.extend({
+            text         : 'Hello, World!',
+            color        : null,
+            fontStyle    : null
+        }, options);
+
+		return this.each( function() {
+			$(this).text( settings.text );
+
+			if ( settings.color ) {
+				$(this).css( 'color', settings.color );
+			}
+
+			if ( settings.fontStyle ) {
+				$(this).css( 'font-style', settings.fontStyle );
+			}
+		});
+
+    }
+
+}(jQuery));
+
+
+SETTİNG olarak fonksiyon atama
+var settings = $.extend({
+    text         : 'Hello, World!',
+    color        : null,
+    fontStyle    : null,
+    complete     : null
+}, options);
+
+return this.each( function() {
+    // Our plugin so far
+
+    if ( $.isFunction( settings.complete ) ) {
+        settings.complete.call( this );
+    }
+});
+
+
+$('h2').helloWorld({
+    text        : 'Salut, le monde!',
+    color       : '#005dff',
+    fontStyle   : 'italic',
+    complete    : function() { alert( 'Done!' ) }
+});
+
+//(result);
+                //var data=result.Data;
+                //drawTable(data);
+                //icratutar = result.Message.tutar;
+                //icrakalan = icratutar - odenen;
+                //$('#icraodenen').text(odenen.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //$('#icratutar').text(icratutar.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //$('#icrakalan').text(icrakalan.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //$('#adsoyad').text(result.Message.adsoyad);
+                //$('#dosyano').text(result.Message.dosyano);
+                //console.log(result.Message);
+                //$('#odenenler').TableEkle({
+                //    Sutunlar:["tarih","tutar","aciklama"],
+                //    Data:result.Data
+                //});
+
+                //var data=JSON.stringify(result.Data[0]);
+                ////console.log(data);
+                //var d = JSON.parse(data);
+                //for (var key in d )
+                //{
+                //    //console.log(key + ' : ' + data[key]);
+                //    console.log(key + ' --> ' + d[key]);
+                //}
+                //console.log(data);
+                //$.each($.parseJSON(data), function(k, v) {
+
+                //    for (var key in v)
+                //    {
+                //        console.log(key + ' --> ' + v[key]);
+
+                //    }
+                //    //return;
+                //});
+
+                //}
+
+
+
+
+
+REMOTE VALİDATİON ****************************************************************************************************
+	metadata
+     [Remote("AdSoyadKontrol", "Personel")]
+
+	 controller
+	  public JsonResult AdSoyadKontrol(string adsoyad)
+        {
+
+            if (db.Personels.SingleOrDefault(c => c.adsoyad == adsoyad) == null)
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+            string suggestedUID = String.Format(CultureInfo.InvariantCulture,
+               "{0} Kullanıcısı zaten kayıtlı.", adsoyad);
+            return Json(suggestedUID, JsonRequestBehavior.AllowGet);
+        }
+***********************************************************************************************************************
+
+YES NO DROPDOWNLİST YAPIMI*****************************************************************************************
+Code to setup DropDownList from Controller
+private void DropDownReBind()
+{
+    List<SelectListItem> SelYN = new List<SelectListItem>();
+
+    SelYN.Add(new SelectListItem
+    {
+        Text = "Yes",
+        Value = "1"
+    });
+    SelYN.Add(new SelectListItem
+    {
+        Text = "No",
+        Value = "0"
+    });
+
+    ViewData["selYN"] = SelYN;
+}
+
+ @Html.DropDownListFor(model => model.Annonymous, (IEnumerable<SelectListItem>)ViewData["selYN"], "-- Please Select --")
+ **************************************************************************************************************************
+
+
+
+ BootstrapDialog.confirm('Hi Apple, are you sure?', function(result){
+            if(result) {
+                alert('Yup.');
+            }else {
+                alert('Nope.');
+            }
+        });
+
+

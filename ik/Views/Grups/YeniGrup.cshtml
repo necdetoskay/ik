@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "YeniImzaTakip";
+}
+<h2>YeniImzaTakip</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Takip Konusu</th>
+            <th scope="col">Takip Edilen Sayı</th>
+            <th scope="col">İmzalanan</th>
+            <th scope="col">İmzalanmayan</th>
+        </tr>
+    </thead>
+    <tbody id="takipbody">
+    </tbody>
+</table>
+
+
+
+
+@*buraya daha önce oluşturulan listeler listelenecek*@
+
+<div class="row">
+    <div class="form-group col-md-4">
+        <label class="" for="personel">Personeller</label>
+        <select id="personel" class="form-control" multiple="multiple"></select>
+    </div>
+
+    <div class="form-group col-md-4"><label class="" for="grupad">Grup Adı</label>
+        <input type="text" id="grupad" class="form-control"/>
+         <input type="button" id="btnkaydet" value="Kaydet" class="btn btn-info" />
+    </div>
+    <div class="form-group col-md-4">
+    </div>
+</div>
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+
+    <script src="~/Scripts/imzatakip.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste","Personel")';
+            var imzakaydeturl = '@Url.Action("_imzalistekaydet","ImzaTakip")';
+            var imzalisteulr = '@Url.Action("_imzaliste","ImzaTakip")';
+          
+            izmatakiplistegoster();//daha önce oluşturulmuş takipleri listele
+
+            personelliste(personelbirimlisteurl);//dropdown doldur
+            imzalisteKaydet(imzakaydeturl);//dropdownda seçilen kişilerden verilen grup adına göre grup oluştur.
+        })
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ik.Models.Rapor>
+
+@{
+    ViewBag.Title = "SaglikRapor";
+}
+
+<h2>SaglikRapor</h2>
+
+<p>
+    @Html.ActionLink("Create New", "SaglikRaporEkle")
+</p><table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personel.adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.baslangic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bitis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rapor_HastalikTip.ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rapor_RaporTip.ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aciklama)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personel.adsoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.baslangic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bitis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rapor_HastalikTip.ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rapor_RaporTip.ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aciklama)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+        </td>
+    </tr>
+}
+
+</table>

@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 
 namespace ik.Controllers
 {
+    [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
     public class DahililerController : Controller
     {
@@ -61,7 +62,7 @@ namespace ik.Controllers
                 con.Close();
                 return Json(tel, JsonRequestBehavior.AllowGet);
             }
-            return Json(0);
+            //return Json(0);
         }
     }
 }

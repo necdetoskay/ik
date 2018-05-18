@@ -4,24 +4,102 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="40f4dbf028834d43b671d42ee88a1cd9" Name="Diagram1">
-        <EntityTypeShape EntityType="ikModel.birim" Width="1.5" PointX="0.75" PointY="4.625" />
-        <EntityTypeShape EntityType="ikModel.Grup" Width="1.5" PointX="3" PointY="8.875" />
+      <Diagram DiagramId="40f4dbf028834d43b671d42ee88a1cd9" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="ikModel.birim" Width="1.5" PointX="0.625" PointY="3" />
+        <EntityTypeShape EntityType="ikModel.Grup" Width="1.5" PointX="5.5" PointY="3.75" />
         <EntityTypeShape EntityType="ikModel.Izin" Width="1.5" PointX="8.25" PointY="4.125" />
-        <EntityTypeShape EntityType="ikModel.IzinTip" Width="1.5" PointX="6" PointY="7.875" />
+        <EntityTypeShape EntityType="ikModel.IzinTip" Width="1.5" PointX="5.25" PointY="5.875" />
         <EntityTypeShape EntityType="ikModel.ihale" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ikModel.Personel" Width="1.5" PointX="3" PointY="3.75" />
-        <EntityTypeShape EntityType="ikModel.PersonelGrup" Width="1.5" PointX="5.25" PointY="4.625" />
-        <EntityTypeShape EntityType="ikModel.Takip" Width="1.5" PointX="8.75" PointY="8.75" />
-        <AssociationConnector Association="ikModel.FK__personel__birimi__4CA06362" />
+        <EntityTypeShape EntityType="ikModel.PersonelGrup" Width="1.5" PointX="5.625" PointY="0.875" />
+        <EntityTypeShape EntityType="ikModel.Takip" Width="1.5" PointX="9.75" PointY="0.875" />
         <AssociationConnector Association="ikModel.FK__PersonelG__grupi__6E01572D" />
         <AssociationConnector Association="ikModel.FK__Izin__izintip__66603565" />
-        <AssociationConnector Association="ikModel.FK__Izin__personelid__656C112C" />
-        <AssociationConnector Association="ikModel.FK__PersonelG__perso__6EF57B66" />
-        <EntityTypeShape EntityType="ikModel.ImzaTakip" Width="1.5" PointX="0.5" PointY="0.5" />
-        <AssociationConnector Association="ikModel.FK__ImzaTakip__perso__60A75C0F" />
         <EntityTypeShape EntityType="ikModel.PersonelDevir" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ikModel.Avanslar" Width="1.5" PointX="4.875" PointY="8.75" />
+        <EntityTypeShape EntityType="ikModel.Icralar" Width="1.5" PointX="0.625" PointY="5.875" />
+        <EntityTypeShape EntityType="ikModel.IcraOdeme" Width="1.5" PointX="0.5" PointY="9.25" />
+        <AssociationConnector Association="ikModel.FK__IcraOdeme__icrai__1AD3FDA4" />
+        <EntityTypeShape EntityType="ikModel.EvrakListe" Width="1.5" PointX="5.75" PointY="10.125" />
+        <EntityTypeShape EntityType="ikModel.PersonelOzlukEvrak" Width="1.5" PointX="7.625" PointY="8.375" />
+        <AssociationConnector Association="ikModel.FK__PersonelO__evrak__367C1819" />
+        <EntityTypeShape EntityType="ikModel.ResmiTatil" Width="1.5" PointX="10.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ikModel.DiniGunler" Width="1.5" PointX="10.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ikModel.GeciciMazeret" Width="1.5" PointX="5.25" PointY="12.5" />
+        <EntityTypeShape EntityType="ikModel.Arsiv_Ihaletip" Width="1.5" PointX="10.375" PointY="10.375" />
+        <EntityTypeShape EntityType="ikModel.Arsiv_Personel" Width="1.5" PointX="12.625" PointY="10" />
+        <AssociationConnector Association="ikModel.FK__Arsiv_Per__ihale__6BE40491" />
+        <EntityTypeShape EntityType="ikModel.Gorev" Width="1.5" PointX="0.75" PointY="14.25" />
+        <EntityTypeShape EntityType="ikModel.Kadro" Width="1.5" PointX="0.75" PointY="11.875" />
+        <EntityTypeShape EntityType="ikModel.PersonelFirma" Width="1.5" PointX="5.25" PointY="16" />
+        <EntityTypeShape EntityType="ikModel.Firma" Width="1.5" PointX="14.375" PointY="6" />
+        <EntityTypeShape EntityType="ikModel.PersonelIhale" Width="1.5" PointX="16.625" PointY="8.875" />
+        <EntityTypeShape EntityType="ikModel.PersonelIhaleDonemleri" Width="1.5" PointX="18.875" PointY="6.375" />
+        <AssociationConnector Association="ikModel.FK__TaseronIh__firma__111589401" />
+        <AssociationConnector Association="ikModel.FK__PersonelI__ihale__2F9A1060" />
+        <AssociationConnector Association="ikModel.FK__PersonelF__firma__308E3499" />
+        <EntityTypeShape EntityType="ikModel.Lokasyon" Width="1.5" PointX="7.375" PointY="12" />
+        <EntityTypeShape EntityType="ikModel.Personel" Width="1.5" PointX="21.125" PointY="4.875" />
+        <EntityTypeShape EntityType="ikModel.PersonelDetay" Width="1.5" PointX="23.375" PointY="9.25" />
+        <AssociationConnector Association="ikModel.FK__Avanslar__person__03F0984C" />
+        <AssociationConnector Association="ikModel.FK__birim__birimAmir__208CD6FA" />
+        <AssociationConnector Association="ikModel.FK__personel__birimi__4CA06362" />
+        <AssociationConnector Association="ikModel.FK__GeciciMaz__perso__662B2B3B" />
+        <AssociationConnector Association="ikModel.FK__PersonelD__gorev__6BAEFA67" />
+        <AssociationConnector Association="ikModel.FK__Icralar__persone__17036CC0" />
+        <AssociationConnector Association="ikModel.FK__Izin__personelid__656C112C" />
+        <AssociationConnector Association="ikModel.FK__Personel__kadro__0A688BB1" />
+        <AssociationConnector Association="ikModel.FK__PersonelD__lokas__6ABAD62E" />
+        <AssociationConnector Association="ikModel.FK__Personel__calism__336AA144" />
+        <AssociationConnector Association="ikModel.FK__PersonelD__perso__69C6B1F5" />
         <AssociationConnector Association="ikModel.FK__PersonelD__perso__74AE54BC" />
+        <AssociationConnector Association="ikModel.FK__PersonelF__perso__756D6ECB" />
+        <AssociationConnector Association="ikModel.FK__PersonelG__perso__6EF57B66" />
+        <AssociationConnector Association="ikModel.FK__PersonelI__perso__2EA5EC27" />
+        <AssociationConnector Association="ikModel.FK__PersonelO__perso__3587F3E0" />
+        <EntityTypeShape EntityType="ikModel.Tahsil" Width="1.5" PointX="12.375" PointY="0.875" />
+        <AssociationConnector Association="ikModel.FK__PersonelD__tahsi__0E04126B" />
+        <EntityTypeShape EntityType="ikModel.SgkDosya" Width="1.5" PointX="9.375" PointY="13" />
+        <AssociationConnector Association="ikModel.FK__PersonelD__sgkdo__2C1E8537" />
+      </Diagram>
+      <Diagram DiagramId="9554967d1fab4efc8edd605db57ffc82" Name="staj" ZoomLevel="74" >
+        <EntityTypeShape EntityType="ikModel.Staj_Bolum" Width="1.5" PointX="3" PointY="1.625" />
+        <EntityTypeShape EntityType="ikModel.Staj_Evrak" Width="1.5" PointX="5.25" PointY="5.75" />
+        <EntityTypeShape EntityType="ikModel.Staj_Ogrenci" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="ikModel.Staj_Ogrenci_Evrak" Width="1.5" PointX="7.5" PointY="1.5" />
+        <EntityTypeShape EntityType="ikModel.Staj_Okul" Width="1.5" PointX="0.75" PointY="1.875" />
+        <AssociationConnector Association="ikModel.FK__Staj_Bolu__okuli__52E34C9D" />
+        <AssociationConnector Association="ikModel.FK__Staj_Ogre__bolum__4589517F" />
+        <AssociationConnector Association="ikModel.FK__Staj_Ogre__evrak__2704CA5F" />
+        <AssociationConnector Association="ikModel.FK__Staj_Ogre__ogren__2610A626" />
+      </Diagram>
+      <Diagram DiagramId="d44891e387814e26b19c0854fac56885" Name="sağlık rapor" >
+        <EntityTypeShape EntityType="ikModel.Rapor" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="ikModel.Rapor_HastalikTip" Width="1.5" PointX="5" PointY="0.625" />
+        <EntityTypeShape EntityType="ikModel.Rapor_RaporTip" Width="1.5" PointX="0.5" PointY="0.875" />
+        <AssociationConnector Association="ikModel.FK__Rapor__hastalikt__4FD1D5C8" />
+        <AssociationConnector Association="ikModel.FK__Rapor__raportip__4EDDB18F" />
+      </Diagram>
+      <Diagram DiagramId="453332083a6c4c1f832d89fe424772d5" Name="yapılacak iş" >
+        <EntityTypeShape EntityType="ikModel.Task" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="ikModel.Task_Details" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="ikModel.FK__Task_Deta__taski__26CFC035" />
+      </Diagram>
+      <Diagram DiagramId="55a4aaf8a9a444c5bfec98e9ec6eca30" Name="kurul" >
+        <EntityTypeShape EntityType="ikModel.Kurul" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="ikModel.KurulGorevTip" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="ikModel.KurulTip" Width="1.5" PointX="0.75" PointY="1.375" />
+        <AssociationConnector Association="ikModel.FK__Kurul__gorevtip__147C05D0" />
+        <AssociationConnector Association="ikModel.FK__KurulGore__kurul__1387E197" />
+      </Diagram>
+      <Diagram DiagramId="1c5f7196191d4d8b93828b6c18feeb15" Name="yarım yıllık izin" >
+        <EntityTypeShape EntityType="ikModel.Yizin" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="ikModel.YizinDetay" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="ikModel.FK__YizinDeta__yizin__2A6B46EF" />
+      </Diagram>
+      <Diagram DiagramId="32b441afbe304169be7451857f55654b" Name="imzatakip" >
+        <EntityTypeShape EntityType="ikModel.ImzaTakip" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="ikModel.ImzaTakipDetay" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="ikModel.FK__ImzaTakip__takip__62AFA012" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

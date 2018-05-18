@@ -7,7 +7,8 @@ using ik.Models;
 
 namespace ik.Controllers
 {
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay")]
     public class YillikIznimController : Controller
     {
         private readonly ikEntities db = new ikEntities();

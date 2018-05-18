@@ -5,30 +5,30 @@ using ik.Models;
 
 namespace ik.Controllers
 {
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class TakipController : Controller
     {
         private readonly ikEntities db = new ikEntities();
 
         protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
+        {db.Dispose();
             base.Dispose(disposing);
         }
 
         // GET: Takip
         public ActionResult Index()
         {
-            var liste = db.Takips.OrderBy(c => c.tamamlanma != null).ThenBy(c => c.sontarih).Take(10).ToList();
+            var liste = db.Takips.Where(c => c.tamamlanma != null).OrderBy(c => c.sontarih).ToList();
             return View(liste);
         }
 
         // GET: Takip/Create
         public ActionResult Create()
         {
-            if (User.Identity.Name != @"KENTKONUT\noskay")
-                return RedirectToAction("Index");
-            return View();
+            //if (User.Identity.Name != @"KENTKONUT\noskay")
+            //    return RedirectToAction("Index");
+            return PartialView();
         }
 
         // POST: Takip/Create
@@ -42,13 +42,14 @@ namespace ik.Controllers
                 {
                     db.Takips.Add(takip);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
                 }
-                return View(takip);
+                return PartialView(takip);
             }
             catch (Exception ex)
             {
-                return View(takip);
+                Console.WriteLine(ex.Message);
+                return PartialView(takip);
             }
         }
 
@@ -130,6 +131,11 @@ namespace ik.Controllers
             }
 
             return _RutinOzet(5);
+        }
+
+        public ActionResult RutinEkle()
+        {
+            return View();
         }
     }
 }

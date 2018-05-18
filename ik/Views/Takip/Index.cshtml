@@ -31,7 +31,8 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.DialogFormLink("Yeni Görev Ekle",@Url.Action("Create"),"Görev ekle","Info",@Url.Action("Index"),"500","500")
+   @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>
@@ -57,14 +58,23 @@
         {
             if (item.tamamlanma != null)
             {
-                cls = "success";
+                cls = "#008000";
             }
             else
             {
-                cls = "warning";
+                if (item.sontarih > DateTime.Now)
+                {
+                    cls = "#FFA500";
+                }
+                else
+                {
+                    cls = "##FF0000";
+
+                }
+
             }
         }
-        <tr class="@cls">
+        <tr bgcolor="@cls" class="@cls">
             <td>
                 @Html.DisplayFor(modelItem => item.aciklama)
             </td>

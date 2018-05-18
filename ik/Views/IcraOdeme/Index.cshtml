@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
+</ol>
+
+<h2><span id="adsoyad"></span> - <span id="dosyano"></span> Nolu Dosya</h2>
+@Html.Hidden("icraid", (int)ViewBag.icraid)
+
+<div id="odemeform" class="form-horizontal col-md-6">
+    <div class="form-group">
+        @Html.Label("Tarih", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("Tarih", "", null, new { @class = "form-control datetime" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Tutar", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("Tutar", "", null, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        <input type="button" value="Kaydet" id="icraKaydet" />
+    </div>
+</div>
+<div class="col-md-6">
+    <div>İcra Tutarı :<span id="icratutar"></span></div>
+    <div>Ödenen :<span id="icraodenen"></span></div>
+    <div>Kalan :<span id="icrakalan"></span></div>
+    <div>IBAN :<span id="ibanno"></span></div>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Tutar</th>
+                <th>Açıklama</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="icratable"></tbody>
+    </table>
+</div>
+
+
+
+
+@section scripts{
+
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var icraid = @ViewBag.icraid;
+            var icratutar = 0;
+            var icrakalan = 0;
+            var odenen = 0;
+
+           
+
+
+
+            function Authanticated() {
+                var name='@HttpContext.Current.User.Identity.Name';
+                 if(name.search('oskay')>-1)
+                     return true;
+                return false;
+            }
+            if (!Authanticated()) {
+                $('#odemeform').html('');
+            }
+         
+
+            function drawRow(rowData,body) {
+                var row = $("<tr/>");
+                body.append(row);
+                row.append($("<td>" + rowData.tarih.toDDMMYYY() + "</td>"));
+                row.append($("<td>" + rowData.tutar + "</td>"));
+                row.append($("<td>" + (rowData.aciklama === null ? " ":rowData.aciklama) + "</td>"));
+                if (Authanticated()) {
+                    row.append($("<td><a class='icraodemesil' data-id=" + rowData.id + " href=#>Sil</a></td>"));
+                } else {
+                    row.append($("<td></td>"));
+                }
+                
+                odenen = odenen + rowData.tutar;
+
+
+                $('.icraodemesil').each(function() {
+                    var link = $(this);
+
+                    link.click(function(event) {
+                        var id = link.attr("data-id");
+                        console.log(id);
+                        $.ajax({
+                            url:'@Url.Action("_IcraOdemeSil")',
+                            method:'get',
+                            data: {
+                                odemeid:id
+                            },
+                            success:function(result) {
+                                odemeTablosuHazirla(result);
+                            }
+                        });
+
+                    });
+
+                });
+            }
+
+            function drawTable(data) {
+                var body = $('#icratable');
+                body.empty();
+                odenen = 0;
+                for (var i = 0; i < data.length; i++) {
+                    drawRow(data[i],body);
+                }
+            }
+
+            function odemeTablosuHazirla(result) {
+                var data=result.Data;
+                drawTable(data);icratutar = result.Message.tutar;
+                icrakalan = icratutar - odenen;
+                $('#icraodenen').text(odenen.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                $('#icratutar').text(icratutar.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                $('#icrakalan').text(icrakalan.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                $('#adsoyad').text(result.Message.adsoyad);
+                $('#dosyano').text(result.Message.dosyano);
+                $('#ibanno').text(result.Message.IBAN);
+            }
+
+
+
+            $.ajax({
+                url:'@Url.Action("_IcraListe")',
+                data: {
+                    icraid:icraid
+                },
+                method:'get',
+                success:odemeTablosuHazirla
+
+            });
+
+            $('#icraKaydet').on('click', function() {
+                var tarih = $('#Tarih');
+                var tutar = $('#Tutar');
+
+                if (tarih.val() && tutar.val() ) {
+                    $.ajax({
+                        url: '@Url.Action("_IcraOdemeEkle")',
+                        method: 'post',
+                        data: {
+                            'icraid':icraid,
+                            'tarih':tarih.val(),
+                            'tutar':tutar.val()
+                        },
+                        success: function (result) {
+                            tarih.val('');
+                            tutar.val('');
+                            odemeTablosuHazirla(result);
+
+                        }
+                    });
+                }
+
+            });
+
+
+            $('#Tutar').ForceNumericOnly();
+            $('.datetime').datetimepicker({
+                locale: 'tr',
+                format: 'L'
+            });
+        });
+
+    </script>
+}
+

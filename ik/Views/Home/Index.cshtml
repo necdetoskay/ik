@@ -1,10 +1,60 @@
 ﻿@using ik.Models
 @{
     ViewBag.Title = "Home Page";
-}
+}<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style type="text/css">
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+
     .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
         background: blue;
+    }
+
+    #unutkanlar li {
+        border: 1px solid #eee;
+        width: 142px;
+        min-height: 20px;
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 0 0 0;
+        margin-right: 10px;
     }
 
     .ui-autocomplete {
@@ -37,72 +87,54 @@
     }
 </style>
 
-@*<div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>*@
+<div class="container">
+    <marquee id="dogumtarihi" behavior="scroll" direction="left"></marquee>
+</div>
+<div class="container">
+    <marquee id="dinigun" style="display: none" behavior="scroll" direction="left"></marquee>
+</div>
 <div class="row">
     <div class="col-md-6">
-        <p>
 
+        <p>
             <div class="panel panel-success">
-                <div class="panel-heading ">@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name == @"KENTKONUT\noskay")</div>
+                <div class="panel-heading ">
+                    @Html.DialogFormLink("Yeni Görev Ekle", @Url.Action("Create", "Takip"), "Görev ekle", "rutinis", @Url.Action("Index"), "400", "300").If(User.Identity.Name == @"KENTKONUT\noskay")
+                    @*@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name == @"KENTKONUT\noskay")*@
+                </div>
                 <div class="panel-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>İş</th>
-                                <th>Son Tarih</th>
-                            </tr>
-                        </thead>
+                    <table id="rutinis" class="table table-xs">
+                        <thead><tr><th>İş</th><th>Son Tarih</th></tr></thead>
                         <tbody id="istakip"></tbody>
                     </table>
-                    <div id="istakipload">
+                    <div id="istakipload" style="display: none">
                         <img class="loading" src="~/Content/Loading_icon.gif" />
                     </div>
                 </div>
-
             </div>
-
         <p>
-
-
         </p>
-        @*<p>
-                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
-            </p>*@
     </div>
     <div class="col-md-6">
         <p>
-        <div class="panel panel-default">
-            <div class="panel-heading ">Personel Telefon Numarası</div>
-            <div class="form-group form-control">
-                <div class="">
-                    <input type="text" class="col-md-12" id="personel" name="personel"/>
-
-                </div>
-            </div>
-            <br/>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Telefon 1</h3>
-                </div>
-                <div class="panel-body">
-                    <span id="tel1"></span>
+                <div class="panel-heading ">Aylık Eksik Hareketler</div>
+                <div class="panel panel-default" style="height: 200px;overflow: scroll;">
+                    <table class="table table-responsive table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sıra</th>
+                                <th>Tarih</th>
+                                <th>Personel Ad Soyad</th>
+                                <th>Mazeret</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eksikhareketler"></tbody>
+                    </table>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Telefon 2</h3>
-                </div>
-                <div class="panel-body">
-                    <span id="tel2"></span>
-                </div>
-            </div>
-        </div>
-            </p>
-</div>
+        </p>
+    </div>
 
     <div class="col-md-4">
         @*<h3>İzinli Gelmeyenler</h3>
@@ -165,6 +197,7 @@
                     <tr>
                         <th>Personel AdSoyad</th>
                         <th>Mazeret</th>
+                        <th>İş Başı</th>
                     </tr>
                 </thead>
                 <tbody id="izinligelmeyenler"></tbody>
@@ -174,25 +207,46 @@
             </div>
         </p>
     </div>
-    <div class="col-md-4">
-        <h3>Geç Kalanlar</h3>
-        <p>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Personel AdSoyad</th>
-                        <th>Giriş</th>
-                        <th>Geç Kalma</th>
 
-                    </tr>
-                </thead>
-                <tbody id="geckalanlartable"></tbody>
-            </table>
-            <div id="geckalanlar">
-                <img class="loading" src="~/Content/Loading_icon.gif" />
+    <div class="col-md-4">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#geckalanlar">Geç Kalanlar</a></li>
+            <li><a data-toggle="tab" href="#unutanlar">Çıkışta Kart Basmayanlar</a></li>
+
+        </ul>
+
+
+
+        @*<h3>Geç Kalanlar</h3>*@
+        <div class="tab-content">
+            <div id="geckalanlar" class="tab-pane fade in active">
+                <p>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Personel AdSoyad</th>
+                                <th>Giriş</th>
+                                <th>Geç Kalma</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="geckalanlartable"></tbody>
+                    </table>
+                    <div id="geckalanlar">
+                        <img class="loading" src="~/Content/Loading_icon.gif" />
+                    </div>
+                </p>
             </div>
-        </p>
+            <div id="unutanlar" class="tab-pane fade">
+                <ol id="unutkanlar"></ol>
+            </div>
+
+        </div>
+
+
+
     </div>
+
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -211,6 +265,8 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" id="rutintamamla" class="btn btn-primary">Tamamla</button>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -218,19 +274,243 @@
 @section Scripts{
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
     <script type="text/javascript">
 
+
+        function eksikhareket() {
+            $.ajax({
+                url: '@Url.Action("AylikEksikHareket", "PTakip")',
+                type: 'get',
+                data: ({
+                    tarih: new Date().toISOString()
+                }),
+                success: function (data) {
+                    //console.table(data);
+                    var $table = $('#eksikhareketler');
+                    $table.empty();
+                    jQuery.each(data, function (i, a) {
+                        $('<tr><td>' + (i + 1) + '</td> <td class="eksiktarih">' + a.tarih + '</td><td><a class="aizinsizler" data-id=' + a.id + ' href="#" >' + a.adsoyad + '</a></td><td>' + a.mazeret + '</td></tr>').appendTo($table);
+                    });
+
+                    $('.aizinsizler').each(function () {
+                        var item = $(this);
+
+                        item.on('click', function () {
+                            var id = item.attr("data-id");
+                            var tarih = $(item.closest("tr")).find("td.eksiktarih").html();
+                            // console.log(tarih);
+                            $('<form title="Mazeret Sebebi"><input type="text" style="z-index:10000" name="name"><br></form>').dialog({
+                                modal: true,
+                                buttons: {
+                                    'OK': function () {
+                                        var name = $('input[name="name"]').val();
+                                        // console.log(name);
+                                        //sisteme kaydet
+                                        //kayıt başarılı ise ad soyad yanına mazereti de ekle
+                                        $.ajax({
+                                            url: '@Url.Action("GeciciMazeret","PTakip")',
+                                            data: {
+                                                personelID: id,
+                                                mazeret: name,
+                                                tarih: tarih
+                                            },
+                                            method: "post",
+                                            success: function () {
+                                                eksikhareket();
+                                            }
+                                        });
+                                        $(this).dialog('close');
+                                        $(this).remove();
+                                    },
+                                    'Cancel': function () {
+                                        $(this).dialog('close');
+                                    }
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        }
+
+        function dinigunkontrol() {
+            $.ajax({
+                url: '@Url.Action("Gun", "Genel")',
+                method: 'get',
+                data: {
+                    'tarih': new Date().toISOString()
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        console.log(result.Data);
+                        var $gun = $('#dinigun');
+                        $gun.html('');
+                        $gun.append(result.Data);
+                        $gun.css('display', "block");
+                    }
+                }
+            });
+        }
+
+        function dogumgunukontrol() {
+            $.ajax({
+                url: '@Url.Action("_PersonelDogumTarihi", "PTakip")',
+                method: 'get',
+                data: {
+                    'tarih': new Date().toISOString()
+                },
+                success: function (data) {
+                    if (data.Success === false) return;
+                    var dt = $('#dogumtarihi');
+                    dt.html('');
+                    jQuery.each(data.Data, function (index, item) {
+                        console.log(item.adsoyad);
+                        dt.append('<span>' + item.adsoyad + '</span> | ');
+                    });
+                    dt.css('display', "block");
+                }
+            });
+        }
+
+
+        function rutinyukle() {
+            var takip = $('#istakip');
+            var now = new Date();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("_RutinOzet", "Takip")',
+                data: {
+                    'limit': 10
+                },
+                success: function (data) {
+                    takip.empty();
+
+                    for (var i = 0; i < data.length; i++) {
+                        var product = data[i];
+                        var ek = "";
+                        if (moment(product.sontarih).isBefore(new Date(), 'day')) {
+                            ek = ' bgcolor="#FF0000">';
+                        } else {
+                            ek = ">";
+                        }
+                        takip.append("<tr" + ek + "<td><button type='button' class='btn btn-sm btn-primary' data-toggle='modal' data-rutinID='" + product.id + "' data-aciklama='" + product.aciklama + "' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
+                            + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
+                    }
+                    var element = $('#rutinis').children();
+
+                    element.each(function (i) {
+                        $(this).css('font-size', '8pt');
+                    });
+
+                },
+                done: function () {
+                    takipload.toggle();
+                }
+            });
+        }
+        function cikistakartbasmayanlar() {
+            var now = new Date();
+            $.ajax({
+                method: 'get',
+                url: '@Url.Action("CikistaKartBasmayanlar", "PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (data) {
+                    jQuery.each(data, function (index, item) {
+                        $('#unutkanlar').append('<li class="ui-state-default">' + item.adsoyad);
+                    });
+                }
+            });
+        }
+
+        function mazeretsizgelmeyenler() {
+            var target = $("#izinsizgelmeyenler");
+            var now = new Date();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretsizGelmeyenler", "PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (response) {
+                    target.append('<ul class="list-group">');
+                    for (var i = 0; i < response.length; i++) {
+                        target.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
+                    }
+                    target.append('</ul>');
+                    $('.loading').remove();
+                    $('#girisyapmayan').html(response.length);
+
+
+
+
+                }
+            });
+        }
+
+        function mazeretligelmeyenler() {
+            var izinli = $("#izinligelmeyenler");
+            var now = new Date();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (data) {
+                    izinli.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var product = data[i];
+                        izinli.append("<tr><td>" + product.adsoyad + "</td><td>"
+                            + product.aciklama + "</td><td>" + product.isbasi + "</td></tr>");
+                    }
+                }
+            });
+        }
+        function geckalanlar() {
+            var now = new Date();
+            $.ajax({
+                type: 'GET',
+                data: {
+                    'tarih1': now.toISOString(),
+                    'tarih2': now.toISOString()
+                },
+                url: '@Url.Action("GecKalanlar", "PTakip")',
+                success: function (data) {
+                    var geckalan = $("#geckalanlartable");
+                    geckalan.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var gec = data[i];
+                        geckalan.append("<tr><td>" + gec.adsoyad + "</td><td>"
+                            + gec.giris + "</td><td>"
+                            + gec.geckalma + "</td></tr>");
+                    }
+                }
+            });
+        }
+
         $(function () {
+            $.ajaxSetup({ cache: false });
+            $('.dialogLink').makeDialog();
+
+
+            dinigunkontrol();
+            dogumgunukontrol();
+            eksikhareket();
+
             $("#personel").on("propertychange change keyup paste input", function () {
                 if ($(this).val() == "") {
                     $('#tel1').html('');
                     $('#tel2').html('');
                 }
             });
+
             $("#personel").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '@Url.Action("PersonelListe","Dahililer")',
+                        url: '@Url.Action("PersonelListe", "Dahililer")',
                         minLength: 3,
                         dataType: "json",
                         type: "post",
@@ -249,7 +529,7 @@
                 select: function (event, ui) {
                     // alert(ui.item.val);
                     $.ajax({
-                        url: '@Url.Action("PersonelTelefon","Dahililer")',
+                        url: '@Url.Action("PersonelTelefon", "Dahililer")',
                         data: { personelid: ui.item.val },
                         type: 'GET',
                         success: function (data) {
@@ -260,14 +540,12 @@
                 }
             });
 
-
-
-
             $('#myModal').on('shown.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var recipient = button.data('aciklama');
                 var id = button.data('rutinid');
                 var modal = $(this);
+                $(".modal-backdrop").remove();
                 modal.find('.modal-title').text("İş Tamamla");
                 modal.find('.modal-body #aciklama').text(recipient);
                 modal.find('.modal-footer #rutintamamla').on('click', function () {
@@ -302,85 +580,35 @@
             var target = $("#izinsizgelmeyenler");
             var izinli = $("#izinligelmeyenler");
             var takip = $('#istakip');
+            var takipload = $('#istakipload');
             var now = new Date();
-
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("_RutinOzet", "Takip")',
-                data: {
-                    'limit': 5
-                },
-                success: function (data) {
-                    takip.empty();
-
-                    for (var i = 0; i < data.length; i++) {
-                        var product = data[i];
-                        var ek = "";
-                        if (moment(product.sontarih).isBefore(new Date(), 'day')) {
-                            ek = ' bgcolor="#FF0000">';
-                        } else {
-                            ek = ">";
-                        }
-                        takip.append("<tr" + ek + "<td><button type='button' class='btn btn-primary' data-toggle='modal' data-rutinID='" + product.id + "' data-aciklama='" + product.aciklama + "' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
-                            + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
-                    }
-                }
-            });
+            takipload.toggle();
 
 
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("MazeretsizGelmeyenler", "PTakip")',
-                data: {
-                    'tarih1': now.toISOString()
-                },
-                success: function (response) {
-                    target.append('<ul class="list-group">');
-                    for (var i = 0; i < response.length; i++) {
-                        target.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
-                    }
-                    target.append('</ul>');
-                    $('.loading').remove();
-                    $('#girisyapmayan').html(response.length);
-                }
-            });
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
-                data: {
-                    'tarih1': now.toISOString()
-                },
-                success: function (data) {
-                    izinli.empty();
-                    for (var i = 0; i < data.length; i++) {
-                        var product = data[i];
-                        izinli.append("<tr><td>" + product.adsoyad + "</td><td>"
-                            + product.aciklama + "</td></tr>");
-                    }
-                }
-            });
+            rutinyukle();
+            cikistakartbasmayanlar();
+            mazeretsizgelmeyenler();
+            mazeretligelmeyenler();
+            geckalanlar();
 
 
-            $.ajax({
-                type: 'GET',
-                data: {
-                    'tarih1': now.toISOString(),
-                    'tarih2': now.toISOString()
-                },
-                url: '@Url.Action("GecKalanlar", "PTakip")',
-                success: function (data) {
-                    var geckalan = $("#geckalanlartable");
-                    geckalan.empty();
-                    for (var i = 0; i < data.length; i++) {
-                        var gec = data[i];
-                        geckalan.append("<tr><td>" + gec.adsoyad + "</td><td>"
-                            + gec.giris + "</td><td>"
-                            + gec.geckalma + "</td></tr>");
-                    }
-                }
-            });
 
+            //$.ajax({
+            //    method:'get',
+            //    url: 'http://api.openweathermap.org/data/2.5/forecast/city',
+            //    data: {
+            //        id:'745028',
+            //        APPID:'8f7a341898fa36cb468cf9ddd7f1ada7'
+            //    },
+            //    success: function (data) {
+            //        //console.log(data.list[0].main.temp-273,15);
 
-        })
+            //        //jQuery.each(data.list, function (index, item) {
+            //        //    console.log(new Date(item.dt*1000));
+            //        //});
+            //        console.log(data);
+            //    }
+            //});
+        });
     </script>
 }

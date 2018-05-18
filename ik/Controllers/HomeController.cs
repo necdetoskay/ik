@@ -1,8 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using ik.Models;
+using Newtonsoft.Json;
 
 namespace ik.Controllers
 {
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\agokalp")]
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -23,5 +28,11 @@ namespace ik.Controllers
 
             return View();
         }
+
+
+
     }
+
+    
+
 }

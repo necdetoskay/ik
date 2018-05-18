@@ -8,6 +8,7 @@ using WebGrease.Css.Extensions;
 
 namespace ik.Controllers
 {
+    [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay")]
     public class KentIhaleController : Controller
     {
@@ -37,6 +38,17 @@ namespace ik.Controllers
                 makine.PERSONELLERs.Where(c => c.per_soyadi.Contains(term))
                     .ForEach(d => liste.Add(new { Ad = d.per_adi, Soyad = d.per_soyadi, SicilNo = d.per_kod, Ihale = "KentIhale" }));
             }
+
+            using (var makine = new KENTEntities())
+            {
+                makine.PERSONELLERs.Where(c => c.per_adi.Contains(term))
+                    .ForEach(d => liste.Add(new { Ad = d.per_adi, Soyad = d.per_soyadi, SicilNo = d.per_kod, Ihale = "Kent KONUT" }));
+
+                makine.PERSONELLERs.Where(c => c.per_soyadi.Contains(term))
+                    .ForEach(d => liste.Add(new { Ad = d.per_adi, Soyad = d.per_soyadi, SicilNo = d.per_kod, Ihale = "Kent KONUT" }));
+            }
+
+
 
             return Json(liste,JsonRequestBehavior.AllowGet);
         }

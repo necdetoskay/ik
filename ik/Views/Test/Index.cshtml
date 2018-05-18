@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ik.Models.Personel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.puantaj)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sira)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sicilno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tcno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pdksid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.giristarihi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.kidemtarihi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mikroid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dogumtarihi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cikistarihi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.iban)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.birim.birimad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kadro1.ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonelIhaleDonemleri.id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonelDetay.thumb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonelDevir.personelID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.adsoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.puantaj)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sira)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sicilno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tcno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pdksid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.giristarihi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.kidemtarihi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mikroid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dogumtarihi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cikistarihi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.iban)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.birim.birimad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kadro1.ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonelIhaleDonemleri.id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonelDetay.thumb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonelDevir.personelID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

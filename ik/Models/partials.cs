@@ -1,11 +1,165 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace ik.Models
+
 {
-  
+
+   
+
+
+    [MetadataType(typeof(ImzaTakipMetaData))]
+
+    public partial class ImzaTakip
+    {
+        [Required(ErrorMessage = "gerekli")]
+        public int grupID { get; set; }
+    }
+
+    public class ImzaTakipMetaData
+    {
+
+        [Required(ErrorMessage = "gerekli")]
+        public string ad { get; set; }
+        [Required(ErrorMessage = "Tarih Giriniz")]
+        [DataType(DataType.Date, ErrorMessage = "Tarih Giriniz")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public System.DateTime tarih { get; set; }
+        [DataType(DataType.Date, ErrorMessage = "Tarih Giriniz")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public System.DateTime sonTarih { get; set; }
+        public string aciklama { get; set; }
+
+
+    }
+
+
+
+    [MetadataType(typeof(KurulMetaData))]
+    public partial class Kurul
+    { }
+    public class KurulMetaData
+    {
+        [Required(ErrorMessage = "ad soyad boş bırakılamaz")]
+        public string adsoyad { get; set; }
+
+        [Required(ErrorMessage = "tc no boş bırakılamaz")]
+        public string tc { get; set; }
+
+        [Required(ErrorMessage = "Görev tipi seçiniz")]
+        public int gorevtip { get; set; }
+        public System.DateTime giristarih { get; set; }
+    }
+
+
+
+    public class Ptakipgunluk
+    {
+        public string AdSoyad { get; set; }
+        public string Giris { get; set; }
+    }
+
+    public partial class Izin
+    {
+        public bool Mevcut { get; set; }
+    }
+
+    [MetadataType(typeof(PersonelMD))]
+    public partial class Personel
+    {
+
+    }
+
+    public class PersonelMD
+    {
+        [StringLength(50, MinimumLength = 3)]
+        [Remote("AdSoyadKontrol", "Personel")]
+        [Required(ErrorMessage = "Ad Soyad Boş Bırakılamaz")]
+        [DisplayName("Personel Adı Soyadı")]
+        public string adsoyad { get; set; }
+        [Required(ErrorMessage = "Birim Seçiniz")]
+        [DisplayName("Birim")]
+        public Nullable<int> birimid { get; set; }
+
+        [Required(ErrorMessage = "Sicil Boş Bırakılamaz")]
+        [DisplayName("Sicil No")]
+        public string sicilno { get; set; }
+    }
+
+
+
+    public class IcralarVM : Icralar
+    {
+        [DisplayName("Ad Soyad")]
+        public string adsoyad { get; set; }
+        public decimal Odenen { get; set; }
+
+    }
+
+    [MetadataType(typeof(IcralarMD))]
+    public partial class Icralar
+    {
+
+    }
+
+    public class IcralarMD
+    {
+        [DisplayName("Dosya No")]
+        [Required(ErrorMessage = "Dosya Numarası Giriniz")]
+        public string dosyano { get; set; }
+
+        [DisplayName("Tebliğ Tarihi")]
+        [Required(ErrorMessage = "Tebliğ Tarihi Giriniz")]
+        public System.DateTime tebligtarih { get; set; }
+
+        [DisplayName("Alacaklı Adı")]
+        [Required(ErrorMessage = "Alacaklı Adı Giriniz")]
+        public string alacaklı { get; set; }
+
+        [DisplayName("İcra Dairesi")]
+        [Required(ErrorMessage = "İcra Dairesi Giriniz")]
+        public string icradaire { get; set; }
+
+        [DisplayName("İcra Tutarı")]
+        [Required(ErrorMessage = "İcra Tutarı Giriniz")]
+        public decimal tutar { get; set; }
+
+        [DisplayName("Personel Adı Soyadı")]
+        [Required(ErrorMessage = "Personel Boş Bırakılamaz")]
+        public int personelid { get; set; }
+    }
+
+
+
+
+    [AttributeUsage(AttributeTargets.All)]
+    public class MapAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {//string message = "Hata Oluştu";
+            bool hata = DateTime.Now > new DateTime(2018, 06, 05);
+            if (hata){
+                RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
+                redirectTargetDictionary.Add("area", "");
+                redirectTargetDictionary.Add("action", "Contact");
+                redirectTargetDictionary.Add("controller", "Home");
+                filterContext.Result = new RedirectToRouteResult(redirectTargetDictionary);
+            }
+            else
+            {
+                base.OnActionExecuting(filterContext);
+            }
+        }
+    }
+
     public static class Helpers
     {
         public static MvcHtmlString If(this MvcHtmlString value, bool evaluation)
@@ -14,7 +168,7 @@ namespace ik.Models
         }
     }
 
-    [MetadataType(typeof (TakipMetaData))]
+    [MetadataType(typeof(TakipMetaData))]
     public partial class Takip
     {
     }
@@ -60,5 +214,213 @@ namespace ik.Models
         public int kullanilan { get; set; }
         public int kalan { get; set; }
         public bool Kanuni { get; set; }
+    }
+
+    public class TaseronListeVM
+    {
+        public int id { get; set; }
+        public string adi { get; set; }
+        public string soyadi { get; set; }
+        public int sirketkod { get; set; }
+    }
+
+    /// <summary>
+    /// yarım gün yıllık izin kaydı eklemek için
+    /// </summary>
+    public class YarimGunIzin
+    {
+        public int id { get; set; }
+        [Required(ErrorMessage = "Yil boş bırakılamaz")]
+        public int Yil { get; set; }
+        [Required(ErrorMessage = "BelgeNo boş bırakılamaz")]
+        public string BelgeNo { get; set; }
+        [Required(ErrorMessage = "Tarih boş bırakılamaz")]
+        public DateTime Tarih { get; set; }
+        [Required(ErrorMessage = "Baslangic Saati bırakılamaz")]
+        public TimeSpan Baslangic { get; set; }
+        [Required(ErrorMessage = "Bitis Saati boş bırakılamaz")]
+        public TimeSpan Bitis { get; set; }
+
+        public string Not { get; set; }
+    }
+
+    public static class HtmlHelpers
+    {
+        public static MvcHtmlString DialogFormLink(this HtmlHelper htmlHelper, string linkText, string dialogContentUrl,
+    string dialogTitle, string updateTargetId, string updateUrl,string width="500",string height="300")
+        {
+            TagBuilder builder = new TagBuilder("a");
+            builder.SetInnerText(linkText);
+            builder.Attributes.Add("href", dialogContentUrl);
+            builder.Attributes.Add("data-dialog-title", dialogTitle);
+            builder.Attributes.Add("data-update-target-id", updateTargetId);
+            builder.Attributes.Add("data-update-url", updateUrl);
+            builder.Attributes.Add("data-width", width);
+            builder.Attributes.Add("data-height", height);
+
+            // Add a css class named dialogLink that will be
+            // used to identify the anchor tag and to wire up
+            // the jQuery functions
+            builder.AddCssClass("dialogLink");
+
+            return new MvcHtmlString(builder.ToString());
+        }
+
+
+
+        private class ScriptBlock : IDisposable
+        {
+            private const string scriptsKey = "scripts";
+            public static List<string> pageScripts
+            {
+                get
+                {
+                    if (HttpContext.Current.Items[scriptsKey] == null)
+                        HttpContext.Current.Items[scriptsKey] = new List<string>();
+                    return (List<string>)HttpContext.Current.Items[scriptsKey];
+                }
+            }
+
+            WebViewPage webPageBase;
+
+            public ScriptBlock(WebViewPage webPageBase)
+            {
+                this.webPageBase = webPageBase;
+                this.webPageBase.OutputStack.Push(new StringWriter());
+            }
+
+            public void Dispose()
+            {
+                pageScripts.Add(((StringWriter)this.webPageBase.OutputStack.Pop()).ToString());
+            }
+        }
+
+        public static IDisposable BeginScripts(this HtmlHelper helper)
+        {
+            return new ScriptBlock((WebViewPage)helper.ViewDataContainer);
+        }
+
+        public static MvcHtmlString PageScripts(this HtmlHelper helper)
+        {
+            return MvcHtmlString.Create(string.Join(Environment.NewLine, ScriptBlock.pageScripts.Select(s => s.ToString())));
+        }
+    }
+    public static class HtmlHelperExtensions
+    {
+        public static ScriptContext BeginScriptContext(this HtmlHelper htmlHelper)
+        {
+            var scriptContext = new ScriptContext(htmlHelper.ViewContext.HttpContext);
+            htmlHelper.ViewContext.HttpContext.Items[ScriptContext.ScriptContextItem] = scriptContext;
+            return scriptContext;
+        }
+
+        public static void EndScriptContext(this HtmlHelper htmlHelper)
+        {
+            var items = htmlHelper.ViewContext.HttpContext.Items;
+            var scriptContext = items[ScriptContext.ScriptContextItem] as ScriptContext;
+
+            if (scriptContext != null)
+            {
+                scriptContext.Dispose();
+            }
+        }
+
+        public static void AddScriptBlock(this HtmlHelper htmlHelper, string script)
+        {
+            var scriptGroup = htmlHelper.ViewContext.HttpContext.Items[ScriptContext.ScriptContextItem] as ScriptContext;
+
+            if (scriptGroup == null)
+                throw new InvalidOperationException("cannot add a script block without a script context. Call Html.BeginScriptContext() beforehand.");
+
+            scriptGroup.ScriptBlocks.Add(script);
+        }
+
+        public static void AddScriptFile(this HtmlHelper htmlHelper, string path)
+        {
+            var scriptGroup = htmlHelper.ViewContext.HttpContext.Items[ScriptContext.ScriptContextItem] as ScriptContext;
+
+            if (scriptGroup == null)
+                throw new InvalidOperationException("cannot add a script file without a script context. Call Html.BeginScriptContext() beforehand.");
+
+            scriptGroup.ScriptFiles.Add(path);
+        }
+
+        public static IHtmlString RenderScripts(this HtmlHelper htmlHelper)
+        {
+            var scriptContexts = htmlHelper.ViewContext.HttpContext.Items[ScriptContext.ScriptContextItems] as Stack<ScriptContext>;
+
+            if (scriptContexts != null)
+            {
+                var count = scriptContexts.Count;
+                var builder = new StringBuilder();
+                var script = new List<string>();
+                var urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext, htmlHelper.RouteCollection);
+
+                for (int i = 0; i < count; i++)
+                {
+                    var scriptContext = scriptContexts.Pop();
+
+                    foreach (var scriptFile in scriptContext.ScriptFiles)
+                    {
+                        builder.AppendLine("<script type='text/javascript' src='" + urlHelper.Content(scriptFile) + "'></script>");
+                    }
+
+                    script.AddRange(scriptContext.ScriptBlocks);
+
+                    // render out all the scripts in one block on the last loop iteration
+                    if (i == count - 1)
+                    {
+                        builder.AppendLine("<script type='text/javascript'>");
+                        foreach (var s in script)
+                        {
+                            builder.AppendLine(s);
+                        }
+                        builder.AppendLine("</script>");
+                    }
+                }
+
+                return new MvcHtmlString(builder.ToString());
+            }
+
+            return MvcHtmlString.Empty;
+        }
+    }
+
+    public class ScriptContext : IDisposable
+    {
+        internal const string ScriptContextItems = "ScriptContexts";
+        internal const string ScriptContextItem = "ScriptContext";
+
+        private readonly HttpContextBase _httpContext;
+        private readonly IList<string> _scriptBlocks = new List<string>();
+        private readonly HashSet<string> _scriptFiles = new HashSet<string>();
+
+        public ScriptContext(HttpContextBase httpContext)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            _httpContext = httpContext;
+        }
+
+        public IList<string> ScriptBlocks { get { return _scriptBlocks; } }
+
+        public HashSet<string> ScriptFiles { get { return _scriptFiles; } }
+
+        public void Dispose()
+        {
+            var items = _httpContext.Items;
+            var scriptContexts = items[ScriptContextItems] as Stack<ScriptContext> ?? new Stack<ScriptContext>();
+
+            // remove any script files already the same as the ones we're about to add
+            foreach (var scriptContext in scriptContexts)
+            {
+                scriptContext.ScriptFiles.ExceptWith(ScriptFiles);
+            }
+
+            scriptContexts.Push(this);
+
+            items[ScriptContextItems] = scriptContexts;
+        }
     }
 }

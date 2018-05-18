@@ -1,94 +1,443 @@
-﻿@{
+﻿@using ik.Models
+@{
     ViewBag.Title = "YillikIzin";
 }
 
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Son Girilen izinler", "Index")</li>
+    <li class="active">Personel İzin Durumu</li>
+</ol>
+
+
 <h2>YillikIzin</h2>
 
-<div class="form-group">
-    @Html.Label("Personel Ad", new {@class = "control-label col-md-2"})
-    <div class="col-md-10">
-        @Html.DropDownList("PersonelListe", (SelectList) ViewBag.personelListe, "Personel Seçiniz..", new {htmlAttributes = new {@class = "form-control datetime"}})
+
+<div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close">&times;</button>
+                <h4 class="modal-title">Personel Adı</h4>
+            </div>
+            <div class="modal-body">
+                <form id="yarimform" method="post" action="@Url.Action("_yarimizinkaydet")">
+                    <div class="form-group">
+                        <label>İzin Yılı</label>
+                        <input type="number" id="izinyil" name="izinyil" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Belge No</label>
+                        <input type="text" name="belgeno" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tarih</label>
+                        <input type="date" name="tarih" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Başlangıç Saati</label>
+                        <input type="time" name="baslangic" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Bitiş Saati</label>
+                        <input type="time" name="bitis" class="form-control" />
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="yarimkaydet" class="btn btn-default">Kaydet</button>
+            </div>
+        </div>
 
     </div>
 </div>
 
 
+
+
+
+<div id="yazdır">
+
+    <div class="form-group">
+        @Html.Label("Personel Ad", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("PersonelListe", (SelectList)ViewBag.personelListe, "Personel Seçiniz..", new { htmlAttributes = new { @class = "form-control datetime" } })
+            <button type="button" id="btnYazdir" class="btn btn-default">Yazdır</button><span id="kıdemtarih"></span>
+            <div id="yarimekle"></div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Yıl</th>
+                <th>Hakedilen</th>
+                <th>Kullanılan</th>
+                <th>Kalan</th>
+                <th>Kanuni</th>
+                @*<th>İşlem</th>*@
+
+            </tr>
+            </thead>
+            <tbody id="result"></tbody>
+        </table>
+        <div class="h4">
+            <p id="toplamkalan"></p>
+        </div>
+      
+
+    </div>
+   
+</div>
 <div class="form-group">
     <table class="table">
         <thead>
-        <tr>
-            <th>Yıl</th>
-            <th>Hakedilen</th>
-            <th>Kullanılan</th>
-            <th>Kalan</th>
-            <th>Kanuni</th>
-        </tr>
+            <tr>
+                <th>Ad Soyad</th>
+                <th>İzin Yılı</th>
+                <th>İzin Günü</th>
+                <th>Başlangıç Tarihi</th>
+                <th>Bitis Tarihi</th>
+                <th>Açıklama</th>
+                @*// <th></th>*@
+                <th></th>
+            </tr>
         </thead>
-        <tbody id="result"></tbody>
+        <tbody id="mikroizin"></tbody>
     </table>
-    <div class="jumbotron">
-        <p id="toplamkalan"></p>
-    </div>
+    
+
 </div>
 
+<div id="yarimtablo"></div>
+
+
+
+
+
 @section scripts{
+    <link href="~/Content/themes/base/all.css" rel="stylesheet"/>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.PrintArea.js"></script><script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script src="~/Scripts/izin.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
     <script type="text/javascript">
         $(function() {
-            $('#PersonelListe').on('change', function() {
-                var id = $(this).val();
+
+            function mikrosonizinler() {
+
+
                 $.ajax({
+                    url: '@Url.Action("_SonIzinler", "Mikro")',
+                    type: 'GET',
+                    data: {},
+                    success: function(result) {
+                        var mikroizin = $('#mikroizin');
+                        mikroizin.empty();
+                        //console.log(result);
+                        $.each(result, function(i, izin) {
+                            mikroizin.append('<tr id="' + izin.per_RECno + '"><td>' + izin.per_adi + " " + izin.per_soyadi +
+                                '</td><td>' + izin.pz_izin_aciklama.substr(0, 4) +
+                                '</td><td>' + izin.pz_gun_sayisi +
+                                '</td><td>' + izin.pz_baslangictarih.toDDMMYYY() +
+                                '</td><td>' + izin.pz_gerceklesen_donus_tarihi.toDDMMYYY() +
+                                '</td><td>' + izin.pz_izin_aciklama + 
+                            '</td><td><input  class="btn btn-primary btn-sm ikekle" type="button" value="İK ekle"/></td></tr>');
+                        });
+
+                        //<td><input  class="btn btn-primary btn-sm pdksekle" type="button" value="PDKS Ekle"/></td>
+                        $('.ikekle').each(function() {
+                            var ik = $(this);
+                            ik.on('click', function() {
+                                var tr = ik.closest('tr');
+                                var mikroid = tr.attr("id");
+                                var izinyil = tr.find('td:eq(1)').text();
+                                var baslangic = tr.find('td:eq(3)').text();
+                                var bitis = tr.find('td:eq(4)').text();
+                                var aciklama = tr.find('td:eq(5)').text();
+                                var gun = tr.find('td:eq(2)').text();
+                                //alert(mikroid);
+                                //console.log(mikroid);
+                                //console.log(izinyil);
+                                //console.log(baslangic);
+                                //console.log(bitis);
+                                //console.log(aciklama);
+                                //console.log(gun);
+                                $.ajax({
+                                    url: '@Url.Action("PdksIzinGir", "Pdks")',
+                                    type: 'POST',
+                                    data: {
+                                        mikroid,
+                                        izinyil,
+                                        baslangic,
+                                        bitis,
+                                        aciklama
+                                    },
+                                    success: function(resultt) {
+                                        if (resultt.Success === true) {
+                                            //burada şirket aracı varsa uyar
+                                            if (resultt.Arac === true) {
+                                                alert("şirket aracı var. Abdullah'a haber ver");
+                                            }
+                                            ik.removeClass("btn-primary").addClass("btn-success");
+                                            var btn = $('<input  class="btn btn-primary btn-sm pdksekle" type="button" value="PDKS Ekle"/>');
+                                            var td = $('<td>');
+                                            td.append(btn);
+                                            tr.append(td);
+                                            btn.on('click', function() {
+                                                $.ajax({
+                                                    url: '@Url.Action("PdksdenIzinGir", "Izin")',
+                                                    type: 'POST',
+                                                    data: { mikroid, izinyil, baslangic, bitis, aciklama, gun },
+                                                    success: function(resulttt) {
+                                                        if (resulttt.Success === true) {
+                                                            btn.removeClass("btn-primary").addClass("btn-success");
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+
+                        });
+
+                    }
+                });
+            };
+
+            function yarimizinkontrol(yid) {
+                $.ajax({
+                    url: '@Url.Action("YarimIzinler", "Izin")',
+                    type: 'GET',
+                    data: { id: yid },
+                    success: function(result) {
+                        if (result.Success === true) {
+                            var parent = $('#yazdır');
+                            $('#tree').remove();
+                            var table = $('<table id="tree" class="table table-bordered">');
+                            $.each(result.data, function(i, item) {
+                                console.log(item);
+                                //  table.append('<tr class="treegrid-1"><td>' + item.Yıl + '</td><td></td><td></td><td></td></tr>');
+                                //console.log(item.Yıl);
+                                $.each(item.Detay, function(i2, item2) {
+                                    table.append('<tr><td>' + item.Yıl + '</td><td>' + item2.belgesayi + '</td><td>' + item2.tarih.toDDMMYYY() + '</td><td>' + item2.baslangic + '</td><td>' + item2.bitis +
+                                        '</td><td><input data-yil="' + item.Yıl + '" data-id="' + item.PID + '" data-yid="' + item.ID + '" data-yil="' + item.Yıl + '" data-toggle="modal" data-target="#myModal" type="button" class="btnYarimEkle" value="Ekle"/></td></tr>');
+                                    //console.log(item2.belgesayi);
+                                });
+
+                            });
+                            parent.append(table);
+                            //wireupyarimeklebtn
+
+                            // $('#tree').treegrid();
+                        } else {
+                            //$('#tree').remove();
+                        }
+
+                    }
+                });
+            };
+
+            function wireupyarimbutton(id) {
+                $('.btnYarimEkle').each(function() {
+                    var btn = $(this);
+                    var tr = btn.closest('tr');
+                    btn.attr("data-id", id);
+                    btn.attr("data-yil", tr.find('a.izinyil').text());
+                });
+            };
+
+            $("#myModal").on('show.bs.modal', function(e) {
+                $('#myModal  input').val('');
+            });
+
+
+            $("#myModal").on('shown.bs.modal', function(e) {
+
+                var form = $(e.relatedTarget);
+                var yil = form.data("yil");
+                if (typeof yil === "undefined" || yil === false || yil === null)
+                    yil = -1;
+                var id = form.data("id");
+                var yid = form.data("yid");
+
+                var yilinput = $('#myModal #izinyil');
+                if (yil > 0) {
+                    yilinput.val(yil);
+                    yilinput.attr("disabled", true);
+                } else {
+                    yilinput.attr("disabled", false);
+                }
+                $('#myModal').attr("data-id", id);
+                $('#myModal').attr("data-yil", yil);
+                $('#myModal').attr("data-yid", yid);
+                $('.modal-title').html(id);
+
+            });
+
+
+            $('#yarimkaydet').on('click', function() {
+                var form = $("#myModal");
+                var id = form.attr("data-id");
+                var yil = form.attr("data-yil");
+                var yid = form.attr("data-yid");
+
+                $('#yarimform').validate({
+                    rules: {
+                        izinyil: {
+                            required: true
+                        },
+                        belgeno: {
+                            required: true
+                        },
+                        tarih: {
+                            required: true
+                        },
+                        baslangic: {
+                            required: true
+                        },
+                        bitis: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        izinyil: 'izin yılı belirtilmemiş',
+                        belgeno: 'belge no belirtilmemiş',
+                        tarih: 'izin tarihi belirtilmemiş',
+                        baslangic: 'baslangıç saati belirtilmemiş',
+                        bitis: 'bitiş saati belirtilmemiş'
+                    },
+                    submitHandler: function(frm) {
+                        $.ajax({
+                            url: $(frm).attr('action'),
+                            type: 'post',
+                            data: $(frm).serialize(),
+                            beforeSend: function(xhr, settings) {
+
+                                settings.data += '&personelid=' + $('#myModal').attr("data-id");
+                                if ($('#izinyil').attr("disabled")) {
+                                    settings.data += '&yeni=false';
+                                    settings.data += '&izinyil=' + $('#myModal').attr("data-yil");
+                                    settings.data += '&yid=' + $('#myModal').attr("data-yid");
+                                } else {
+                                    settings.data += '&yeni=true';
+                                }
+                            },
+                            success: function(result) {
+                                if (result.Success === true) {
+                                    alert("başarılı");
+                                    $("#myModal").modal('hide');
+
+                                    var pid = $('#PersonelListe').val();
+                                    yarimizinkontrol(pid);
+
+                                } else {
+                                    alert("hatalı");
+                                    console.log(result.Error);
+                                }
+                            }
+                        });
+                    }
+                });
+                $('#yarimform').submit();
+                yarimizinkontrol(id);
+
+            });
+            $('#btnyarimizin').on('click', function() {
+                var pid = $('#PersonelListe').val();
+                if (pid.length < 1) {
+                    console.log('personel seçili değil');
+                    return;
+                }
+
+                //yarım izin ekle dialog çağır
+            });
+            $('#btnYazdir').on('click', function() {
+                var mode = 'iframe'; //popup
+                var close = mode == "popup";
+                var options = { mode: mode, popClose: close };
+
+                $("#yazdır").printArea(options);
+                //avans ı database e kaydet
+            });
+            mikrosonizinler();
+
+
+            $('#PersonelListe').on('change', function () {
+                var id = $(this).val();
+                $('#tree').remove();
+
+                //$('#yarimekle').html('<input data-toggle="modal" data-target="#myModal" type="button" data-id="' + id + '" value="Yarım İzin Ekle"/>');
+                $('#yarimekle').MakeDialogForm({
+                    id: 'btnyarimekle',
+                    text: 'Yarım İzin Ekle',
+                    url: '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1,
+                    title: 'yarım izin Title',
+                    updateurl: '@Url.Action("_PersonelYarimİzinListele")' + '/?id=' + id,
+                    bclass: 'btn btn-info',
+                    targetid: 'yarimtablo',
+                    width: "500",
+                    height:"400",
+                    complete: function() {alert("sonunda tamamlandı");
+                    }
+                });
+
+                ///////////   PERSONEL SEÇİLDİĞİNDE YARIM GÜZ İZİNLERİ LİSTELENİR   ////////////
+                var personelyarimizinurl = '@Url.Action("_PersonelYarimİzinListele")' + '/?id=' + id;
+                personelyarimizinyukle(personelyarimizinurl, "yarimtablo");
+                ////////////////////////////////////////////////////////////////////////////////
+
+                var izinler = $('#result');
+                izinler.empty();$.ajax({
                     url: '@Url.Action("PersonelYillikIzinDurum")',
                     data: { personelid: id },
                     type: 'GET',
-                    success: function(data) {
-                        var izinler = $('#result');
-                        izinler.empty();
+                    success: function (data) {
+                        $('#kıdemtarih').html(data.Kıdem);
+                        document.title = data.Sicil;
                         var toplamkalan = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var izin = data[i];
+                        for (var i = 0; i < data.Data.length; i++) {
+                            var izin = data.Data[i];
                             toplamkalan = toplamkalan + izin.kalan;
                             var ek = "";
+                            var yarimbtn = "";
                             if (izin.kalan < 1) {
                                 ek = ' bgcolor="#ffad99">';
                             } else {
                                 ek = ">";
+                                yarimbtn = "<input data-toggle='modal' data-target='#myModal' type='button' class='btnYarimEkle' value='Ekle'/>";
+
                             }
-                            izinler.append("<tr" + ek + "<td>" + izin.yil + "</td>" +
-                                "<td>" + izin.hakedilenizin + "</td>" +
-                                "<td>" + izin.kullanilan + "</td>" +
+                            izinler.append("<tr" + ek + '<td><a data-target="' + "@Url.Action("_PersonelIzinYilDetay")" + '" href="javascript:void(0)" class="izinyil">' + izin.yil + '</a></td>' +
+                                "<td>" + izin.hakedilenizin + "</td>" +"<td>" + izin.kullanilan + "</td>" +
                                 "<td>" + izin.kalan + "</td>" +
-                                 "<td>" + (izin.Kanuni?'Kullanmış':'Kullanmamış') + "</td>" +
+                                "<td>" + (izin.Kanuni ? 'Kullanmış' : 'Kullanmamış') + "</td>" +
+                                //"<td>" + yarimbtn + "</td>" +
                                 "</tr>");
 
                         }
                         $('#toplamkalan').text('Toplam Kalan İzin: ' + toplamkalan);
+
+                        wireupyarimbutton(id);
+                        izinyillinktazele(id);
+                       // yarimizinkontrol(id);
+
                     }
                 });
+
             });
         });
+
     </script>
 }
-
-
-
-
-
-@*@section scripts{
-
-        <script type="text/javascript">
-            $(function () {
-                $('#birim').on('change', function () {
-                    var ID = $(this).val();
-                    $.ajax({
-                        url: '@Url.Action("PersonelListe")',
-                        data: { departmanID: ID },
-                        cache: false,
-                        type: "POST",
-                        success: function (data) {
-                            $('#personelListe').html(data);
-                        }
-                    });
-                });
-            })
-        </script>
-    }*@

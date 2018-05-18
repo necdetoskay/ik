@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "EvrakAta";
+}
+
+<h2>EvrakAta</h2>
+
+<select id="stajer">
+    <option value="-1">--Stajer Seçiniz--</option>
+</select>
+
+<input id="kaydet" class="btn btn-primary" type="button" Value="Kaydet"/>
+
+
+
+@section scripts{
+
+<script src="~/Scripts/bootstrap-notify.min.js"></script>
+
+    <script type="text/javascript">
+
+        function stajeryukle() {
+            var stajer = $('#stajer');
+            $.ajax({
+                url: '@Url.Action("_StajerYukle")',
+                type: 'GET',
+                data: {
+                    stajer: stajer.val()
+                },
+                success: function(result) {
+                    $.each(result, function(i, stj) {
+                        stajer.append('<option value="' + stj.Value + '">' + stj.Text + '</option>');
+                    });
+
+                }
+            });
+        }
+
+        function stajerevrakekle(id) {
+            $.ajax({
+                url: '@Url.Action("_StajerEvrakYukle")',
+                type: 'POST',
+                data: {
+                    id
+                },
+                success:function(result) {
+                    if (result.Success === true) {
+                        $.notify({
+                            title: '<strong>'+result.AdSoyad+'</strong>',
+                            message: result.Message
+                        }, {
+                            type: 'success'
+                        });
+                    }
+                }
+            });
+        }
+
+        $(function() {
+            stajeryukle();
+            var stajer = $('#stajer');
+            $('#kaydet').on('click', function() {
+                if (stajer.val() === -1) return;
+                stajerevrakekle(stajer.val());
+            });
+
+
+        });
+    </script>
+}

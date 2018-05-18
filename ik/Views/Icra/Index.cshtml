@@ -1,0 +1,94 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.IcralarVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@helper Kalan(IcralarVM icra)
+{
+    var kalan = icra.tutar - icra.Odenen;
+    <span>@kalan</span>
+}
+@helper Durum(IcralarVM icra)
+{
+    var kalan = icra.tutar - icra.Odenen;
+    var durum = (kalan == 0 ? "TAMAMLANMIŞ" : (kalan==icra.tutar?"SIRADA":"DEVAM EDİYOR"));
+
+    <span>@durum</span>
+}
+<p>
+    @Html.ActionLink("Yeni İcra Dosyası Ekle", "Create", null, new { @class = "btn btn-primary" }).If(User.Identity.Name == @"KENTKONUT\noskay")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dosyano)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tebligtarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.alacaklı)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.icradaire)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tutar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Odenen)
+        </th>
+        <th>
+            Kalan
+        </th>
+        <th>
+           Durum
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.adsoyad)
+        </td>
+        <td>
+           @Html.ActionLink(item.dosyano,"Index","IcraOdeme",new {icraid=item.id},null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tebligtarih)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.alacaklı)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.icradaire)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tutar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Odenen)
+        </td>
+        <td>
+            @Kalan(item)
+        </td>
+        <td>
+            @Durum(item)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new {id = item.id}) |
+            @Html.ActionLink("Details", "Details", new {id = item.id}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.id})*@
+        </td>
+    </tr>
+}
+
+</table>

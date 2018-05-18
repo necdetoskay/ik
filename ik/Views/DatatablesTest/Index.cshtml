@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ik.Models.PersonelOzlukEvrak>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="testtable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.durum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aciklama)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EvrakListe.ad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Personel.adsoyad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.durum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.aciklama)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EvrakListe.ad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personel.adsoyad)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.editable.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#testtable').dataTable({
+                "language": {
+                    "search": "Arama :",
+                    "lengthMenu": "_MENU_ Sayfada gösterilen Kayıt sayısı ",
+                    "zeroRecords": "Kayıt Bulunamadı",
+                    "info": "Toplam _PAGES_ dan _PAGE_. sayfa gösteriliyor.",
+                    "infoEmpty": "Kayıt Bulunamadı",
+                    "infoFiltered": "(Toplam _MAX_ kayıt filtrelendi)",
+                    "loadingRecords": "Yükleniyor...",
+                    "processing": "İşlem Yapılıyor...",
+                    "paginate": {
+                        "first": "İlk",
+                        "last": "Son",
+                        "next": "Sonraki",
+                        "previous": "Önceki"
+                    },
+                }
+            }).makeEditable();
+        })
+    </script>
+}
