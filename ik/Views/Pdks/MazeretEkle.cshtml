@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "MazeretEkle";
+}
+
+<h2>MazeretEkle</h2>
+
+<div class="form-group">
+    <label class="col-md-4" for="personel">Personel</label>
+    <select id="personel" multiple="multiple" class="form-control"></select>
+    <span id="loading">Yükleniyor... <img width="50" height="50" src="~/Content/Loading_icon.gif" /></span>
+</div>
+
+
+<div class="form-group" style="position: relative">
+    <label class="col-md-4" for="tarih">Tarih</label>
+    <input style="display: initial" id="tarih" type="text" class="datetime form-control"/>
+</div>
+<div class="form-group" style="position: relative">
+    <label class="col-md-4" for="mazeret"></label>
+    <input data-minlength="6" style="display: initial" id="mazeret" type="text" class="form-control" />
+</div>
+
+
+<input type="button" id="sorgula" value="Ekle" />
+
+<table class="table" id="mazeretler">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Ad Soyad</th>
+            <th>Giriş Saat</th>
+            <th>Çıkış Saat</th>
+            <th>Mazeret</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+<input type="button" id="kaydet" value="Kaydet" />
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/mdtimepicker.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/mdtimepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('#kaydet').on('click', function () {
+                var data = [];
+                $('#body tr').each(function () {
+                    var td = [];
+                    var tr = $(this);// console.log(tr.find("td:eq(2)").html());
+                    td.push(tr.attr("data-id"));
+                    td.push(tr.find("td:eq(0)").html());
+                    td.push(tr.find("td:eq(1)").html());
+                    var giris = $(tr.find("td:eq(2)").find('.timepicker')).attr("value");
+                    td.push(typeof giris !== typeof undefined && giris !== false ? giris : "");
+                    var cikis = $(tr.find("td:eq(3)").find('.timepicker')).attr("value");
+                    td.push(typeof cikis !== typeof undefined && cikis !== false ? cikis : "");
+                    td.push(tr.attr("id"));
+                    var mazeret = tr.find("td:eq(4)").html();
+                    td.push(mazeret);
+                    data.push(td);
+                });
+                console.log(data);
+
+                $.ajax({
+                    url: '@Url.Action("_MazeretEkle","Pdks")',
+                    type: 'POST',
+                    data: { data },
+                    success: function (result) {
+                        console.log(result);
+
+                        $.each(result, function (i, item) {
+                            //alert(item.dateid);
+                            $("[id='" + item.dateid + "']").remove();
+                        });
+
+
+                        //id ve tarih uyan varsa sil
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+
+            $('.datetime').datepicker({
+                language: 'tr',
+                multidate: true,
+                clearBtn: true
+            });
+
+            var personel = $('#personel');
+            personel.multiselect({
+                includeSelectAllOption: true,
+                selectAllText: 'Tümünü Seç',
+                nonSelectedText: 'Personel Seçiniz',
+                allSelectedText: 'Tümü Seçildi',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                maxHeight: 450
+            });
+            $.ajax({
+                url: '@Url.Action("_PersonelSelectList","Personel")',
+                type: 'GET',
+                data: { },
+                success: function (result) {
+                    if (result.Success === true) {
+                        personel.empty();
+                        $.each(result.Data, function (i, item) {
+                            personel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
+                        });
+                        personel.multiselect('rebuild');
+                        $('#loading').remove();
+                    }
+                }
+            });
+
+            $('#sorgula').on('click', function () {
+
+                var mazeret = $('#mazeret').val().trim();
+                if (mazeret.length < 5) return;
+
+                var tarihler = $('.datetime').datepicker().val().split(',');
+               
+
+                
+                var selected = $("#personel option:selected");
+                var liste = $('#liste');
+                var tarih = $('#tarih');
+                var mazeret = $('#mazeret').val();
+                var body = $('#body');
+                selected.each(function () {
+                    var p = $(this);
+                    $.each(tarihler, function (i, item) {
+                      
+                        //tabloda isim ve tarih ara
+                        var exist = false;
+                        //$('#body > tr').each(function () {
+                        //    var trr = $(this);
+                        //    var tarih = trr.find('td:nth(0)').html();
+                        //    var adsoyad=trr.find('td:nth(1)').html();
+                        //    if (tarih === item && adsoyad===p.text() ) {
+                        //        exist = true;
+                        //    }
+                        //    return false;
+                        //});
+                        if (exist === true) {
+                            console.log("kayıt var");
+                        } else {
+                            var tr = $('<tr id="' + (i + 1) + '" data-id="' + p.val() + '">');
+                            tr.append('<td>' + item + '</td>');
+                            tr.append('<td>' + p.text() + '</td>');
+                            tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" value="00:00" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                            tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" value="00:00" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                            tr.append('<td>' + mazeret + '</td>');
+                            tr.append('<td><input class="btn btn-sm sil" type="button" value="Sil"/></td>');
+                            body.append(tr);
+                        } 
+
+                       
+                    });
+
+                    $('.cpy').each(function () {
+                        $(this).on('click', function () {
+                            var cpy = $(this);
+                            var time = cpy.parent().find('.timepicker').attr("value");
+                            sessionStorage.setItem("time", time);
+                        });
+                    });
+
+                    $('.pst').each(function () {
+                        $(this).on('click', function () {
+                            var cpy = $(this);
+                            cpy.parent().find('.timepicker').attr("value", sessionStorage.getItem("time"));
+
+                        });
+                    });
+
+
+
+                });
+                //$('.sil').each(function () {
+                //    $(this).on('click', function () {
+                //        $(this).closest('tr').remove();
+                //    });
+                //});
+
+
+                $('.timepicker').mdtimepicker({ format: 'hh:mm' });
+                $('.timepicker').mdtimepicker().each(function () {
+                    $(this).on('timechanged', function (e) {
+                        $(this).attr("value", e.value);
+                        $(this).attr("time", e.time);
+                    });
+                });
+            });
+
+
+
+        })
+    </script>
+}

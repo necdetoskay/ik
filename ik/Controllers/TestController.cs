@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Web.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -14,6 +15,11 @@ namespace ik.Controllers
     public class TestController : Controller
     {
         private ikEntities db = new ikEntities();
+
+        public ActionResult test()
+        {
+            return View();
+        }
 
         // GET: Test
         public async Task<ActionResult> Index()
@@ -144,6 +150,158 @@ namespace ik.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+
+
+
+        ik.Models.ikEntities db1 = new ik.Models.ikEntities();
+
+        [ValidateInput(false)]
+        public ActionResult GridViewPartial()
+        {
+            var model = db1.Personels;
+            return PartialView("_GridViewPartial", model.ToList());
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GridViewPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] ik.Models.Personel item)
+        {
+            var model = db1.Personels;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Add(item);
+                    db1.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            else
+                ViewData["EditError"] = "Please, correct all errors.";
+            return PartialView("_GridViewPartial", model.ToList());
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GridViewPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] ik.Models.Personel item)
+        {
+            var model = db1.Personels;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                    if (modelItem != null)
+                    {
+                        this.UpdateModel(modelItem);
+                        db1.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            else
+                ViewData["EditError"] = "Please, correct all errors.";
+            return PartialView("_GridViewPartial", model.ToList());
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GridViewPartialDelete(System.Int32 id)
+        {
+            var model = db1.Personels;
+            if (id >= 0)
+            {
+                try
+                {
+                    var item = model.FirstOrDefault(it => it.id == id);
+                    if (item != null)
+                        model.Remove(item);
+                    db1.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            return PartialView("_GridViewPartial", model.ToList());
+        }
+
+        ik.Models.ikEntities db2 = new ik.Models.ikEntities();
+
+        [ValidateInput(false)]
+        public ActionResult GridView1Partial()
+        {
+            var model = db2.Personels;
+            return PartialView("_GridView1Partial", model.ToList());
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GridView1PartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] ik.Models.Personel item)
+        {
+            var model = db2.Personels;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Add(item);
+                    db2.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            else
+                ViewData["EditError"] = "Please, correct all errors.";
+            return PartialView("_GridView1Partial", model.ToList());
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GridView1PartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] ik.Models.Personel item)
+        {
+            var model = db2.Personels;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                    if (modelItem != null)
+                    {
+                        this.UpdateModel(modelItem);
+                        db2.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            else
+                ViewData["EditError"] = "Please, correct all errors.";
+            return PartialView("_GridView1Partial", model.ToList());
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GridView1PartialDelete(System.Int32 id)
+        {
+            var model = db2.Personels;
+            if (id >= 0)
+            {
+                try
+                {
+                    var item = model.FirstOrDefault(it => it.id == id);
+                    if (item != null)
+                        model.Remove(item);
+                    db2.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            return PartialView("_GridView1Partial", model.ToList());
         }
     }
 }

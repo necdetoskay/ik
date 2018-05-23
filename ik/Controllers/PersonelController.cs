@@ -979,6 +979,17 @@ namespace ik.Controllers
         }
 
 
+        public ActionResult _PersonelSelectList()
+        {
+            var pers = db.Personels.Where(c => c.cikistarihi == null)
+               .Select(d => new
+               {
+                   Text = d.adsoyad,
+                   Value = d.pdksid
+               });
+
+            return Json(new { Success = true, Data = pers }, JsonRequestBehavior.AllowGet);
+        }
     }
 
     public class MikroAdSoyad

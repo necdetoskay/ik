@@ -113,18 +113,25 @@ namespace ik.Controllers
 
             if (personel.PersonelDevir != null)
             {
+                kidembaslangic=new DateTime(DateTime.Now.Year-1, personel.PersonelDevir.kidemTarih.Month,personel.giristarihi.Value.Day);
+                //kıdem başlangıç gün ay geçen yıl
+                //kıdem bitiş gun ay bu yil
+                kidembitis = kidembaslangic;
+                kidemyil = kidembaslangic.Year- personel.giristarihi.Value.Year;
                 var hakedilen = personel.PersonelDevir.izinDevir;
-                var kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year).Sum(c => c.gun);
+                var kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year-1).Sum(c => c.gun);
                 kidemyil = kidembitis.Year - personel.PersonelDevir.kidemTarih.Year;
                 kidem.Add(new Kidem
                 {
                     baslangic = personel.PersonelDevir.kidemTarih,
-                    bitis = personel.giristarihi.Value,
-                    yil = personel.giristarihi.Value.Year,
+                    bitis = kidembitis,
+                    yil = personel.giristarihi.Value.Year-1,
                     hakedilenizin = hakedilen,
                     kullanilan = kullanılan,
                     kalan = hakedilen - kullanılan
                 });
+                //kullanılanları düş
+                
             }
 
 
@@ -579,7 +586,7 @@ namespace ik.Controllers
                 com.CommandText = string.Format(
                    "insert into personel_izin (personel_id,tatil_id,tarih,gidis_saat,gelis_saat,saatlik,aciklama,otoizin)" +
                     " values({0},{1},'{2}',{3},{4},{5},'{6}',{7})", pdksid,9,tarih.ToString("yyyy-M-d"),gidis,gelis,1,string.Format("{0} IZNINDEN YARIM GUN",izinyil),0);
-               // var reader = com.ExecuteNonQuery();
+               var reader = com.ExecuteNonQuery();
                 db.Close();
                
             }

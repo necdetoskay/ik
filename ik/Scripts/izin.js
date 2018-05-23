@@ -3,6 +3,7 @@
 function personelyarimizinyukle(url, yarimizintablo) {
     var target = $("#"+yarimizintablo);
     target.load(url, "#" + yarimizintablo);
+
 };
 
 function izinyillinktazele(id) {
@@ -21,7 +22,6 @@ function izinyillinktazele(id) {
                             yil: izin.text()
                         },
                         success: function (result) {
-
                             var content = $('#content');
                             content.replaceWith(result);
 

@@ -47,7 +47,6 @@
 @section scripts{
     <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
     <link href="~/Content/mdtimepicker.css" rel="stylesheet" />
-    @*<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />*@
 
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -186,7 +185,8 @@
             var personel = $('#personel');
             personel.multiselect({
                 includeSelectAllOption: true,
-                selectAllText: 'Tümünü Seç', nonSelectedText: 'Personel Seçiniz',
+                selectAllText: 'Tümünü Seç',
+                nonSelectedText: 'Personel Seçiniz',
                 allSelectedText: 'Tümü Seçildi'
             });
             departman.change(function () {

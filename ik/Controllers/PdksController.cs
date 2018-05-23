@@ -19,7 +19,7 @@ namespace ik.Controllers
         private ikEntities ik = new ikEntities();
         protected override void Dispose(bool disposing)
         {
-            //db.Dispose();
+           // db.Dispose();
             base.Dispose(disposing);
         }
 
@@ -191,6 +191,53 @@ namespace ik.Controllers
             return View();
         }
 
+        public ActionResult _MazeretEkle(string[][] data)
+        {
+            ArrayList liste = new ArrayList();
+            using (
+                db =
+                    new MySqlConnection(
+                        "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
+            {
+
+                var com = new MySqlCommand("", db);
+                db.Open();
+                foreach (string[] dizi in data)
+                {
+                    try
+                    {
+                        var id = int.Parse(dizi[0]);
+                        var tarih = DateTime.Parse(dizi[1]);
+                        string giris = dizi[3];
+                        string gelis = dizi[4];
+                        string dateid = dizi[5];
+                        string mazeret = dizi[6];
+                        int saatlik = (giris == "00:00" || gelis == "00:00") ? 0 : 1;
+
+                        com.CommandText = string.Format(
+                            "insert into personel_izin (personel_id,tatil_id,tarih,gidis_saat,gelis_saat,saatlik,aciklama,otoizin) " +
+                            "values({0},{1},'{2}','{3}','{4}',{5},'{6}',0)", id,3, tarih.ToString("yyyy-MM-dd"),giris,gelis,saatlik,mazeret );
+
+                        var res = com.ExecuteNonQuery();
+                        if (res > 0)
+                        {
+                            liste.Add(new { dateid });
+                        }
+
+
+                    }
+                    catch (Exception x)
+                    {
+
+                    }
+                }
+
+
+                db.Close();
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult _EksikHareketEkle(string[][] data)
         {
             ArrayList liste = new ArrayList();
@@ -358,6 +405,13 @@ namespace ik.Controllers
 
             return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult MazeretEkle()
+        {
+            return View();
+        }
+
+      
     }
 
     public class pdksizinrapor

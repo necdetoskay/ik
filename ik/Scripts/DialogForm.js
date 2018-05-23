@@ -99,9 +99,10 @@ function wireUpForm(dialog, updateTargetId, updateUrl) {
                 if (result.success) {
                     // Close the dialog 
                     $(dialog).dialog('close');
-
+                 
                     // Reload the updated data in the target div
                     $(updateTargetId).load(updateUrl);
+                    this.settings.complete();
                     console.log(result.console);
                 } else {
                     // Reload the dialog to show model errors                    
