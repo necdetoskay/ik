@@ -889,7 +889,7 @@ namespace ik.Controllers
         public ActionResult Edit(int id)
         {
             var personel = db.Personels.Include("PersonelDetay").FirstOrDefault(c => c.id == id);
-           
+
             ViewBag.birimListe = new SelectList(db.birims.ToList(), "id", "birimad");
             var pers = ke.PERSONELLERs.Where(c => c.per_cikis_tar == new DateTime(1899, 12, 31)).Select(c => new MikroAdSoyad
             {
@@ -909,7 +909,7 @@ namespace ik.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, Personel personel,int lokasyon,int cinsiyeti)
+        public ActionResult Edit(int id, Personel personel, int lokasyon, int cinsiyeti)
         {
             if (ModelState.IsValid)
             {
@@ -935,7 +935,7 @@ namespace ik.Controllers
             {
                 new SelectListItem{Text = "Kadın",Value = "1"},
                  new SelectListItem{Text = "Erkek",Value = "0"}
-            }.ToList(),"Value","Text");
+            }.ToList(), "Value", "Text");
 
 
 
@@ -989,6 +989,16 @@ namespace ik.Controllers
                });
 
             return Json(new { Success = true, Data = pers }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult _AvansTutar(int id)
+        {
+            var mikroid = db.Personels.FirstOrDefault(c => c.id == id);
+            var mikro = ke.PERSONELLERs.FirstOrDefault(c => c.per_RECid_RECno == mikroid.mikroid);
+            var liste = ke.PERSONEL_TAHAKKUKLARI.Where(c => c.pt_pkod == mikro.per_kod).OrderByDescending(c => c.pt_maliyil).ThenByDescending(c => c.pt_tah_ay).FirstOrDefault();
+            var net = (int)(liste.pt_net + liste.pt_ozksnt + liste.pt_otobes_tutari) / 2;
+            return Json(new { Success = true, Tutar = net }, JsonRequestBehavior.AllowGet);
+
         }
     }
 

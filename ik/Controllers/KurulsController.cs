@@ -11,6 +11,7 @@ using ik.Models;
 
 namespace ik.Controllers
 {
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class KurulsController : Controller
     {
         private ikEntities db = new ikEntities();

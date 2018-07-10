@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ik.Models.Maas_Is_Liste>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>@Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.durum)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ad)<span class="pull-right badge badge-light">@item.Maas_Is_Liste_Detay.Count</span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.durum)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id=item.id} ,new { @class= "glyphicon glyphicon-pencil",title="Düzenle" }) |
+            @Html.ActionLink(" ", "Details", new { id=item.id }, new { @class = "glyphicon glyphicon-folder-open",title="Detaylar" }) |
+            @Html.ActionLink(" ", "Delete", new { id=item.id }, new { @class = "glyphicon glyphicon-trash" ,title="Sil"}) |
+            @Html.ActionLink(" ", "AtlIsler", new { id = item.id }, new { @class = "glyphicon glyphicon-list-alt",title="Alt İşler" })
+        </td>
+    </tr>
+}
+    
+</table>

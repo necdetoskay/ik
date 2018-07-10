@@ -8,7 +8,6 @@ using ik.Models;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
     public class YillikIznimController : Controller
     {
         private readonly ikEntities db = new ikEntities();

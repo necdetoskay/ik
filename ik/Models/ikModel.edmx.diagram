@@ -101,6 +101,16 @@
         <EntityTypeShape EntityType="ikModel.ImzaTakipDetay" Width="1.5" PointX="3" PointY="0.875" />
         <AssociationConnector Association="ikModel.FK__ImzaTakip__takip__62AFA012" />
       </Diagram>
+      <Diagram DiagramId="6db11f201e9b460fae79fca6c82368ab" Name="maaş çalışma" >
+        <EntityTypeShape EntityType="ikModel.Maas_Is" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="ikModel.Maas_Is_Detay" Width="1.5" PointX="5.25" PointY="2.625" />
+        <EntityTypeShape EntityType="ikModel.Maas_Is_Liste" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="ikModel.Maas_Is_Liste_Detay" Width="1.5" PointX="3" PointY="1.125" />
+        <AssociationConnector Association="ikModel.FK__Maas_Is__isId__384F51F2" />
+        <AssociationConnector Association="ikModel.FK__Maas_Is_D__maasI__44B528D7" />
+        <AssociationConnector Association="ikModel.FK__Maas_Is_D__maasI__45A94D10" />
+        <AssociationConnector Association="ikModel.FK__Maas_Is_L__maasI__3FF073BA" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -11,6 +11,7 @@ using ik.Models;
 
 namespace ik.Controllers
 {
+    [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class StajController : Controller
     {
@@ -227,7 +228,8 @@ namespace ik.Controllers
             return Json(new { Success = true, AdSoyad = evrak.Staj_Ogrenci.adsoyad, EvrakAd = evrak.Staj_Evrak.ad }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]public JsonResult _OkulBolumleri(int okulid)
+        [HttpPost]
+        public JsonResult _OkulBolumleri(int okulid)
         {
             try
             {
@@ -254,7 +256,7 @@ namespace ik.Controllers
         public JsonResult _OkulBolumEkle(int okul, string ad)
         {
             var univ = db.Staj_Okul.SingleOrDefault(c => c.id == okul);
-            if (univ == null || db.Staj_Bolum.Any(c => c.ad == ad))
+            if (univ == null || db.Staj_Bolum.Any(c => c.ad == ad & c.okulid==okul))
                 return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
             univ.Staj_Bolum.Add(
                 new Staj_Bolum

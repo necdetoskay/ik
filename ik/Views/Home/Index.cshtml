@@ -99,10 +99,12 @@
         <p>
             <div class="panel panel-success">
                 <div class="panel-heading ">
-                    @Html.DialogFormLink("Yeni Görev Ekle", @Url.Action("Create", "Takip"), "Görev ekle", "rutinis", @Url.Action("Index"), "400", "300").If(User.Identity.Name == @"KENTKONUT\noskay")
+                    <div id="rutinekle"></div>
+                    @*@Html.DialogFormLink("Yeni Görev Ekle", @Url.Action("Create", "Takip"), "Görev ekle", "rutindiv", @Url.Action("RutinOzet", "Takip"), "400", "300").If(User.Identity.Name == @"KENTKONUT\noskay")*@
+                    <span class="pull-right">@Html.ActionLink("İş Liste", "RutinListe", "Takip")</span>
                     @*@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name == @"KENTKONUT\noskay")*@
                 </div>
-                <div class="panel-body">
+                <div class="panel-body " id="rutindiv">
                     <table id="rutinis" class="table table-xs">
                         <thead><tr><th>İş</th><th>Son Tarih</th></tr></thead>
                         <tbody id="istakip"></tbody>
@@ -272,11 +274,15 @@
 </div>
 
 @section Scripts{
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/jquery.PrintArea.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/moment-with-locales.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
     <script type="text/javascript">
-
 
         function eksikhareket() {
             $.ajax({
@@ -376,14 +382,18 @@
 
         function rutinyukle() {
             var takip = $('#istakip');
+            var rutindiv = $('#rutindiv');
             var now = new Date();
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("_RutinOzet", "Takip")',
+                url: '@Url.Action("RutinOzet", "Takip")',
+               // url: '@Url.Action("_RutinOzet", "Takip")',
                 data: {
                     'limit': 10
                 },
                 success: function (data) {
+                    rutindiv.html(data);
+                    return;
                     takip.empty();
 
                     for (var i = 0; i < data.length; i++) {
@@ -492,6 +502,28 @@
         }
 
         $(function () {
+            $('#rutinekle').MakeDialogForm({
+                id: 'btnyarimekle',
+                text: 'Rutin Ekle',
+                url: '@Url.Action("Create","Takip")' ,
+                title: 'yarım izin Title',
+                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=10',
+                bclass: 'btn btn-info',
+                targetid: 'rutindiv',
+                width: "500",
+                height: "400",
+                complete: function () {
+                    alert("sonunda tamamlandı");
+                }
+            });
+
+
+
+
+
+
+
+
             $.ajaxSetup({ cache: false });
             $('.dialogLink').makeDialog();
 

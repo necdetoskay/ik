@@ -10,7 +10,7 @@ using Microsoft.Ajax.Utilities;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class ImzaTakipController : Controller
     {
         private readonly ikEntities db = new ikEntities();

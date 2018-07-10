@@ -80,5 +80,18 @@ namespace ik.Controllers
 
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult _SonGirilenIzinler()
+        {
+            var liste = new ArrayList();
+            using (ikEntities db = new ikEntities())
+            {
+                var query = (from pi in ke.PERSONEL_IZINLERI join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod where pi.pz_izin_tipi == 0 orderby pi.pz_RECno descending
+                             select new { Ad=i.per_adi, Soyad=i.per_soyadi, i.per_RECno, pi.pz_izin_tipi, pi.pz_pers_kod, Baslangic=pi.pz_baslangictarih, Bitis=pi.pz_gerceklesen_donus_tarihi, Gun=pi.pz_gun_sayisi, Aciklama=pi.pz_izin_aciklama }).
+                Take(25);
+
+                return Json(query.ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

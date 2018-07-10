@@ -71,5 +71,9 @@ namespace ik.Models
         public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
         public virtual DbSet<ImzaTakipDetay> ImzaTakipDetays { get; set; }
         public virtual DbSet<SgkDosya> SgkDosyas { get; set; }
+        public virtual DbSet<Maas_Is> Maas_Is { get; set; }
+        public virtual DbSet<Maas_Is_Detay> Maas_Is_Detay { get; set; }
+        public virtual DbSet<Maas_Is_Liste> Maas_Is_Liste { get; set; }
+        public virtual DbSet<Maas_Is_Liste_Detay> Maas_Is_Liste_Detay { get; set; }
     }
 }

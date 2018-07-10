@@ -9,7 +9,7 @@ using ik.Models;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class GrupsController : Controller
     {
         private readonly ikEntities db = new ikEntities();
@@ -21,8 +21,8 @@ namespace ik.Controllers
 
         public ActionResult PersonelGrup(int? grupid)
         {
-            if (User.Identity.Name != @"KENTKONUT\noskay")
-                return RedirectToAction("Index");
+            //if (User.Identity.Name != @"KENTKONUT\noskay")
+            //    return RedirectToAction("Index");
 
             if (grupid == null)
             {
@@ -85,8 +85,8 @@ namespace ik.Controllers
         // GET: Grups/Create
         public ActionResult Create()
         {
-            if (User.Identity.Name != @"KENTKONUT\noskay")
-                return RedirectToAction("Index");
+            //if (User.Identity.Name != @"KENTKONUT\noskay")
+            //    return RedirectToAction("Index");
             return View();
         }
 
@@ -110,8 +110,8 @@ namespace ik.Controllers
         // GET: Grups/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (User.Identity.Name != @"KENTKONUT\noskay")
-                return RedirectToAction("Index");
+            //if (User.Identity.Name != @"KENTKONUT\noskay")
+            //    return RedirectToAction("Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

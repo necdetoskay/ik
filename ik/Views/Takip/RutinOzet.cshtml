@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ik.Models.Takip>
+    @{
+        var cls = "";
+    }
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.aciklama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sontarih)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+        cls = item.sontarih.Date < DateTime.Now.Date ? "btn-danger" : "btn-Info";
+    <tr>
+        <td>
+            <button type='button' class='btn @cls' data-toggle='modal' data-rutinID='@item.id' data-aciklama='@item.aciklama' data-target='#myModal'> @item.aciklama</button>
+           @*// @Html.DisplayFor(modelItem => item.aciklama)*@
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.sontarih)
+        </td>
+
+    </tr>
+}
+
+</table>

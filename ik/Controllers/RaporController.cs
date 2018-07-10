@@ -10,6 +10,8 @@ using PtakipDAL;
 
 namespace ik.Controllers
 {
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class RaporController : Controller
     {
         PerkotekContext pdb = new PerkotekContext();

@@ -12,7 +12,7 @@ using ik.Models;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class PersonelOzlukDosyaController : Controller
     {
         ikEntities db = new ikEntities();

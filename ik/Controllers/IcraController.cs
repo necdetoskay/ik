@@ -9,7 +9,7 @@ using WebGrease.Css.Extensions;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class IcraController : Controller
     {
         private readonly ikEntities db = new ikEntities();

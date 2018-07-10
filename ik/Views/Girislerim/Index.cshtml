@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<table class="table">
+    <tr>
+        <th>Tarih</th>
+        <th>Giriş Saat</th>
+        <th>Geç Kalma</th>
+    </tr>
+    <tbody id="body"></tbody>
+</table>
+<img id="loading" src="~/Content/Loading_icon.gif" />
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+
+<script src="~/Scripts/ptakip.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        function n(n) {
+            return n > 9 ? "" + n : "0" + n;
+        }
+
+        $.ajax({
+            url: '@Url.Action("GirisCikis")',
+            type: 'GET',
+            success: function (result) {
+                if (result.Success == true) {
+                    var body = $('#body');
+                    body.empty();
+                    $.each(result.Data, function (i, item) {
+                        var giris = '';
+                        var geçkalma = '';
+                        var saat = 0;
+                        var geç = false;
+                        if (item.Harekets.length > 0) {
+                            giris = n(item.Giris.Hours) + ':' + n(item.Giris.Minutes);
+                            if (item.Giris.Hours >= 8) {
+                                saat = (item.Giris.Hours - 8) * 60;
+                            }
+                            if (item.Giris.Hours > 8) {
+                                geçkalma = saat + item.Giris.Minutes;
+                            } else if (item.Giris.Hours == 8) {
+                                if (item.Giris.Minutes > 35) {
+                                    geçkalma = (item.Giris.Hours - 8) * 60 + item.Giris.Minutes - 30;
+
+                                }
+                            }
+
+                        } else {
+                            if (item.Izins.length > 0) {
+                                $.each(item.Izins, function (ix, ixitem) {
+                                    giris += ixitem.Aciklama;
+                                });
+                            }
+                        }
+                        body.append('<tr><td>' + item.Tarih.toDDMMYYY() + '</td><td>' + giris + '</td><th>' + geçkalma + '</th></tr>');
+                        $('#loading').toggle();
+                    });
+
+                    //console.log(result.Data);
+                }
+            }
+        });
+
+    })
+</script>

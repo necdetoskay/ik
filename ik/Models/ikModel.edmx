@@ -207,6 +207,42 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ad" Type="nvarchar" MaxLength="55" Nullable="false" />
         </EntityType>
+        <EntityType Name="Maas_Is">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tahakkukyil" Type="int" Nullable="false" />
+          <Property Name="tahakkukay" Type="int" Nullable="false" />
+          <Property Name="isId" Type="int" Nullable="false" />
+          <Property Name="durum" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Maas_Is_Detay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maasIsId" Type="int" Nullable="false" />
+          <Property Name="maasIsListeDetayId" Type="int" Nullable="false" />
+          <Property Name="durum" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Maas_Is_Liste">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ad" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="durum" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Maas_Is_Liste_Detay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maasIsListeId" Type="int" Nullable="false" />
+          <Property Name="ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="durum" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Personel">
           <Key>
             <PropertyRef Name="id" />
@@ -610,6 +646,60 @@
             </Principal>
             <Dependent Role="KurulGorevTip">
               <PropertyRef Name="kurultipid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is__isId__384F51F2">
+          <End Role="Maas_Is_Liste" Type="Self.Maas_Is_Liste" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Maas_Is" Type="Self.Maas_Is" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is_Liste">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is">
+              <PropertyRef Name="isId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is_D__maasI__44B528D7">
+          <End Role="Maas_Is" Type="Self.Maas_Is" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Maas_Is_Detay" Type="Self.Maas_Is_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is_Detay">
+              <PropertyRef Name="maasIsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is_D__maasI__45A94D10">
+          <End Role="Maas_Is_Liste_Detay" Type="Self.Maas_Is_Liste_Detay" Multiplicity="1" />
+          <End Role="Maas_Is_Detay" Type="Self.Maas_Is_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is_Liste_Detay">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is_Detay">
+              <PropertyRef Name="maasIsListeDetayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is_L__maasI__3FF073BA">
+          <End Role="Maas_Is_Liste" Type="Self.Maas_Is_Liste" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Maas_Is_Liste_Detay" Type="Self.Maas_Is_Liste_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is_Liste">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is_Liste_Detay">
+              <PropertyRef Name="maasIsListeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1024,6 +1114,10 @@
           <EntitySet Name="KurulGorevTip" EntityType="Self.KurulGorevTip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KurulTip" EntityType="Self.KurulTip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lokasyon" EntityType="Self.Lokasyon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maas_Is" EntityType="Self.Maas_Is" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maas_Is_Detay" EntityType="Self.Maas_Is_Detay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maas_Is_Liste" EntityType="Self.Maas_Is_Liste" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maas_Is_Liste_Detay" EntityType="Self.Maas_Is_Liste_Detay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelDetay" EntityType="Self.PersonelDetay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelDevir" EntityType="Self.PersonelDevir" Schema="dbo" store:Type="Tables" />
@@ -1095,6 +1189,22 @@
           <AssociationSet Name="FK__KurulGore__kurul__1387E197" Association="Self.FK__KurulGore__kurul__1387E197">
             <End Role="KurulTip" EntitySet="KurulTip" />
             <End Role="KurulGorevTip" EntitySet="KurulGorevTip" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is__isId__384F51F2" Association="Self.FK__Maas_Is__isId__384F51F2">
+            <End Role="Maas_Is_Liste" EntitySet="Maas_Is_Liste" />
+            <End Role="Maas_Is" EntitySet="Maas_Is" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is_D__maasI__44B528D7" Association="Self.FK__Maas_Is_D__maasI__44B528D7">
+            <End Role="Maas_Is" EntitySet="Maas_Is" />
+            <End Role="Maas_Is_Detay" EntitySet="Maas_Is_Detay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is_D__maasI__45A94D10" Association="Self.FK__Maas_Is_D__maasI__45A94D10">
+            <End Role="Maas_Is_Liste_Detay" EntitySet="Maas_Is_Liste_Detay" />
+            <End Role="Maas_Is_Detay" EntitySet="Maas_Is_Detay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is_L__maasI__3FF073BA" Association="Self.FK__Maas_Is_L__maasI__3FF073BA">
+            <End Role="Maas_Is_Liste" EntitySet="Maas_Is_Liste" />
+            <End Role="Maas_Is_Liste_Detay" EntitySet="Maas_Is_Liste_Detay" />
           </AssociationSet>
           <AssociationSet Name="FK__personel__birimi__4CA06362" Association="Self.FK__personel__birimi__4CA06362">
             <End Role="birim" EntitySet="birim" />
@@ -1422,6 +1532,26 @@
           <AssociationSet Name="FK__PersonelD__sgkdo__2C1E8537" Association="ikModel.FK__PersonelD__sgkdo__2C1E8537">
             <End Role="SgkDosya" EntitySet="SgkDosyas" />
             <End Role="PersonelDetay" EntitySet="PersonelDetays" />
+          </AssociationSet>
+          <EntitySet Name="Maas_Is" EntityType="ikModel.Maas_Is" />
+          <EntitySet Name="Maas_Is_Detay" EntityType="ikModel.Maas_Is_Detay" />
+          <EntitySet Name="Maas_Is_Liste" EntityType="ikModel.Maas_Is_Liste" />
+          <EntitySet Name="Maas_Is_Liste_Detay" EntityType="ikModel.Maas_Is_Liste_Detay" />
+          <AssociationSet Name="FK__Maas_Is__isId__384F51F2" Association="ikModel.FK__Maas_Is__isId__384F51F2">
+            <End Role="Maas_Is_Liste" EntitySet="Maas_Is_Liste" />
+            <End Role="Maas_Is" EntitySet="Maas_Is" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is_D__maasI__44B528D7" Association="ikModel.FK__Maas_Is_D__maasI__44B528D7">
+            <End Role="Maas_Is" EntitySet="Maas_Is" />
+            <End Role="Maas_Is_Detay" EntitySet="Maas_Is_Detay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is_D__maasI__45A94D10" Association="ikModel.FK__Maas_Is_D__maasI__45A94D10">
+            <End Role="Maas_Is_Liste_Detay" EntitySet="Maas_Is_Liste_Detay" />
+            <End Role="Maas_Is_Detay" EntitySet="Maas_Is_Detay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maas_Is_L__maasI__3FF073BA" Association="ikModel.FK__Maas_Is_L__maasI__3FF073BA">
+            <End Role="Maas_Is_Liste" EntitySet="Maas_Is_Liste" />
+            <End Role="Maas_Is_Liste_Detay" EntitySet="Maas_Is_Liste_Detay" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="birim">
@@ -2504,6 +2634,104 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Maas_Is">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tahakkukyil" Type="Int32" Nullable="false" />
+          <Property Name="tahakkukay" Type="Int32" Nullable="false" />
+          <Property Name="isId" Type="Int32" Nullable="false" />
+          <Property Name="durum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Maas_Is_Liste" Relationship="ikModel.FK__Maas_Is__isId__384F51F2" FromRole="Maas_Is" ToRole="Maas_Is_Liste" />
+          <NavigationProperty Name="Maas_Is_Detay" Relationship="ikModel.FK__Maas_Is_D__maasI__44B528D7" FromRole="Maas_Is" ToRole="Maas_Is_Detay" />
+        </EntityType>
+        <EntityType Name="Maas_Is_Detay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maasIsId" Type="Int32" Nullable="false" />
+          <Property Name="maasIsListeDetayId" Type="Int32" Nullable="false" />
+          <Property Name="durum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Maas_Is" Relationship="ikModel.FK__Maas_Is_D__maasI__44B528D7" FromRole="Maas_Is_Detay" ToRole="Maas_Is" />
+          <NavigationProperty Name="Maas_Is_Liste_Detay" Relationship="ikModel.FK__Maas_Is_D__maasI__45A94D10" FromRole="Maas_Is_Detay" ToRole="Maas_Is_Liste_Detay" />
+        </EntityType>
+        <EntityType Name="Maas_Is_Liste">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ad" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="durum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Maas_Is" Relationship="ikModel.FK__Maas_Is__isId__384F51F2" FromRole="Maas_Is_Liste" ToRole="Maas_Is" />
+          <NavigationProperty Name="Maas_Is_Liste_Detay" Relationship="ikModel.FK__Maas_Is_L__maasI__3FF073BA" FromRole="Maas_Is_Liste" ToRole="Maas_Is_Liste_Detay" />
+        </EntityType>
+        <EntityType Name="Maas_Is_Liste_Detay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maasIsListeId" Type="Int32" Nullable="false" />
+          <Property Name="ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="durum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Maas_Is_Detay" Relationship="ikModel.FK__Maas_Is_D__maasI__45A94D10" FromRole="Maas_Is_Liste_Detay" ToRole="Maas_Is_Detay" />
+          <NavigationProperty Name="Maas_Is_Liste" Relationship="ikModel.FK__Maas_Is_L__maasI__3FF073BA" FromRole="Maas_Is_Liste_Detay" ToRole="Maas_Is_Liste" />
+        </EntityType>
+        <Association Name="FK__Maas_Is__isId__384F51F2">
+          <End Type="ikModel.Maas_Is_Liste" Role="Maas_Is_Liste" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.Maas_Is" Role="Maas_Is" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is_Liste">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is">
+              <PropertyRef Name="isId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is_D__maasI__44B528D7">
+          <End Type="ikModel.Maas_Is" Role="Maas_Is" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.Maas_Is_Detay" Role="Maas_Is_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is_Detay">
+              <PropertyRef Name="maasIsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is_D__maasI__45A94D10">
+          <End Type="ikModel.Maas_Is_Liste_Detay" Role="Maas_Is_Liste_Detay" Multiplicity="1" />
+          <End Type="ikModel.Maas_Is_Detay" Role="Maas_Is_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is_Liste_Detay">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is_Detay">
+              <PropertyRef Name="maasIsListeDetayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maas_Is_L__maasI__3FF073BA">
+          <End Type="ikModel.Maas_Is_Liste" Role="Maas_Is_Liste" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.Maas_Is_Liste_Detay" Role="Maas_Is_Liste_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maas_Is_Liste">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Maas_Is_Liste_Detay">
+              <PropertyRef Name="maasIsListeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2993,6 +3221,46 @@
                 <ScalarProperty Name="TC" ColumnName="TC" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
                 <ScalarProperty Name="SgkNo" ColumnName="SgkNo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maas_Is">
+            <EntityTypeMapping TypeName="ikModel.Maas_Is">
+              <MappingFragment StoreEntitySet="Maas_Is">
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="isId" ColumnName="isId" />
+                <ScalarProperty Name="tahakkukay" ColumnName="tahakkukay" />
+                <ScalarProperty Name="tahakkukyil" ColumnName="tahakkukyil" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maas_Is_Detay">
+            <EntityTypeMapping TypeName="ikModel.Maas_Is_Detay">
+              <MappingFragment StoreEntitySet="Maas_Is_Detay">
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="maasIsListeDetayId" ColumnName="maasIsListeDetayId" />
+                <ScalarProperty Name="maasIsId" ColumnName="maasIsId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maas_Is_Liste">
+            <EntityTypeMapping TypeName="ikModel.Maas_Is_Liste">
+              <MappingFragment StoreEntitySet="Maas_Is_Liste">
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="ad" ColumnName="ad" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maas_Is_Liste_Detay">
+            <EntityTypeMapping TypeName="ikModel.Maas_Is_Liste_Detay">
+              <MappingFragment StoreEntitySet="Maas_Is_Liste_Detay">
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="ad" ColumnName="ad" />
+                <ScalarProperty Name="maasIsListeId" ColumnName="maasIsListeId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

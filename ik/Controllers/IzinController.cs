@@ -99,6 +99,10 @@ namespace ik.Controllers
 
         public JsonResult PersonelYillikIzinDurum(int personelid)
         {
+            if (personelid == 2406)
+            {
+                
+            }
             var personel = db.Personels.SingleOrDefault(c => c.id == personelid);
 
 
@@ -113,19 +117,24 @@ namespace ik.Controllers
 
             if (personel.PersonelDevir != null)
             {
-                kidembaslangic=new DateTime(DateTime.Now.Year-1, personel.PersonelDevir.kidemTarih.Month,personel.giristarihi.Value.Day);
+
+                kidembaslangic=new DateTime(personel.giristarihi.Value.Year-1, personel.PersonelDevir.kidemTarih.Month,personel.PersonelDevir.kidemTarih.Day);
+                if (kidembaslangic.AddYears(1) <= personel.giristarihi.Value)
+                {
+                    kidembaslangic = kidembaslangic.AddYears(1);
+                }
                 //kıdem başlangıç gün ay geçen yıl
                 //kıdem bitiş gun ay bu yil
                 kidembitis = kidembaslangic;
-                kidemyil = kidembaslangic.Year- personel.giristarihi.Value.Year;
+                kidemyil = personel.giristarihi.Value.Year- personel.PersonelDevir.kidemTarih.Year;
                 var hakedilen = personel.PersonelDevir.izinDevir;
-                var kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year-1).Sum(c => c.gun);
-                kidemyil = kidembitis.Year - personel.PersonelDevir.kidemTarih.Year;
+                var kullanılan = personel.Izins.Where(c => c.yil == kidembaslangic.Year).Sum(c => c.gun);
+                //kidemyil = kidembitis.Year - personel.PersonelDevir.kidemTarih.Year;
                 kidem.Add(new Kidem
                 {
                     baslangic = personel.PersonelDevir.kidemTarih,
                     bitis = kidembitis,
-                    yil = personel.giristarihi.Value.Year-1,
+                    yil = kidembaslangic.Year,
                     hakedilenizin = hakedilen,
                     kullanilan = kullanılan,
                     kalan = hakedilen - kullanılan
@@ -197,8 +206,8 @@ namespace ik.Controllers
 
         public ActionResult Create()
         {
-            if (User.Identity.Name != @"KENTKONUT\noskay")
-                return RedirectToAction("Index");
+            //if (User.Identity.Name != @"KENTKONUT\noskay")
+            //    return RedirectToAction("Index");
             ViewBag.personelListe = new SelectList(db.Personels.OrderBy(c => c.adsoyad), "id", "adsoyad");
             ViewBag.izintipListe = new SelectList(db.IzinTips, "id", "ad", 1);
             return View();
@@ -544,7 +553,7 @@ namespace ik.Controllers
                     db.Yizins.Add(yi);
                     db.SaveChanges();
 
-                    YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
+                    //YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                 }
                 else
                 {
@@ -561,7 +570,7 @@ namespace ik.Controllers
                     yi.YizinDetays.ForEach(c => cons.AppendLine(c.belgesayi));
                     db.SaveChanges();
                    
-                    YarimizniPdksMazeretGir(personel.pdksid.Value,izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
+                    //YarimizniPdksMazeretGir(personel.pdksid.Value,izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                     //pdks ye yarım izni mazeret izni olarak gir
                 }
 
@@ -571,7 +580,6 @@ namespace ik.Controllers
             catch (Exception x)
             {
                 return Json(new { success = false });
-
             }
 
         }

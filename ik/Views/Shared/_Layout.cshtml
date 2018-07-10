@@ -82,8 +82,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Arşiv Arama <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li> @Html.ActionLink("Arşiv", "Index", "Arsiv").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                        <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                        <li> @Html.ActionLink("Arşiv", "Index", "Arsiv")</li>
+                        <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale")</li>
                     </ul>
                 </li>
 
@@ -106,8 +106,8 @@
                         @*<li><a href="#">Dropdown Link 1</a></li>
                             <li><a href="#">Dropdown Link 2</a></li>
                             <li><a href="#">Dropdown Link 3</a></li>>*@
-                        <li>@Html.ActionLink("Grup Tanım", "Index", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                        <li>@Html.ActionLink("Grup Tanımla", "YeniGrup", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                        @*<li>@Html.ActionLink("Grup Tanım", "Index", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
+                        <li>@Html.ActionLink("Grup Tanımla", "YeniGrup", "Grups")</li>
                         <li class="divider"></li>
                         <li>@Html.ActionLink("PDKS Eksik Hareket ekle", "EksikHareketler", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                         <li class="divider"></li>
@@ -117,7 +117,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">İmza Takip</a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("İmza Listesi", "Index", "ImzaTakip")</li>
-                                <li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                @*<li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                             </ul>
                         </li>
                         <li class="dropdown dropdown-submenu">
@@ -243,7 +243,19 @@
                 </li>
                 <li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin")</li>
                 <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                @*<li class="dropdown">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maaş İşlemleri <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Maaş İş Liste", "Index", "MaasIsListe")</li>
+                        <li>@Html.ActionLink("Aylık Liste Oluştur", "ListeOlustur", "MaasIsListe")</li>
+                        @*<li>@Html.ActionLink("Stajer Listesi", "Index", "Staj")</li>
+                        <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj")</li>*@
+                    </ul>
+                </li>
+
+
+            
+    @*<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Dropdown Link 1</a></li>

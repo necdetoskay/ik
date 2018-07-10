@@ -9,7 +9,7 @@ using MySql.Data.MySqlClient;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class TaseronController : Controller
     {
         public ActionResult Index()

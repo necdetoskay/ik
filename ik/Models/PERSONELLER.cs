@@ -293,5 +293,10 @@ namespace ik.Models
         public Nullable<bool> per_otobes_fl { get; set; }
         public Nullable<byte> per_otobes_sigorta { get; set; }
         public Nullable<double> per_otobes_orani { get; set; }
+        public string per_otobes_hesap_no { get; set; }
+        public string per_otobes_grup_sozlesme_no { get; set; }
+        public Nullable<byte> per_otobes_fon_tercihi { get; set; }
+        public Nullable<System.DateTime> per_otobes_giris { get; set; }
+        public Nullable<System.DateTime> per_otobes_ayrilis { get; set; }
     }
 }

@@ -4,12 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="81bbd9e731ca40f081abb847f79da561" Name="Diagram1" ZoomLevel="25">
+      <Diagram DiagramId="81bbd9e731ca40f081abb847f79da561" Name="Diagram1" ZoomLevel="81">
         <EntityTypeShape EntityType="MikroDB_V15_KENTModel.PERSONEL_IZINLERI" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MikroDB_V15_KENTModel.PERSONELLER" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MikroDB_V15_KENTModel.CARI_HESAP_HAREKETLERI" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="MikroDB_V15_KENTModel.CARI_HESAPLAR" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="MikroDB_V15_KENTModel.PERSONEL_AILE_TANIMLARI" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroDB_V15_KENTModel.PERSONEL_AILE_TANIMLARI" Width="1.5" PointX="5.875" PointY="0.875" />
+        <EntityTypeShape EntityType="MikroDB_V15_KENTModel.PERSONEL_TAHAKKUKLARI" Width="1.5" PointX="8.125" PointY="1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

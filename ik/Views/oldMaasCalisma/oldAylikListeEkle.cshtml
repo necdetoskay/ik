@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ik.Models.Maas_Is_Liste>
+<style>
+    #sortable {list-style-type: none;margin: 0;padding: 0; }
+    /*#sortable li {margin: 0 3px 3px 3px;padding: 0.4em;padding-left: 1.5em;font-size: 1.4em;height: 18px; }
+    #sortable li span {position: absolute;margin-left: -1.3em; }*/
+</style>
+
+<div id="content">
+    <ul id="sortable">
+        @foreach (var item in Model)
+        {
+            <li class="ui-state-default"><input name="@item.id" style="width: 20%" type="checkbox" checked/>@item.ad</li>
+        }
+    </ul>
+</div>
+<script type="text/javascript">
+    $("#sortable").sortable({
+        placeholder: "ui-state-highlight"
+    });
+    $("#sortable").disableSelection();
+</script>

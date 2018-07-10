@@ -187,8 +187,8 @@
     <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\DatatablesTestController.cs" />
     <Compile Include="Controllers\GenelController.cs" />
+    <Compile Include="Controllers\GirislerimController.cs" />
     <Compile Include="Controllers\GrupsController.cs" />
-    <Compile Include="Controllers\HFRYTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IcraController.cs" />
     <Compile Include="Controllers\IcraOdemeController.cs" />
@@ -196,6 +196,7 @@
     <Compile Include="Controllers\IzinController.cs" />
     <Compile Include="Controllers\KentIhaleController.cs" />
     <Compile Include="Controllers\KurulsController.cs" />
+    <Compile Include="Controllers\MaasIsListeController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\MikroController.cs" />
     <Compile Include="Controllers\PdksController.cs" />
@@ -223,12 +224,6 @@
     </Compile>
     <Compile Include="Models\birim.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CARI_HESAPLAR.cs">
-      <DependentUpon>kentModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CARI_HESAP_HAREKETLERI.cs">
-      <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DataClasslari\IzinVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelFirmaVM.cs" />
@@ -355,6 +350,18 @@
     <Compile Include="Models\Lokasyon.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Maas_Is.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maas_Is_Detay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maas_Is_Liste.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maas_Is_Liste_Detay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\partials.cs" />
     <Compile Include="Models\Personel.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
@@ -387,6 +394,9 @@
       <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PERSONEL_IZINLERI.cs">
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PERSONEL_TAHAKKUKLARI.cs">
       <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PredicateExtensions.cs" />
@@ -450,6 +460,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\checktree_icon.png" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -595,6 +606,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\highCheckTree.css" />
+    <Content Include="Content\jquery.mobile-git.css" />
     <Content Include="Content\jquery.treegrid.css" />
     <Content Include="Content\Loading_icon.gif" />
     <Content Include="Content\mdtimepicker index.html" />
@@ -771,6 +784,8 @@
       <DependentUpon>ikModel.edmx</DependentUpon>
       <LastGenOutput>ikModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\highchecktree.js" />
+    <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
     <Content Include="yapılacaklar.txt" />
     <EntityDeploy Include="Models\ikModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1035,7 +1050,6 @@
     <Content Include="Views\Personel\PersonelEksik.cshtml" />
     <Content Include="Views\Personel\Create.cshtml" />
     <Content Include="Views\Mikro\KanGrubu.cshtml" />
-    <Content Include="Views\HFRYT\Index.cshtml" />
     <Content Include="Views\AileFertleri\Index.cshtml" />
     <Content Include="Views\PersonelOzlukDosya\GrupEvrakEkle.cshtml" />
     <Content Include="Views\PersonelOzlukDosya\Index.cshtml" />
@@ -1097,6 +1111,19 @@
     <Content Include="Views\Personel\Edit.cshtml" />
     <Content Include="Views\Izin\PersonelYarimİzinListe.cshtml" />
     <Content Include="Views\Pdks\MazeretEkle.cshtml" />
+    <Content Include="Views\Girislerim\Index.cshtml" />
+    <Content Include="Views\MaasIsListe\Create.cshtml" />
+    <Content Include="Views\MaasIsListe\Delete.cshtml" />
+    <Content Include="Views\MaasIsListe\Details.cshtml" />
+    <Content Include="Views\MaasIsListe\Edit.cshtml" />
+    <Content Include="Views\MaasIsListe\Index.cshtml" />
+    <Content Include="Views\MaasIsListe\AtlIsler.cshtml" />
+    <Content Include="Views\MaasIsListe\AtlIsEkle.cshtml" />
+    <Content Include="Views\MaasIsListe\ListeOlustur.cshtml" />
+    <Content Include="Views\MaasIsListe\_ListeOlustur.cshtml" />
+    <Content Include="Views\Takip\RutinListe.cshtml" />
+    <Content Include="Views\Takip\RutinOzet.cshtml" />
+    <Content Include="Views\Takip\Sil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1155,7 +1182,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

@@ -6,7 +6,7 @@ using ik.Models;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class IcraOdemeController : Controller
     {
         private readonly ikEntities db = new ikEntities();

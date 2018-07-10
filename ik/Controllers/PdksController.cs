@@ -140,8 +140,7 @@ namespace ik.Controllers
             using (var ik = new ikEntities())
             {
                 var personel = ik.Personels.SingleOrDefault(c => c.mikroid == mikroid);
-                using (
-               db =
+                using (db =
                    new MySqlConnection(
                        "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
                 {

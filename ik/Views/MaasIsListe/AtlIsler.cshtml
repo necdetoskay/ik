@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ik.Models.Maas_Is_Liste_Detay>
+
+@{
+    ViewBag.Title = "AtlIsler";
+}
+
+<h2>@ViewBag.IsAd Atl İşler</h2>
+<ul class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Maaş İşleri","Index")</li>
+</ul>
+
+<div id="yeniekle"></div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.durum)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.durum)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#yeniekle').MakeDialogForm({
+                id: 'btnyarimekle',
+                text: 'Alt İş Ekle',
+                url: '@Url.Action("AtlIsEKle",new {id= (int)ViewBag.MaasIsListeId })',
+                title: 'Alt İş Ekle',
+                updateurl: '@Url.Action("AtlIsler",new { id = (int)ViewBag.MaasIsListeId })',
+                bclass: 'btn btn-info',
+                targetid: 'Info',
+                width: "500",
+                height: "400",
+                complete: function () {
+                    alert("sonunda tamamlandı");
+                }
+            });
+        })
+    </script>
+}

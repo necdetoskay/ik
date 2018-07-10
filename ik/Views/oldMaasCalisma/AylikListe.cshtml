@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ik.Models.Maas_Is>
+<style>
+    .green {
+        background-color: lightgreen
+    }
+</style>
+
+<div id="menu">
+    <div class="panel list-group">
+
+        @foreach (var item in Model)
+        {
+            var clasbtn = "";
+            var claspanel = @item.durum ==false? "list-group-item" : "list-group-item green";
+
+
+            <a href="#" class="@claspanel" data-toggle="collapse" data-target="#@item.id" data-parent="#menu">@item.Maas_Is_Liste.ad
+               @if(@item.Maas_Is_Detay.Any()) { <span class="label label-info">@item.Maas_Is_Detay.Count(c => c.durum == true) / @item.Maas_Is_Detay.Count</span> }
+        <span class="glyphicon glyphicon-ok pull-right"><input class="test" type="button"/></span></a>
+            <div id="@item.id" class="sublinks collapse">
+                @foreach (var it in item.Maas_Is_Detay)
+                {
+                    <div>
+                        @{
+                            clasbtn = it.durum ? "btn btn-success active form-check-label" : "btn btn-info active form-check-label";
+                        }
+                        <label class="@clasbtn">
+                            @if (it.durum)
+                            {
+                                <input type="checkbox" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox">
+                            }
+                            @it.Maas_Is_Liste_Detay.ad
+                        </label>
+                    </div>
+                }
+            </div>
+
+        }
+    </div>
+</div>
+<a id="listeekle" class="btn btn-primary" href="@Url.Action("AyListeOlustur")">Yeni Liste Oluştur</a>
+@*<input type="button" value="Yeni İş Ekle" id="isekle"/>*@
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('.text').each(function() {
+            $(this).on('click', function(e) {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                return (false);
+            });
+        });
+
+       $('#listeekle').on('click',function() {
+           var href = $(this).prop("href");
+           href = href + "?yil=" + $('#yil').val() + "&ay=" + $('#ay').val();
+           $(this).prop('href', href);
+           return true
+       });
+        var yapilanis = function (label) {
+            var sublink = label.closest('.sublinks');
+          
+            var seçili = sublink.find("input:checked").length;
+            var toplam = sublink.find("input:checkbox").length;
+            var info = label.parent().parent().prev();
+            info.find(".label-info").html(seçili + ' / ' + toplam);
+            if (seçili == toplam) {
+                info.addClass("green");
+            } else {
+                info.removeClass("green");
+            }
+           console.log(label.parent().parent().prev());
+        };
+        
+        var kontrol = function(check,label) {
+            if (check.prop('checked') === false) {
+                label.removeClass("btn-success").addClass("btn-info");
+            } else {
+                label.removeClass("btn-info").addClass("btn-success");
+            }
+        };
+
+        @*$('#isekle').on('click', function() {
+            var ay =$("#ay").val() ;
+            var yil = $("#yil").val();
+            $.ajax({
+                url:'@Url.Action("MaasIsEkle")',
+                type:'GET',
+                data: {
+                    ay:ay,
+                    yil:yil
+                },
+                success:function(result) {
+                    $('#Info').html(result);
+                }
+            });
+
+
+        });*@
+
+        $('.form-check-label').each(function () {
+            var label = $(this);
+            var check = label.children();
+            check.on('click', function () {
+                yapilanis(label);
+                kontrol(check,label);
+                //if (check.prop('checked') === false) {
+                //    label.removeClass("btn-success").addClass("btn-info");
+                //    console.log("info");
+                //} else {
+                //    label.removeClass("btn-info").addClass("btn-success");
+                //}
+            });
+
+
+
+
+        });
+    })
+
+</script>

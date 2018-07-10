@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Personel Avans Formu";
 }
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 <style type="text/css">
     .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
         background: blue;
@@ -59,6 +59,7 @@
                     <div>
                         <input type="text" id="adsoyad">
                         <input type="text" id="avanstutar" placeholder="Avans Miktarı">
+                        Maksimum Avans Tutarı:<span id="sonmaas"></span>
                     </div>
                 </div>
 
@@ -92,18 +93,21 @@
 
 
 @section scripts{
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery.PrintArea.js"></script>
+<script src="~/Scripts/bootstrap-notify.min.js"></script>
     <script type="text/javascript">
 
         function avanskaydet() {
             var pid = $("#adsoyad").attr("data-id");
             var tutar = $("#avanstutar").val();
-            console.log(pid);
-            console.log(tutar);
+            //console.log(pid);
+            //console.log(tutar);
             if (pid == "" || tutar == "") return;
-            var r = confirm("Avans kaydedilsin mi");
-            if (r == false) return;
+            //var r = confirm("Avans kaydedilsin mi");
+            //if (r == false) return;
 
             $.ajax({
                 url: '@Url.Action("AvansEkle")',
@@ -111,7 +115,12 @@
                 data: {
                     personelid: pid, tutar: tutar
                 }, success: function () {
-
+                    $.notify({
+                        title: '<strong>' + result.AdSoyad + ':</strong>',
+                        message: '' + result.EvrakAd + ' Evrak Kaydı Güncellendi.'
+                    }, {
+                        type: 'success'
+                    });
                 }
             });
         }
@@ -191,7 +200,7 @@
                 avans.append('<div class="col-md-8 col-sm-8 col-lg-8""></div><div class="col-md-4" style="float:right;"><div style="margin-top: 150px;text-align: center;">Saygılarımla</div><div style="font-size:medium;margin-top:20px;text-align: center;" id="ad"></div></div>');
                 avans.append('<div style="clear:both;"></div><div style="margin-top:100px;border:1px solid;"></div>');
                 avans.append('<div style="margin-top:50px"></div>');
-                avans.append('<div style="float:left">İnsan Kaynakları</div><div style="float:right">Mali İşler</div>');
+                avans.append('<div style="float:left"></div><div style="float:right">Mali İşler</div>');
 
 
                 // alert($("#adsoyad").attr('data-id'));
@@ -206,7 +215,22 @@
                     }
                 });
 
-
+                BootstrapDialog.confirm({
+                    title: 'Avans Kayıt',
+                    message: 'Avans Kaydedilsin mi?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if (result) {
+                            avanskaydet();
+                        } 
+                    }
+                });
             });
 
             $("#adsoyad").on("propertychange change keyup paste input", function () {
@@ -216,14 +240,13 @@
             });
             $("#adsoyad").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
-                        url: '@Url.Action("PersonelAra")',
-                        minLength: 3,
-                        dataType: "json",
+                    $.ajax({url: '@Url.Action("PersonelAra")',
+                        minLength: 3,dataType: "json",
                         type: "post",
                         data: { term: request.term },
                         success: function (data) {
                             response($.map(data, function (item) {
+                            
                                 return item;
                             }));
                         },
@@ -235,6 +258,18 @@
                 },
                 select: function (event, ui) {
                     $('#adsoyad').attr('data-id', ui.item.val);
+                    $.ajax({
+                        url:'@Url.Action("_AvansTutar")',
+                        type:'GET',
+                        data: {
+                            'id': ui.item.val
+                        },success:function(result) {
+                            if (result.Success === true) {
+                                $('#sonmaas').html(result.Tutar);
+                            }
+                        } 
+                    });
+
                 },
                 focus: function (event, ui) {
                     $(".ui-helper-hidden-accessible").hide();

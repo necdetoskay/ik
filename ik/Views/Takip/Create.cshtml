@@ -1,10 +1,7 @@
 ﻿@model ik.Models.Takip
 
-<style>
-    .datepicker {
-        z-index: 99999 !important;
-    }
-</style>
+
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -31,8 +28,7 @@
     </div>
 }
 
-@section scripts{
-
+@*@section scripts{
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
@@ -52,10 +48,22 @@
                     return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
                 }
             };
-            $('.datetime').datetimepicker({
-                locale: 'tr',
-                format: 'L'
-            });
+            //$('.datetime').datetimepicker({
+            //    locale: 'tr',
+            //    format: 'L'
+
+            //});
+            //var biggestZIndex = 0;
+            //this.element.parents().each(function (index, parent) {
+            //    var zIndex = $(parent).css('z-index');
+            //    if (zIndex !== 'auto') {
+            //        var zIndex = parseInt(zIndex);
+            //        if (zIndex > biggestZIndex) {
+            //            biggestZIndex = zIndex;
+            //        }
+            //    }
+            //});
+            //var zIndex = biggestZIndex + 10;
         })
     </script>
-}
+}*@

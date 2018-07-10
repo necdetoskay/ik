@@ -1,5 +1,77 @@
-﻿
-  
+﻿ BootstrapDialog.confirm({
+                    title: 'Avans Kayıt',
+                    message: 'Avans Kaydedilsin mi?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if (result) {
+                            avanskaydet();
+                        } 
+                    }
+                });
+///////////////////////////////////////////////////////////////////////////////
+ $('#rutinekle').MakeDialogForm({
+                id: 'btnyarimekle',//butonid
+                text: 'Rutin Ekle',
+                url: '@Url.Action("Create","Takip")' ,
+                title: 'yarım izin Title',
+                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=10',
+                bclass: 'btn btn-info',
+                targetid: 'rutindiv',
+                width: "500",
+                height: "400",
+                complete: function () {
+                    alert("sonunda tamamlandı");
+                }
+            });
+
+
+
+
+
+
+$( "#feeds" ).load( "feeds.php", { limit: 25 }, function() {
+  alert( "The last 25 entries in the feed have been loaded" );
+});
+
+
+
+    @Html.ActionLink(" ", "Edit", new { id=item.id} ,new { @class= "glyphicon glyphicon-pencil",title="Düzenle" }) |
+
+
+
+
+ $('#yarimekle').MakeDialogForm({
+                    id: 'btnyarimekle',
+                    text: 'Yarım İzin Ekle',
+                    url: '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1,
+                    title: 'yarım izin Title',
+                    updateurl: '@Url.Action("_PersonelYarimİzinListele")' + '/?id=' + id,
+                    bclass: 'btn btn-info',
+                    targetid: 'yarimtablo',
+                    width: "500",
+                    height: "400",
+                    complete: function () {
+                        alert("sonunda tamamlandı");
+                    }
+                });
+
+
+
+
+
+  /////////////////////////////////////NOTİFY KULLANIMI
+  $.notify({
+     title: '<strong>' + result.AdSoyad + ':</strong>',
+     message: '' + result.EvrakAd + ' Evrak Kaydı Güncellendi.'
+     }, {type: 'success'});
+///////////////////////////////////////////////
+
   
   jQuery.validator.methods.date = function(value, element) {
                 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
@@ -247,3 +319,44 @@ private void DropDownReBind()
         });
 
 
+BootstrapDialog.confirm({
+            title: 'WARNING',
+            message: 'Warning! Drop your banana?',
+            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'Do not drop it!', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Drop it!', // <-- Default value is 'OK',
+            btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    alert('Yup.');
+                }else {
+                    alert('Nope.');
+                }
+            }
+        });
+////////////////////////////////////////////////////////////tab panel
+
+<div class="col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#izin">Yıllık İzinler</a></li>
+        <li><a data-toggle="tab" href="#yarimizin">Yarım Gün İzinler</a></li>      
+    </ul>
+</div>
+
+
+
+
+
+<div class="col-lg-12">
+    <div class="tab-content">
+        <div id="izin" class="tab-pane fade in active">
+            <div class="content"> </div>
+        </div>
+		<div id="yarimizin" class="tab-pane fade in">
+		   <div class="content"> </div>
+        </div>
+	</div>
+</div>
