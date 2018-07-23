@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ik.Models.Takip>
-    @{
-        var cls = "";
-    }
+@{
+    var cls = "";
+}
 <table class="table">
     <tr>
         <th>
@@ -12,19 +12,75 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         cls = item.sontarih.Date < DateTime.Now.Date ? "btn-danger" : "btn-Info";
-    <tr>
-        <td>
-            <button type='button' class='btn @cls' data-toggle='modal' data-rutinID='@item.id' data-aciklama='@item.aciklama' data-target='#myModal'> @item.aciklama</button>
-           @*// @Html.DisplayFor(modelItem => item.aciklama)*@
-        </td>
+        <tr>
+            <td>
+                @*<button type='button' class='btn @cls' data-toggle='modal' data-rutinID='@item.id' data-aciklama='@item.aciklama' data-target='#myModal'> @item.aciklama</button>*@
+                <button type='button' style="font-size: 10px" class='btn @cls tamamla' id='@item.id'> @item.aciklama</button>
+                @*// @Html.DisplayFor(modelItem => item.aciklama)*@
+            </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.sontarih)
-        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sontarih)
+            </td>
 
-    </tr>
-}
+        </tr>
+    }
 
 </table>
+
+
+@*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>*@
+<script type="text/javascript">
+    $(function () {
+        $('.tamamla').each(function () {
+            var btn = $(this);
+            btn.on('click', function() {
+                BootstrapDialog.confirm({
+                    title: 'WARNING',
+                    message: 'Görev  tamamlansın mı?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Tamamla', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-success', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        if (result) {
+                            console.log(btn.attr('id'));
+                            $.ajax({
+                                url: '@Url.Action("_TakipSil")',
+                                type: 'GET',
+                                data: {
+                                    'id': btn.attr('id')
+                                },
+                                success: function(result) {
+                                    if (result === true) {
+                                        $.notify({
+                                            title: 'İşlem Durumu',
+                                            message: 'İşlem Başarılı.'
+                                        }, { type: 'success' });
+                                        btn.closest('tr').remove();
+                                    } else {
+                                        $.notify({
+                                            title: 'İşlem Durumu',
+                                            message: 'İşlem Başarısız.'
+                                        }, { type: 'error' });
+                                    }
+                                }
+
+                            });
+                        } else {
+                            
+                        }
+                    }
+                });
+            });
+            
+        });
+       
+    })
+</script>

@@ -274,14 +274,16 @@
 </div>
 
 @section Scripts{
-<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-<script src="~/Scripts/jquery.PrintArea.js"></script>
-<script src="~/Scripts/bootstrap-dialog.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.PrintArea.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/bootstrap-notify.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
+
     <script type="text/javascript">
 
         function eksikhareket() {
@@ -387,7 +389,7 @@
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("RutinOzet", "Takip")',
-               // url: '@Url.Action("_RutinOzet", "Takip")',
+                // url: '@Url.Action("_RutinOzet", "Takip")',
                 data: {
                     'limit': 10
                 },
@@ -502,18 +504,25 @@
         }
 
         $(function () {
+            jQuery.validator.addMethod("validDate", function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY").isValid();
+            }, "Please enter a valid date in the format DD/MM/YYYY");
+
             $('#rutinekle').MakeDialogForm({
                 id: 'btnyarimekle',
-                text: 'Rutin Ekle',
-                url: '@Url.Action("Create","Takip")' ,
-                title: 'yarım izin Title',
-                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=10',
+                text: 'Görev Ekle',
+                url: '@Url.Action("Create","Takip")',
+                title: 'Görev Ekle',
+                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=20',
                 bclass: 'btn btn-info',
                 targetid: 'rutindiv',
-                width: "500",
-                height: "400",
+                width: "400",
+                height: "250",
                 complete: function () {
-                    alert("sonunda tamamlandı");
+                    $.notify({
+                        title: 'Kayıt Durumu',
+                        message: 'Kaydedildi'
+                    }, { type: 'success' });
                 }
             });
 

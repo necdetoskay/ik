@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "RutinListe";
-    var tarih = DateTime.Now.Date.AddDays(5);
+    var tarih =new DateTime(DateTime.Now.Year,DateTime.Now.Month+1,1).AddDays(-1);
 }
 
 <h2>RutinListe</h2>
@@ -37,7 +37,7 @@
                         <th></th>
                     </tr>
 
-                    @foreach (var item in Model.Where(c => !c.tamamlanma.HasValue & c.sontarih < tarih).OrderByDescending(c => c.sontarih))
+                    @foreach (var item in Model.Where(c => !c.tamamlanma.HasValue & c.sontarih < tarih).OrderBy(c => c.sontarih))
                     {
                         <tr>
                             <td>

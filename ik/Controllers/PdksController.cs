@@ -410,6 +410,59 @@ namespace ik.Controllers
             return View();
         }
 
+        public ActionResult Raporlar()
+        {
+            int ikID = 2332;
+            DateTime tarih1=new DateTime(2018,06,01);
+            DateTime tarih2=new DateTime(2018,06,30);
+            var pers = ik.Personels.FirstOrDefault(c => c.id == ikID);
+
+            using (
+                db =
+                    new MySqlConnection(
+                        "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
+            {
+                var info = new object();
+                var com =
+                    new MySqlCommand(
+                        "SELECT personel_izin.id, CONCAT(personel_kartlari.adi, ' ', personel_kartlari.soyadi) as adsoyad," +
+                        " personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_tablo.aciklama as izintip " +
+                        " FROM personel_izin INNER JOIN personel_kartlari ON personel_kartlari.id = personel_izin.personel_id " +
+                        " INNER JOIN tatil_tablo ON tatil_tablo.id = personel_izin.tatil_id WHERE personel_izin.tarih>='2018-06-01' and personel_izin.tarih<='2018-06-30' and personel_izin.tatil_id=7", db);
+
+                if (db.State != ConnectionState.Open)
+                    db.Open();
+                MySqlDataReader reader = com.ExecuteReader();
+                var izinler = new List<pdksizinrapor>();
+                while (reader.Read())
+                {
+
+                    var ad = (string) reader["adsoyad"];
+                    var trh = DateTime.Parse(reader["tarih"].ToString());
+                    var gdsst = (TimeSpan) reader["gidis_saat"];
+                    var glsst = (TimeSpan) reader["gelis_saat"];
+                    var acklm = (string) reader["aciklama"];
+                    var iztp = (string) reader["izintip"];
+
+                    izinler.Add(new pdksizinrapor
+                    {
+                        adsoyad = ad,
+                        tarih = trh,
+                        gidis_saat = gdsst,
+                        gelis_saat = glsst,
+                        aciklama = acklm,
+                        izintip = iztp
+                    });
+
+                }
+
+                db.Close();
+
+                var groupped = izinler.GroupBy(c => c.adsoyad);
+            }
+
+            return View();
+        }
       
     }
 

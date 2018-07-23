@@ -60,6 +60,9 @@
         <AssociationConnector Association="ikModel.FK__PersonelD__tahsi__0E04126B" />
         <EntityTypeShape EntityType="ikModel.SgkDosya" Width="1.5" PointX="9.375" PointY="13" />
         <AssociationConnector Association="ikModel.FK__PersonelD__sgkdo__2C1E8537" />
+        <EntityTypeShape EntityType="ikModel.vergi_dilim" Width="1.5" PointX="11.375" PointY="14.25" />
+        <EntityTypeShape EntityType="ikModel.vergi_dilim_detay" Width="1.5" PointX="13.625" PointY="13.875" />
+        <AssociationConnector Association="ikModel.FK__vergi_dil__dilim__6CC31A31" />
       </Diagram>
       <Diagram DiagramId="9554967d1fab4efc8edd605db57ffc82" Name="staj" ZoomLevel="74" >
         <EntityTypeShape EntityType="ikModel.Staj_Bolum" Width="1.5" PointX="3" PointY="1.625" />

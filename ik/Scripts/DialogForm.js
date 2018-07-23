@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    function wireUpForm(dialog, updateTargetId, updateUrl) {
+    function wireUpForm(dialog, updateTargetId, updateUrl,complete) {
         $('form', dialog).submit(function () {
 
             // Do not submit if the form
@@ -16,12 +16,13 @@
                 success: function (result) {
                     // Check whether the post was successful
                     if (result.success) {
+                        console.log(result.success);
                         // Close the dialog 
                         $(dialog).dialog('close');
 
                         // Reload the updated data in the target div
                         $(updateTargetId).load(updateUrl);
-                        //this.settings.complete();
+                        complete();
                         //console.log(result.console);
                     } else {
                         // Reload the dialog to show model errors                    
@@ -68,6 +69,7 @@
         html.attr("data-update-url", settings.updateurl);
         html.attr("data-width", settings.width);
         html.attr("data-height", settings.height);
+      
 
         
       
@@ -108,9 +110,7 @@
                         "İptal": function () { $(this).dialog('close'); }
                     }, open: function (event) {
                         var height = $('#' + dialogId).find('#content').height() + 40;
-                      
                         var width = $('#' + dialogId).find('#content').width();
-                        console.log(width);
                         $('#' + dialogId).height(height);
                         $('#' + dialogId).width(width);
                         $('.ui-dialog-buttonpane').find('button:contains("İptal")').removeClass("ui-button").addClass('btn btn-danger');
@@ -122,7 +122,7 @@
                 $.validator.unobtrusive.parse(this);
 
                 // Setup the ajax submit logic
-                wireUpForm(this, updateTargetId, updateUrl);
+                wireUpForm(this, updateTargetId, updateUrl,settings.complete);
             });
             return false;
         });
@@ -178,7 +178,7 @@
                     $.validator.unobtrusive.parse(this);
 
                     // Setup the ajax submit logic
-                    wireUpForm(this, updateTargetId, updateUrl);
+                    wireUpForm(this, updateTargetId, updateUrl,null);
                 });
                 return false;
             });

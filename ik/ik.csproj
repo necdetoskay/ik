@@ -443,6 +443,12 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\userdomain.cs" />
+    <Compile Include="Models\vergi_dilim.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vergi_dilim_detay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Yizin.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -1124,6 +1130,7 @@
     <Content Include="Views\Takip\RutinListe.cshtml" />
     <Content Include="Views\Takip\RutinOzet.cshtml" />
     <Content Include="Views\Takip\Sil.cshtml" />
+    <Content Include="Views\Personel\Maas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

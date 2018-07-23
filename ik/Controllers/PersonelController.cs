@@ -1000,6 +1000,22 @@ namespace ik.Controllers
             return Json(new { Success = true, Tutar = net }, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult Maas()
+        {
+            return View();
+        }
+
+        public ActionResult _MaasHesapla(int id)
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            var mikropersonel = ke.PERSONELLERs.FirstOrDefault(c => c.per_RECno == personel.mikroid);
+            var personeltahakkuk = ke.PERSONEL_TAHAKKUKLARI.Where(c => c.pt_pkod == mikropersonel.per_kod).OrderByDescending(c=>c.pt_maliyil).ThenByDescending(c=>c.pt_tah_ay).FirstOrDefault();
+            var net=new MikroController().NetMaas(
+                maliyil:2018,
+                brütmaaş:(decimal)mikropersonel.per_ucret,brütyemek:350m,kümülatifgvm:(decimal)personeltahakkuk.pt_gvmatrah);
+            return Json(net, JsonRequestBehavior.AllowGet);
+        }
     }
 
     public class MikroAdSoyad

@@ -463,6 +463,23 @@
           <Property Name="yapilan" Type="text" Nullable="false" />
           <Property Name="tarih" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="vergi_dilim">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="yil" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vergi_dilim_detay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dilimId" Type="int" Nullable="false" />
+          <Property Name="oran" Type="int" Nullable="false" />
+          <Property Name="alt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ust" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="Yizin">
           <Key>
             <PropertyRef Name="id" />
@@ -1063,6 +1080,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__vergi_dil__dilim__6CC31A31">
+          <End Role="vergi_dilim" Type="Self.vergi_dilim" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="vergi_dilim_detay" Type="Self.vergi_dilim_detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vergi_dilim">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="vergi_dilim_detay">
+              <PropertyRef Name="dilimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Yizin__personeli__269AB60B">
           <End Role="Personel" Type="Self.Personel" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1140,6 +1171,8 @@
           <EntitySet Name="Takip" EntityType="Self.Takip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Task_Details" EntityType="Self.Task_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vergi_dilim" EntityType="Self.vergi_dilim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vergi_dilim_detay" EntityType="Self.vergi_dilim_detay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Yizin" EntityType="Self.Yizin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YizinDetay" EntityType="Self.YizinDetay" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Arsiv_Per__ihale__6BE40491" Association="Self.FK__Arsiv_Per__ihale__6BE40491">
@@ -1309,6 +1342,10 @@
           <AssociationSet Name="FK__Task_Deta__taski__26CFC035" Association="Self.FK__Task_Deta__taski__26CFC035">
             <End Role="Task" EntitySet="Task" />
             <End Role="Task_Details" EntitySet="Task_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__vergi_dil__dilim__6CC31A31" Association="Self.FK__vergi_dil__dilim__6CC31A31">
+            <End Role="vergi_dilim" EntitySet="vergi_dilim" />
+            <End Role="vergi_dilim_detay" EntitySet="vergi_dilim_detay" />
           </AssociationSet>
           <AssociationSet Name="FK__Yizin__personeli__269AB60B" Association="Self.FK__Yizin__personeli__269AB60B">
             <End Role="Personel" EntitySet="Personel" />
@@ -1552,6 +1589,12 @@
           <AssociationSet Name="FK__Maas_Is_L__maasI__3FF073BA" Association="ikModel.FK__Maas_Is_L__maasI__3FF073BA">
             <End Role="Maas_Is_Liste" EntitySet="Maas_Is_Liste" />
             <End Role="Maas_Is_Liste_Detay" EntitySet="Maas_Is_Liste_Detay" />
+          </AssociationSet>
+          <EntitySet Name="vergi_dilim" EntityType="ikModel.vergi_dilim" />
+          <EntitySet Name="vergi_dilim_detay" EntityType="ikModel.vergi_dilim_detay" />
+          <AssociationSet Name="FK__vergi_dil__dilim__6CC31A31" Association="ikModel.FK__vergi_dil__dilim__6CC31A31">
+            <End Role="vergi_dilim" EntitySet="vergi_dilim" />
+            <End Role="vergi_dilim_detay" EntitySet="vergi_dilim_detay" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="birim">
@@ -2732,6 +2775,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vergi_dilim">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="yil" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="vergi_dilim_detay" Relationship="ikModel.FK__vergi_dil__dilim__6CC31A31" FromRole="vergi_dilim" ToRole="vergi_dilim_detay" />
+        </EntityType>
+        <EntityType Name="vergi_dilim_detay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dilimId" Type="Int32" Nullable="false" />
+          <Property Name="oran" Type="Int32" Nullable="false" />
+          <Property Name="alt" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ust" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="vergi_dilim" Relationship="ikModel.FK__vergi_dil__dilim__6CC31A31" FromRole="vergi_dilim_detay" ToRole="vergi_dilim" />
+        </EntityType>
+        <Association Name="FK__vergi_dil__dilim__6CC31A31">
+          <End Type="ikModel.vergi_dilim" Role="vergi_dilim" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.vergi_dilim_detay" Role="vergi_dilim_detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vergi_dilim">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="vergi_dilim_detay">
+              <PropertyRef Name="dilimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3261,6 +3337,25 @@
                 <ScalarProperty Name="durum" ColumnName="durum" />
                 <ScalarProperty Name="ad" ColumnName="ad" />
                 <ScalarProperty Name="maasIsListeId" ColumnName="maasIsListeId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vergi_dilim">
+            <EntityTypeMapping TypeName="ikModel.vergi_dilim">
+              <MappingFragment StoreEntitySet="vergi_dilim">
+                <ScalarProperty Name="yil" ColumnName="yil" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vergi_dilim_detay">
+            <EntityTypeMapping TypeName="ikModel.vergi_dilim_detay">
+              <MappingFragment StoreEntitySet="vergi_dilim_detay">
+                <ScalarProperty Name="ust" ColumnName="ust" />
+                <ScalarProperty Name="alt" ColumnName="alt" />
+                <ScalarProperty Name="oran" ColumnName="oran" />
+                <ScalarProperty Name="dilimId" ColumnName="dilimId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

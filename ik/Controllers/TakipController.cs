@@ -175,5 +175,21 @@ namespace ik.Controllers
             }
             return Json(new { Success = false, Message = "Kayıt Bulunamadı" }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult _TakipSil(int id)
+        {
+            var firstOrDefault = db.Takips.FirstOrDefault(c=>c.id==id);
+            if (firstOrDefault != null)
+            {
+                firstOrDefault.tamamlanma = DateTime.Now;
+                db.SaveChanges();
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+               
+        }
     }
 }

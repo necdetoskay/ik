@@ -8,8 +8,8 @@
 <h2>Index</h2>
 
 <p>
-    @Html.DialogFormLink("Yeni Ekle", Url.Action("Create"), "Takip Ekle", "Info", Url.Action("Index"))
-
+    @*@Html.DialogFormLink("Yeni Ekle", Url.Action("Create"), "Takip Ekle", "Info", Url.Action("Index"))*@
+    <div id="ekle"></div>
 </p>
 
 
@@ -61,7 +61,21 @@
     <script type="text/javascript">
         $(function () {
             $.ajaxSetup({ cache: false });
-            $('.dialogLink').makeDialog();
+            //$('.dialogLink').makeDialog();
+            $('#ekle').MakeDialogForm({
+                id: 'btnekle',//butonid
+                text: 'Yeni Ekle',
+                url: '@Url.Action("Create","ImzaTakip")' ,
+                title: 'Yeni Takip Oluştur',
+                updateurl: '@Url.Action("Index","ImzaTakip")',
+                bclass: 'btn btn-info',
+                targetid: 'Info',
+                width: "400",
+                height: "500",
+                complete: function () {
+                    alert("sonunda tamamlandı");
+                }
+            });
         });
     </script>
 }

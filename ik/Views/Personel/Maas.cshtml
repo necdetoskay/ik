@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Maas";
+}
+
+<h2>Maas</h2>
+
+@Html.Partial("_PersonelAdSec")
+<input id="sorgula" type="button" class="btn btn-primary" value="Sorgula"/>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('#sorgula').on('click', function() {
+                var personel = $('#personel').attr('data-id');
+             
+                $.ajax({
+                    url:'@Url.Action("_MaasHesapla")',
+                    type: 'GET',
+                    data: {
+                        'id':personel
+                    },
+                    success:function(result) {
+                        console.log(result);
+                    }
+                });
+            });
+        })
+    </script>    
+}

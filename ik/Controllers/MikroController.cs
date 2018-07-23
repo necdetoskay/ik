@@ -16,6 +16,7 @@ namespace ik.Controllers
     {
         // GET: Mikro
         private ik.Models.KENTEntities ke = new KENTEntities();
+        private ikEntities db =new ikEntities();
         protected override void Dispose(bool disposing)
         {
             ke.Dispose();
@@ -93,5 +94,61 @@ namespace ik.Controllers
                 return Json(query.ToList(), JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        public decimal NetMaas(int maliyil=2018,
+            decimal brütmaaş = 4307.32m, 
+            decimal brütyemek = 350.0m, 
+            decimal kümülatifgvm = 0.0m, 
+            decimal agi = 152.21m, decimal yemekistisna = 4.05m)
+        {
+
+            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == maliyil).vergi_dilim_detay.ToList();
+
+            var yemekistisnatutar = yemekistisna*22;
+            var sgkmatrah = brütmaaş + brütyemek - yemekistisnatutar;
+            var sgkprim=Math.Round(sgkmatrah*0.14m,2);
+            var işsizlikprim=Math.Round(sgkmatrah*0.01m,2);
+            var damga =Math.Round( (brütmaaş + brütyemek)*0.00759m,2);
+            var gelirvergimatrah = brütmaaş + brütyemek - sgkprim - işsizlikprim;
+            var kümülatif = kümülatifgvm + gelirvergimatrah;
+            var gelirvergisi = 0m;
+           
+            for (int i = 0; i < dilim.Count; i++)
+            {
+                if (kümülatifgvm > dilim[i].ust)
+                {
+                   
+                }else
+                {
+                    if (kümülatif > dilim[i].ust)
+                    {
+                        var üst = ((kümülatif - dilim[i].ust) *dilim[i+1].oran)/100;
+                        var alt = ((dilim[i].ust - kümülatifgvm) *dilim[i].oran)/100;
+                        gelirvergisi = alt + üst;
+                        gelirvergisi = Math.Round(gelirvergisi, 2);
+                        break;
+                        //iki dilim
+                    }
+                    else
+                    {
+                        //tek dilim
+                        gelirvergisi += (gelirvergimatrah * dilim[i].oran) / 100;
+                      
+                       gelirvergisi= Math.Round(gelirvergisi, 2);
+                        break;
+                    }
+                }
+            }
+            //gelirvergisi hesapla
+            gelirvergisi -= agi;
+
+            var net = brütmaaş + brütyemek - sgkprim - gelirvergisi - damga - işsizlikprim;
+
+
+            return net;
+        }
     }
+
+   
 }

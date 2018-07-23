@@ -75,5 +75,7 @@ namespace ik.Models
         public virtual DbSet<Maas_Is_Detay> Maas_Is_Detay { get; set; }
         public virtual DbSet<Maas_Is_Liste> Maas_Is_Liste { get; set; }
         public virtual DbSet<Maas_Is_Liste_Detay> Maas_Is_Liste_Detay { get; set; }
+        public virtual DbSet<vergi_dilim> vergi_dilim { get; set; }
+        public virtual DbSet<vergi_dilim_detay> vergi_dilim_detay { get; set; }
     }
 }

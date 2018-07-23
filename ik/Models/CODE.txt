@@ -16,10 +16,10 @@
                 });
 ///////////////////////////////////////////////////////////////////////////////
  $('#rutinekle').MakeDialogForm({
-                id: 'btnyarimekle',//butonid
+                id: 'btnekle',//butonid
                 text: 'Rutin Ekle',
                 url: '@Url.Action("Create","Takip")' ,
-                title: 'yarım izin Title',
+                title: '',
                 updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=10',
                 bclass: 'btn btn-info',
                 targetid: 'rutindiv',
