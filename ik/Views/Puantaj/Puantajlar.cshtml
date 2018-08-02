@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Puantajlar";
+}
+
+<h2>Puantajlar</h2>
+
+<div class="row">
+    <div>
+        <div class="form-group col-md-4">
+            <label class="" for="personel">Personeller</label>
+            <select id="personel" class="form-control" multiple="multiple"></select>
+        </div>
+        <div class="form-group col-md-4">
+            <input type="date" id="tarih1"/>
+            <input type="date" id="tarih2" />
+        </div>
+        <div class="form-group col-md-4">
+            <input type="button" id="puantaj" class="btn btn-primary" value="Puantaj"/><span id="wait"></span>
+        </div>
+    </div>
+    <div id="tablo"></div>
+</div>
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet"/>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+
+    <script src="~/Scripts/imzatakip.js"></script>
+    <script type="text/javascript">
+        
+        Date.prototype.addDays = function(days) {
+            this.setDate(this.getDate() + parseInt(days));
+            return this;
+        };
+        function n(d) {
+            return d > 9 ? "" + d : "0" + d;
+        }
+
+
+        $(function () {
+
+
+            var tablociz = function(t1,t2) {
+                var tablo = $('#tablo');
+                tablo.html('');
+                var table = $('<table class="table table-bordered"></table>');
+                table.append('<tr>');
+                for (var i = t1; i <= t2;i.addDays(1)) {
+                    console.log(i.getDate());
+                    table.append('<th date="'+i+'">' +n(i.getDate()) + '</th>');
+                }
+                table.append('</tr>');
+                tablo.append(table);
+            };
+
+
+            tablociz(new Date(2018, 07, 01), new Date(2018, 07, 31));
+        var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste", "Personel")';
+            personelliste(personelbirimlisteurl); //dropdown doldur
+
+            $('#puantaj').on('click', function () {
+              
+               // tablociz(new Date(2018, 07, 01), new Date(2018, 07, 31));
+
+                //işlem başlat
+                var btn = $(this);
+                $('#wait').html('....Bekleyiniz...<img src="@Url.Content("~/Content/giphy.gif")"/>');
+                console.log($('#personel').val());
+                $.ajax({
+                    url: '@Url.Action("_Puantaj","Pdks")',
+                    type: 'GET',
+                    data: {
+                        'liste': $('#personel').val(),
+                        'tarih1':$('#tarih1').val(),
+                        'tarih2': $('#tarih2').val()
+                    },
+                    dataType: "json",
+                    traditional: true,
+                    success:function(result) {
+                        console.log(result);
+                    }
+                });
+
+                $('#wait').html('');
+
+            });
+
+        })
+    </script>
+}

@@ -203,6 +203,7 @@
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\PersonelOzlukDosyaController.cs" />
     <Compile Include="Controllers\PTakipController.cs" />
+    <Compile Include="Controllers\PuantajController.cs" />
     <Compile Include="Controllers\RaporController.cs" />
     <Compile Include="Controllers\StajController.cs" />
     <Compile Include="Controllers\TakipController.cs" />
@@ -612,6 +613,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\giphy.gif" />
     <Content Include="Content\highCheckTree.css" />
     <Content Include="Content\jquery.mobile-git.css" />
     <Content Include="Content\jquery.treegrid.css" />
@@ -1131,6 +1133,9 @@
     <Content Include="Views\Takip\RutinOzet.cshtml" />
     <Content Include="Views\Takip\Sil.cshtml" />
     <Content Include="Views\Personel\Maas.cshtml" />
+    <Content Include="Views\Pdks\Raporlar.cshtml" />
+    <Content Include="Views\Pdks\RaporDurum.cshtml" />
+    <Content Include="Views\Puantaj\Puantajlar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1189,7 +1194,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

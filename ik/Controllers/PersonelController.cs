@@ -27,6 +27,8 @@ namespace ik.Controllers
             base.Dispose(disposing);
         }
 
+
+
         // GET: Personel
         public ActionResult Index()
         {

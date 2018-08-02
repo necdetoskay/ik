@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "RaporDurum";
+}
+
+<h2>RaporDurum</h2>
+
+<div>
+    <div class="col-md-6">
+        <label class="" for="baslangic">Başlangıç Tarihi</label>
+        <input class="form-control" type="date" id="baslangic"/>
+    </div>
+    <div class="col-md-6">
+        <label class="" for="bitis">Bitiş Tarihi</label>
+        <input class="form-control" type="date" id="bitis"/>
+    </div>
+    <input type="button" class="btn btn-primary" value="Hazırla" id="hazirla"/>
+    <div id="result"></div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('#hazirla').on('click', function () {
+                var bas = $('#baslangic').val();
+                var kıç = $('#bitis').val();
+                if (bas == "" || kıç == "") {
+                    return;
+                }
+               $.ajax({
+                   url:'@Url.Action("Raporlar")',
+                   type:'GET',
+                   data: {
+                       'baslangic': bas,
+                       'bitis':kıç
+                   },success:function(result) {
+                       $('#result').html(result);
+                   }
+               })
+            });
+        })
+    </script>
+}

@@ -19,7 +19,8 @@
             <td>
                 @*<button type='button' class='btn @cls' data-toggle='modal' data-rutinID='@item.id' data-aciklama='@item.aciklama' data-target='#myModal'> @item.aciklama</button>*@
                 <button type='button' style="font-size: 10px" class='btn @cls tamamla' id='@item.id'> @item.aciklama</button>
-                @*// @Html.DisplayFor(modelItem => item.aciklama)*@
+
+                <img  />
             </td>
 
             <td>
@@ -32,8 +33,6 @@
 </table>
 
 
-@*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-<script src="~/Scripts/bootstrap-dialog.js"></script>*@
 <script type="text/javascript">
     $(function () {
         $('.tamamla').each(function () {
@@ -51,6 +50,8 @@
                     callback: function (result) {
                         if (result) {
                             console.log(btn.attr('id'));
+                            //SİLİNİYOR LOADİNG GÖSTER
+                            btn.closest('td').append('<span>    Siliniyor... <img style="height=30px" class="loading" src="~/Content/Loading_icon.gif" ></span>');
                             $.ajax({
                                 url: '@Url.Action("_TakipSil")',
                                 type: 'GET',

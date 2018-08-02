@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ik.Controllers.pdksizinrapor>
+
+<table class="table">
+    <tr>
+        <th>Personel Adı Soyadı</th>
+        <th>Raporlu Gün</th>
+        <th>Kesilecek Gün</th>
+        <th>Hafta İçi Kesilen</th>
+        <th>Hafta Sonu Kesilen</th>
+    </tr>
+
+
+
+    @foreach (var item in Model.GroupBy(c => c.adsoyad).OrderByDescending(c => c.Count()))
+    {
+        var haftaiçi = 0;
+        var cls = "";
+        var haftasonu = 0;
+        var gün = item.Count();
+        var ver = 2;
+        if (gün > 2)
+        {
+            cls = "text-danger";
+        }
+
+        <tr class="@cls">
+            <td>@item.Key</td>
+            <td>@gün</td>
+            @foreach (var i in item.ToList())
+            {
+                if (i.tarih.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    if (ver <= 0 )
+                    {
+                        haftasonu++;
+                    }
+                    ver--;
+                }
+                else
+                {
+                    if (ver <= 0 )
+                    {
+                        haftaiçi++;
+                    }
+
+                    ver--;
+                }
+
+            }
+            <td>@(gün - 2>0?gün-2:0)</td>
+            <td>@haftaiçi</td>
+            <td>@haftasonu</td>
+        </tr>
+    }
+
+</table>

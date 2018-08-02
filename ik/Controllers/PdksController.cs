@@ -19,7 +19,7 @@ namespace ik.Controllers
         private ikEntities ik = new ikEntities();
         protected override void Dispose(bool disposing)
         {
-           // db.Dispose();
+            // db.Dispose();
             base.Dispose(disposing);
         }
 
@@ -215,7 +215,7 @@ namespace ik.Controllers
 
                         com.CommandText = string.Format(
                             "insert into personel_izin (personel_id,tatil_id,tarih,gidis_saat,gelis_saat,saatlik,aciklama,otoizin) " +
-                            "values({0},{1},'{2}','{3}','{4}',{5},'{6}',0)", id,3, tarih.ToString("yyyy-MM-dd"),giris,gelis,saatlik,mazeret );
+                            "values({0},{1},'{2}','{3}','{4}',{5},'{6}',0)", id, 3, tarih.ToString("yyyy-MM-dd"), giris, gelis, saatlik, mazeret);
 
                         var res = com.ExecuteNonQuery();
                         if (res > 0)
@@ -387,7 +387,7 @@ namespace ik.Controllers
                     {
                         aciklama = c.Key,
                         izintip = c.FirstOrDefault().izintip,
-                        Baslangic = c.FirstOrDefault().tarih.ToShortDateString()+" "+(c.FirstOrDefault().gidis_saat.ToString()=="00:00:00"?"": c.FirstOrDefault().gidis_saat.ToString()),
+                        Baslangic = c.FirstOrDefault().tarih.ToShortDateString() + " " + (c.FirstOrDefault().gidis_saat.ToString() == "00:00:00" ? "" : c.FirstOrDefault().gidis_saat.ToString()),
                         Bitis = c.LastOrDefault().tarih.ToShortDateString() + " " + (c.LastOrDefault().gelis_saat.ToString() == "00:00:00" ? "" : c.LastOrDefault().gelis_saat.ToString())
                     });
                     return Json(new { Success = true, Data = liste }, JsonRequestBehavior.AllowGet);
@@ -398,7 +398,7 @@ namespace ik.Controllers
 
                 }
 
-                
+
             }
 
 
@@ -410,13 +410,17 @@ namespace ik.Controllers
             return View();
         }
 
-        public ActionResult Raporlar()
-        {
-            int ikID = 2332;
-            DateTime tarih1=new DateTime(2018,06,01);
-            DateTime tarih2=new DateTime(2018,06,30);
-            var pers = ik.Personels.FirstOrDefault(c => c.id == ikID);
 
+        public ActionResult RaporDurum()
+        {
+            return View();
+        }
+        public ActionResult Raporlar(DateTime baslangic, DateTime bitis)
+        {
+            DateTime tarih1 = baslangic;
+            DateTime tarih2 = bitis;
+
+            var izinler = new List<pdksizinrapor>();
             using (
                 db =
                     new MySqlConnection(
@@ -425,24 +429,24 @@ namespace ik.Controllers
                 var info = new object();
                 var com =
                     new MySqlCommand(
-                        "SELECT personel_izin.id, CONCAT(personel_kartlari.adi, ' ', personel_kartlari.soyadi) as adsoyad," +
+                       string.Format("SELECT personel_izin.id, CONCAT(personel_kartlari.adi, ' ', personel_kartlari.soyadi) as adsoyad," +
                         " personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_tablo.aciklama as izintip " +
                         " FROM personel_izin INNER JOIN personel_kartlari ON personel_kartlari.id = personel_izin.personel_id " +
-                        " INNER JOIN tatil_tablo ON tatil_tablo.id = personel_izin.tatil_id WHERE personel_izin.tarih>='2018-06-01' and personel_izin.tarih<='2018-06-30' and personel_izin.tatil_id=7", db);
+                        " INNER JOIN tatil_tablo ON tatil_tablo.id = personel_izin.tatil_id WHERE personel_izin.tarih>='{0}' and personel_izin.tarih<='{1}' and personel_izin.tatil_id=7", tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd")), db);
 
                 if (db.State != ConnectionState.Open)
                     db.Open();
                 MySqlDataReader reader = com.ExecuteReader();
-                var izinler = new List<pdksizinrapor>();
+
                 while (reader.Read())
                 {
 
-                    var ad = (string) reader["adsoyad"];
+                    var ad = (string)reader["adsoyad"];
                     var trh = DateTime.Parse(reader["tarih"].ToString());
-                    var gdsst = (TimeSpan) reader["gidis_saat"];
-                    var glsst = (TimeSpan) reader["gelis_saat"];
-                    var acklm = (string) reader["aciklama"];
-                    var iztp = (string) reader["izintip"];
+                    var gdsst = (TimeSpan)reader["gidis_saat"];
+                    var glsst = (TimeSpan)reader["gelis_saat"];
+                    var acklm = (string)reader["aciklama"];
+                    var iztp = (string)reader["izintip"];
 
                     izinler.Add(new pdksizinrapor
                     {
@@ -461,11 +465,138 @@ namespace ik.Controllers
                 var groupped = izinler.GroupBy(c => c.adsoyad);
             }
 
-            return View();
+            return PartialView(izinler);
         }
-      
+
+        public ActionResult _Puantaj(List<int> liste, DateTime tarih1, DateTime tarih2)
+        {
+            var pgc = new List<PDKSGirisCikis>();
+            var pm = new List<PDKSMazeret>();
+            var pers = liste.Select(vv => ik.Personels.SingleOrDefault(c => c.id == vv)).ToList();
+
+            //personel giriş çıkış ve mazeretleri yükle
+            using (
+                db =
+                    new MySqlConnection(
+                        "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
+            {
+                var com = new MySqlCommand("", db);
+                db.Open();
+                foreach (var p in pers)
+                {
+                    com.CommandText =
+                        string.Format(
+                            "select personel_id,tarih,giris_saat,cikis_saat from personel_giriscikis where personel_id={0} and tarih>='{1}' and tarih<='{2}'",
+                            p.pdksid, tarih1.ToString("yyyy MMMM dd"), tarih2.ToString("yyyy MMMM dd"));
+
+                    var reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        try
+                        {
+                            pgc.Add(new PDKSGirisCikis
+                            {
+                                personelID = (int)(uint)reader["personel_id"],
+                                tarih = DateTime.Parse(reader["tarih"].ToString()),
+                                giris = reader["giris_saat"],
+                                cikis = reader["cikis_saat"]
+                            });
+                        }
+                        catch (Exception xxxx)
+                        {
+
+                            throw;
+                        }
+                    }
+                    reader.Close();
+
+                    com.CommandText =
+                        string.Format(
+                            "select personel_id,tarih,gidis_saat,gelis_saat,saatlik,aciklama from personel_izin where personel_id={0} and tarih>='{1}' and tarih<='{2}'",
+                            p.pdksid, tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
+
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            pm.Add(new PDKSMazeret
+                            {
+                                personelID = (int)(uint)reader["personel_id"],
+                                tarih = DateTime.Parse(reader["tarih"].ToString()),
+                                giris = reader["gidis_saat"],
+                                cikis = reader["gelis_saat"],
+                                saatlik = (bool)reader["saatlik"],
+                                aciklama = (string)reader["aciklama"]
+
+                            });
+                        }
+                        catch (Exception xxxx)
+                        {
+
+                            throw;
+                        }
+                    }
+                    reader.Close();
+
+
+
+                }
+                db.Close();
+            }
+
+            //MAZERET VE GİRİŞ ÇIKIŞLARI BİRLEŞTİR
+
+         
+           return Json(pgc, JsonRequestBehavior.AllowGet);
+        }
     }
 
+    public class PDKSPersonel
+    {
+        public string personelkod { get; set; }
+        public string personeladsoyad { get; set; }
+        public string birim { get; set; }
+        public List<PDKSGun> gunler { get; set; }
+
+        public PDKSPersonel()
+        {
+            gunler=new List<PDKSGun>();
+        }
+    }
+
+    public class PDKSGun
+    {
+        public DateTime tarih { get; set; }
+        public List<PDKSGirisCikis> girisler { get; set; }
+        public List<PDKSMazeret> mazeretler { get; set; }
+
+        public PDKSGun()
+        {
+            girisler=new List<PDKSGirisCikis>();
+            mazeretler=new List<PDKSMazeret>();
+        }
+    }
+
+    public class PDKSGirisCikis
+    {
+        public int personelID { get; set; }
+        public DateTime tarih { get; set; }
+        public object giris { get; set; }
+        public object cikis { get; set; }
+    }
+
+    public class PDKSMazeret
+    {
+        public int personelID { get; set; }
+        public DateTime tarih { get; set; }
+        public object giris { get; set; }
+        public object cikis { get; set; }
+        public bool saatlik { get; set; }
+        public string aciklama { get; set; }
+    }
+    
     public class pdksizinrapor
     {
         public string adsoyad { get; set; }

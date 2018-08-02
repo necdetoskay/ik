@@ -206,7 +206,8 @@
                                 <li>@Html.ActionLink("Tüm Personel Durumu", "TumPersonel", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Alınan Raporlar(Hastalık)", "SaglikRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                <li>@Html.ActionLink("Personel Rapor Durumu","RaporDurum","Pdks")</li>
+                               @* <li>@Html.ActionLink("Alınan Raporlar(Hastalık)", "SaglikRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                             </ul>
                         </li>
 
