@@ -14,9 +14,8 @@ namespace ik.Models
     
     public partial class PERSONEL_IZINLERI
     {
-        public int pz_RECno { get; set; }
-        public short pz_RECid_DBCno { get; set; }
-        public int pz_RECid_RECno { get; set; }
+        public System.Guid pz_Guid { get; set; }
+        public short pz_DBCno { get; set; }
         public Nullable<int> pz_SpecRECno { get; set; }
         public Nullable<bool> pz_iptal { get; set; }
         public Nullable<short> pz_fileid { get; set; }
@@ -25,7 +24,7 @@ namespace ik.Models
         public Nullable<bool> pz_degisti { get; set; }
         public Nullable<int> pz_checksum { get; set; }
         public Nullable<short> pz_create_user { get; set; }
-        public Nullable<System.DateTime> pz_create_date { get; set; }
+        public System.DateTime pz_create_date { get; set; }
         public Nullable<short> pz_lastup_user { get; set; }
         public Nullable<System.DateTime> pz_lastup_date { get; set; }
         public string pz_special1 { get; set; }
@@ -38,10 +37,13 @@ namespace ik.Models
         public Nullable<byte> pz_gun_sayisi { get; set; }
         public Nullable<byte> pz_yol_izni { get; set; }
         public Nullable<System.DateTime> pz_baslangictarih { get; set; }
-        public Nullable<short> pz_bagli_talep_DBCno { get; set; }
-        public Nullable<int> pz_bagli_talep_RECno { get; set; }
+        public Nullable<System.Guid> pz_bagli_talep_uid { get; set; }
         public string pz_izin_aciklama { get; set; }
         public Nullable<System.DateTime> pz_gerceklesen_donus_tarihi { get; set; }
         public Nullable<byte> pz_izin_detay_tipi { get; set; }
+        public Nullable<System.DateTime> pz_bitistarihi { get; set; }
+        public Nullable<System.DateTime> pz_isbasitarihi { get; set; }
+        public Nullable<double> pz_saat { get; set; }
+        public Nullable<System.DateTime> pz_BaslamaSaati { get; set; }
     }
 }

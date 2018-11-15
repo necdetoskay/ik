@@ -190,8 +190,8 @@ namespace ik.Controllers
             return Json(new { Success = true, Data = kriterler }, JsonRequestBehavior.AllowGet);
         }
 
-      
-        public JsonResult PersonelListeGetir(int[] birimlist, int[] lokasyonlist, int[] cinsiyetlist, int[] kadrolist, int[] tahsillist)
+
+        public ActionResult PersonelListeGetir(int[] birimlist, int[] lokasyonlist, int[] cinsiyetlist, int[] kadrolist, int[] tahsillist)
         {
             var liste = from p in db.Personels where p.cikistarihi == null select p;
 
@@ -245,31 +245,46 @@ namespace ik.Controllers
                 }
                 liste = liste.Where(predicate);
             }
-          
+
             try
             {
-              var  data = liste.Select(c => new
+                var data = liste.Select(c => new
                 {
-                  SicilNo=c.sicilno,
+                    SicilNo = c.sicilno,
                     AdSoyad = c.adsoyad,
-                    Firma=c.PersonelIhaleDonemleri.PersonelIhale.Firma.firmaad,
-                  Foto = c.PersonelDetay.thumb,
-                  GorevYer = c.PersonelDetay.Lokasyon1.ad,
-                  Kadro = c.Kadro1.ad,
-                  Gorev = c.PersonelDetay.Gorev1.ad,
-                  Egitim = c.PersonelDetay.Tahsil.ad
-              }).ToList();
-                return Json(new
+                    Firma = c.PersonelIhaleDonemleri.PersonelIhale.Firma.firmaad,
+                    Foto = c.PersonelDetay.thumb,
+                    GorevYer = c.PersonelDetay.Lokasyon1.ad,
+                    Kadro = c.Kadro1.ad,
+                    Gorev = c.PersonelDetay.Gorev1.ad,
+                    Egitim = c.PersonelDetay.Tahsil.ad
+                }).ToList();
+
+                var datam = liste.Select(c => new PersonelListesiGetirVM
                 {
-                    Success = true,
-                    Data = data
-                }, JsonRequestBehavior.AllowGet);
+                    ID = c.id,
+                    SicilNo = c.sicilno,
+                    AdSoyad = c.adsoyad,
+                    Foto = c.PersonelDetay.thumb,
+                    EgitimDurum = c.PersonelDetay.Tahsil.ad,
+                    Gorev = c.PersonelDetay.Gorev1.ad,
+                    GorevYeri = c.PersonelDetay.Lokasyon1.ad
+                });
+
+
+
+                //return Json(new
+                //{
+                //    Success = true,
+                //    Data = data
+                //}, JsonRequestBehavior.AllowGet);
+                return PartialView("PersonelListeGetir", datam);
             }
             catch (Exception ee)
             {
-                
+
             }
-           
+
 
             return Json(null, JsonRequestBehavior.AllowGet);
         }
@@ -300,8 +315,27 @@ namespace ik.Controllers
                 {
                 }
             }
-            return Json(new {Success=false}, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Raporlar()
+        {
+            return View();
+        }
+
+
+       
+    }
+
+    public class PersonelListesiGetirVM
+    {
+        public int ID { get; set; }
+        public string SicilNo { get; set; }
+        public string Foto { get; set; }
+        public string AdSoyad { get; set; }
+        public string GorevYeri { get; set; }
+        public string Gorev { get; set; }
+        public string EgitimDurum { get; set; }
     }
 }
 

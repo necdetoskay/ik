@@ -37,7 +37,7 @@ namespace ik.Controllers
             if (personel.PersonelDevir != null)
             {
                 var hakedilen = personel.PersonelDevir.izinDevir;
-                var kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year).Sum(c => c.gun);
+                double kullanılan = personel.Izins.Where(c => c.yil == personel.giristarihi.Value.Year).Sum(c => c.gun);
 
                 kidem.Add(new Kidem
                 {
@@ -74,7 +74,7 @@ namespace ik.Controllers
                 //varsa ücretsiz izin kullanımı burada kıdemi değiştir.
                 var yas = kidembitis.Year - personel.dogumtarihi.Value.Year;
                 var hakedilen = 0;
-                var kullanılan = 0;
+                var kullanılan = 0D;
                 var yil = kidembitis.Year;
                 if (kidemyil < 6)
                 {
@@ -87,6 +87,11 @@ namespace ik.Controllers
                     hakedilen = 20;
                 }
                 kullanılan = personel.Izins.Where(c => c.yil == yil).Sum(c => c.gun);
+                var yarım = db.Yizins.Where(c => c.personelid == personel.id && c.mikrokayit == false && c.yil==yil);
+                if (yarım.Any())
+                {
+                    kullanılan = kullanılan + 0.5D;
+                }
                 kidem.Add(new Kidem
                 {
                     yil = yil,
@@ -99,6 +104,8 @@ namespace ik.Controllers
                 kidembaslangic = kidembitis;
                 kidemyil++;
             }
+
+           
 
 
             return PartialView(kidem);

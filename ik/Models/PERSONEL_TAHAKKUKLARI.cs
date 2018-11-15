@@ -14,9 +14,8 @@ namespace ik.Models
     
     public partial class PERSONEL_TAHAKKUKLARI
     {
-        public int pt_RECno { get; set; }
-        public short pt_RECid_DBCno { get; set; }
-        public int pt_RECid_RECno { get; set; }
+        public System.Guid pt_Guid { get; set; }
+        public short pt_DBCno { get; set; }
         public Nullable<int> pt_SpecRECno { get; set; }
         public Nullable<bool> pt_iptal { get; set; }
         public Nullable<short> pt_fileid { get; set; }
@@ -25,7 +24,7 @@ namespace ik.Models
         public Nullable<bool> pt_degisti { get; set; }
         public Nullable<int> pt_checksum { get; set; }
         public Nullable<short> pt_create_user { get; set; }
-        public Nullable<System.DateTime> pt_create_date { get; set; }
+        public System.DateTime pt_create_date { get; set; }
         public Nullable<short> pt_lastup_user { get; set; }
         public Nullable<System.DateTime> pt_lastup_date { get; set; }
         public string pt_special1 { get; set; }

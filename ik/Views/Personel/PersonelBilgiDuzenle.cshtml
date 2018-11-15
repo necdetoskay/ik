@@ -1,0 +1,76 @@
+﻿@model ik.Controllers.PersonelBilgiDuzenleVM
+
+@{
+    ViewBag.Title = "PersonelBilgiDuzenle";
+}
+
+<h2>PersonelBilgiDuzenle</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@Model.adsoyad</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.birim, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="">
+                    @Html.DropDownListFor(model => model.birim,(SelectList)ViewBag.BirimListe)
+                    @Html.ValidationMessageFor(model => model.birim, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cinsiyet, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                <div class="">
+                    @Html.DropDownList("cinsiyet", (SelectList) ViewBag.CinsiyetListe)
+                    @Html.ValidationMessageFor(model => model.cinsiyet, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.lokasyon, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                <div class="">
+                    @Html.DropDownListFor(model => model.lokasyon, (SelectList) ViewBag.LokasyonListe)
+                    @Html.ValidationMessageFor(model => model.lokasyon, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.gorev, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="">
+                    @Html.DropDownListFor(model => model.gorev, (SelectList)ViewBag.GorevListe)
+                    @Html.ValidationMessageFor(model => model.gorev, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tahsil, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="">
+                    @Html.DropDownListFor(model => model.tahsil, (SelectList)ViewBag.TahsilListe)
+                    @Html.ValidationMessageFor(model => model.tahsil, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

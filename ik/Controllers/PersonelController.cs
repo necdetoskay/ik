@@ -10,6 +10,7 @@ using ik.Models;
 using ik.Models.DataClasslari;
 using Microsoft.Ajax.Utilities;
 using MySql.Data.MySqlClient;
+using PtakipDAL;
 
 namespace ik.Controllers
 {
@@ -64,10 +65,15 @@ namespace ik.Controllers
                     }
                 }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Gelecekaynealirim()
+        {
+            return View();
+        }
         public JsonResult PersonelListe()
         {
             var personelListe = db.Personels.OrderBy(c => c.adsoyad).Select(c => new { c.id, c.adsoyad });
-            var mikro = ke.PERSONELLERs.Where(c => c.per_cikis_tar == new DateTime(1899, 12, 31)).Select(c => new { id = c.per_RECno, adsoyad = c.per_adi + " " + c.per_soyadi }).OrderBy(c => c.adsoyad);
+            var mikro = ke.PERSONELLERs.Where(c => c.per_cikis_tar == new DateTime(1899, 12, 31)).Select(c => new { id = c.per_Guid, adsoyad = c.per_adi + " " + c.per_soyadi }).OrderBy(c => c.adsoyad);
             var birim = db.birims.Select(c => new { c.id, c.birimad });
             var pdks = new ArrayList();
             using (var con = new MySqlConnection(
@@ -90,9 +96,9 @@ namespace ik.Controllers
             return Json(new { personelListe, mikro, birim, pdks }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult MikroDetay(int id)
+        public JsonResult MikroDetay(Guid id)
         {
-            var mikro = ke.PERSONELLERs.SingleOrDefault(c => c.per_RECno == id);
+            var mikro = ke.PERSONELLERs.SingleOrDefault(c => c.per_Guid == id);
             var personel = new Personel
             {
                 adsoyad = mikro.per_adi + " " + mikro.per_soyadi,
@@ -896,7 +902,7 @@ namespace ik.Controllers
             var pers = ke.PERSONELLERs.Where(c => c.per_cikis_tar == new DateTime(1899, 12, 31)).Select(c => new MikroAdSoyad
             {
                 ad = c.per_adi + " " + c.per_soyadi,
-                id = c.per_RECno
+                id = 0
             });
             ViewBag.mikroListe = new SelectList(pers.OrderBy(c => c.ad).ToList(), "id", "ad");
             ViewBag.pdksListe = new SelectList(PdksPersonelAdSoyad(), "id", "ad");
@@ -928,7 +934,7 @@ namespace ik.Controllers
             var pers = ke.PERSONELLERs.Where(c => c.per_cikis_tar == new DateTime(1899, 12, 31)).Select(c => new MikroAdSoyad
             {
                 ad = c.per_adi + " " + c.per_soyadi,
-                id = c.per_RECno
+                id = 0
             });
             ViewBag.mikroListe = new SelectList(pers.OrderBy(c => c.ad).ToList(), "id", "ad");
             ViewBag.pdksListe = new SelectList(PdksPersonelAdSoyad(), "id", "ad");
@@ -996,7 +1002,7 @@ namespace ik.Controllers
         public JsonResult _AvansTutar(int id)
         {
             var mikroid = db.Personels.FirstOrDefault(c => c.id == id);
-            var mikro = ke.PERSONELLERs.FirstOrDefault(c => c.per_RECid_RECno == mikroid.mikroid);
+            var mikro = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == mikroid.mikroid);
             var liste = ke.PERSONEL_TAHAKKUKLARI.Where(c => c.pt_pkod == mikro.per_kod).OrderByDescending(c => c.pt_maliyil).ThenByDescending(c => c.pt_tah_ay).FirstOrDefault();
             var net = (int)(liste.pt_net + liste.pt_ozksnt + liste.pt_otobes_tutari) / 2;
             return Json(new { Success = true, Tutar = net }, JsonRequestBehavior.AllowGet);
@@ -1011,13 +1017,121 @@ namespace ik.Controllers
         public ActionResult _MaasHesapla(int id)
         {
             var personel = db.Personels.FirstOrDefault(c => c.id == id);
-            var mikropersonel = ke.PERSONELLERs.FirstOrDefault(c => c.per_RECno == personel.mikroid);
-            var personeltahakkuk = ke.PERSONEL_TAHAKKUKLARI.Where(c => c.pt_pkod == mikropersonel.per_kod).OrderByDescending(c=>c.pt_maliyil).ThenByDescending(c=>c.pt_tah_ay).FirstOrDefault();
-            var net=new MikroController().NetMaas(
-                maliyil:2018,
-                brütmaaş:(decimal)mikropersonel.per_ucret,brütyemek:350m,kümülatifgvm:(decimal)personeltahakkuk.pt_gvmatrah);
+            var mikropersonel = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == personel.mikroid);
+            var personeltahakkuk = ke.PERSONEL_TAHAKKUKLARI.Where(c => c.pt_pkod == mikropersonel.per_kod).OrderByDescending(c => c.pt_maliyil).ThenByDescending(c => c.pt_tah_ay).FirstOrDefault();
+            var net = new MikroController().NetMaas(
+                maliyil: 2018,
+                brütmaaş: (decimal)mikropersonel.per_ucret, brütyemek: 350m, kümülatifgvm: (decimal)personeltahakkuk.pt_gvmatrah);
             return Json(net, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult _Birimler()
+        {
+            var liste = db.birims.Select(c => new
+            {
+                Text = c.fullad,
+                Value = c.id
+            }).ToList();
+            return Json(new { Data = liste }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult PersonelBilgiDuzenle(int id)
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            if (personel != null)
+            {
+                if (personel.PersonelDetay == null)
+                    personel.PersonelDetay = new PersonelDetay();
+            }
+
+            ViewBag.GorevListe = new SelectList(db.Gorevs.ToList(), "id", "ad", personel.PersonelDetay.gorev);
+            ViewBag.LokasyonListe = new SelectList(db.Lokasyons.ToList(), "id", "ad", personel.PersonelDetay.lokasyon);
+            ViewBag.TahsilListe = new SelectList(db.Tahsils.ToList(), "id", "ad", personel.PersonelDetay.tahsili);
+            ViewBag.BirimListe = new SelectList(db.birims.ToList(), "id", "fullad", personel.birimid);
+            ViewBag.CinsiyetListe = new SelectList(
+                new List<SelectListItem>() { new SelectListItem { Text = "Kadın", Value = "1" }, new SelectListItem { Text = "Erkek", Value = "0" } },
+                "Value",
+                "Text",
+                personel.PersonelDetay.cinsiyeti==true?1:0);
+            var data = new PersonelBilgiDuzenleVM
+            {
+                id = personel.id,
+                lokasyon = personel.PersonelDetay.lokasyon,adsoyad = personel.adsoyad
+            };
+            if (personel.PersonelDetay.gorev.HasValue)
+            {
+                data.gorev = personel.PersonelDetay.gorev.Value;
+            }
+            if (personel.PersonelDetay.cinsiyeti.HasValue)
+            {
+                data.cinsiyet = personel.PersonelDetay.cinsiyeti.Value?1:0;
+            }
+            if (personel.birimid.HasValue)
+            {
+                data.birim = personel.birimid.Value;
+            }
+            if (personel.PersonelDetay.tahsili.HasValue)
+                data.tahsil = personel.PersonelDetay.tahsili.Value;
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult PersonelBilgiDuzenle(int id, PersonelBilgiDuzenleVM data)
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            if (personel != null)
+            {
+                if(personel.PersonelDetay==null)
+                    personel.PersonelDetay=new PersonelDetay();
+                personel.PersonelDetay.cinsiyeti =(data.cinsiyet==1?true:false);
+                personel.birimid = data.birim;
+                personel.PersonelDetay.tahsili = data.tahsil;
+                personel.PersonelDetay.lokasyon = data.lokasyon;
+                personel.PersonelDetay.gorev = data.gorev;
+
+                db.SaveChanges();
+                return RedirectToAction("PersonelDurum", "Rapor");
+            }
+            ViewBag.GorevListe = new SelectList(db.Gorevs.ToList(), "id", "ad", personel.PersonelDetay.gorev);
+            ViewBag.LokasyonListe = new SelectList(db.Lokasyons.ToList(), "id", "ad", personel.PersonelDetay.lokasyon);
+            ViewBag.TahsilListe = new SelectList(db.Tahsils.ToList(), "id", "ad", personel.PersonelDetay.tahsili);
+            ViewBag.BirimListe = new SelectList(db.birims.ToList(), "id", "fullad", personel.birimid);
+            ViewBag.CinsiyetListe = new SelectList(
+              new List<SelectListItem>() { new SelectListItem { Text = "Kadın", Value = "1" }, new SelectListItem { Text = "Erkek", Value = "0" } },
+              "Value",
+              "Text",
+              personel.PersonelDetay.cinsiyeti);
+            return View(data);
+        }
+
+        public ActionResult PersonelGecKalma(int id)//pdksid
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.pdksid == id);
+            PerkotekContext pdb = new PerkotekContext();
+            pdb.PuantajHazirla(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date, DateTime.Now.Date,id, true);
+            var p = pdb.personel.FirstOrDefault().PTarihs.OrderBy(c => c.Tarih).Where(f=>!f.Izins.Any(g=>g.Saatlik&&g.Gidis==new TimeSpan(8,30,0))).Select(d=> new GecKalanlarVM()
+            {
+                AdSoyad = personel.adsoyad,
+                Tarih = d.Tarih.ToShortDateString(),
+                Giris = d.Giris,
+                Fark = 0
+            });
+
+            return PartialView(p);
+        }
+    }
+
+    public class PersonelBilgiDuzenleVM
+    {
+        public string adsoyad { get; set; }
+        public int id { get; set; }
+        public int lokasyon { get; set; }
+        public int cinsiyet { get; set; }
+        public int tahsil { get; set; }
+        public int birim { get; set; }
+        public int gorev { get; set; }
     }
 
     public class MikroAdSoyad

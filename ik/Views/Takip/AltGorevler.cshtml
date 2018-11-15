@@ -1,0 +1,228 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.Takip>
+@{
+    var sınıf = "";
+}
+<style>
+    .yesil {
+        background-color: green;
+    }
+    .table > tr {
+        border: 1px solid;  
+    }
+</style>
+
+
+
+
+<h2>@Model.FirstOrDefault().Takip2.aciklama</h2>
+@Html.Hidden("id", Model.FirstOrDefault().parentid)
+
+
+
+<table id="example-basic-expandable" class="treetable table">
+    @foreach (var item in Model)
+    {
+        <tr data-id="@item.id" data-tt-id="@item.id" class="@(item.tamamlanma==null?"":"yesil")">
+            <td>@item.aciklama</td>
+            <td class="pull-right">
+                @if (!item.Takip1.Any())
+                {
+                    if (item.tamamlanma == null)
+                    {
+                        <input type="button" class="btn btn-success btn-sm tamamla"  value="Tamamla" />
+                        <input type="button" class="btn btn-danger btn-sm" onclick="alert('Sil');" value="Sil" />
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-warning btn-sm iptal"  value="İptal Et" />
+                    }
+
+                }
+
+            </td>
+
+        </tr>
+        foreach (var sub1 in item.Takip1)
+        {
+            <tr data-id="@sub1.id" data-tt-id="@sub1.id" data-tt-parent-id="@item.id"  class="@(sub1.tamamlanma==null?"":"yesil")">
+                <td>@sub1.aciklama</td>
+                <td class="pull-right">
+                    @if (!sub1.Takip1.Any())
+                    {
+                        if (sub1.tamamlanma == null)
+                        {
+                            <input type="button" class="btn btn-success btn-sm tamamla" value="Tamamla" />
+                            <input type="button" class="btn btn-danger btn-sm" onclick="alert('Sil');" value="Sil" />
+                        }
+                        else
+                        {
+                            <input type="button" class="btn btn-warning btn-sm iptal" value="İptal Et" />
+                        }
+
+                    }
+                </td>
+            </tr>
+            foreach (var sub2 in sub1.Takip1)
+            {
+                <tr data-id="@sub2.id" data-tt-id="@sub2.id" data-tt-parent-id="@sub1.id"class="@(sub2.tamamlanma==null?"":"yesil")">
+                    <td>@sub2.aciklama</td>
+                    <td class="pull-right">
+                        @if (!sub2.Takip1.Any())
+                        {
+                            if (sub2.tamamlanma == null)
+                            {
+                                <input type="button" class="btn btn-success btn-sm tamamla" value="Tamamla" />
+                                <input type="button" class="btn btn-danger btn-sm sil"  value="Sil" />
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-warning btn-sm iptal"  value="İptal Et" />
+                            }
+
+                        }
+                    </td>
+                </tr>
+
+            }
+        }
+    }
+    @*<tr data-tt-id="1">
+        <td>Parent</td>
+        <td><input type="button" onclick="alert('bas 1');" value="Bas" /></td>
+    </tr>
+    <tr data-tt-id="2" data-tt-parent-id="1">
+        <td>Child</td>
+        <td><input type="button" onclick="alert('bas 2');" value="Bas" /></td>
+    </tr>*@
+</table>
+
+@section scripts{
+    <link href="~/Content/jquery.treetable.css" rel="stylesheet" />
+    <link href="~/Content/jquery.treetable.theme.default.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.treetable.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script type="text/javascript">
+        $.fn.expandAll = function () {
+            $(this).find("tr").removeClass("collapsed").addClass("expanded").each(function () {
+                $(this).expand();
+            });
+        };
+
+
+        $(function () {
+            $("#example-basic-expandable").treetable({ expandable: true });
+            $("#example-basic-expandable").treetable("expandAll");
+
+            $('.iptal').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt İptal Frrmu',
+                        message: 'İşlem İptal Edilsin mi?',
+                        btnCancelLabel: 'Vazgeç',
+                        btnOKLabel: 'İptal Et',
+                        callback: function (result) {
+                            if (result) {
+
+                                var li = item.closest("tr");
+                                var itemid = li.attr("data-id");
+                                $.ajax({
+                                    url: '@Url.Action("_TakipIptal")',
+                                    type: 'get',
+                                    data: {
+                                        id: itemid,
+                                        parentid: $('#id').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === true) {
+                                            window.location.href = '/Takip/AltGorevler/' + $('#id').val();
+                                        } else {
+                                            console.log("iptal başarısız");
+                                        }
+                                    }
+                                });
+                            } 
+                        }
+                    });
+
+
+                });
+            });
+            $('.sil').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt Silme Formu',
+                        message: 'Kayıt Silinsin mi?',
+                        btnCancelLabel: 'Vazgeç',
+                        btnOKLabel: 'Sil',
+                        callback: function (result) {
+                            if (result) {
+
+                                var li = item.closest("tr");
+                                var itemid = li.attr("data-id");
+                                $.ajax({
+                                    url: '@Url.Action("_TakipSil")',
+                                    type: 'get',
+                                    data: {
+                                        id: itemid,
+                                        parentid: $('#id').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === true) {
+                                            window.location.href = '/Takip/AltGorevler/' + $('#id').val();
+                                        } else {
+                                            console.log("Silme başarısız");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+                });
+            });
+
+            $('.tamamla').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+                    if (e.target !== e.currentTarget) return;
+                    e.stopPropagation();
+
+
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt Tamamlama Formu',
+                        message: 'İşlem Tamamlansın mı?',
+                        btnCancelLabel: 'Vazgeç',
+                        btnOKLabel: 'Tamamla',
+                        callback: function (result) {
+                            if (result) {
+                                var li = item.closest("tr");
+                                var itemid = li.attr("data-id");
+                                $.ajax({
+                                    url: '@Url.Action("_TakipTamamla")',
+                                    type: 'get',
+                                    data: {
+                                        id: itemid,
+                                        parentid: $('#id').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === true) {
+                                            window.location.href = '/Takip/AltGorevler/' + $('#id').val();
+                                        } else {
+                                            console.log("tamamlama başarısız");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        })
+    </script>
+}

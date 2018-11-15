@@ -45,25 +45,30 @@
 <input type="button" id="btnSelected" value="Sorgula"/>
 
 <div id="toplam"></div>
-<table class="table">
+<div id="result"></div>
+
+@*
+    <table class="table">
     <thead>
     <tr>
         <th>Sicil No</th>
         <th>Fotoğraf</th>
         <th>Ad Soyad</th>
-        <th>Firma</th>
+        @*<th>Firma</th>
         <th>Görev Yeri</th>
         <th>Kadro</th>
         <th>Görev</th>
         <th>Eğitim Durumu</th>
+        <th></th>
     </tr>
     </thead>
     <tfoot id="ptablefoot">
-        @*<tr><td id="toplam"></td></tr>*@
+        @*<tr><td id="toplam"></td></tr>
     </tfoot>
     <tbody id="ptablebody"></tbody>
 
 </table>
+    *@
 
 
 
@@ -73,8 +78,13 @@
 
     <script type="text/javascript">
         $(function () {
+        
+          
             var ROOT = '@Url.Content("~")';
+           
             $('#btnSelected').click(function () {
+
+                $('#result').html('Hazırlanıyor.........<img height="100" src="' + ROOT + 'Content/Loading_icon.gif">');
                 var birimlist = [];
                 var lokasyonlist = [];
                 var cinsiyetlist = [];
@@ -110,25 +120,9 @@
                         birimlist, lokasyonlist, cinsiyetlist, kadrolist, tahsillist
                     },
                     success: function (result) {
-                        var table = $('#ptablebody');
-                        var row = $('');
-                        table.empty();
-                        if (result.Success === true) {
-                            $.each(result.Data, function (i, item) {
-                                //console.log(item);
-                                var tr = $('<tr></tr>');
-                                tr.append('<td>'+item.SicilNo+'</td><td><img src="' +ROOT+item.Foto + '"></td><td>' +
-                                    item.AdSoyad +'</td><td>' +
-                                    item.Firma + '</td><td>' +
-                                    item.GorevYer +'</td><td>' +
-                                    item.Kadro + '</td><td>' +
-                                    item.Gorev + '</td><td>' +
-                                    item.Egitim + '</td>');
-                                table.append(tr);
-                            });
-                            $('#toplam').html('<h1>' + result.Data.length + '</h1>');
+                        $('#result').html(result);
 
-                        }
+                        
                     }
                 });
 

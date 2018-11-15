@@ -56,7 +56,7 @@ namespace ik.Controllers
             
             var a = ke.PERSONELLERs.SingleOrDefault(c => c.per_kod == sicil);
 
-            return Json(new {DOB=a.per_nuf_dogum_tarih.Value.ToShortDateString(),MikroID=a.per_RECno}, JsonRequestBehavior.AllowGet);
+            return Json(new {DOB=a.per_nuf_dogum_tarih.Value.ToShortDateString(),MikroID=a.per_Guid}, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult _SonIzinler()
@@ -64,12 +64,12 @@ namespace ik.Controllers
             var liste = new ArrayList();
             using (ikEntities db = new ikEntities())
             {
-                var query=(from pi in ke.PERSONEL_IZINLERI join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod where pi.pz_izin_tipi==0 orderby pi.pz_RECno descending select new {i.per_adi,i.per_soyadi,i.per_RECno,pi.pz_izin_tipi,pi.pz_pers_kod,pi.pz_baslangictarih,pi.pz_gerceklesen_donus_tarihi,pi.pz_gun_sayisi,pi.pz_izin_aciklama}).
+                var query=(from pi in ke.PERSONEL_IZINLERI join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod where pi.pz_izin_tipi==0 orderby pi.pz_create_date descending select new {i.per_adi,i.per_soyadi,i.per_Guid,pi.pz_izin_tipi,pi.pz_pers_kod,pi.pz_baslangictarih,pi.pz_gerceklesen_donus_tarihi,pi.pz_gun_sayisi,pi.pz_izin_aciklama}).
                 Take(100);
 
                 foreach (var izin in query.ToList())
                 {
-                    var list=db.Izins.Where(c => c.Personel.mikroid == izin.per_RECno & c.baslangictarih==izin.pz_baslangictarih );
+                    var list=db.Izins.Where(c => c.Personel.mikroid == izin.per_Guid & c.baslangictarih==izin.pz_baslangictarih );
                     if (!list.Any())
                         liste.Add(izin);
                 }
@@ -84,14 +84,26 @@ namespace ik.Controllers
 
         public ActionResult _SonGirilenIzinler()
         {
-            var liste = new ArrayList();
-            using (ikEntities db = new ikEntities())
+            try
             {
-                var query = (from pi in ke.PERSONEL_IZINLERI join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod where pi.pz_izin_tipi == 0 orderby pi.pz_RECno descending
-                             select new { Ad=i.per_adi, Soyad=i.per_soyadi, i.per_RECno, pi.pz_izin_tipi, pi.pz_pers_kod, Baslangic=pi.pz_baslangictarih, Bitis=pi.pz_gerceklesen_donus_tarihi, Gun=pi.pz_gun_sayisi, Aciklama=pi.pz_izin_aciklama }).
-                Take(25);
+                var liste = new ArrayList();
+                using (ikEntities db = new ikEntities())
+                {
+                    var query = (from pi in ke.PERSONEL_IZINLERI
+                                 join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod
+                                 where pi.pz_izin_tipi == 0
+                                 orderby pi.pz_create_date descending
+                                 select new { Ad = i.per_adi, Soyad = i.per_soyadi,
+                                     //i.per_RECno,
+                                     pi.pz_izin_tipi, pi.pz_pers_kod, Baslangic = pi.pz_baslangictarih, Bitis = pi.pz_gerceklesen_donus_tarihi, Gun = pi.pz_gun_sayisi, Aciklama = pi.pz_izin_aciklama }).
+                    Take(25);
 
-                return Json(query.ToList(), JsonRequestBehavior.AllowGet);
+                    return Json(query.ToList(), JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception xx)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
 

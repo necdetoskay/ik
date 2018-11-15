@@ -25,8 +25,8 @@ namespace ik.Models
         public int yil { get; set; }
         public bool mikrokayit { get; set; }
     
-        public virtual Personel Personel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<YizinDetay> YizinDetays { get; set; }
+        public virtual Personel Personel { get; set; }
     }
 }

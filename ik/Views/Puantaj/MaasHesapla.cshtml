@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "MaasHesapla";
+}
+
+<h2>MaasHesapla</h2>
+
+@Html.Partial("_PersonelAdSec")<input type="button" class="btn btn-primary" id="hesapla" value="Hesapla"/>
+<div><input type="text" id="dgvmatrah" placeholder="Devreden Gelir Vergisi Matrahı"/>
+    <input type="text" id="agi" placeholder="Agi"/>
+    <input type="text" id="sgkgun" placeholder="SGK gün"/>
+    <input type="text" id="mesai" placeholder="Mesai Tutar" />
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        var AutoCompleteSelected = function () { console.log("Not implemented"); };
+
+        $(function() {
+            $('#hesapla').on('click', function() {
+                var pers = $('#personel');
+                var id = pers.attr("data-id");
+                if (typeof id !== typeof undefined && id !== false) {
+                    $.ajax({
+                        url: '@Url.Action("_PersonelMaasHesap")',
+                        type: 'GET',
+                        data: {
+                            'id': id,
+                            'devgelvermatrah': $('#dgvmatrah').val().replace(',', '.'),
+                            'agi': $('#agi').val().replace(',', '.'),
+                            'sgkgun': $('#sgkgun').val(),
+                            'mesai': $('#mesai').val().replace(',','.')
+
+                },
+                        success: function(result) {
+                            console.log(result);
+                        }
+                    });
+                }
+               
+            });
+
+        });
+    </script>
+
+
+}

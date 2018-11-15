@@ -12,7 +12,8 @@ namespace ik.Controllers
         private readonly ikEntities db = new ikEntities();
 
         protected override void Dispose(bool disposing)
-        {db.Dispose();
+        {
+            db.Dispose();
             base.Dispose(disposing);
         }
 
@@ -126,8 +127,7 @@ namespace ik.Controllers
         {
             var date = DateTime.Now.Date.AddDays(10);
             var liste =
-                db.Takips.Where(c => c.sontarih < date & c.tamamlanma == null).OrderBy(c => c.sontarih).Take(limit);
-
+                db.Takips.Where(c => c.tamamlanma == null).OrderBy(c => c.sontarih);//.Take(limit);
 
             return PartialView(liste);
         }
@@ -155,7 +155,7 @@ namespace ik.Controllers
             return View(liste);
         }
 
-     
+
 
         public ActionResult _RutinSil(int id)
         {
@@ -166,30 +166,96 @@ namespace ik.Controllers
                 try
                 {
                     db.SaveChanges();
-                    return Json(new { Success = true, Message = kayıt.aciklama+"  kaydı Silindi." }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = true, Message = kayıt.aciklama + "  kaydı Silindi." }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)
                 {
-                    return Json(new {Success=false,Message=ex.Message}, JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
                 }
             }
             return Json(new { Success = false, Message = "Kayıt Bulunamadı" }, JsonRequestBehavior.AllowGet);
         }
 
+       
+
+        public ActionResult AltGorevler(int id)
+        {
+            var liste = db.Takips.Where(c => c.parentid == id).ToList();
+            return View(liste);
+        }
+
+        public void CheckForParentTamam(Takip takip)
+        {
+            var parent = db.Takips.FirstOrDefault(c => c.id == takip.parentid);
+            if (parent != null && parent.Takip1.Any(d => d.tamamlanma != null))
+            {
+                parent.tamamlanma = DateTime.Now;
+                db.SaveChanges();
+                CheckForParentTamam(parent);
+            }
+        }
+        public void CheckForParentIptal(Takip takip)
+        {
+            var parent = db.Takips.FirstOrDefault(c => c.id == takip.parentid);
+            if (parent != null && parent.Takip1.Any(d => d.tamamlanma == null))
+            {
+                parent.tamamlanma = null;
+                db.SaveChanges();
+                CheckForParentIptal(parent);
+            }
+        }
+
         public JsonResult _TakipSil(int id)
         {
-            var firstOrDefault = db.Takips.FirstOrDefault(c=>c.id==id);
+            var firstOrDefault = db.Takips.FirstOrDefault(c => c.id == id);
             if (firstOrDefault != null)
             {
-                firstOrDefault.tamamlanma = DateTime.Now;
+                db.Takips.Remove(firstOrDefault);
                 db.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true },
+                    JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = false },
+                    JsonRequestBehavior.AllowGet);
             }
-               
+        }
+        public JsonResult _TakipTamamla(int id, int parentid)
+        {
+            try
+            {
+                var takip = db.Takips.FirstOrDefault(c => c.id == id);
+                takip.tamamlanma = DateTime.Now;
+                db.SaveChanges();
+                CheckForParentTamam(takip);
+                return Json(new { Success = true },
+                    JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { Success = false },
+                  JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult _TakipIptal(int id, int parentid)
+        {
+            try
+            {
+                var takip = db.Takips.FirstOrDefault(c => c.id == id);
+                takip.tamamlanma = null;
+                db.SaveChanges();
+                CheckForParentIptal(takip);
+                return Json(new { Success = true },
+                    JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { Success = false },
+                  JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

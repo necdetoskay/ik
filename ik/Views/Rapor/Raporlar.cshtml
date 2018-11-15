@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Raporlar";
+}
+
+<h2>Raporlar</h2>
+
+
+<div class="form-row">
+    <div class="form-group col-md-2">
+        <label for="baslangic">Başlangıç Tarihi</label>
+        <input type="date" value="2018-09-01"  class="form-control" id="baslangic">
+    </div>
+    <div class="form-group col-md-2">
+        <label for="bitis">Bitiş Tarihi</label>
+        <input type="date" value="2018-09-30"  class="form-control" id="bitis">
+    </div>
+    <div class="form-group col-md-4">
+        <label class="" for="personel">Personeller</label>
+        <select id="personel" class="form-control" multiple="multiple"></select>
+    </div>
+    <div class="form-group col-md-4">
+        <label for="raportip">Rapor Tipi</label>
+        <select id="raportip" class="form-control">
+            <option selected>Rapor Tipi Seçiniz...</option>
+            <option value="1">Geç Kalanlar</option>
+            <option value="2">Erken Çıkanlar</option>
+            <option value="3">Çıkışta Kart Basmayanlar</option>
+            <option value="4">Kalan İzinler</option>
+        </select></div>
+    <div class="form-group col-md-12">
+       
+        <input type="button" value="Hazırla" class="btn btn-primary" id="hazirla">
+    </div>
+</div>
+
+<div id="result"></div>
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/imzatakip.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste", "Personel")';
+            personelliste(personelbirimlisteurl); //dropdown doldur
+
+            $('#hazirla').on('click', function () {
+                $('#result').html("");
+                var t1 = $('#baslangic').val();
+                var t2 = $('#bitis').val();
+                $.ajax({
+                    url:'@Url.Action("_GecKalanlarRapor","Pdks")',
+                    datatype: "json",
+                    type: "post",
+                    data: {
+                        'liste': $('#personel').val(),
+                        'tarih1': t1,
+                        'tarih2': t2
+                    }, success: function (result) {
+                        $('#result').html(result);
+                    }
+                }).done(function (result) {
+                    console.log(result);
+                    $('#result').html(result);
+                });
+            });
+
+        })
+    </script>
+}

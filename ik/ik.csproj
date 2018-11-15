@@ -186,8 +186,10 @@
     <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\DatatablesTestController.cs" />
+    <Compile Include="Controllers\EtiketController.cs" />
     <Compile Include="Controllers\GenelController.cs" />
     <Compile Include="Controllers\GirislerimController.cs" />
+    <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\GrupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IcraController.cs" />
@@ -196,7 +198,6 @@
     <Compile Include="Controllers\IzinController.cs" />
     <Compile Include="Controllers\KentIhaleController.cs" />
     <Compile Include="Controllers\KurulsController.cs" />
-    <Compile Include="Controllers\MaasIsListeController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\MikroController.cs" />
     <Compile Include="Controllers\PdksController.cs" />
@@ -235,6 +236,9 @@
     <Compile Include="Models\DiniGunler.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EtiketTanim.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EvrakListe.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -243,6 +247,38 @@
     </Compile>
     <Compile Include="Models\GeciciMazeret.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gorev_Detay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gorev_Detay_Not.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kentModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>kentModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonelEtiket.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PERSONELLER.cs">
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonelRapor.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonelRapor.xsd</DependentUpon>
     </Compile>
     <Compile Include="Models\Gorev.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
@@ -324,21 +360,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\kentModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>kentModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\kentModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>kentModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\kentModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>kentModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Kurul.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -349,18 +370,6 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Lokasyon.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maas_Is.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maas_Is_Detay.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maas_Is_Liste.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maas_Is_Liste_Detay.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\partials.cs" />
@@ -384,9 +393,6 @@
     </Compile>
     <Compile Include="Models\PersonelIhaleDonemleri.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PERSONELLER.cs">
-      <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonelOzlukEvrak.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
@@ -615,8 +621,12 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\giphy.gif" />
     <Content Include="Content\highCheckTree.css" />
+    <Content Include="Content\jquery.contextMenu.css" />
+    <Content Include="Content\jquery.contextMenu.min.css" />
     <Content Include="Content\jquery.mobile-git.css" />
     <Content Include="Content\jquery.treegrid.css" />
+    <Content Include="Content\jquery.treetable.css" />
+    <Content Include="Content\jquery.treetable.theme.default.css" />
     <Content Include="Content\Loading_icon.gif" />
     <Content Include="Content\mdtimepicker index.html" />
     <Content Include="Content\mdtimepicker.css" />
@@ -782,6 +792,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="modal form.txt" />
     <Content Include="Models\CODE.txt" />
+    <Content Include="Models\form html kodları.txt" />
     <Content Include="Models\ikModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ikModel.edmx</DependentUpon>
@@ -792,8 +803,23 @@
       <DependentUpon>ikModel.edmx</DependentUpon>
       <LastGenOutput>ikModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\kentModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>kentModel.edmx</DependentUpon>
+      <LastGenOutput>kentModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\kentModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>kentModel.edmx</DependentUpon>
+      <LastGenOutput>kentModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\yapılacaklar.txt" />
     <Content Include="Scripts\highchecktree.js" />
+    <Content Include="Scripts\jquery.contextMenu.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
+    <Content Include="Scripts\jquery.svg3dtagcloud.min.js" />
+    <Content Include="Scripts\jquery.treetable.js" />
+    <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="yapılacaklar.txt" />
     <EntityDeploy Include="Models\ikModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -817,6 +843,24 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="Models\PersonelRapor.xsc">
+      <DependentUpon>PersonelRapor.xsd</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\kentModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>kentModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\kentModel.edmx.diagram">
+      <DependentUpon>kentModel.edmx</DependentUpon>
+    </Content>
+    <None Include="Models\PersonelRapor.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PersonelRapor.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\PersonelRapor.xss">
+      <DependentUpon>PersonelRapor.xsd</DependentUpon>
+    </Content>
     <None Include="Models\ikDSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -825,10 +869,6 @@
     <Content Include="Models\ikDSet.xss">
       <DependentUpon>ikDSet.xsd</DependentUpon>
     </Content>
-    <EntityDeploy Include="Models\kentModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>kentModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Models\kentihaleModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>kentihaleModel.edmx</DependentUpon>
@@ -849,9 +889,6 @@
       <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
       <LastGenOutput>kentmakineihaleModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\kentModel.edmx.diagram">
-      <DependentUpon>kentModel.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\kentihaleModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>kentihaleModel.Designer.cs</LastGenOutput>
@@ -867,16 +904,6 @@
       <DependentUpon>kentmakineihaleModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\ik.pubxml" />
-    <Content Include="Models\kentModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>kentModel.edmx</DependentUpon>
-      <LastGenOutput>kentModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\kentModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>kentModel.edmx</DependentUpon>
-      <LastGenOutput>kentModel.cs</LastGenOutput>
-    </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="multiselect grupped.txt" />
     <Content Include="Scripts\bootstrap-confirmation.min.js" />
@@ -1120,15 +1147,6 @@
     <Content Include="Views\Izin\PersonelYarimİzinListe.cshtml" />
     <Content Include="Views\Pdks\MazeretEkle.cshtml" />
     <Content Include="Views\Girislerim\Index.cshtml" />
-    <Content Include="Views\MaasIsListe\Create.cshtml" />
-    <Content Include="Views\MaasIsListe\Delete.cshtml" />
-    <Content Include="Views\MaasIsListe\Details.cshtml" />
-    <Content Include="Views\MaasIsListe\Edit.cshtml" />
-    <Content Include="Views\MaasIsListe\Index.cshtml" />
-    <Content Include="Views\MaasIsListe\AtlIsler.cshtml" />
-    <Content Include="Views\MaasIsListe\AtlIsEkle.cshtml" />
-    <Content Include="Views\MaasIsListe\ListeOlustur.cshtml" />
-    <Content Include="Views\MaasIsListe\_ListeOlustur.cshtml" />
     <Content Include="Views\Takip\RutinListe.cshtml" />
     <Content Include="Views\Takip\RutinOzet.cshtml" />
     <Content Include="Views\Takip\Sil.cshtml" />
@@ -1136,6 +1154,29 @@
     <Content Include="Views\Pdks\Raporlar.cshtml" />
     <Content Include="Views\Pdks\RaporDurum.cshtml" />
     <Content Include="Views\Puantaj\Puantajlar.cshtml" />
+    <Content Include="Views\MaasIsListe\Create.cshtml" />
+    <Content Include="Views\MaasIsListe\Delete.cshtml" />
+    <Content Include="Views\MaasIsListe\Details.cshtml" />
+    <Content Include="Views\MaasIsListe\Edit.cshtml" />
+    <Content Include="Views\MaasIsListe\Index.cshtml" />
+    <Content Include="Views\MaasIsListe\MaasCalısma.cshtml" />
+    <Content Include="Views\MaasIsListe\IsEkle.cshtml" />
+    <Content Include="Views\Puantaj\MaasHesapla.cshtml" />
+    <Content Include="Views\Puantaj\MaasKontrol.cshtml" />
+    <Content Include="Views\Rapor\Raporlar.cshtml" />
+    <Content Include="Views\Pdks\_GecKalanlarRapor.cshtml" />
+    <Content Include="Views\Etiket\Create.cshtml" />
+    <Content Include="Views\Etiket\Delete.cshtml" />
+    <Content Include="Views\Etiket\Details.cshtml" />
+    <Content Include="Views\Etiket\Edit.cshtml" />
+    <Content Include="Views\Etiket\Index.cshtml" />
+    <Content Include="Views\Rapor\PersonelListeGetir.cshtml" />
+    <Content Include="Views\Personel\PersonelBilgiDuzenle.cshtml" />
+    <Content Include="Views\Personel\PersonelGecKalma.cshtml" />
+    <Content Include="Views\Etiket\Bulut.cshtml" />
+    <Content Include="Views\Takip\AltGorevler.cshtml" />
+    <Content Include="Views\Gorev\Index.cshtml" />
+    <Content Include="Views\Gorev\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

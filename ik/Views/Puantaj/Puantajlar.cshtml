@@ -12,73 +12,538 @@
             <select id="personel" class="form-control" multiple="multiple"></select>
         </div>
         <div class="form-group col-md-4">
-            <input type="date" id="tarih1"/>
-            <input type="date" id="tarih2" />
+            <input type="date" id="tarih1" value="2018-07-01" />
+            <input type="date" id="tarih2" value="2018-07-31" />
         </div>
         <div class="form-group col-md-4">
-            <input type="button" id="puantaj" class="btn btn-primary" value="Puantaj"/><span id="wait"></span>
+            <input type="button" id="puantaj" class="btn btn-primary" value="Puantaj" /><span id="wait"></span>
         </div>
     </div>
     <div id="tablo"></div>
 </div>
 
-@section scripts{
-    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet"/>
-    <script src="~/Scripts/bootstrap-multiselect.js"></script>
 
+@section scripts{
+    <style>
+        .ad {
+            white-space: nowrap;
+        }
+
+        .p {
+            /*width: 30px;
+        height: 30px;*/
+        }
+
+        th {
+            vertical-align: bottom;
+            text-align: center;
+        }
+
+            th span {
+                -ms-writing-mode: tb-rl;
+                -webkit-writing-mode: vertical-rl;
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                white-space: nowrap;
+            }
+
+
+
+
+        .h {
+            display: table-cell;
+            border: 1px solid;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .dik {
+            transform: rotate(90deg);
+            transform-origin: left top 0;
+            float: left;
+        }
+
+        .t {
+            background-color: gray;
+        }
+    </style>
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/jquery.contextMenu.css" rel="stylesheet" />
+    <link href="~/Content/jquery.contextMenu.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script src="~/Scripts/imzatakip.js"></script>
+    <script src="~/Scripts/jquery.contextMenu.min.js"></script>
+    <script src="~/Scripts/jquery.ui.position.js"></script>
+
+
     <script type="text/javascript">
-        
-        Date.prototype.addDays = function(days) {
+
+
+        Date.prototype.addDays = function (days) {
             this.setDate(this.getDate() + parseInt(days));
             return this;
         };
+
         function n(d) {
             return d > 9 ? "" + d : "0" + d;
         }
+
+        function puantaj(m, r, td) {
+            var p = "";
+            $.each(r.gunler, function (i, g) {
+                // console.log(g);
+                if (moment(g.tarih).format('YYYY-MM-DD') === m.format('YYYY-MM-DD')) {
+
+                    var saatler = "";
+
+                    if (g.Giris != null) {
+                        var giris = moment(g.Giris).format("HH:mm");
+                        saatler += "\n" + giris;
+                        td.attr("giris", giris);
+                    }
+                    if (g.Cikis != null) {
+                        var cikis = moment(g.Cikis).format("HH:mm");
+                        saatler += "\n" + cikis;
+                        td.attr("cikis", cikis);
+                    }
+
+                    td.attr("title", saatler);
+                    td.attr("hft", g.hafta);
+                    p = g.Puantaj;
+                    //console.log(p);
+
+                    if (g.mazeretler.length > 0) {
+                        var title = td.attr('title');
+                        $.each(g.mazeretler, function (ind, maz) {
+                            title += " " + maz.aciklama;
+                        });
+                        td.attr("title", title);
+                    }
+                    return false;
+                }
+
+            });
+            return p;
+        };
 
 
         $(function () {
 
 
-            var tablociz = function(t1,t2) {
-                var tablo = $('#tablo');
-                tablo.html('');
-                var table = $('<table class="table table-bordered"></table>');
-                table.append('<tr>');
-                for (var i = t1; i <= t2;i.addDays(1)) {
-                    console.log(i.getDate());
-                    table.append('<th date="'+i+'">' +n(i.getDate()) + '</th>');
+            var mesailerihesapla = function (tr) {
+
+                var gunler = tr.parent().find('tr').eq(tr.index() + 1).find('.p');
+                var mesailer = tr.find('.cg');
+                //console.log(mesailer);
+                //console.log(gunler);
+                var hft = 0;
+                var kesilecek = 0;
+                var toplamdakika = 0;
+                var haftatoplam = 0;
+                var toplamsaat = 0;
+                var songun = $('');
+                var günn;
+                var sonhaftasonu;
+                for (var i = 0; i < gunler.length; i++) {
+                    //var index = $(gunler[i]).cellIndex;
+
+                    var gun = $(gunler[i]);
+                    var hafta = gun.attr('hft');
+                    var gün = gun.attr('gun');
+                    var haftaiçi = gun.hasClass('hi');
+                    var yemek = gun.hasClass('ymk');
+                    //console.log('gün:'+gun + ' hafta:' + hafta + ' gun:' + gün + ' haftaiçi:' + haftaiçi + ' yemek:' + yemek);
+                    //hafta içi ise 8 saat kes
+                    //yemek ise 1 saat kesq
+                    var giris = gun.attr("giris");
+                    var cikis = gun.attr("cikis");
+                    var fark = new moment();
+                    if (gün == 1) {
+
+                        //yeni hafta başlangıcı*********************************************************************
+                        //var kalan dakika sonraki haftaya ekle sakika
+                        hft = hafta;
+
+                        fark = moment(moment(cikis, "HH:mm").diff(moment(giris, "HH:mm")));
+                        fark.subtract(11, "h");
+                        if (yemek) {
+                            fark.subtract(1, "h");
+                        }
+                        //8 saat düş
+                        //yemek düş
+                        //mesai hesapla
+                        kesilecek = 300;
+
+
+                    } else {
+                        if (hft != hafta) { //direk ayın başı ve pazartesi değil
+
+                            continue;
+                        } else {//devam eden hafta
+                            //hafta devam ediyor*******************************************************************
+                            fark = moment(moment(cikis, "HH:mm").diff(moment(giris, "HH:mm")));
+
+                            //haftaiçi ise 8 saat düş
+                            //yemek ise 1 saat düş
+                            //farkı hesapla
+                            if (haftaiçi) { //hafta içi 8 saat kes
+                                fark.subtract(11, "h");
+                                //console.log(fark.format("HH:mm"));
+                            }
+                            if (yemek) {
+                                fark.subtract(1, "h");
+                            }
+                            if (gün == 6 | gün == 0) {
+                                fark.subtract(3, "h");
+
+
+                            }
+                            if (gün == 0) {
+                                //songun = $(gunler[i]);
+                                haftatoplam = toplamdakika;
+                            }
+
+                        }
+                    }
+                    ////console.log(moment(fark));
+                    if (moment(fark).isValid()) {
+                        //songun = gunler[i];
+                        // $(mesailer[i]).html(moment(fark).format("HH:mm"));
+                        var saat = fark.hour();
+                        var dakika = fark.minute();
+                        var çalışmadakika = (fark.hour() * 60) + fark.minute();
+                        $(mesailer[i]).attr("title", çalışmadakika);
+
+                        //console.log(saat + ' ' + dakika);
+                        if (fark.hour() > 20) continue;
+
+                        toplamdakika += çalışmadakika;
+
+                        while (kesilecek > 0 && toplamdakika > 0) {
+                            kesilecek--;
+                            toplamdakika--;
+                        }
+                        if (kesilecek === 0) {
+                            saat = parseInt(toplamdakika / 60);
+                            toplamdakika = parseInt(toplamdakika % 60);
+                            // console.log(saat + ' ' + toplamdakika);
+                            if (saat > 0) {
+                                $(mesailer[i]).html(saat);
+                                toplamsaat += saat;
+                                songun = mesailer[i];
+                            }
+                        }
+                    }
+                    // console.log(toplamdakika);
                 }
-                table.append('</tr>');
-                tablo.append(table);
+
+                // console.log(haftatoplam);
+
+                if (haftatoplam >= 30) {
+                    for (var m = mesailer.length; m >= 0; m--) {
+                        var mes = $(mesailer[m]);
+                        var mmm = parseInt(mes.html());
+                        if (!isNaN(mmm)) {
+                            mmm++;
+                            mes.html(mmm);
+                            toplamsaat++;
+                            break;
+                        }
+                      
+                      
+                        //console.log(parseInt(mes.html()));
+                    }
+
+
+                }
+
+                tr.find('.fm1').html(toplamsaat);
+                //console.log(songun);
             };
 
 
-            tablociz(new Date(2018, 07, 01), new Date(2018, 07, 31));
-        var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste", "Personel")';
+
+            //$.contextMenu({
+            //    selector: '.ad',
+            //    callback: function (key, options) {
+            //        var cls = options.selector;
+            //        //console.log(cls);
+            //        var tr = $(cls).closest('tr');
+            //        console.log(options);
+            //        // mesailerihesapla(tr);
+
+
+            //    },
+            //    items: {
+            //        "Hesapla": { name: "Hesapla", icon: "fa-calc" }
+            //    }
+            //});
+
+            //$.contextMenu({
+            //    selector: '.p',
+            //    callback: function (key, options) {
+            //        var m = "clicked: " + key;
+            //        window.console && console.log(m) || alert(m);
+            //    },
+            //    items: {
+            //        "Denkleştirme": { name: "Denkleştirme", icon: "fa-edit" },//denkleştirme classı ekle
+            //        "Yemek": { name: "Yemek", icon: "fa-beer" }//yemek classı ekle
+            //        //,
+            //        //"copy": { name: "Cloud download", icon: "fa-cloud-download" },
+            //        //"paste": { name: "Certificate", icon: "fa-certificate" }
+            //    }
+            //});
+
+
+
+
+            var gun = 0;
+
+            var tablociz = function (t1, t2) {
+                gun = 0;
+                var tablo = $('#tablo');
+                tablo.html('');
+                var table = $('<table id="puantajtablo" ></table>');
+
+                var tr = $("<tr></tr>");
+                tr.append('<th class="h"><span>SIRA NO</span></th><th class="h"><span>SİCİL NO</span></th><th class="h">PERSONEL <br /> ADI SOYADI</th><th class="h"><span>HİZMET <br /> KADROSU</span></th><th class="h"><span>ÇALIŞMA ŞEKLİ</span></th>');
+                for (var i = t1; i <= t2; i.addDays(1)) { // console.log(i.getDate());
+                    tr.append('<th  class="h gun" date="' + moment(i).format('YYYY-MM-DD') + '">' + n(i.getDate()) + '</th>');
+                    gun++;
+                }
+                tr.append('<th class="h"><span>ÇALIŞMA GÜNÜ</span></th><th class="h"><span>YILLIK İZİN</span></th><th class="h"><span>DİĞER İZİN</span></th><th class="h"><span>RAPOR</span></th><th class="h"><span>ÜCRETSİZ İZİN</span></th><th class="h"><span>FM1(NORMAL)</span></th><th class="h"><span>FM2(NORMAL)</span></th>');
+                table.append(tr).append('<tbody id="body"></tbody>');
+                tablo.append(table);
+                // console.log(gun);
+            };
+
+            var persbilgi = 5;
+            var puantajbilgi = 7;
+
+            var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste", "Personel")';
+
             personelliste(personelbirimlisteurl); //dropdown doldur
 
+            var puantajyap = function (trr) {
+
+                var tr = trr.closest('tbody').find('tr').eq(trr.index() - 1);
+                var rapor = 0;
+                var çalışma = 0;
+                var yıllıkizin = 0;
+                var gunler = trr.find('td.p');
+                for (var i = 0; i < gunler.length; i++) {
+                    var td = $(gunler[i]);
+                    if (td.html() === "R") {
+                        rapor++;
+                    } else {
+                        if (td.html() === "Y.İ.") {
+                            çalışma++;
+                            yıllıkizin++;
+                        } else {
+                            if (td.hasClass("t")) {
+                                çalışma++;
+                            } else if (td.html() === "X") {
+                                çalışma++;
+                            }
+                        }
+                    }
+                }
+                tr.find("td.clsgn").html(çalışma);
+                tr.find("td.yllkzn").html(yıllıkizin);
+                tr.find("td.rpr").html(rapor === 0 ? "" : rapor);
+            };
+
+
+            var tabloyapersonelekle = function (pers, ip) {
+
+                //console.log(pers);
+                var body = $('#body');
+                var tr = $('<tr id="' + pers.personelID + '" class="pers"></tr>');
+                tr.append('<td rowspan="2" class="h">' + (ip + 1) + '</td><td rowspan="2" class="h">' +
+                    pers.personelkod + '</td><td rowspan="2" class="h ad">' +
+                    pers.personeladsoyad + '</td><td rowspan="2" class="h">İŞÇİ</td><td class="h">F.M.</td>');
+
+                var gunler = $('table > tr > th.gun');
+
+                for (var i = 0; i < gunler.length; i++) {
+                    var g = moment($(gunler[i]).attr("date"));
+
+                    //fonksiyon fazla mesai hesapla
+                    var td = $('<td fm=""></td>');//td oluştur
+                    //td.addClass("ymk");
+                    //td.addClass("h");
+                    td.addClass("cg");//çalışma günler
+                    td.addClass("h");
+                    var gg = g.day();
+                    if (gg === 0 || gg === 6) {//hafta sonu ise
+                        td.addClass("t");
+                        //td.addClass("hs"); //haftasonu çalışmanın tümü mesai
+                    } else {
+                        //td.addClass("hi"); //hafta içi 8 saat kesilecek
+                    }
+                    tr.append(td);
+                }
+                tr.append('<td  rowspan="2" class="h clsgn"></td>');
+                tr.append('<td  rowspan="2" class="h yllkzn"></td>');
+                tr.append('<td  rowspan="2" class="h dgrnz"></td>');
+                tr.append('<td  rowspan="2" class="h rpr"></td>');
+                tr.append('<td  rowspan="2" class="h crtszzn"></td>');
+                tr.append('<td  rowspan="2" class="h fm1"></td>');
+                tr.append('<td  rowspan="2" class="h fm2"></td>');
+
+
+                //for (var j = 0; j < puantajbilgi; j++) {
+                //    tr.append('<td rowspan="2" class="h"></td>');
+                //}
+                body.append(tr);
+                var trr = $('<tr class="pers"></tr>');
+                for (var k = 0; k < persbilgi; k++) {
+                    if (k < 4) {
+                        //  tr.append('<td></td>');
+                    }
+                    else {
+                        trr.append('<td class="h">N.G.</td>');
+                    }
+                }
+                var tarih = $('#puantajtablo tr:first');
+
+                for (var ix = 0; ix < gun; ix++) {
+
+                    var t = tarih.find('th:nth-child(' + (ix + 6) + ')').attr('date');
+
+                    var td = $('<td></td>');
+                    var gg = moment(t).day();
+                    if (gg === 0 || gg === 6) {
+
+                        td.addClass("t");
+                        td.addClass("hs"); //haftasonu çalışmanın tümü mesai
+
+                    } else {
+                        td.addClass("hi"); //hafta içi 8 saat kesilecek
+                    }
+                    td.attr("gun", gg);
+                    td.addClass("ymk"); //yemek saati kesilecek
+                    td.addClass("p");
+                    td.addClass("h");
+                    var pp = puantaj(moment(t), pers, td); //X,Y.İ.,R
+                    td.html(pp);
+                    trr.append(td);
+
+                    ///çalışma rapor yıllık izin günlerini ekle
+
+                }
+                body.append(trr);
+
+
+                puantajyap(trr);
+
+
+                //context menuleri buraya ekle
+                var id = pers.personelID;
+                $.contextMenu({
+                    selector: 'tr#' + id + '>td.ad',
+                    callback: function (key, options) {
+                        var cls = options.selector;
+                        //console.log(cls);
+                        var tr = $(cls).closest('tr');
+                        //console.log(options);
+                        mesailerihesapla(tr);
+
+
+                    },
+                    items: {
+                        "Hesapla": { name: "Hesapla", icon: "fa-calc" }
+                    }
+                });
+            };
+
+
+
+
             $('#puantaj').on('click', function () {
-              
-               // tablociz(new Date(2018, 07, 01), new Date(2018, 07, 31));
+
+                var t1 = $('#tarih1').val();
+                var t2 = $('#tarih2').val();
+
+
+                tablociz(new Date(t1), new Date(t2));
+
 
                 //işlem başlat
                 var btn = $(this);
                 $('#wait').html('....Bekleyiniz...<img src="@Url.Content("~/Content/giphy.gif")"/>');
-                console.log($('#personel').val());
+                // console.log($('#personel').val());
                 $.ajax({
-                    url: '@Url.Action("_Puantaj","Pdks")',
+                    url: '@Url.Action("_Puantaj", "Pdks")',
                     type: 'GET',
                     data: {
                         'liste': $('#personel').val(),
-                        'tarih1':$('#tarih1').val(),
-                        'tarih2': $('#tarih2').val()
+                        'tarih1': t1,
+                        'tarih2': t2
                     },
                     dataType: "json",
                     traditional: true,
-                    success:function(result) {
-                        console.log(result);
+                    success: function (result) {
+                        // console.log(result);
+
+                        $.each(result, function (ip, p) {//tüm personel listesi için
+                            tabloyapersonelekle(p, ip);
+
+                        });
+
+                        return;
+
+
+                        var tablo = $('#tablo table> tr:last');
+                        $.each(result, function (ip, p) {
+                            var index = ip;
+                            // console.log(p.personeladsoyad);
+                            var tr = $('<tr class="pers"></tr>');
+                            tr.append('<td rowspan="2">' + (index + 1) + '</td><td rowspan="2">' + p.personelkod + '</td><td rowspan="2" class="hücre ad">' + p.personeladsoyad + '</td><td rowspan="2">İŞÇİ</td><td>F.M.</td>');
+
+                            for (var i = 0; i < gun; i++) {
+                                tr.append('<td class="hücre"></td>');
+                            }
+                            var boy = tr.find('td').length;
+                            var trr = $('<tr></tr>');
+                            for (var i = 0; i < boy; i++) {
+
+                                trr.append('<td class="hücre"></td>');
+
+
+                            }
+
+                            var tarih = $('#puantajtablo tr:first');
+
+                            for (var ix = 0; ix < gun; ix++) {
+
+                                var t = tarih.find('th:nth-child(' + (ix + 6) + ')').attr('date');
+                                //console.log(t);
+
+                                var td = trr.find('td:nth-child(' + (ix + 2) + ')');
+                                var gg = moment(t).day();
+                                if (gg == 0 || gg == 6) {
+
+                                    td.addClass("t");
+                                    td.addClass("hs"); //haftasonu çalışmanın tümü mesai
+
+                                } else {
+                                    td.addClass("hi"); //hafta içi 8 saat kesilecek
+                                }
+                                td.attr("gun", gg);
+                                td.addClass("ymk"); //yemek saati kesilecek
+                                td.addClass("p");
+                                var pp = puantaj(moment(t), p, td); //X,Y.İ.,R
+                                td.html(pp);
+                            }
+
+
+                            $('#body').append(tr);
+                            $('#body').append(trr);
+
+                        });
+                        // mesailerihesapla();
                     }
                 });
 

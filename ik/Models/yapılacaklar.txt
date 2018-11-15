@@ -1,0 +1,7 @@
+﻿her personel için etiketler oluşturulabilecek
+ornek  mühendis,müdür, şef, birim sorumlusu gibi
+
+
+görevlere alt görev eklenebilecek alt görev varsa link alt görev sayfasına yönlenecek dialog açılıp işlem tamamlanmayacak
+görevlere maaş görevide eklenebilececek link üzerinden maaş çalışma sayfasına yönlenecek
+

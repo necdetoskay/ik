@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ik.Models.GecKalanlarVM>
+@{
+    var toplam = 0;
+}
+<style>
+    table.table-fit {
+        width: auto !important;
+        table-layout: auto !important;
+    }
+
+        table.table-fit thead th, table.table-fit tfoot th {
+            width: auto !important;
+        }
+
+        table.table-fit tbody td, table.table-fit tfoot td {
+            width: auto !important;
+        }
+
+    .foot {
+        padding: 5px;
+        text-align: right;
+    }
+</style>
+
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th colspan="2">Ad Soyad</th>
+        <th>Toplam Geç Kalma</th>
+    </tr>
+    @foreach (var item in Model.GroupBy(c => c.AdSoyad))
+    {
+        {
+            toplam += item.Sum(d => d.Fark);
+        }
+
+        <tr class="h4" style="font-weight: bold">
+            <td colspan="2">@item.Key</td>
+            <td class="pull-right">@item.Sum(d => d.Fark)</td>
+        </tr>
+        <tr>
+
+            @foreach (var it in item)
+            {
+            <tr>
+                <td>@it.Tarih</td>
+                <td>@it.Giris</td>
+                <td>@it.Fark</td>
+
+            </tr>
+            }
+            </tr>
+    }
+    <tfoot class="foot">
+        <tr>
+            <td colspan="3" class="h3">@toplam</td>
+        </tr>
+    </tfoot>
+</table>
+
+
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdSoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Giris)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fark)
+            </th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Giris)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fark)
+            </td>
+        </tr>
+    }
+
+    </table>*@

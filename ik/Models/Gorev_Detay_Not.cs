@@ -12,14 +12,12 @@ namespace ik.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Maas_Is_Detay
+    public partial class Gorev_Detay_Not
     {
         public int id { get; set; }
-        public int maasIsId { get; set; }
-        public int maasIsListeDetayId { get; set; }
-        public bool durum { get; set; }
+        public int gorevDetayID { get; set; }
+        public string Not { get; set; }
     
-        public virtual Maas_Is Maas_Is { get; set; }
-        public virtual Maas_Is_Liste_Detay Maas_Is_Liste_Detay { get; set; }
+        public virtual Gorev_Detay Gorev_Detay { get; set; }
     }
 }

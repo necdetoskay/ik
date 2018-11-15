@@ -73,6 +73,7 @@
 
 
             function Authanticated() {
+                return true;
                 var name='@HttpContext.Current.User.Identity.Name';
                  if(name.search('oskay')>-1)
                      return true;
@@ -100,7 +101,6 @@
 
                 $('.icraodemesil').each(function() {
                     var link = $(this);
-
                     link.click(function(event) {
                         var id = link.attr("data-id");
                         console.log(id);

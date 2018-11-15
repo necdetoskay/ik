@@ -12,7 +12,7 @@ namespace ik
     {
         protected void Application_Start()
         {
-            if (DateTime.Now > new DateTime(2018, 08, 05)) return;
+            if (DateTime.Now > new DateTime(2018,12, 05)) return;
             AreaRegistration.RegisterAllAreas();
             GlobalFilters.Filters.Add(new MapAttribute());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

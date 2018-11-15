@@ -192,13 +192,14 @@
             </p>*@
     </div>
     <div class="col-md-4">
-        <h3>İzinli Gelmeyenler</h3>
+        <h3>İzinli Gelmeyenler</h3><span id="gelmeyentoplam"></span>
         <p>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Personel AdSoyad</th>
                         <th>Mazeret</th>
+                        <th>Başlama</th>
                         <th>İş Başı</th>
                     </tr>
                 </thead>
@@ -466,28 +467,30 @@
             var izinli = $("#izinligelmeyenler");
             var now = new Date();
             $.ajax({
-                type: 'GET',
-                url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
+                type: 'GET',url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
                 data: {
                     'tarih1': now.toISOString()
                 },
                 success: function (data) {
                     izinli.empty();
+                    var tplm = 0;
                     for (var i = 0; i < data.length; i++) {
-                        var product = data[i];
+                        tplm++;var product = data[i];
                         izinli.append("<tr><td>" + product.adsoyad + "</td><td>"
-                            + product.aciklama + "</td><td>" + product.isbasi + "</td></tr>");
+                            + product.aciklama + "</td><td>"+product.baslama+"</td><td>" + product.isbasi + "</td></tr>");
                     }
+                    $('#gelmeyentoplam').html("[" + tplm + "]");
                 }
             });
         }
         function geckalanlar() {
+            var ur = '@Url.Action("PersonelGecKalma", "Personel")';
             var now = new Date();
+            var img='@Url.Content("~/Content/Loading_icon.gif")';
             $.ajax({
                 type: 'GET',
                 data: {
-                    'tarih1': now.toISOString(),
-                    'tarih2': now.toISOString()
+                    'tarih1': now.toISOString()
                 },
                 url: '@Url.Action("GecKalanlar", "PTakip")',
                 success: function (data) {
@@ -495,10 +498,18 @@
                     geckalan.empty();
                     for (var i = 0; i < data.length; i++) {
                         var gec = data[i];
-                        geckalan.append("<tr><td>" + gec.adsoyad + "</td><td>"
+                        geckalan.append('<tr><td><a class="geckal" href="javascript:void(0)" data-url="' + ur + '/?id=' + gec.id + '">' + gec.adsoyad + '</a></td><td>'
                             + gec.giris + "</td><td>"
                             + gec.geckalma + "</td></tr>");
                     }
+                    $('.geckal').on('click', function() {
+                        var a = $(this);
+                        var url = a.attr('data-url');
+                        BootstrapDialog.show({
+                            title: 'Aylık Giriş Durumu',
+                            message:$('<div><img hright="50" src="'+img+'"/></div>').load(url)
+                        });
+                    });
                 }
             });
         }

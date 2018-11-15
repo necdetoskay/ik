@@ -14,9 +14,8 @@ namespace ik.Models
     
     public partial class PERSONEL_AILE_TANIMLARI
     {
-        public int PA_RECno { get; set; }
-        public Nullable<short> PA_RECid_DBCno { get; set; }
-        public int PA_RECid_RECno { get; set; }
+        public System.Guid PA_Guid { get; set; }
+        public short PA_DBCno { get; set; }
         public Nullable<int> PA_SpecRECno { get; set; }
         public Nullable<bool> PA_iptal { get; set; }
         public Nullable<short> PA_fileid { get; set; }
@@ -25,7 +24,7 @@ namespace ik.Models
         public Nullable<bool> PA_degisti { get; set; }
         public Nullable<int> PA_checksum { get; set; }
         public Nullable<short> PA_create_user { get; set; }
-        public Nullable<System.DateTime> PA_create_date { get; set; }
+        public System.DateTime PA_create_date { get; set; }
         public Nullable<short> PA_lastup_user { get; set; }
         public Nullable<System.DateTime> PA_lastup_date { get; set; }
         public string PA_special1 { get; set; }
@@ -60,7 +59,7 @@ namespace ik.Models
         public string PA_TelNo1 { get; set; }
         public Nullable<System.DateTime> PA_EvlilikTarihi { get; set; }
         public Nullable<byte> PA_agine_tabii { get; set; }
-        public Nullable<byte> PA_OgrenimeDevamEdiyor { get; set; }
+        public Nullable<bool> PA_OgrenimeDevamEdiyor { get; set; }
         public Nullable<byte> PA_maas_banka { get; set; }
         public string PA_banka_hesapno { get; set; }
     }

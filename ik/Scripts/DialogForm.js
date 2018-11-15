@@ -22,7 +22,7 @@
 
                         // Reload the updated data in the target div
                         $(updateTargetId).load(updateUrl);
-                        complete();
+                        complete(result.data);
                         //console.log(result.console);
                     } else {
                         // Reload the dialog to show model errors                    
@@ -65,6 +65,7 @@
         html.attr("href", settings.url);
         html.attr("id", settings.id);
         html.attr("data-dialog-title", settings.title);
+        html.attr("title", settings.title);
         html.attr("data-update-target-id", settings.targetid);
         html.attr("data-update-url", settings.updateurl);
         html.attr("data-width", settings.width);

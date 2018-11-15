@@ -12,22 +12,25 @@ namespace ik.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Maas_Is_Liste
+    public partial class Gorev_Detay
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Maas_Is_Liste()
+        public Gorev_Detay()
         {
-            this.Maas_Is = new HashSet<Maas_Is>();
-            this.Maas_Is_Liste_Detay = new HashSet<Maas_Is_Liste_Detay>();
+            this.Gorev_Detay_Not = new HashSet<Gorev_Detay_Not>();
+            this.Gorev_Detay1 = new HashSet<Gorev_Detay>();
         }
     
         public int id { get; set; }
+        public Nullable<int> parentID { get; set; }
         public string ad { get; set; }
-        public bool durum { get; set; }
+        public bool aktif { get; set; }
+        public Nullable<int> sira { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Maas_Is> Maas_Is { get; set; }
+        public virtual ICollection<Gorev_Detay_Not> Gorev_Detay_Not { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Maas_Is_Liste_Detay> Maas_Is_Liste_Detay { get; set; }
+        public virtual ICollection<Gorev_Detay> Gorev_Detay1 { get; set; }
+        public virtual Gorev_Detay Gorev_Detay2 { get; set; }
     }
 }

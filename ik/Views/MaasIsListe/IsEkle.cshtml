@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ik.Models.Maas_Is_Liste>
+
+
+
+@using (Html.BeginForm("IsEkle", null, FormMethod.Post))
+{
+    <input type="checkbox" value="Tümünü Seç"><text>Tümünü Seç</text>
+
+    @Html.Hidden("yil", 2018)
+    @Html.Hidden("ay", 8)
+
+    <ul class="tree" id="tree">
+        @foreach (var parent in Model.Where(c => c.parentid == null))
+        {
+            <li>
+                <input class="item" type="checkbox" id="@parent.id" name="@parent.id" value="0">@parent.ad
+                <ul>
+                    @foreach (var child in Model.Where(c => c.parentid == parent.id))
+                    {
+                        <li><input class="item" type="checkbox" id="@child.id" name="@child.id" value="0">@child.ad</li>
+                    }
+                </ul>
+            </li>
+        }
+
+    </ul>
+}
+<script type="text/javascript">
+    $(function () {
+
+
+        $('input[type=checkbox]').click(function () {
+            if ($(this).hasClass("item")) {
+                if ($(this).is(':checked')) {
+                    $(this).prop('value', 1);
+                } else {
+                    $(this).prop('value', 0);
+                }
+            };
+
+            // if is checked
+            if ($(this).is(':checked')) {
+
+                // check all children
+                $(this).parent().find('li input[type=checkbox]').prop('checked', true);
+
+                // check all parents
+                $(this).parent().prev().prop('checked', true);
+
+            } else {
+
+                // uncheck all children
+                $(this).parent().find('li input[type=checkbox]').prop('checked', false);
+
+            }
+
+        });
+    });
+</script>

@@ -1,0 +1,54 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.GecKalanlarVM>
+@{
+    var toplam = 0;
+    ViewData["Toplam"] = 0;
+}
+@helper geckalma(GecKalanlarVM item)
+{
+
+//farkı bul
+//toplamı güncelle
+if (item.Giris > new TimeSpan(08, 35, 00))
+{
+    var saat = item.Giris.Subtract(new TimeSpan(8, 30, 0));
+    var gec = (saat.Hours*60) + saat.Minutes;
+        <span>@gec</span>
+        ViewData["Toplam"] = ((int)ViewData["Toplam"])+gec;
+    }
+}
+
+<table class="table  table-sm" style="font-size: 8px">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Giris)
+        </th>
+        <th>Geç Kalma</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Giris)
+            </td>
+            <td>
+                @geckalma(item)
+            </td>
+        </tr>
+    }
+
+</table>
+<h2>Toplam :@ViewData["Toplam"]</h2>

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ik.Controllers.MaasVM>
+
+@{
+    ViewBag.Title = "MaasKontrol";
+    var fark = 0;
+    var sınıf = "";
+}
+
+<style>
+        .green {
+            background-color: green;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .table-fixed {
+            width: 100%;}
+
+
+            /*.table-fixed thead {
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      z-index: 999;
+      background-color: #000;
+      color: #fff;
+    }*/
+
+            /*This will work on every browser*/
+            .table-fixed thead th {
+                position: sticky;
+                position: -webkit-sticky;
+                top: 0;
+                z-index: 999;
+                background-color: #000;
+                color: #fff;
+            }
+</style>
+<h2>MaasKontrol</h2>
+
+
+<table class="table table-fixed">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdSoyad)
+            </th>
+            <th>
+                @ViewBag.GeçenAy
+            </th>
+            <th>
+                @ViewBag.HesaplananAy
+            </th>
+            <th>
+                Hesaplanan
+            </th>
+            <th>
+                Fark
+            </th>
+            <th>
+                Hesaplanan Fark
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+
+                if (Math.Abs(item.Fark) < 1)
+                {
+                    sınıf = "green";
+                }
+                else
+                {
+                    sınıf = "red";
+                }
+                <tr class="@sınıf">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AdSoyad)
+                    </td>
+                    <td title="@item.GecenAyGun">
+                        @Html.DisplayFor(modelItem => item.GecenAyNet)
+                    </td>
+                    <td title="@item.BuAyGun">
+                        @Html.DisplayFor(modelItem => item.BuAyNet)
+                    </td>
+                    <td title="&#13;Sgk=@item.hesap.SGKPay&#13;İşsizlik=@item.hesap.İşsizlikPay&#13;Damga=@item.hesap.DamgaVer&#13;GelirVergisi=@item.hesap.GelirVergisi">
+                        @Html.DisplayFor(modelItem => item.Hesaplana)
+                    </td>
+                    <td>
+                        @(Math.Round(item.Hesaplana - item.BuAyNet, 2))
+                    </td>
+                    <td title="Avans=-@item.hesap.Avans&#13;Bes=-@item.Bes&#13;Mesai=+@item.Mesai&#13;Toplam=@(-@item.hesap.Avans - item.Bes + item.Mesai)">
+                        @Html.DisplayFor(modelItem => item.Fark)
+                    </td>
+                    <td></td>
+                </tr>
+        }
+    </tbody>
+
+</table>
+
+

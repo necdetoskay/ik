@@ -14,9 +14,8 @@ namespace ik.Models
     
     public partial class PERSONELLER
     {
-        public int per_RECno { get; set; }
-        public short per_RECid_DBCno { get; set; }
-        public int per_RECid_RECno { get; set; }
+        public System.Guid per_Guid { get; set; }
+        public short per_DBCno { get; set; }
         public Nullable<int> per_SpecRECno { get; set; }
         public Nullable<bool> per_iptal { get; set; }
         public Nullable<short> per_fileid { get; set; }
@@ -25,7 +24,7 @@ namespace ik.Models
         public Nullable<bool> per_degisti { get; set; }
         public Nullable<int> per_checksum { get; set; }
         public Nullable<short> per_create_user { get; set; }
-        public Nullable<System.DateTime> per_create_date { get; set; }
+        public System.DateTime per_create_date { get; set; }
         public Nullable<short> per_lastup_user { get; set; }
         public Nullable<System.DateTime> per_lastup_date { get; set; }
         public string per_special1 { get; set; }
@@ -298,5 +297,14 @@ namespace ik.Models
         public Nullable<byte> per_otobes_fon_tercihi { get; set; }
         public Nullable<System.DateTime> per_otobes_giris { get; set; }
         public Nullable<System.DateTime> per_otobes_ayrilis { get; set; }
+        public string per_sosyal_linkedin { get; set; }
+        public string per_sosyal_webadresi { get; set; }
+        public string per_sosyal_youtube { get; set; }
+        public string per_sosyal_twitter { get; set; }
+        public string per_sosyal_facebook { get; set; }
+        public string per_sosyal_google { get; set; }
+        public string per_sosyal_pinterest { get; set; }
+        public string per_sosyal_instagram { get; set; }
+        public string per_sosyal_snapchat { get; set; }
     }
 }

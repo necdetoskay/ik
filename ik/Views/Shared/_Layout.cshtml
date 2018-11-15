@@ -92,8 +92,7 @@
 
                 <li>@Html.ActionLink("PTakip", "GunlukPTakip", "PTakip", new { date = @DateTime.Now.ToShortDateString() }, null)</li>
 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Staj İşlemleri <b class="caret"></b></a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Staj İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>@Html.ActionLink("Staj Özet", "Ozet", "Staj")</li>
                         <li>@Html.ActionLink("Stajer Listesi", "Index", "Staj")</li>
@@ -103,13 +102,15 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personel İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Etiketler", "Bulut", "Etiket")</li>
+                    
                         @*<li><a href="#">Dropdown Link 1</a></li>
                             <li><a href="#">Dropdown Link 2</a></li>
                             <li><a href="#">Dropdown Link 3</a></li>>*@
                         @*<li>@Html.ActionLink("Grup Tanım", "Index", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                         <li>@Html.ActionLink("Grup Tanımla", "YeniGrup", "Grups")</li>
                         <li class="divider"></li>
-                        <li>@Html.ActionLink("PDKS Eksik Hareket ekle", "EksikHareketler", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                        <li>@Html.ActionLink("PDKS Eksik Hareket ekle", "EksikHareketler", "Pdks")</li>
                         <li class="divider"></li>
                         @* <li>@Html.ActionLink("Taşeron Personel", "Index", "Taseron").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
 
@@ -124,7 +125,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">PDKS</a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Mazeret İzni Giriş", "MazeretEkle", "Pdks")</li>
-                               
+
                             </ul>
                         </li>
 
@@ -197,7 +198,7 @@
                                 </li>
 
                                 <li>@Html.ActionLink("Alınan Raporlar", "SaglikRapor", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Avanslar", "Avanslar", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                <li>@Html.ActionLink("Avanslar", "Avanslar", "Personel")</li>
                                 <li>@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
                                 <li>@Html.ActionLink("IK Personel Ekle", "Create", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li>@Html.ActionLink("Kan Grupları", "KanGrubu", "Mikro")</li>
@@ -206,17 +207,18 @@
                                 <li>@Html.ActionLink("Tüm Personel Durumu", "TumPersonel", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Personel Rapor Durumu","RaporDurum","Pdks")</li>
-                               @* <li>@Html.ActionLink("Alınan Raporlar(Hastalık)", "SaglikRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
+                                <li>@Html.ActionLink("Personel Rapor Durumu", "RaporDurum", "Pdks")</li>
+                                @* <li>@Html.ActionLink("Alınan Raporlar(Hastalık)", "SaglikRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                             </ul>
                         </li>
 
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Raporlar</a>
                             <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Giriş Çıkış Raporları", "Raporlar", "Rapor")</li>
                                 <li>@Html.ActionLink("Personel Giriş Çıkış", "PersonelGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li>@Html.ActionLink("Departman Bazında Giriş Çıkış", "DepartmanGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Genel Personel Durumu", "PersonelDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                <li>@Html.ActionLink("Genel Personel Durumu", "PersonelDurum", "Rapor")</li>
                                 @*<li class="dropdown dropdown-submenu">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Özlük Dosyası İşlemleri</a>
 
@@ -239,6 +241,7 @@
                         </li>
 
                         <li>@Html.ActionLink("Yönetim Denetim Kurulu", "Index", "Kuruls")</li>
+                        <li>@Html.ActionLink("Etiket Yönetimi", "Index", "Etiket")</li>
 
                     </ul>
                 </li>
@@ -247,8 +250,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maaş İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Maaş İş Liste", "Index", "MaasIsListe")</li>
-                        <li>@Html.ActionLink("Aylık Liste Oluştur", "ListeOlustur", "MaasIsListe")</li>
+                    
+                        <li>@Html.ActionLink("Maaş Kontrol", "MaasKontrol", "Puantaj")</li>
                         @*<li>@Html.ActionLink("Stajer Listesi", "Index", "Staj")</li>
                         <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj")</li>*@
                     </ul>

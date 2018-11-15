@@ -197,9 +197,18 @@ namespace ik.Controllers
             var kıdem = "";
             using (var kent = new KENTEntities())
             {
-                var pers = kent.PERSONELLERs.SingleOrDefault(c => c.per_RECno == personel.mikroid);
+                try
+                {
+                    var pers = kent.PERSONELLERs.SingleOrDefault(c => c.per_Guid == personel.mikroid);
+               
                 ceptel = pers.per_tel_cepno;
                 kıdem = pers.per_Kidem_Tarih.Value==new DateTime(1899,12,31)?pers.per_giris_tar.Value.ToShortDateString() : pers.per_Kidem_Tarih.Value.ToShortDateString();
+                }
+                catch (Exception XX)
+                {
+
+                    throw;
+                }
             }
             return Json(new { Data = kidem, Kıdem=kıdem, Sicil = personel.sicilno + '-' + ceptel }, JsonRequestBehavior.AllowGet);
         }
@@ -240,7 +249,7 @@ namespace ik.Controllers
             using (KENTEntities ke = new KENTEntities())
             {
                 object liste;
-                var kod = ke.PERSONELLERs.SingleOrDefault(c => c.per_RECno == personel.mikroid);
+                var kod = ke.PERSONELLERs.SingleOrDefault(c => c.per_Guid == personel.mikroid.Value);
                 if (kod == null)
                 {
                     liste = new
@@ -256,10 +265,10 @@ namespace ik.Controllers
                         Success = true,
                         Data =
                         ke.PERSONEL_IZINLERI.Where(c => c.pz_pers_kod == kod.per_kod)
-                            .OrderByDescending(c => c.pz_RECno)
+                            .OrderByDescending(c => c.pz_Guid)
                             .Select(c => new
                             {
-                                ID = c.pz_RECno,
+                                ID = c.pz_Guid,
                                 Aciklama = c.pz_izin_aciklama,
                                 Baslangic = c.pz_baslangictarih.Value,
                                 Bitis = c.pz_gerceklesen_donus_tarihi.Value,
@@ -285,12 +294,11 @@ namespace ik.Controllers
             //return Json(0);
         }
 
-        public JsonResult MikrodanPdksGir(int mikroid, int pdksid)
-        {
-            using (KENTEntities ke = new KENTEntities())
+        public JsonResult MikrodanPdksGir(Guid mikroid, int pdksid)
+        {using (KENTEntities ke = new KENTEntities())
             {
 
-                var mikro = ke.PERSONEL_IZINLERI.SingleOrDefault(c => c.pz_RECno == mikroid);
+                var mikro = ke.PERSONEL_IZINLERI.SingleOrDefault(c => c.pz_Guid == mikroid);
 
                 var mevcut =
                     db.Izins.SingleOrDefault(
@@ -348,7 +356,7 @@ namespace ik.Controllers
         }
 
         [HttpPost]
-        public JsonResult PdksdenIzinGir(int mikroid, int izinyil, DateTime baslangic, DateTime bitis, string aciklama, int gun)
+        public JsonResult PdksdenIzinGir(Guid mikroid, int izinyil, DateTime baslangic, DateTime bitis, string aciklama, int gun)
         {
             var personel = db.Personels.SingleOrDefault(c => c.mikroid == mikroid);
             try

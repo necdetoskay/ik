@@ -55,7 +55,6 @@ namespace ik.Models
         public virtual DbSet<Staj_Ogrenci_Evrak> Staj_Ogrenci_Evrak { get; set; }
         public virtual DbSet<Staj_Okul> Staj_Okul { get; set; }
         public virtual DbSet<Lokasyon> Lokasyons { get; set; }
-        public virtual DbSet<Personel> Personels { get; set; }
         public virtual DbSet<PersonelDetay> PersonelDetays { get; set; }
         public virtual DbSet<Tahsil> Tahsils { get; set; }
         public virtual DbSet<Rapor> Rapors { get; set; }
@@ -71,11 +70,12 @@ namespace ik.Models
         public virtual DbSet<ImzaTakip> ImzaTakips { get; set; }
         public virtual DbSet<ImzaTakipDetay> ImzaTakipDetays { get; set; }
         public virtual DbSet<SgkDosya> SgkDosyas { get; set; }
-        public virtual DbSet<Maas_Is> Maas_Is { get; set; }
-        public virtual DbSet<Maas_Is_Detay> Maas_Is_Detay { get; set; }
-        public virtual DbSet<Maas_Is_Liste> Maas_Is_Liste { get; set; }
-        public virtual DbSet<Maas_Is_Liste_Detay> Maas_Is_Liste_Detay { get; set; }
         public virtual DbSet<vergi_dilim> vergi_dilim { get; set; }
         public virtual DbSet<vergi_dilim_detay> vergi_dilim_detay { get; set; }
+        public virtual DbSet<EtiketTanim> EtiketTanims { get; set; }
+        public virtual DbSet<PersonelEtiket> PersonelEtikets { get; set; }
+        public virtual DbSet<Personel> Personels { get; set; }
+        public virtual DbSet<Gorev_Detay> Gorev_Detay { get; set; }
+        public virtual DbSet<Gorev_Detay_Not> Gorev_Detay_Not { get; set; }
     }
 }

@@ -214,10 +214,9 @@
                         mikroizin.empty();
                         //console.log(result);
                         $.each(result, function (i, izin) {
-                            mikroizin.append('<tr id="' + izin.per_RECno + '"><td>' + izin.per_adi + " " + izin.per_soyadi +
+                            mikroizin.append('<tr id="' + izin.per_Guid + '"><td>' + izin.per_adi + " " + izin.per_soyadi +
                                 '</td><td>' + izin.pz_izin_aciklama.substr(0, 4) +
-                                '</td><td>' + izin.pz_gun_sayisi +
-                                '</td><td>' + izin.pz_baslangictarih.toDDMMYYY() +
+                                '</td><td>' + izin.pz_gun_sayisi +'</td><td>' + izin.pz_baslangictarih.toDDMMYYY() +
                                 '</td><td>' + izin.pz_gerceklesen_donus_tarihi.toDDMMYYY() +
                                 '</td><td>' + izin.pz_izin_aciklama +
                             '</td><td><input  class="btn btn-primary btn-sm ikekle" type="button" value="İK ekle"/></td></tr>');

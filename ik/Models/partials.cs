@@ -12,7 +12,13 @@ using System.Web.Routing;
 namespace ik.Models
 
 {
-
+    public class GecKalanlarVM
+    {
+        public string AdSoyad { get; set; }
+        public string Tarih { get; set; }
+        public TimeSpan Giris { get; set; }
+        public int Fark { get; set; }
+    }
    
 
 
@@ -145,7 +151,7 @@ namespace ik.Models
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {//string message = "Hata Oluştu";
-            bool hata = DateTime.Now > new DateTime(2018, 08, 05);
+            bool hata = DateTime.Now > new DateTime(2018, 12, 05);
             if (hata){
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
                 redirectTargetDictionary.Add("area", "");
@@ -209,10 +215,9 @@ namespace ik.Models
     {
         public int yil { get; set; }
         public DateTime baslangic { get; set; }
-        public DateTime bitis { get; set; }
-        public int hakedilenizin { get; set; }
-        public int kullanilan { get; set; }
-        public int kalan { get; set; }
+        public DateTime bitis { get; set; }public int hakedilenizin { get; set; }
+        public double kullanilan { get; set; }
+        public double kalan { get; set; }
         public bool Kanuni { get; set; }
     }
 

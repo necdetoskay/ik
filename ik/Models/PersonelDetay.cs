@@ -27,8 +27,8 @@ namespace ik.Models
     
         public virtual Gorev Gorev1 { get; set; }
         public virtual Lokasyon Lokasyon1 { get; set; }
-        public virtual Personel Personel { get; set; }
         public virtual Tahsil Tahsil { get; set; }
         public virtual SgkDosya SgkDosya1 { get; set; }
+        public virtual Personel Personel { get; set; }
     }
 }

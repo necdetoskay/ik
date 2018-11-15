@@ -14,20 +14,38 @@
 
     @foreach (var item in Model)
     {
-        cls = item.sontarih.Date < DateTime.Now.Date ? "btn-danger" : "btn-Info";
-        <tr>
-            <td>
-                @*<button type='button' class='btn @cls' data-toggle='modal' data-rutinID='@item.id' data-aciklama='@item.aciklama' data-target='#myModal'> @item.aciklama</button>*@
-                <button type='button' style="font-size: 10px" class='btn @cls tamamla' id='@item.id'> @item.aciklama</button>
+        cls = item.sontarih.Date < DateTime.Now.Date ? "btn-danger" : "btn-info";
+        if (item.sontarih > DateTime.Now.AddDays(item.gostermegunu))
+        {
+            continue;
+        }
+        else
+        {
+            if (item.parentid == null)
+            {
+                <tr>
+                    <td>
+                        @if (item.Takip1.Any())
+                        {
+                            @Html.ActionLink(item.aciklama,"AltGorevler",new {id=item.id},new { @class = "btn " + cls })
+                        @*<span>@item.aciklama</span>*@
+                        }
+                        else
+                        {
+                        <button type='button' style="font-size: 10px" class='btn @cls tamamla' id='@item.id'> @item.aciklama</button>
+                        }
 
-                <img  />
-            </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.sontarih)
-            </td>
+                        <img />
+                    </td>
 
-        </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.sontarih)
+                    </td>
+
+                </tr>
+            }
+        }
     }
 
 </table>
@@ -37,7 +55,7 @@
     $(function () {
         $('.tamamla').each(function () {
             var btn = $(this);
-            btn.on('click', function() {
+            btn.on('click', function () {
                 BootstrapDialog.confirm({
                     title: 'WARNING',
                     message: 'Görev  tamamlansın mı?',
@@ -58,7 +76,7 @@
                                 data: {
                                     'id': btn.attr('id')
                                 },
-                                success: function(result) {
+                                success: function (result) {
                                     if (result === true) {
                                         $.notify({
                                             title: 'İşlem Durumu',
@@ -75,13 +93,13 @@
 
                             });
                         } else {
-                            
+
                         }
                     }
                 });
             });
-            
+
         });
-       
+
     })
 </script>

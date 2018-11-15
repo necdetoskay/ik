@@ -26,9 +26,17 @@ namespace ik.Controllers
 
         public JsonResult Gun(DateTime tarih)
         {
-            var gun = db.DiniGunlers.SingleOrDefault(c => c.tarih == tarih.Date);
-            if(gun!=null)
-               return Json(new { Success = true, Data = gun.ad } , JsonRequestBehavior.AllowGet);
+            try
+            {
+                var gun = db.DiniGunlers.SingleOrDefault(c => c.tarih == tarih.Date);
+                if (gun != null)
+                    return Json(new { Success = true, Data = gun.ad }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+
+              
+            }
             return Json( new {Success=false,Data=""}, JsonRequestBehavior.AllowGet);
         }
     }

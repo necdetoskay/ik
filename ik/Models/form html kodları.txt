@@ -1,0 +1,13 @@
+﻿ 
+ ////////////////////////////////         yatay sıralı           //////////////////////////
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="yil">Yıl</label>
+        <input id="yil" type="number" max="2023" min="2018" class="form-control" placeholder="Yıl">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="ay">Ay</label>
+        <input id="ay" type="number" max="12" min="1" class="form-control" placeholder="Ay">
+    </div>
+</div>
+  /////////////////////////////////////////////////////////////////////////////////////////

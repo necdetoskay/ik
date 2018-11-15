@@ -25,9 +25,9 @@ namespace ik.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<PERSONEL_IZINLERI> PERSONEL_IZINLERI { get; set; }
-        public virtual DbSet<PERSONELLER> PERSONELLERs { get; set; }
         public virtual DbSet<PERSONEL_AILE_TANIMLARI> PERSONEL_AILE_TANIMLARI { get; set; }
+        public virtual DbSet<PERSONEL_IZINLERI> PERSONEL_IZINLERI { get; set; }
         public virtual DbSet<PERSONEL_TAHAKKUKLARI> PERSONEL_TAHAKKUKLARI { get; set; }
+        public virtual DbSet<PERSONELLER> PERSONELLERs { get; set; }
     }
 }

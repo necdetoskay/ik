@@ -12,22 +12,18 @@ namespace ik.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Maas_Is
+    public partial class EtiketTanim
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Maas_Is()
+        public EtiketTanim()
         {
-            this.Maas_Is_Detay = new HashSet<Maas_Is_Detay>();
+            this.PersonelEtikets = new HashSet<PersonelEtiket>();
         }
     
         public int id { get; set; }
-        public int tahakkukyil { get; set; }
-        public int tahakkukay { get; set; }
-        public int isId { get; set; }
-        public bool durum { get; set; }
+        public string ad { get; set; }
     
-        public virtual Maas_Is_Liste Maas_Is_Liste { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Maas_Is_Detay> Maas_Is_Detay { get; set; }
+        public virtual ICollection<PersonelEtiket> PersonelEtikets { get; set; }
     }
 }

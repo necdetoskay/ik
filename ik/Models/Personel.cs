@@ -21,14 +21,15 @@ namespace ik.Models
             this.birims = new HashSet<birim>();
             this.GeciciMazerets = new HashSet<GeciciMazeret>();
             this.Icralars = new HashSet<Icralar>();
+            this.ImzaTakipDetays = new HashSet<ImzaTakipDetay>();
             this.Izins = new HashSet<Izin>();
+            this.PersonelEtikets = new HashSet<PersonelEtiket>();
             this.PersonelFirmas = new HashSet<PersonelFirma>();
             this.PersonelGrups = new HashSet<PersonelGrup>();
             this.PersonelIhaleDonemleris = new HashSet<PersonelIhaleDonemleri>();
             this.PersonelOzlukEvraks = new HashSet<PersonelOzlukEvrak>();
             this.Rapors = new HashSet<Rapor>();
             this.Yizins = new HashSet<Yizin>();
-            this.ImzaTakipDetays = new HashSet<ImzaTakipDetay>();
         }
     
         public int id { get; set; }
@@ -41,7 +42,7 @@ namespace ik.Models
         public Nullable<int> pdksid { get; set; }
         public Nullable<System.DateTime> giristarihi { get; set; }
         public Nullable<System.DateTime> kidemtarihi { get; set; }
-        public Nullable<int> mikroid { get; set; }
+        public Nullable<System.Guid> mikroid { get; set; }
         public Nullable<System.DateTime> dogumtarihi { get; set; }
         public Nullable<System.DateTime> cikistarihi { get; set; }
         public Nullable<int> kadro { get; set; }
@@ -58,11 +59,15 @@ namespace ik.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Icralar> Icralars { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImzaTakipDetay> ImzaTakipDetays { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Izin> Izins { get; set; }
         public virtual Kadro Kadro1 { get; set; }
         public virtual PersonelIhaleDonemleri PersonelIhaleDonemleri { get; set; }
         public virtual PersonelDetay PersonelDetay { get; set; }
         public virtual PersonelDevir PersonelDevir { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonelEtiket> PersonelEtikets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelFirma> PersonelFirmas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -75,7 +80,5 @@ namespace ik.Models
         public virtual ICollection<Rapor> Rapors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Yizin> Yizins { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ImzaTakipDetay> ImzaTakipDetays { get; set; }
     }
 }

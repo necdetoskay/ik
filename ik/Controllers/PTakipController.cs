@@ -197,6 +197,7 @@ namespace ik.Controllers
                             var aciklama = personelIzinRow.aciklama;
                             var pid = personelIzinRow.personel_id;
                             var tarih = personelIzinRow.tarih;
+                            var ac = personelIzinRow.aciklama;
 
                             while (true)
                             {
@@ -205,29 +206,52 @@ namespace ik.Controllers
                                     tarih2 = tarih2.AddDays(1);
 
                                 var next =
-                                    dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid);
+                                    dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid&& c.aciklama==ac);
 
                                 if (next == null)
                                 {
-                                    if (tarih.DayOfWeek == DayOfWeek.Friday)
-                                        tarih = tarih.AddDays(3);
+                                    //if (tarih.DayOfWeek == DayOfWeek.Friday)
+                                    //    tarih = tarih.AddDays(3);
                                     personel.isbasi = tarih.ToShortDateString();
                                     break;
                                     
                                 }
                                 tarih = tarih2;
                             }
-                            
+
+                            while (true)
+                            {
+                                var tarih2 = tarih.AddDays(-1);
+                                if (tarih2.DayOfWeek == DayOfWeek.Sunday)
+                                    tarih2 = tarih2.AddDays(-1);
+
+                                var next =dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid && c.aciklama == ac);
+
+                                if (next == null)
+                                {
+                                    //if (tarih.DayOfWeek == DayOfWeek.Friday)
+                                    //    tarih = tarih.AddDays(3);
+                                    personel.baslama = tarih.ToShortDateString();
+                                    break;
+
+                                }
+                                tarih = tarih2;
+                            }
+
+
+
+
                         }
                     }
                     catch (Exception ex)
-                    {Console.WriteLine(ex.Message);
+                    {
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
             var data =
                 dset.personel_kartlari.Where(c => c.Takip != null)
-                    .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip,isbasi=c.isbasi});
+                    .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip,isbasi=c.isbasi,baslama=c.baslama});
             return Json(data.OrderBy(c=>c.adsoyad), JsonRequestBehavior.AllowGet);
         }
         public JsonResult MazeretsizGelmeyenler(DateTime tarih1)
@@ -257,7 +281,7 @@ namespace ik.Controllers
 
                 com.CommandText =
                     string.Format(
-                        "select personel_giriscikis.personel_id, CONCAT(personel_kartlari.adi,' ',personel_kartlari.soyadi) as PersonelAdSoyad,personel_giriscikis.tarih as Tarih, personel_giriscikis.giris_saat as GirisSaati,  TIME_TO_SEC(DATE_SUB(CONCAT(personel_giriscikis.tarih, ' ',personel_giriscikis.giris_saat),INTERVAL '0 08:30:00' DAY_SECOND))/60 as GecKalma from personel_giriscikis" +
+                        "select personel_giriscikis.personel_id as personelID, CONCAT(personel_kartlari.adi,' ',personel_kartlari.soyadi) as PersonelAdSoyad,personel_giriscikis.tarih as Tarih, personel_giriscikis.giris_saat as GirisSaati,  TIME_TO_SEC(DATE_SUB(CONCAT(personel_giriscikis.tarih, ' ',personel_giriscikis.giris_saat),INTERVAL '0 08:30:00' DAY_SECOND))/60 as GecKalma from personel_giriscikis" +
                         " inner join personel_kartlari on personel_giriscikis.personel_id = personel_kartlari.id " +
                         " where personel_giriscikis.tarih = '{0}' and (personel_kartlari.ozel_kod = 0) ",//"and personel_giriscikis.giris_saat> '08:35'",
                         tarih1.ToString("yyyy-MM-dd"));
@@ -278,7 +302,8 @@ namespace ik.Controllers
                     {
                         adsoyad = c.PersonelAdSoyad,
                         giris = c.GirisSaati.ToString(@"hh\:mm"),
-                        geckalma = c.GecKalma
+                        geckalma = c.GecKalma,
+                        id=c.personelID
                     });
             return Json(data, JsonRequestBehavior.AllowGet);
         }

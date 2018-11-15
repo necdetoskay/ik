@@ -13,7 +13,7 @@ namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
-    public class MaasIsListeController : Controller
+    public class MaasIsListeOldController : Controller
     {
         private ikEntities db = new ikEntities();
 
