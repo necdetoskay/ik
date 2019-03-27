@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ik.Controllers.MaasNet>
+
+@{
+    ViewBag.Title = "PersonelDurumRapor";
+}
+
+<h2>PersonelDurumRapor</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Brüt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Net)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brüt)
+        <td>
+            @Html.DisplayFor(modelItem => item.Net)
+        </td>
+        </td>
+        <td>
+          
+        </td>
+    </tr>
+}
+
+</table>

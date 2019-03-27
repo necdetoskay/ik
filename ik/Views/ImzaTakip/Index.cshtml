@@ -13,43 +13,61 @@
 </p>
 
 
-<div id="takiplist">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tarih)
-            </th>
-            <th>
-                Durum
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.aciklama)
-            </th><th></th>
-        </tr>@foreach (var item in Model)
-        {
+    <div id="takiplist">
+        <table class="table">
             <tr>
-                <td>@Html.ActionLink(item.ad,"ImzaTakipDetay",new {item.id})
-                    @*@Html.DisplayFor(modelItem => item.ad)*@
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tarih)
-                </td>
-                <td>@item.ImzaTakipDetays.Count(c=>c.imzaTarih!=null) / @item.ImzaTakipDetays.Count()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.aciklama)
-                </td>
-                <td>@*@Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.id })*@
-                </td>
-            </tr>}
+                <th>
+                    @Html.DisplayNameFor(model => model.ad)
+                </th>
+                <th>
 
-    </table>
-</div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tarih)
+                </th>
+                <th>
+                    Durum
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.aciklama)
+                </th>
+                <th></th>
+            </tr>@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.ad, "ImzaTakipDetay", new { item.id })
+                        @*@Html.DisplayFor(modelItem => item.ad)*@
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ekle", "ImzaTakibeEkle", new { takipid = item.id })
+
+                        @*<button data-id="@item.id" class="imzaekle" type="button" class="btn btn-default" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </button>*@
+
+                        @*<button type="button" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+                            </button>*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tarih)
+                    </td>
+                    <td>
+                        @item.ImzaTakipDetays.Count(c => c.imzaTarih != null) / @item.ImzaTakipDetays.Count()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.aciklama)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.id })*@
+                    </td>
+                </tr>}
+
+        </table>
+    </div>
 
 @section scripts{
     <link href="~/Content/themes/base/all.css" rel="stylesheet" />
@@ -61,11 +79,14 @@
     <script type="text/javascript">
         $(function () {
             $.ajaxSetup({ cache: false });
+
+
+
             //$('.dialogLink').makeDialog();
             $('#ekle').MakeDialogForm({
                 id: 'btnekle',//butonid
                 text: 'Yeni Ekle',
-                url: '@Url.Action("Create","ImzaTakip")' ,
+                url: '@Url.Action("Create","ImzaTakip")',
                 title: 'Yeni Takip Oluştur',
                 updateurl: '@Url.Action("Index","ImzaTakip")',
                 bclass: 'btn btn-info',

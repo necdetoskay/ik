@@ -1,0 +1,37 @@
+ERROR 2018-12-07 10:30:55,158 14222ms PersonelController     _MerkezAvanslarý   - Could not find file 'Z:\Source\Repos\proje\ik\ik\Content\Report\Avans\__fbfd7613-4196-4c69-b019-d5076cd7b0de.xls'.
+ERROR 2018-12-11 14:57:16,797 823036ms RaporController        PersonelDurumRapor - SÝBEL UZUN
+ERROR 2018-12-11 14:57:16,871 823110ms RaporController        PersonelDurumRapor - HURÝÞEN ERGEZER
+ERROR 2018-12-11 14:57:16,901 823140ms RaporController        PersonelDurumRapor - SONGÜL EVCÝ
+ERROR 2018-12-11 14:57:16,950 823189ms RaporController        PersonelDurumRapor - ARÝF AYTEPE
+ERROR 2018-12-11 14:57:16,988 823227ms RaporController        PersonelDurumRapor - CAVÝT ÜZMEZ
+ERROR 2018-12-11 14:57:17,019 823258ms RaporController        PersonelDurumRapor - UMUT GÝRESUNLU
+ERROR 2018-12-11 14:57:17,068 823307ms RaporController        PersonelDurumRapor - MEDÝNE YILDIZ
+ERROR 2018-12-11 14:57:17,099 823338ms RaporController        PersonelDurumRapor - MEHTAP ERGÜN BAÞARAN
+ERROR 2018-12-11 14:57:17,130 823369ms RaporController        PersonelDurumRapor - MERT ÝBRAHÝM TÜRKMEN
+ERROR 2018-12-11 15:03:01,402  3235ms RaporController        PersonelDurumRapor - SÝBEL UZUN
+ERROR 2018-12-11 15:03:01,472  3305ms RaporController        PersonelDurumRapor - HURÝÞEN ERGEZER
+ERROR 2018-12-11 15:03:01,503  3336ms RaporController        PersonelDurumRapor - SONGÜL EVCÝ
+ERROR 2018-12-11 15:03:01,534  3367ms RaporController        PersonelDurumRapor - ARÝF AYTEPE
+ERROR 2018-12-11 15:03:01,583  3416ms RaporController        PersonelDurumRapor - CAVÝT ÜZMEZ
+ERROR 2018-12-11 15:03:01,614  3447ms RaporController        PersonelDurumRapor - UMUT GÝRESUNLU
+ERROR 2018-12-11 15:03:01,646  3479ms RaporController        PersonelDurumRapor - MEDÝNE YILDIZ
+ERROR 2018-12-11 15:03:01,694  3527ms RaporController        PersonelDurumRapor - MEHTAP ERGÜN BAÞARAN
+ERROR 2018-12-11 15:03:01,724  3557ms RaporController        PersonelDurumRapor - MERT ÝBRAHÝM TÜRKMEN
+ERROR 2018-12-11 15:04:57,853  1525ms RaporController        PersonelDurumRapor - SÝBEL UZUN
+ERROR 2018-12-11 15:04:57,902  1574ms RaporController        PersonelDurumRapor - HURÝÞEN ERGEZER
+ERROR 2018-12-11 15:04:57,936  1608ms RaporController        PersonelDurumRapor - SONGÜL EVCÝ
+ERROR 2018-12-11 15:04:57,987  1659ms RaporController        PersonelDurumRapor - ARÝF AYTEPE
+ERROR 2018-12-11 15:04:58,017  1689ms RaporController        PersonelDurumRapor - CAVÝT ÜZMEZ
+ERROR 2018-12-11 15:04:58,051  1723ms RaporController        PersonelDurumRapor - UMUT GÝRESUNLU
+ERROR 2018-12-11 15:04:58,238  1910ms RaporController        PersonelDurumRapor - MEDÝNE YILDIZ
+ERROR 2018-12-11 15:04:58,287  1959ms RaporController        PersonelDurumRapor - MEHTAP ERGÜN BAÞARAN
+ERROR 2018-12-11 15:04:58,319  1991ms RaporController        PersonelDurumRapor - MERT ÝBRAHÝM TÜRKMEN
+ERROR 2018-12-11 15:05:33,741 37413ms RaporController        PersonelDurumRapor - SÝBEL UZUN
+ERROR 2018-12-11 15:05:33,788 37460ms RaporController        PersonelDurumRapor - HURÝÞEN ERGEZER
+ERROR 2018-12-11 15:05:33,818 37490ms RaporController        PersonelDurumRapor - SONGÜL EVCÝ
+ERROR 2018-12-11 15:05:33,849 37521ms RaporController        PersonelDurumRapor - ARÝF AYTEPE
+ERROR 2018-12-11 15:05:33,898 37570ms RaporController        PersonelDurumRapor - CAVÝT ÜZMEZ
+ERROR 2018-12-11 15:05:33,930 37602ms RaporController        PersonelDurumRapor - UMUT GÝRESUNLU
+ERROR 2018-12-11 15:05:33,963 37635ms RaporController        PersonelDurumRapor - MEDÝNE YILDIZ
+ERROR 2018-12-11 15:05:34,012 37684ms RaporController        PersonelDurumRapor - MEHTAP ERGÜN BAÞARAN
+ERROR 2018-12-11 15:05:34,043 37715ms RaporController        PersonelDurumRapor - MERT ÝBRAHÝM TÜRKMEN

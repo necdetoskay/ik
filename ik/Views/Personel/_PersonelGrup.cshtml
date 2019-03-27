@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ik.Models.Personel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sicilno)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.adsoyad)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.sicilno)
+            </td>
+        </tr>
+    }
+</table>

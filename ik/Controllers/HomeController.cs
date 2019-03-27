@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 using ik.Models;
 using Newtonsoft.Json;
@@ -12,6 +15,12 @@ namespace ik.Controllers
     {
         public ActionResult Index()
         {
+            //"cNxnPxplYwOwHK1G+V37ak/9ERDOI00NK2AQ0qjTTDhEMQJLgdVk7g=="
+           
+            //var m=new MaasHesap(MaaşHesapTip.BrüttenNete);
+            //m.Tutar = 4494.64M;
+
+
             return View();
         }
 

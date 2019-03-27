@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ik.Models;
@@ -24,12 +25,110 @@ namespace ik.Controllers
             return View(liste);
         }
 
+        public ActionResult AltCreate(int? parentid)
+        {
+            var gorev = new Takip
+            {
+               parentid= parentid
+            };
+            return PartialView(gorev);
+        }
+        [HttpPost]
+        public ActionResult AltCreate(Takip model, int? parentid)
+
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.sontarih = db.Takips.FirstOrDefault(d => d.id == parentid).sontarih;
+                    model.ekleme=DateTime.Now;
+                    db.Takips.Add(model);
+                    db.SaveChanges();
+                  
+
+                    return Json(new { success = true, data = new { id = model.id, parentid = model.parentid, ad = model.aciklama } });
+                }
+                catch (Exception xx)
+                {
+
+                }
+            }
+            return PartialView(model);
+        }
+
+
+        private void RemoveTakipRecords(Takip takip)
+        {
+            if (takip.Takip1.Count <1)
+            {
+                db.Takips.Remove(takip);
+                db.SaveChanges();}
+            else
+            {
+                while (takip.Takip1.Any())
+                {
+                    RemoveTakipRecords(takip.Takip1.First());
+                }
+                //foreach (var t1 in takip.Takip1.ToList())
+                //{
+                    
+                //}
+            }
+        }
+        public ActionResult GorevSil(int id)
+        {
+            try
+            {
+                //alt kayıt yoksa sil
+                //alt kayıt varsa kendini çağır
+                var gorev = db.Takips.FirstOrDefault(c => c.id == id);
+                RemoveTakipRecords(gorev);//db.Takips.Remove(gorev);
+                //db.SaveChanges();
+                return Json(new { Success = true, data = new { id } }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: Takip/Create
         public ActionResult Create()
         {
             //if (User.Identity.Name != @"KENTKONUT\noskay")
             //    return RedirectToAction("Index");
+            ViewBag.GorevListe = new SelectList(db.Gorev_Detay.Where(c => c.parentID == null), "id", "ad");
+
             return PartialView();
+        }
+
+
+
+        private void GorevRecursive(Gorev_Detay gorev,Takip takip)
+        {
+            if (gorev.Gorev_Detay1.Any())
+            {
+                foreach (var got in gorev.Gorev_Detay1)
+                {
+                   
+                    var tak = new Takip
+                    {
+                        aciklama = got.ad,
+                        ekleme = DateTime.Now,
+                        gostermegunu = takip.gostermegunu,
+                        sontarih = takip.sontarih,
+                        sira = takip.sira
+                       
+                    };
+                    takip.Takip1.Add(tak);
+                    GorevRecursive(got, tak);
+                }
+            }
+            else
+            {
+                
+            }
         }
 
         // POST: Takip/Create
@@ -42,6 +141,16 @@ namespace ik.Controllers
                 if (ModelState.IsValid)
                 {
                     db.Takips.Add(takip);
+                    if (takip.GorevListe != null)
+                    {
+                        var liste = db.Gorev_Detay.FirstOrDefault(c => c.id == takip.GorevListe);
+                        if (liste != null)
+                        {
+                            GorevRecursive(liste,takip);
+                        }
+                        //tüm alt görevleri ekle
+                    }
+                   
                     db.SaveChanges();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
@@ -114,6 +223,38 @@ namespace ik.Controllers
             return RedirectToAction("Index");
         }
 
+        private void GorevTamamla(Takip takip)
+        {
+            if (takip.Takip1.Any())
+            {
+                
+                foreach (var t in takip.Takip1)
+                {
+                    GorevTamamla(t);
+                }
+                takip.tamamlanma = DateTime.Now;
+                db.SaveChanges();
+            }
+            else
+            {
+                takip.tamamlanma = DateTime.Now;
+                db.SaveChanges();
+            }
+        }
+        public JsonResult _Tamamla(int id)
+        {
+            var takip = db.Takips.SingleOrDefault(c => c.id == id);
+            if (takip != null)
+            {
+                GorevTamamla(takip);
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         public JsonResult _RutinOzet(int limit)
         {
             var date = DateTime.Now.Date.AddDays(10);
@@ -123,16 +264,31 @@ namespace ik.Controllers
         }
 
 
+        //private bool RecursiveRutin(Takip t)
+        //{
+        //    if (t.Takip1.Any())
+        //    {
+        //        foreach (var t1 in t.Takip1.ToList())
+        //        {
+        //            RecursiveRutin(t1);
+        //        }
+        //    }
+        //    if (t.tamamlanma != null) return true;
+
+        //}
+
         public ActionResult RutinOzet(int limit)
         {
-            var date = DateTime.Now.Date.AddDays(10);
+            //var date = DateTime.Now.Date.AddDays(10);
             var liste =
                 db.Takips.Where(c => c.tamamlanma == null).OrderBy(c => c.sontarih);//.Take(limit);
+           
+
 
             return PartialView(liste);
         }
 
-        public JsonResult RutinTamamla(int id)
+        public ActionResult RutinTamamla(int id)
         {
             var takip = db.Takips.SingleOrDefault(c => c.id == id);
             if (takip != null)
@@ -140,8 +296,10 @@ namespace ik.Controllers
                 takip.tamamlanma = DateTime.Now;
                 db.SaveChanges();
             }
+            var liste =
+             db.Takips.Where(c => c.tamamlanma == null).OrderBy(c => c.sontarih);//.Take(limit);
 
-            return _RutinOzet(5);
+            return PartialView("RutinOzet", liste);
         }
 
         public ActionResult RutinEkle()
@@ -156,13 +314,31 @@ namespace ik.Controllers
         }
 
 
+        private void RecursiveSil(Takip takip)
+        {
+            if (takip.Takip1.Any())
+            {
+                foreach (var t in takip.Takip1.ToList())
+                {
+                    RecursiveSil(t);
+                 
+                }
+                db.Takips.Remove(takip);
+
+            }
+            else
+            {
+                db.Takips.Remove(takip);
+            }
+        }
 
         public ActionResult _RutinSil(int id)
         {
             var kayıt = db.Takips.FirstOrDefault(c => c.id == id);
             if (kayıt != null)
             {
-                db.Takips.Remove(kayıt);
+                RecursiveSil(kayıt);
+               // db.Takips.Remove(kayıt);
                 try
                 {
                     db.SaveChanges();
@@ -181,6 +357,7 @@ namespace ik.Controllers
         public ActionResult AltGorevler(int id)
         {
             var liste = db.Takips.Where(c => c.parentid == id).ToList();
+            ViewBag.parentID = id;
             return View(liste);
         }
 
@@ -256,6 +433,44 @@ namespace ik.Controllers
                 return Json(new { Success = false },
                   JsonRequestBehavior.AllowGet);
             }
+        }
+
+
+
+
+        public ActionResult GorevEkle(int parentid )
+        {
+            var takip = new Takip {parentid = parentid,sontarih = DateTime.Now,gostermegunu = 3};
+            foreach (var takipp in db.Takips.Where(c=>c.parentid==parentid))
+            {
+                //tümünü döngüye sok
+
+            }
+
+
+            //ViewBag.IsListe =
+           return PartialView(takip);
+        }
+        [HttpPost]
+        public ActionResult GorevEkle(int parentid,Takip takip)
+        {
+            takip.ekleme=DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Takips.Add(takip);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+                catch (Exception xx)
+                {
+                    return Json(new { success = false });
+                }
+            }
+
+            return Json(new { success = false });
+
         }
     }
 }

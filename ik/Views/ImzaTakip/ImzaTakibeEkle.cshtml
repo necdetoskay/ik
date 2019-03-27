@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ik.Models.Personel>
+
+@{
+    ViewBag.Title = "ImzaTakibeEkle";
+}
+
+<div>
+    @Html.Hidden("takipid",(int)@ViewBag.TakipId)
+    <div class="form-group col-md-4">
+        <label class="" for="personel">Personeller</label>
+        <select id="personel" class="form-control" multiple="multiple"></select>
+    </div>
+    <input type="button" id="kaydet" value="Kaydet"/>
+</div>
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet"/>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var personel = $('#personel');
+            $('#kaydet').on('click', function() {
+
+                console.log(personel.val());
+                $.ajax({
+                    
+                });
+
+
+            });
+
+            var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste")' + '/?takipid=' + @ViewBag.TakipId;
+            console.log(personelbirimlisteurl);
+         
+            $.ajax({
+                url: personelbirimlisteurl,
+                type: 'GET',
+                data: {
+                   
+                },
+                success: function(result) {
+                    if (result.Success === true) { //d.adsoyad,d.id,d.mikroid,d.birim.birimad
+                        $.each(result.Data, function(ig, itemg) {
+                            var group = $('<optgroup class="' + ig + '" label="' + itemg.Birim + '"></optgroup>');
+                            $.each(itemg.Personeller, function(i, item) {
+                                group.append('<option value="' + item.id + '">' + item.adsoyad + '</option>');
+                            });
+
+
+                            personel.append(group);
+                        });
+                        personel.multiselect({
+                            maxHeight: 500,
+                            includeSelectAllOption: true,
+                            selectAllText: 'Tümünü Seç',
+                            nonSelectedText: 'Personel Seçiniz',
+                            allSelectedText: 'Tümü Seçildi',
+                            enableClickableOptGroups: true,
+                            enableFiltering: true
+
+                        });
+                    }
+                }
+
+            });
+        })
+    </script>
+}

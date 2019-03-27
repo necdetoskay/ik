@@ -30,8 +30,7 @@ namespace ik.Controllers
                     .ForEach(d => liste.Add(new  { Ad = d.per_adi, Soyad = d.per_soyadi, SicilNo = d.per_kod, Ihale = "KentMakine" }));
 
             }
-            using (var makine=new kentihaleEntities())
-            {
+            using (var makine=new kentihaleEntities()){
                 makine.PERSONELLERs.Where(c => c.per_adi.Contains(term))
                     .ForEach(d => liste.Add(new  { Ad = d.per_adi, Soyad = d.per_soyadi, SicilNo = d.per_kod, Ihale = "KentIhale" }));
 

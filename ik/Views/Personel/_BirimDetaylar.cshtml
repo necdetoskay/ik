@@ -1,0 +1,77 @@
+﻿
+@model IEnumerable<ik.Models.birim>
+
+@{
+    ViewBag.Title = "Birim Personel Sayıları";
+    var aktif = 0;
+    var pasif = 0;
+    var aktiftop = 0;
+    var pasiftop = 0;
+}
+
+<h2>BirimDetaylar</h2>
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.fullad)
+        </th>
+        <th>Aktif</th>
+        <th>Pasif</th>
+    </tr>
+
+    @foreach (var item in Model.GroupBy(c => c.fullad))
+    {
+        <tr>
+            @{
+                aktif = item.Sum(c => c.Personels.Count(d => d.cikistarihi == null));
+                pasif = item.Sum(c => c.Personels.Count(d => d.cikistarihi != null));
+                aktiftop += aktif;
+                pasiftop += pasif;
+            }
+            <td>
+                <a class="birimler" href="javascript:void(0)">@Html.DisplayFor(modelItem => item.Key)</a>
+
+            </td>
+            <td>
+                @aktif
+            </td>
+            <td>
+                @pasif
+            </td>
+        </tr>
+    }
+    <tfoot>
+    <tr>
+
+        <th>
+            TOPLAM
+        </th>
+        <th>@aktiftop</th>
+        <th>@pasiftop</th>
+    </tr>
+    </tfoot>
+</table>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.birimler').each(function () {
+                $(this).on('click', function () {
+                    var ad = $(this).text().split(' ').join('%20');
+                    var url = '@Url.Action("_BirimPersonelleri")' + '/?ad=' + ad;
+                    console.log(url);
+                    BootstrapDialog.show({
+                        message: $('<div></div>').load(url)
+                    });
+                });
+            });
+        })
+    </script>
+}

@@ -1,4 +1,10 @@
 ﻿(function ($) {
+    var ID = function () {
+        return '_' + Math.random().toString(36).substr(2, 12);
+    };
+
+  
+
     function wireUpForm(dialog, updateTargetId, updateUrl,complete) {
         $('form', dialog).submit(function () {
 
@@ -14,17 +20,20 @@
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
+                    console.log(result);
                     // Check whether the post was successful
                     if (result.success) {
+                        console.log(updateUrl);
                         console.log(result.success);
                         // Close the dialog 
                         $(dialog).dialog('close');
 
                         // Reload the updated data in the target div
                         $(updateTargetId).load(updateUrl);
-                        complete(result.data);
-                        //console.log(result.console);
+                        //complete(result.Data);
+                        console.log(result.Data);
                     } else {
+                        console.log("Dialog Form Post hatası");
                         // Reload the dialog to show model errors                    
                         $(dialog).html(result);
 
@@ -110,10 +119,11 @@
                         },
                         "İptal": function () { $(this).dialog('close'); }
                     }, open: function (event) {
-                        var height = $('#' + dialogId).find('#content').height() + 40;
-                        var width = $('#' + dialogId).find('#content').width();
-                        $('#' + dialogId).height(height);
-                        $('#' + dialogId).width(width);
+                        //var height = $('#' + dialogId).find('#content').height() + 40;
+                        //var width = $('#' + dialogId).find('#content').width()+40;
+                        ////console.log(width);
+                        //$('#' + dialogId).height(height);
+                        //$('#' + dialogId).width(width);
                         $('.ui-dialog-buttonpane').find('button:contains("İptal")').removeClass("ui-button").addClass('btn btn-danger');
                         $('.ui-dialog-buttonpane').find('button:contains("Kaydet")').removeClass("ui-button").addClass('btn btn-primary');
                     }

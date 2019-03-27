@@ -1,0 +1,208 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.Takip>
+@{
+    var sınıf = "";
+}
+<style>
+    .yesil {
+        background-color: yellowgreen;
+    }
+    /*.table > tr {border: 1px solid; }*/
+</style>
+<h2>@Model.FirstOrDefault().Takip2.aciklama  işlemleri</h2>
+@Html.Hidden("id", Model.FirstOrDefault().parentid)
+
+<div id="ekle"></div>
+@helper RenderRow(Takip item)
+{
+var tamam = item.tamamlanma;
+var any = item.Takip1.Any();
+    <tr data-id="@item.id" data-tt-id="@item.id" data-tt-parent-id="@(item.Takip2!=null?item.Takip2.id:0)" class="@(item.tamamlanma==null?"":"yesil")">
+        <td>@item.aciklama</td>
+        <td class="pull-right">
+            @if (!any)
+            {
+                if (tamam == null)
+                {
+                    <a class="tamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a>
+                    <a href="javascript:void(0);"><span class="glyphicon glyphicon-trash"></span></a>
+                }
+                else
+                {
+                    <a class="iptal" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"></span></a>
+                }
+            }
+            else
+            {
+                foreach (var subitem in item.Takip1)
+                {
+                    @RenderRow(subitem)
+                }
+            }
+        </td>
+    </tr>
+}
+
+
+
+<table id="example-basic-expandable" class="treetable table">
+    @foreach (var item in Model)
+    {
+        @RenderRow(item)
+    }
+
+</table>
+
+@section scripts{
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <link href="~/Content/jquery.treetable.css" rel="stylesheet" />
+    <link href="~/Content/jquery.treetable.theme.default.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.treetable.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var ID = function () {
+                return '_' + Math.random().toString(36).substr(2, 12);
+            };
+
+
+
+            $('#ekle').MakeDialogForm({
+                id: ID(),
+                text: 'Görev Ekle',
+                url: '@Url.Action("GorevEkle")' + '/?parentid=' + $('#id').val(),
+                title: 'Görev Ekle',
+                updateurl: '@Url.Action("AltGorevler")' + '/?id' + $('#id').val(),
+                bclass: 'btn btn-primary btn-sm',
+                targetid: 'Info',
+                width: '500',
+                height: '300',
+                complete: function (result) {
+
+                }
+            });
+
+
+            $("tr").hover(function () {
+                $(this).css("background", "yellow");
+            }, function () {
+                $(this).css("background", "");
+            });
+            $("#example-basic-expandable").treetable({ expandable: true });
+
+
+            $('.iptal').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt İptal Frrmu',
+                        message: 'İşlem İptal Edilsin mi?',
+                        btnCancelLabel: 'Vazgeç',
+                        btnOKLabel: 'İptal Et',
+                        callback: function (result) {
+                            if (result) {
+
+                                var li = item.closest("tr");
+                                var itemid = li.attr("data-id");
+                                $.ajax({
+                                    url: '@Url.Action("_TakipIptal")',
+                                    type: 'get',
+                                    data: {
+                                        id: itemid,
+                                        parentid: $('#id').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === true) {
+                                            window.location.href = '/Takip/AltGorevler/' + $('#id').val();
+                                        } else {
+                                            console.log("iptal başarısız");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+                });
+            });
+            $('.sil').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt Silme Formu',
+                        message: 'Kayıt Silinsin mi?',
+                        btnCancelLabel: 'Vazgeç',
+                        btnOKLabel: 'Sil',
+                        callback: function (result) {
+                            if (result) {
+
+                                var li = item.closest("tr");
+                                var itemid = li.attr("data-id");
+                                $.ajax({
+                                    url: '@Url.Action("_TakipSil")',
+                                    type: 'get',
+                                    data: {
+                                        id: itemid,
+                                        parentid: $('#id').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === true) {
+                                            window.location.href = '/Takip/AltGorevler/' + $('#id').val();
+                                        } else {
+                                            console.log("Silme başarısız");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+                });
+            });
+
+            $('.tamamla').each(function () {
+                var item = $(this);
+                item.on('click', function (e) {
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt Tamamlama Formu',
+                        message: 'İşlem Tamamlansın mı?',
+                        btnCancelLabel: 'Vazgeç',
+                        btnOKLabel: 'Tamamla',
+                        callback: function (result) {
+                            if (result) {
+                                var li = item.closest("tr");
+                                var itemid = li.attr("data-id");
+                                $.ajax({
+                                    url: '@Url.Action("_TakipTamamla")',
+                                    type: 'get',
+                                    data: {
+                                        id: itemid,
+                                        parentid: $('#id').val()
+                                    },
+                                    success: function (result) {
+                                        if (result.Success === true) {
+                                            window.location.href = '/Takip/AltGorevler/' + $('#id').val();
+                                        } else {
+                                            console.log("tamamlama başarısız");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        })
+    </script>
+}

@@ -112,5 +112,57 @@ namespace ik.Controllers
             }
             return PartialView(model);
         }
+
+        public ActionResult ImzaTakibeEkle(int takipid)
+        {
+            ViewBag.TakipId = takipid;
+            return View();
+        }
+
+        public JsonResult _imzatakippersonelliste(int takipid)
+        {
+            try
+            {
+                var liste = db.ImzaTakips.FirstOrDefault(c => c.id == takipid).ImzaTakipDetays.Select(d => new Personel
+                {
+                    id = d.personelID,
+                    adsoyad = d.Personel.adsoyad
+                });//dropdown için personel listesi oluştur, yukarıdaki listedekileri dropdown listesinden çıkart
+                var liste2 = db.Personels.Where(c => c.cikistarihi == null).ToList();
+
+                foreach (var olanlar in liste)
+                {
+                    foreach (var olmayanlar in liste2)
+                    {
+                        if (olanlar.id == olmayanlar.id)
+                        {
+                            liste2.Remove(olmayanlar);
+                            break;
+                        }
+                    }
+                }
+
+            
+
+
+                var sonliste = liste2.GroupBy(e => e.birim.birimad).Select(d => new
+                {
+                    Birim = d.Key,
+                    Personeller = d.Select(f => new
+                    {
+                        f.adsoyad,
+                        f.id,
+                        f.mikroid,
+                    })
+
+                    //d.birim.birimad
+                }).ToList();
+                return Json(new { Success = true, Data = sonliste }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                return Json(new { Success = false, Data = x.InnerException }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

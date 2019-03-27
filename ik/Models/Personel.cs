@@ -30,6 +30,7 @@ namespace ik.Models
             this.PersonelOzlukEvraks = new HashSet<PersonelOzlukEvrak>();
             this.Rapors = new HashSet<Rapor>();
             this.Yizins = new HashSet<Yizin>();
+            this.PersonelUcrets = new HashSet<PersonelUcret>();
         }
     
         public int id { get; set; }
@@ -46,7 +47,6 @@ namespace ik.Models
         public Nullable<System.DateTime> dogumtarihi { get; set; }
         public Nullable<System.DateTime> cikistarihi { get; set; }
         public Nullable<int> kadro { get; set; }
-        public Nullable<int> calismadonem { get; set; }
         public string iban { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -63,7 +63,6 @@ namespace ik.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Izin> Izins { get; set; }
         public virtual Kadro Kadro1 { get; set; }
-        public virtual PersonelIhaleDonemleri PersonelIhaleDonemleri { get; set; }
         public virtual PersonelDetay PersonelDetay { get; set; }
         public virtual PersonelDevir PersonelDevir { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -80,5 +79,7 @@ namespace ik.Models
         public virtual ICollection<Rapor> Rapors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Yizin> Yizins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonelUcret> PersonelUcrets { get; set; }
     }
 }

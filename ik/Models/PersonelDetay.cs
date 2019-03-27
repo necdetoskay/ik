@@ -24,11 +24,13 @@ namespace ik.Models
         public Nullable<bool> sirketarac { get; set; }
         public string mailadres { get; set; }
         public Nullable<int> sgkdosya { get; set; }
+        public Nullable<int> meslek { get; set; }
     
         public virtual Gorev Gorev1 { get; set; }
         public virtual Lokasyon Lokasyon1 { get; set; }
         public virtual Tahsil Tahsil { get; set; }
         public virtual SgkDosya SgkDosya1 { get; set; }
         public virtual Personel Personel { get; set; }
+        public virtual Meslek Meslek1 { get; set; }
     }
 }

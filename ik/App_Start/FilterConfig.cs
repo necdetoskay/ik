@@ -12,7 +12,7 @@ namespace ik
             {// TODO: Add your action filter's tasks here
 
                 // Log Action Filter call
-                if (DateTime.Now > new DateTime(2018, 12, 06))
+                if (DateTime.Now > new DateTime(2019, 04, 06))
                     filterContext.Result = new RedirectToRouteResult(
                  new RouteValueDictionary{{ "controller", "Account" },
                                           { "action", "Login" }

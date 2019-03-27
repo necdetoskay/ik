@@ -5,8 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-@helper Kalan(IcralarVM icra)
+<h2>Index</h2>@helper Kalan(IcralarVM icra)
 {
     var kalan = icra.tutar - icra.Odenen;
     <span>@kalan</span>
@@ -14,14 +13,13 @@
 @helper Durum(IcralarVM icra)
 {
     var kalan = icra.tutar - icra.Odenen;
-    var durum = (kalan == 0 ? "TAMAMLANMIŞ" : (kalan==icra.tutar?"SIRADA":"DEVAM EDİYOR"));
+    var durum = ( kalan == 0 || icra.Durum  ? "TAMAMLANMIŞ" : (kalan==icra.tutar?"SIRADA":"DEVAM EDİYOR"));
 
     <span>@durum</span>
 }
 <p>
     @Html.ActionLink("Yeni İcra Dosyası Ekle", "Create", null, new { @class = "btn btn-primary" }).If(User.Identity.Name == @"KENTKONUT\noskay")
-</p>
-<table class="table">
+</p><table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.adsoyad)

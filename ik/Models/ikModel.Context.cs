@@ -74,8 +74,11 @@ namespace ik.Models
         public virtual DbSet<vergi_dilim_detay> vergi_dilim_detay { get; set; }
         public virtual DbSet<EtiketTanim> EtiketTanims { get; set; }
         public virtual DbSet<PersonelEtiket> PersonelEtikets { get; set; }
-        public virtual DbSet<Personel> Personels { get; set; }
         public virtual DbSet<Gorev_Detay> Gorev_Detay { get; set; }
         public virtual DbSet<Gorev_Detay_Not> Gorev_Detay_Not { get; set; }
+        public virtual DbSet<Personel> Personels { get; set; }
+        public virtual DbSet<Meslek> Mesleks { get; set; }
+        public virtual DbSet<PersonelUcret> PersonelUcrets { get; set; }
+        public virtual DbSet<kanunparametre> kanunparametres { get; set; }
     }
 }

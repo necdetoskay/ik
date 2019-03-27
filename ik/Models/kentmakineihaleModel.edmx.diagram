@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1b763a5533684062b55f6bb84ee72715" Name="Diagram1" ZoomLevel="12">
-        <EntityTypeShape EntityType="kentmakineihaleModel.PERSONELLER" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kentmakineihaleModel.PERSONELLER" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

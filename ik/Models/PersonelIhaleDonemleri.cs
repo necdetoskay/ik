@@ -14,19 +14,11 @@ namespace ik.Models
     
     public partial class PersonelIhaleDonemleri
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PersonelIhaleDonemleri()
-        {
-            this.Personels = new HashSet<Personel>();
-        }
-    
         public int id { get; set; }
         public int personelid { get; set; }
         public int ihaleid { get; set; }
     
         public virtual PersonelIhale PersonelIhale { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Personel> Personels { get; set; }
         public virtual Personel Personel { get; set; }
     }
 }

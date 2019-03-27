@@ -9,59 +9,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("styles", false)
-    <style type="text/css">
-        body {
-            /*padding-top: 1px;*/
-        }
-
-        .marginBottom-0 {
-            margin-bottom: 0;
-        }
-
-        .dropdown-submenu {
-            position: relative;
-        }
-
-            .dropdown-submenu > .dropdown-menu {
-                top: 0;
-                left: 100%;
-                margin-top: -6px;
-                margin-left: -1px;
-                -webkit-border-radius: 0 6px 6px 6px;
-                -moz-border-radius: 0 6px 6px 6px;
-                border-radius: 0 6px 6px 6px;
-            }
-
-            .dropdown-submenu > a:after {
-                display: block;
-                content: " ";
-                float: right;
-                width: 0;
-                height: 0;
-                border-color: transparent;
-                border-style: solid;
-                border-width: 5px 0 5px 5px;
-                border-left-color: #cccccc;
-                margin-top: 5px;
-                margin-right: -10px;
-            }
-
-            .dropdown-submenu:hover > a:after {
-                border-left-color: #555;
-            }
-
-            .dropdown-submenu.pull-left {
-                float: none;
-            }
-
-                .dropdown-submenu.pull-left > .dropdown-menu {
-                    left: -100%;
-                    margin-left: 10px;
-                    -webkit-border-radius: 6px 0 6px 6px;
-                    -moz-border-radius: 6px 0 6px 6px;
-                    border-radius: 6px 0 6px 6px;
-                }
-    </style>
+  
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top marginBottom-25" role="navigation">
@@ -86,10 +34,6 @@
                         <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale")</li>
                     </ul>
                 </li>
-
-
-
-
                 <li>@Html.ActionLink("PTakip", "GunlukPTakip", "PTakip", new { date = @DateTime.Now.ToShortDateString() }, null)</li>
 
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Staj İşlemleri <b class="caret"></b></a>
@@ -129,45 +73,6 @@
                             </ul>
                         </li>
 
-
-
-
-
-                        @*<li class="dropdown dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">İzin İşlemleri</a>
-                            <ul class="dropdown-menu">
-                                @*<li>@Html.ActionLink("Yıllık İzinler", "Create", "izin")</li>*@
-                        @*<li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin")</li>
-                            <li class="divider"></li>
-                            <li>@Html.ActionLink("Yarım Gün İZin", "YarimYillikİzin", "izin")</li>*@
-                        @*<li class="dropdown dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Dropdown Submenu Link 5.4.1</a></li>
-                                            <li><a href="#">Dropdown Submenu Link 5.4.2</a></li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown dropdown-submenu">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.3</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.1</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.2</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.3</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown dropdown-submenu">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.4</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.1</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.2</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.3</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.4</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                            </ul>
-                                                </li>*@
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Formlar</a>
                             <ul class="dropdown-menu">
@@ -200,15 +105,20 @@
                                 <li>@Html.ActionLink("Alınan Raporlar", "SaglikRapor", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
                                 <li>@Html.ActionLink("Avanslar", "Avanslar", "Personel")</li>
                                 <li>@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
-                                <li>@Html.ActionLink("IK Personel Ekle", "Create", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                <li>@Html.ActionLink("IK Personel Ekle", "Create", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li>@Html.ActionLink("Kan Grupları", "KanGrubu", "Mikro")</li>
                                 <li>@Html.ActionLink("Firma Bilgileri", "PersonelFirma", "Personel")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Tüm Personel Durumu", "TumPersonel", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                <li>@Html.ActionLink("Tüm Personel Durumu", "TumPersonel", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Personel Rapor Durumu", "RaporDurum", "Pdks")</li>
-                                @* <li>@Html.ActionLink("Alınan Raporlar(Hastalık)", "SaglikRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Görev Yerlerine Göre Dağılım", "_GörevYerleri", "Personel")</li>
+                                <li>@Html.ActionLink("Birimlere Göre Dağılım", "_BirimDetaylar", "Personel")</li>
+                                <li>@Html.ActionLink("Tahsil Durumuna Göre Dağılım", "_GenelTahsilDurumu", "Personel")</li>
+                                <li>@Html.ActionLink("Mesleklere Göre Dağılım", "_GenelMeslekDurumu", "Personel")</li>
+                                <li>@Html.ActionLink("Sgk Dosyalarına Göre Dağılım", "_GenelSgkDosyaDurumu", "Personel")</li>
                             </ul>
                         </li>
 
@@ -216,32 +126,18 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Raporlar</a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Giriş Çıkış Raporları", "Raporlar", "Rapor")</li>
-                                <li>@Html.ActionLink("Personel Giriş Çıkış", "PersonelGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Departman Bazında Giriş Çıkış", "DepartmanGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                                <li>@Html.ActionLink("Personel Giriş Çıkış", "PersonelGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Departman Bazında Giriş Çıkış", "DepartmanGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li>@Html.ActionLink("Genel Personel Durumu", "PersonelDurum", "Rapor")</li>
-                                @*<li class="dropdown dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Özlük Dosyası İşlemleri</a>
-
-
-                                        <ul class="dropdown-menu">
-                                            <li>@Html.ActionLink("Personel Özlük İşlemleri", "Index", "PersonelOzlukDosya")</li>
-                                            <li>@Html.ActionLink("Özlük Evrakları", "GrupEvrakEkle", "PersonelOzlukDosya")</li>
-                                        </ul>
-                                    </li>*@
-
-
-                                @*<li>@Html.ActionLink("Avanslar", "Avanslar", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                    <li>@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
-                                    <li>@Html.ActionLink("IK Personel Ekle", "Create", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                    <li>@Html.ActionLink("Kan Grupları", "KanGrubu", "Mikro")</li>
-                                    <li>@Html.ActionLink("Firma Bilgileri", "PersonelFirma", "Personel")</li>
-                                    <li class="divider"></li>
-                                    <li>@Html.ActionLink("Tüm Personel Durumu", "TumPersonel", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
+                                <li>@Html.ActionLink("Genel Personel Durum Raporu", "PersonelDurumRapor", "Rapor")</li>
+                              
                             </ul>
                         </li>
 
                         <li>@Html.ActionLink("Yönetim Denetim Kurulu", "Index", "Kuruls")</li>
                         <li>@Html.ActionLink("Etiket Yönetimi", "Index", "Etiket")</li>
+                        <li>@Html.ActionLink("Görev Listeleri", "Index", "Gorev")</li>
+
 
                     </ul>
                 </li>
@@ -250,153 +146,18 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maaş İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                    
                         <li>@Html.ActionLink("Maaş Kontrol", "MaasKontrol", "Puantaj")</li>
-                        @*<li>@Html.ActionLink("Stajer Listesi", "Index", "Staj")</li>
-                        <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj")</li>*@
+                        <li>@Html.ActionLink("Maaş Hesaplama", "_MaasHesap", "Puantaj")</li>
                     </ul>
                 </li>
 
 
             
-    @*<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Dropdown Link 1</a></li>
-                            <li><a href="#">Dropdown Link 2</a></li>
-                            <li><a href="#">Dropdown Link 3</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown dropdown-submenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Link 4</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Dropdown Submenu Link 4.1</a></li>
-                                    <li><a href="#">Dropdown Submenu Link 4.2</a></li>
-                                    <li><a href="#">Dropdown Submenu Link 4.3</a></li>
-                                    <li><a href="#">Dropdown Submenu Link 4.4</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown dropdown-submenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Link 5</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Dropdown Submenu Link 5.1</a></li>
-                                    <li><a href="#">Dropdown Submenu Link 5.2</a></li>
-                                    <li><a href="#">Dropdown Submenu Link 5.3</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Dropdown Submenu Link 5.4.1</a></li>
-                                            <li><a href="#">Dropdown Submenu Link 5.4.2</a></li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown dropdown-submenu">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.3</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.1</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.2</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.3</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown dropdown-submenu">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.4</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.1</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.2</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.3</a></li>
-                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.4</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>*@
+    
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("I.K.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-
-                        <li>@Html.ActionLink("Personel Takip", "Index", "PTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                        <li class=" dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                İmza Takip
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("İmza Listesi", "Index", "ImzaTakip")</li>
-                                <li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                            </ul>
-                        </li>
-                        <li>@Html.ActionLink("Grup Tanım", "Index", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-
-                        <li class=" dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                İzin İşlemleri
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Yıllık İzinler", "Index", "izin")</li>
-                                <li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin")</li>
-                            </ul>
-                        </li>
-
-                        <li class=" dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Rutin İşler
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Rutin İşler", "Index", "Takip")</li>
-                            </ul>
-                        </li>
-                        <li class=" dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Personel İşlemleri
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Avanslar", "Avanslar", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
-                                <li>@Html.ActionLink("IK Personel Ekle", "Create", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Kan Grupları", "KanGrubu", "Mikro")</li>
-                                <li>@Html.ActionLink("Personel Özlük İşlemleri", "Index", "PersonelOzlukDosya")</li>
-                            </ul>
-                        </li>
-
-
-                        <li class=" dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                KENT KONUT
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Avans Talep Formu", "AvansForm", "Personel")</li>
-                                <li>@Html.ActionLink("Mesai Onay Belgesi", "MesaiOnayBelge", "Personel")</li>
-                                <li>@Html.ActionLink("Taşeron Personel", "Index", "Taseron").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                                <li>@Html.ActionLink("Taşeron İzin Formu", "IzinFormu", "Taseron")</li>
-                                <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-
-                            </ul>
-                        </li>
-
-
-                    </ul>
-                    <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
-                </div>
-            </div>
-        </div>*@
+    
     <div class="container body-content" style="margin-top:25px">
         <div id="Info">
             @RenderBody()

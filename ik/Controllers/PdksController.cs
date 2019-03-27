@@ -131,14 +131,12 @@ namespace ik.Controllers
                         Console.WriteLine(ex.Message); return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
                     }
 
-                }
-                db.Close();
+                }db.Close();
             }
             return Json(new { Success = true, izinid }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult PdksIzinGir(Guid mikroid, int izinyil, string baslangic, string bitis, string aciklama)
+        [HttpPost]public JsonResult PdksIzinGir(Guid mikroid, int izinyil, string baslangic, string bitis, string aciklama)
         {
             using (var ik = new ikEntities())
             {

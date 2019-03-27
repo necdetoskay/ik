@@ -49,7 +49,7 @@
         <EntityTypeShape EntityType="ikModel.vergi_dilim_detay" Width="1.5" PointX="13.625" PointY="13.875" />
         <AssociationConnector Association="ikModel.FK__vergi_dil__dilim__6CC31A31" />
         <AssociationConnector Association="ikModel.FK__Takip__parentid__4850AF91" />
-        <EntityTypeShape EntityType="ikModel.Personel" Width="1.5" PointX="21.125" PointY="4.5" />
+        <EntityTypeShape EntityType="ikModel.Personel" Width="1.5" PointX="3" PointY="11.625" />
         <AssociationConnector Association="ikModel.FK__Avanslar__person__03F0984C" />
         <AssociationConnector Association="ikModel.FK__birim__birimAmir__208CD6FA" />
         <AssociationConnector Association="ikModel.FK__personel__birimi__4CA06362" />
@@ -57,14 +57,18 @@
         <AssociationConnector Association="ikModel.FK__Icralar__persone__17036CC0" />
         <AssociationConnector Association="ikModel.FK__Izin__personelid__656C112C" />
         <AssociationConnector Association="ikModel.FK__Personel__kadro__0A688BB1" />
-        <AssociationConnector Association="ikModel.FK__Personel__calism__336AA144" />
         <AssociationConnector Association="ikModel.FK__PersonelD__perso__69C6B1F5" />
         <AssociationConnector Association="ikModel.FK__PersonelD__perso__74AE54BC" />
         <AssociationConnector Association="ikModel.FK__PersonelF__perso__756D6ECB" />
         <AssociationConnector Association="ikModel.FK__PersonelG__perso__6EF57B66" />
         <AssociationConnector Association="ikModel.FK__PersonelI__perso__2EA5EC27" />
         <AssociationConnector Association="ikModel.FK__PersonelO__perso__3587F3E0" />
-      </Diagram>
+        <EntityTypeShape EntityType="ikModel.Meslek" Width="1.5" PointX="14.375" PointY="0.875" />
+        <AssociationConnector Association="ikModel.FK__PersonelD__mesle__3CA9F2BB" />
+        <EntityTypeShape EntityType="ikModel.PersonelUcret" Width="1.5" PointX="5.25" PointY="19.375" />
+        <AssociationConnector Association="ikModel.FK__PersonelU__perso__63C3BFDC" />
+        <EntityTypeShape EntityType="ikModel.kanunparametre" Width="1.5" PointX="16.375" PointY="0.75" />
+        </Diagram>
       <Diagram DiagramId="9554967d1fab4efc8edd605db57ffc82" Name="staj" ZoomLevel="74" >
         <EntityTypeShape EntityType="ikModel.Staj_Bolum" Width="1.5" PointX="3" PointY="1.625" />
         <EntityTypeShape EntityType="ikModel.Staj_Evrak" Width="1.5" PointX="5.25" PointY="5.75" />

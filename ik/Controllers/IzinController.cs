@@ -24,7 +24,6 @@ namespace ik.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
-
         // GET: Izin
         public ActionResult Index()
         {
@@ -535,8 +534,7 @@ namespace ik.Controllers
             return PartialView(izin);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult _YarimIzinEkle(int id, YarimIzinEkleVM izin, int izinid = 0)
+        public JsonResult _YarimIzinEkle(int id, YarimIzinEkleVM izin, int izinid = 0)
         {
 
             StringBuilder cons = new StringBuilder();
@@ -561,11 +559,12 @@ namespace ik.Controllers
                     db.Yizins.Add(yi);
                     db.SaveChanges();
 
-                    //YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
+                   YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
+                   return Json(new { success = true, Data = yi, console = "_YarimIzinEkle" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    //eski kaydı seç
+
                     yi = db.Yizins.FirstOrDefault(c => c.id == izin.izinID);
                     yi.YizinDetays.Add(new YizinDetay
                     {
@@ -577,17 +576,17 @@ namespace ik.Controllers
                     yi.mikrokayit = true;
                     yi.YizinDetays.ForEach(c => cons.AppendLine(c.belgesayi));
                     db.SaveChanges();
-                   
+
                     //YarimizniPdksMazeretGir(personel.pdksid.Value,izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                     //pdks ye yarım izni mazeret izni olarak gir
+                    return Json(new { success = true, Data = yi, console = "_YarimIzinEkle" }, JsonRequestBehavior.AllowGet);
                 }
 
-
-                return Json(new { success = true, console = cons.ToString() });
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception x)
             {
-                return Json(new { success = false });
+                return Json(new { success = false },JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -601,7 +600,7 @@ namespace ik.Controllers
                     db.Open();
                 com.CommandText = string.Format(
                    "insert into personel_izin (personel_id,tatil_id,tarih,gidis_saat,gelis_saat,saatlik,aciklama,otoizin)" +
-                    " values({0},{1},'{2}',{3},{4},{5},'{6}',{7})", pdksid,9,tarih.ToString("yyyy-M-d"),gidis,gelis,1,string.Format("{0} IZNINDEN YARIM GUN",izinyil),0);
+                    " values({0},{1},'{2}','{3}','{4}',{5},'{6}',{7})", pdksid,9,tarih.ToString("yyyy-M-d"),gidis,gelis,1,string.Format("{0} IZNINDEN YARIM GUN",izinyil),0);
                var reader = com.ExecuteNonQuery();
                 db.Close();
                

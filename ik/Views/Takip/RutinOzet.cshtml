@@ -71,24 +71,28 @@
                             //SİLİNİYOR LOADİNG GÖSTER
                             btn.closest('td').append('<span>    Siliniyor... <img style="height=30px" class="loading" src="~/Content/Loading_icon.gif" ></span>');
                             $.ajax({
-                                url: '@Url.Action("_TakipSil")',
+                                url: '@Url.Action("RutinTamamla")',
                                 type: 'GET',
                                 data: {
                                     'id': btn.attr('id')
                                 },
                                 success: function (result) {
-                                    if (result === true) {
+                                    var rutindiv = $('#rutindiv');
+                                   rutindiv.html(result);
+                                    //if (result === true) {
+                                    //    console.log("rutin özet tamamlanma success");
                                         $.notify({
                                             title: 'İşlem Durumu',
                                             message: 'İşlem Başarılı.'
                                         }, { type: 'success' });
-                                        btn.closest('tr').remove();
-                                    } else {
-                                        $.notify({
-                                            title: 'İşlem Durumu',
-                                            message: 'İşlem Başarısız.'
-                                        }, { type: 'error' });
-                                    }
+                                    //   // btn.closest('tr').remove();
+                                    //} else {
+                                    //    console.log("rutin özet tamamlanma fail");
+                                    //    $.notify({
+                                    //        title: 'İşlem Durumu',
+                                    //        message: 'İşlem Başarısız.'
+                                    //    }, { type: 'error' });
+                                    //}
                                 }
 
                             });

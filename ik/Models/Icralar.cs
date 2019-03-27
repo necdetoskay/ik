@@ -28,6 +28,8 @@ namespace ik.Models
         public decimal tutar { get; set; }
         public int personelid { get; set; }
         public string IBAN { get; set; }
+        public Nullable<bool> tamamlanma { get; set; }
+        public string not { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IcraOdeme> IcraOdemes { get; set; }

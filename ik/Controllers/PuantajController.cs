@@ -290,8 +290,68 @@ namespace ik.Controllers
 
             }, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// yüzde kaç zam aldım neden maaşım düştü diyen personel için hazırlanan
+        /// personelin maaşını kesintilerini göstermek için hazırlanıyor.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult _MaasHesap()
+        {
+            //ilk önce personel seçtir
+
+            return View();
+        }
+
+        /// <summary>
+        /// parametere alınan yıla ait bekar agisini geri döndürür
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult _Agi(int yil)
+        {
+            var fod =db.kanunparametres.FirstOrDefault(c =>c.yil==yil);
+            var agi = fod == null ? 0 : fod.agi;
+           
+            return Json(agi==null?0:agi, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// seçili personel için girilen bilgilere göre maaş hesapla
+        /// </summary>
+        /// <param name="id">personel ik id</param>
+        /// <param name="yil">hesaplama yılı</param>
+        /// <param name="agi">hesaplamada kullanılan agi tutarı</param>
+        /// <param name="dkgvm">varsa devreden kümülatif gelir vergisi matrahı</param>
+        /// <param name="baslangic">başlangıç ayı</param>
+        /// <param name="bitis">bitis ayı</param>
+        /// <returns></returns>
+        public ActionResult _MaaşHesapla(int id, int yil,decimal agi,decimal dkgvm,int baslangic,int bitis)
+        {
+            var asgariücret = db.kanunparametres.FirstOrDefault(c => c.yil == yil).brutasgari;
+            var istisnagun = db.kanunparametres.FirstOrDefault(c => c.yil == yil).yemekistisnagun;
+            var brütyemek= db.kanunparametres.FirstOrDefault(c => c.yil == yil ).brutyemek;
+            //asgari ücretten yemek istisna bul
+            //personel brüt ücretini bul yoksa mikrodan çek ve kaydı oluştur
+            //personel brüt yemek ücretini bul
+
+            //tüm hesaplam işlemleri burada yapılacak
+            throw new NotImplementedException();
+        }
     }
 
+    public class MAAS
+    {
+        public void NetHesapla(decimal brüt, bool yemek = false)
+        {
+            
+        }
+        //net hesapla
+    }
+
+    public class MassHesapDetay
+    {
+        //brut,skg,işsizlik,gelirvergisi,agi,toplam kesinti,net,yemek istisna
+    }
 
     public class MaasVM
     {

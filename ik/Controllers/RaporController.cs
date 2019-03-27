@@ -14,6 +14,7 @@ namespace ik.Controllers
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class RaporController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         PerkotekContext pdb = new PerkotekContext();
         ikEntities db = new ikEntities();
         protected override void Dispose(bool disposing)
@@ -252,7 +253,7 @@ namespace ik.Controllers
                 {
                     SicilNo = c.sicilno,
                     AdSoyad = c.adsoyad,
-                    Firma = c.PersonelIhaleDonemleri.PersonelIhale.Firma.firmaad,
+                    //Firma = c.PersonelIhaleDonemleri.PersonelIhale.Firma.firmaad,
                     Foto = c.PersonelDetay.thumb,
                     GorevYer = c.PersonelDetay.Lokasyon1.ad,
                     Kadro = c.Kadro1.ad,
@@ -324,8 +325,140 @@ namespace ik.Controllers
         }
 
 
-       
+        public ActionResult PersonelDurumRapor(bool birim=false,bool lokasyon=false,bool tahsil=false,bool gorev=false,bool meslek=false,bool isegiris=false
+            ,bool kidem=false)
+        {
+            var data = db.Personels.Where(c => c.cikistarihi == null & (c.kadro == 1 || c.kadro == 2)).Select(d=>new MaasNet
+            {
+                Personel=d.adsoyad,
+                TC=d.mikroid.Value,
+                Brüt=0,
+                Net=0
+            }).ToList();
+
+            try
+            {
+                using (var kent = new KENTEntities())
+                {
+                    foreach (var d in data)
+                    {
+                        d.Brüt =(int) kent.PERSONELLERs.FirstOrDefault(c => c.per_Guid==d.TC )
+                                .per_ucret.Value;
+                        d.Net = (int)MaasHesap(d.Brüt, 0, 0, 0).Net;
+                      // logger.Error(d.Personel);
+                    }
+                   
+                }
+              
+            }
+            catch (Exception ex)
+            {
+            }
+
+
+            return View(data);
+        }
+        public Hesap MaasHesap(
+            double brütmaaş,
+            double yemek,
+            double avans,
+            double bes,
+            double devgelvermatrah = 0,
+            double agi = 0,
+            int sgkgun = 30,
+            double mesai = 0)
+        {
+
+            if (sgkgun == 0)
+            {
+                return new Hesap
+                {
+                    Net = 0,
+                    DamgaVer = 0,
+                    GelirVergisi = 0,
+                    SGKPay = 0,
+                    İşsizlikPay = 0
+                };
+            }
+            var yemekistisna = 4.05;
+
+            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2018).vergi_dilim_detay.ToList();
+            brütmaaş = ((brütmaaş / 30) * sgkgun);// 4307.32m;
+            double brütyemek = 0;//Math.Round(sgkgun < 22 ? (350.0 / 22.0) * sgkgun : 350);
+
+
+
+
+
+            var yemekistisnatutar = yemekistisna * 22;
+            var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar + mesai, 2);
+            sgkmatrah = sgkmatrah > 15221.4 ? 15221.4 : sgkmatrah;
+
+            var sgkprim = Math.Round(sgkmatrah * 0.14, 2);
+            var işsizlikprim = Math.Round(sgkmatrah * 0.01, 2);
+            var damga = Math.Round((brütmaaş + brütyemek + mesai) * 0.00759, 2);
+            var gelirvergimatrah = Math.Round(brütmaaş + brütyemek + mesai - sgkprim - işsizlikprim, 2);
+            var kümülatif = Math.Round((decimal)(devgelvermatrah + gelirvergimatrah), 2);
+            var gelirvergisi = 0m;
+
+            var devgbmatrah = (decimal)devgelvermatrah;
+            for (int i = 0; i < dilim.Count; i++)
+            {
+                if (devgbmatrah > dilim[i].ust)
+                {
+
+                }
+                else
+                {
+                    if (kümülatif > dilim[i].ust)
+                    {
+                        var üdilim = (double)(kümülatif - dilim[i].ust);
+                        var üst = (üdilim * dilim[i + 1].oran) / 100;
+                        var alt = ((gelirvergimatrah - üdilim) * dilim[i].oran) / 100;
+                        gelirvergisi = (decimal)(alt + üst);
+                        gelirvergisi = Math.Round(gelirvergisi, 2);
+                        break;
+                        //iki dilim
+                    }
+                    else
+                    {
+                        //tek dilim
+                        gelirvergisi += (decimal)(gelirvergimatrah * dilim[i].oran) / 100;
+
+                        gelirvergisi = Math.Round(gelirvergisi, 2);
+                        break;
+                    }
+                }
+            }
+            //gelirvergisi hesapla
+            gelirvergisi -= (decimal)agi;
+
+            var net = brütmaaş + brütyemek - sgkprim - ((double)gelirvergisi) - damga - işsizlikprim;
+            return new Hesap
+            {
+                Net = Math.Round(net, 2),
+                DamgaVer = damga,
+                GelirVergisi = (double)gelirvergisi,
+                SGKPay = sgkprim,
+                İşsizlikPay = işsizlikprim
+            };
+        }
+
+
+
+
+
+
     }
+
+    public class MaasNet
+    {
+        public string Personel { get; set; }
+        public Guid TC { get; set; }
+        public int Brüt { get; set; }
+        public int Net { get; set; }
+    }
+
 
     public class PersonelListesiGetirVM
     {

@@ -32,6 +32,7 @@ namespace ik.Controllers
                 icradaire = c.icradaire,
                 tebligtarih = c.tebligtarih,
                 tutar = c.tutar,
+                Durum = c.tamamlanma.Value,
                 Odenen = c.IcraOdemes.Any()? c.IcraOdemes.Sum(d=>d.tutar):0
             });
             return View(liste);

@@ -96,7 +96,7 @@ namespace ik.Controllers
                                  select new { Ad = i.per_adi, Soyad = i.per_soyadi,
                                      //i.per_RECno,
                                      pi.pz_izin_tipi, pi.pz_pers_kod, Baslangic = pi.pz_baslangictarih, Bitis = pi.pz_gerceklesen_donus_tarihi, Gun = pi.pz_gun_sayisi, Aciklama = pi.pz_izin_aciklama }).
-                    Take(25);
+                    Take(250);
 
                     return Json(query.ToList(), JsonRequestBehavior.AllowGet);
                 }

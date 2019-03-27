@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "RutinListe";
-    var tarih =new DateTime(DateTime.Now.Year,DateTime.Now.Month+1,1).AddDays(-1);
+    var tarih = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1);
 }
 
 <h2>RutinListe</h2>
@@ -37,11 +37,20 @@
                         <th></th>
                     </tr>
 
-                    @foreach (var item in Model.Where(c => !c.tamamlanma.HasValue & c.sontarih < tarih).OrderBy(c => c.sontarih))
+                    @*@foreach (var item in Model.Where(c => !c.tamamlanma.HasValue & DateTime.Now.AddDays(c.gostermegunu) > c.sontarih).OrderBy(c => c.sontarih))*@
+                    @foreach (var item in Model.Where(c => !c.tamamlanma.HasValue & c.parentid==null).OrderBy(c => c.sontarih))
                     {
                         <tr>
                             <td>
+                               @if (item.Takip1.Any())
+                               {
+                                   @Html.ActionLink(item.aciklama,"AltGorevler",new {id=item.id},new {@class="btn btn-primary"})
+                               }
+                               else
+                               {
                                 @Html.DisplayFor(modelItem => item.aciklama)
+                               }
+                                
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.sontarih)

@@ -390,32 +390,12 @@
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("RutinOzet", "Takip")',
-                // url: '@Url.Action("_RutinOzet", "Takip")',
+            
                 data: {
                     'limit': 10
                 },
                 success: function (data) {
                     rutindiv.html(data);
-                    return;
-                    takip.empty();
-
-                    for (var i = 0; i < data.length; i++) {
-                        var product = data[i];
-                        var ek = "";
-                        if (moment(product.sontarih).isBefore(new Date(), 'day')) {
-                            ek = ' bgcolor="#FF0000">';
-                        } else {
-                            ek = ">";
-                        }
-                        takip.append("<tr" + ek + "<td><button type='button' class='btn btn-sm btn-primary' data-toggle='modal' data-rutinID='" + product.id + "' data-aciklama='" + product.aciklama + "' data-target='#myModal'>" + product.aciklama + "</button></td><td>"
-                            + moment(product.sontarih).format('DD-MM-YYYY') + "</td></tr>");
-                    }
-                    var element = $('#rutinis').children();
-
-                    element.each(function (i) {
-                        $(this).css('font-size', '8pt');
-                    });
-
                 },
                 done: function () {
                     takipload.toggle();

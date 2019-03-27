@@ -24,11 +24,11 @@ namespace ik.Controllers
         }
 
         // GET: Test
-        public async Task<ActionResult> Index()
-        {
-            var personels = db.Personels.Include(p => p.birim).Include(p => p.Kadro1).Include(p => p.PersonelIhaleDonemleri).Include(p => p.PersonelDetay).Include(p => p.PersonelDevir);
-            return View(await personels.ToListAsync());
-        }
+        //public async Task<ActionResult> Index()
+        //{
+        //    var personels = db.Personels.Include(p => p.birim).Include(p => p.Kadro1).Include(p => p.PersonelIhaleDonemleri).Include(p => p.PersonelDetay).Include(p => p.PersonelDevir);
+        //    return View(await personels.ToListAsync());
+        //}
 
         // GET: Test/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -72,7 +72,7 @@ namespace ik.Controllers
 
             ViewBag.birimid = new SelectList(db.birims, "id", "birimad", personel.birimid);
             ViewBag.kadro = new SelectList(db.Kadroes, "id", "ad", personel.kadro);
-            ViewBag.calismadonem = new SelectList(db.PersonelIhaleDonemleris, "id", "id", personel.calismadonem);
+            //ViewBag.calismadonem = new SelectList(db.PersonelIhaleDonemleris, "id", "id", personel.calismadonem);
             ViewBag.id = new SelectList(db.PersonelDetays, "personelid", "thumb", personel.id);
             ViewBag.id = new SelectList(db.PersonelDevirs, "personelID", "personelID", personel.id);
             return View(personel);
@@ -92,7 +92,7 @@ namespace ik.Controllers
             }
             ViewBag.birimid = new SelectList(db.birims, "id", "birimad", personel.birimid);
             ViewBag.kadro = new SelectList(db.Kadroes, "id", "ad", personel.kadro);
-            ViewBag.calismadonem = new SelectList(db.PersonelIhaleDonemleris, "id", "id", personel.calismadonem);
+            //ViewBag.calismadonem = new SelectList(db.PersonelIhaleDonemleris, "id", "id", personel.calismadonem);
             ViewBag.id = new SelectList(db.PersonelDetays, "personelid", "thumb", personel.id);
             ViewBag.id = new SelectList(db.PersonelDevirs, "personelID", "personelID", personel.id);
             return View(personel);
@@ -113,7 +113,7 @@ namespace ik.Controllers
             }
             ViewBag.birimid = new SelectList(db.birims, "id", "birimad", personel.birimid);
             ViewBag.kadro = new SelectList(db.Kadroes, "id", "ad", personel.kadro);
-            ViewBag.calismadonem = new SelectList(db.PersonelIhaleDonemleris, "id", "id", personel.calismadonem);
+            //ViewBag.calismadonem = new SelectList(db.PersonelIhaleDonemleris, "id", "id", personel.calismadonem);
             ViewBag.id = new SelectList(db.PersonelDetays, "personelid", "thumb", personel.id);
             ViewBag.id = new SelectList(db.PersonelDevirs, "personelID", "personelID", personel.id);
             return View(personel);
