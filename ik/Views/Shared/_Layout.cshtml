@@ -114,6 +114,8 @@
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Personel Rapor Durumu", "RaporDurum", "Pdks")</li>
                                 <li class="divider"></li>
+                                <li>@Html.ActionLink("Personel Eğitimleri", "Egitim", "PersonelOzlukDosya")</li>
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Görev Yerlerine Göre Dağılım", "_GörevYerleri", "Personel")</li>
                                 <li>@Html.ActionLink("Birimlere Göre Dağılım", "_BirimDetaylar", "Personel")</li>
                                 <li>@Html.ActionLink("Tahsil Durumuna Göre Dağılım", "_GenelTahsilDurumu", "Personel")</li>
@@ -143,13 +145,14 @@
                 </li>
                 <li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin")</li>
                 <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                <li class="dropdown">
+                <li>@Html.ActionLink("Toplu İşlem Takip", "Index", "Tasks")</li>
+                @*<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maaş İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>@Html.ActionLink("Maaş Kontrol", "MaasKontrol", "Puantaj")</li>
                         <li>@Html.ActionLink("Maaş Hesaplama", "_MaasHesap", "Puantaj")</li>
                     </ul>
-                </li>
+                </li>*@
 
 
             

@@ -50,17 +50,14 @@ namespace ik.Controllers
                              devgelvermatrah = Math.Round(pt.pt_devgvmatrah.Value, 2),
                              gvmatrah = Math.Round(pt.pt_gvmatrah.Value, 2),
                              brüt = Math.Round(pt.pt_brutucret.Value, 2),
-                             yemek = Math.Round(pt.pt_sosyrdm8.Value)
+                             yemek = Math.Round(pt.pt_sosyrdm.Value)
 
                          });
             var liste = new List<MaasVM>();
             foreach (var pers in query.GroupBy(c => c.sicilno))
             {
                 if (pers.Key == "1370")
-                {
-
-                }
-
+                {}
                 try
                 {
                     var p = pers.OrderBy(d => d.ay).ToList();
@@ -83,9 +80,6 @@ namespace ik.Controllers
                         Mesai = ayson.fm1,
                         Bes = ayson.bes,
                         hesap = hesap
-
-
-
                     };
                     liste.Add(maasvm);
                 }
@@ -154,19 +148,18 @@ namespace ik.Controllers
                     İşsizlikPay = 0
                 };
             }
-            var yemekistisna = 4.05;
+            var yemekistisna = 5.12;
 
-            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2018).vergi_dilim_detay.ToList();
+            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2019).vergi_dilim_detay.ToList();
             brütmaaş = ((brütmaaş / 30) * sgkgun);// 4307.32m;
-            double brütyemek = Math.Round(sgkgun < 22 ? (350.0 / 22.0) * sgkgun : 350);
+            double brütyemek = Math.Round(sgkgun < 22 ? (yemek / 22.0) * sgkgun : yemek);
 
-
-
+            
 
 
             var yemekistisnatutar = yemekistisna * 22;
             var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar + mesai, 2);
-            sgkmatrah = sgkmatrah > 15221.4 ? 15221.4 : sgkmatrah;
+            sgkmatrah = sgkmatrah > 19188.0 ? 19188.0 : sgkmatrah;
 
             var sgkprim = Math.Round(sgkmatrah * 0.14, 2);
             var işsizlikprim = Math.Round(sgkmatrah * 0.01, 2);

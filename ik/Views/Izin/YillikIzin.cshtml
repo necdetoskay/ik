@@ -354,73 +354,73 @@
             });
 
 
-            $('#yarimkaydet').on('click', function () {
-                var form = $("#myModal");
-                var id = form.attr("data-id");
-                var yil = form.attr("data-yil");
-                var yid = form.attr("data-yid");
+            //$('#yarimkaydet').on('click', function () {
+            //    var form = $("#myModal");
+            //    var id = form.attr("data-id");
+            //    var yil = form.attr("data-yil");
+            //    var yid = form.attr("data-yid");
 
-                $('#yarimform').validate({
-                    rules: {
-                        izinyil: {
-                            required: true
-                        },
-                        belgeno: {
-                            required: true
-                        },
-                        tarih: {
-                            required: true
-                        },
-                        baslangic: {
-                            required: true
-                        },
-                        bitis: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        izinyil: 'izin yılı belirtilmemiş',
-                        belgeno: 'belge no belirtilmemiş',
-                        tarih: 'izin tarihi belirtilmemiş',
-                        baslangic: 'baslangıç saati belirtilmemiş',
-                        bitis: 'bitiş saati belirtilmemiş'
-                    },
-                    submitHandler: function (frm) {
-                        $.ajax({
-                            url: $(frm).attr('action'),
-                            type: 'post',
-                            data: $(frm).serialize(),
-                            beforeSend: function (xhr, settings) {
+            //    $('#yarimform').validate({
+            //        rules: {
+            //            izinyil: {
+            //                required: true
+            //            },
+            //            belgeno: {
+            //                required: true
+            //            },
+            //            tarih: {
+            //                required: true
+            //            },
+            //            baslangic: {
+            //                required: true
+            //            },
+            //            bitis: {
+            //                required: true
+            //            }
+            //        },
+            //        messages: {
+            //            izinyil: 'izin yılı belirtilmemiş',
+            //            belgeno: 'belge no belirtilmemiş',
+            //            tarih: 'izin tarihi belirtilmemiş',
+            //            baslangic: 'baslangıç saati belirtilmemiş',
+            //            bitis: 'bitiş saati belirtilmemiş'
+            //        },
+            //        submitHandler: function (frm) {
+            //            $.ajax({
+            //                url: $(frm).attr('action'),
+            //                type: 'post',
+            //                data: $(frm).serialize(),
+            //                beforeSend: function (xhr, settings) {
 
-                                settings.data += '&personelid=' + $('#myModal').attr("data-id");
-                                if ($('#izinyil').attr("disabled")) {
-                                    settings.data += '&yeni=false';
-                                    settings.data += '&izinyil=' + $('#myModal').attr("data-yil");
-                                    settings.data += '&yid=' + $('#myModal').attr("data-yid");
-                                } else {
-                                    settings.data += '&yeni=true';
-                                }
-                            },
-                            success: function (result) {
-                                if (result.Success === true) {
-                                    alert("başarılı");
-                                    $("#myModal").modal('hide');
+            //                    settings.data += '&personelid=' + $('#myModal').attr("data-id");
+            //                    if ($('#izinyil').attr("disabled")) {
+            //                        settings.data += '&yeni=false';
+            //                        settings.data += '&izinyil=' + $('#myModal').attr("data-yil");
+            //                        settings.data += '&yid=' + $('#myModal').attr("data-yid");
+            //                    } else {
+            //                        settings.data += '&yeni=true';
+            //                    }
+            //                },
+            //                success: function (result) {
+            //                    if (result.Success === true) {
+            //                        alert("başarılı");
+            //                        $("#myModal").modal('hide');
 
-                                    var pid = $('#PersonelListe').val();
-                                    yarimizinkontrol(pid);
+            //                        var pid = $('#PersonelListe').val();
+            //                        yarimizinkontrol(pid);
 
-                                } else {
-                                    alert("hatalı");
-                                    console.log(result.Error);
-                                }
-                            }
-                        });
-                    }
-                });
-                $('#yarimform').submit();
-                yarimizinkontrol(id);
+            //                    } else {
+            //                        alert("hatalı");
+            //                        console.log(result.Error);
+            //                    }
+            //                }
+            //            });
+            //        }
+            //    });
+            //    $('#yarimform').submit();
+            //    yarimizinkontrol(id);
 
-            });
+            //});
             $('#btnyarimizin').on('click', function () {
                 var pid = $('#PersonelListe').val();
                 if (pid.length < 1) {
@@ -445,21 +445,19 @@
                 var id = $(this).val();
                 $('#tree').remove();
 
+                var formurl = '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1;
+
                 //$('#yarimekle').html('<input data-toggle="modal" data-target="#myModal" type="button" data-id="' + id + '" value="Yarım İzin Ekle"/>');
                 $('#yarimekle').MakeDialogForm({
                     id: 'btnyarimekle',
                     text: 'Yarım İzin Ekle',
-                    url: '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1,
+                    url: formurl,
                     title: 'yarım izin Title',
                     updateurl: '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id,
                     bclass: 'btn btn-info',
                     targetid: 'yarimtablo',
                     width: "500",
-                    height: "400",
-                    complete: function () {
-                        alert("sonunda tamamlandı on yarimekle");
-                        //
-                    }
+                    height: "400"
                 });
 
 
@@ -499,7 +497,7 @@
                         wireupyarimbutton(id);
                         izinyillinktazele(id);
                         // yarimizinkontrol(id);
-                        var personelyarimizinurl = '@Url.Action("_PersonelYarimİzinListele")' + '/?id=' + id;
+                        var personelyarimizinurl = '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id;
                         personelyarimizinyukle(personelyarimizinurl, "yarimtablo");
 
                     }

@@ -77,8 +77,15 @@
 
 @section scripts{
     <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/ik.js"></script>
     <script type="text/javascript">
+        
+       
+
+
         $(function () {
+            $('.table').KayıtAdet(); 
+
             $('.stajtamamla').each(function () {
                 var staj = $(this);
                 staj.on('click', function () {
@@ -96,7 +103,7 @@
                                         type: 'POST',
                                         success: function (result) {
                                             if (result.Success === true) {
-                                               staj.remove();
+                                                staj.remove();
                                             }
                                         }
                                     });

@@ -1,0 +1,177 @@
+﻿@model IEnumerable<ik.Models.Task_Details>
+
+
+<table id="taskpersoneltable" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personel.adsoyad) <span id="durum"></span>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.not)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderBy(c => c.tarih))
+    {
+        <tr data-durum="@(item.tarih!=null)">
+            <td>
+                @Html.DisplayFor(modelItem => item.Personel.adsoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.not)
+            </td>
+
+
+            <td>
+                @if (item.tarih == null)
+                {
+                    <a data-id="@item.id" data-pid="@item.personelid" href="#"><span class="onay glyphicon glyphicon-ok" aria-hidden="true"></span></a> @*eğer tamamlanmamışsa*@
+                }
+                else
+                {
+                    <a data-id="@item.id" data-pid="@item.personelid" href="#">
+                        <span class="iptal glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a> @*eğer tamamlanmışsa*@
+                }
+                <a data-id="@item.id" data-pid="@item.personelid" href="#"><span class="delete glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/bootstrap-notify.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        function loadtaskpersonels(taskid) {
+            $.ajax({
+                url: '@Url.Action("_TaskPersonels")',
+                type: 'GET',
+                data: {
+                    taskid: taskid
+                },
+                success: function (result) {
+                    console.table(result);
+                    $('#taskpesonels').html(result);
+                }
+            });
+        }
+
+        function KontrolEt() {
+            var pers = $('#taskpersoneltable > tbody >tr');
+            var tamam = 0;
+            var toplam = 0;
+            pers.each(function () {
+                toplam++;
+                if ($(this).attr("data-durum") == "True") {
+                    $(this).css("background-color", "green");
+                    tamam++;
+                }
+            });
+            $('#durum').html(' [' + tamam + ' / ' + toplam + '] ');
+            console.log(toplam);
+            console.log(tamam);
+        }
+
+        KontrolEt();
+
+        $(".iptal").each(function () {
+            var onay = $(this);
+            onay.on("click", function () {
+                var id = onay.closest("a").attr("data-id");
+                //silinsinmi
+                BootstrapDialog.confirm('Kayıt İptal Edilsin mi?', function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("_CancelTaskDetail")',
+                            type: 'get',
+                            data: { id: id },
+                            success: function (result) {
+                                if (result.Success === true) {
+                                    $.notify({
+                                        title: '',
+                                        message: 'İptal Edildi'
+                                    }, { type: 'success' });
+                                    //row u en sona taşı
+                                    loadtaskpersonels($('#id').val());
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+
+        $(".onay").each(function () {
+            var onay = $(this);
+            onay.on("click", function () {
+                var id = onay.closest("a").attr("data-id");
+                //silinsinmi
+                BootstrapDialog.confirm('Kayıt Tamamlansın mı?', function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("_ConfirmTaskDetail")',
+                            type: 'get',
+                            data: { id: id },
+                            success: function (result) {
+                                if (result.Success === true) {
+                                    $.notify({
+                                        title: '',
+                                        message: 'Kayıt Onaylandı'
+                                    }, { type: 'success' });
+                                    //row u en sona taşı
+                                    loadtaskpersonels($('#id').val());
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+
+        $(".delete").each(function () {
+            var del = $(this);
+            del.on("click", function () {
+                var id = del.closest("a").attr("data-id");
+                //silinsinmi
+                BootstrapDialog.confirm('Kayıt Silinsin mi?', function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("_DeleteTaskDetail")',
+                            type: 'get',
+                            data: { id: id },
+                            success: function (result) {
+                                if (result.Success === true) {
+                                    $.notify({
+                                        title: '',
+                                        message: 'Kayıt Silindi'
+                                    }, { type: 'success' });
+                                    del.closest("tr").remove();
+                                    $('#personel').append('<option></option>');
+                                    $("#personel").multiselect('rebuild');
+                                    KontrolEt();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+
+
+    });
+</script>

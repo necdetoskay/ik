@@ -5,7 +5,7 @@
 
   
 
-    function wireUpForm(dialog, updateTargetId, updateUrl,complete) {
+    function wireUpForm(dialog, updateTargetId, updateUrl) {
         $('form', dialog).submit(function () {
 
             // Do not submit if the form
@@ -15,24 +15,27 @@
 
             // Client side validation passed, submit the form
             // using the jQuery.ajax form
+            console.log(this);
+           
             $.ajax({
                 url: this.action,
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
-                    console.log(result);
+                    alert(result);
                     // Check whether the post was successful
                     if (result.success) {
-                        console.log(updateUrl);
-                        console.log(result.success);
+                        //console.log(updateUrl);
+                        //console.log(result.success);
                         // Close the dialog 
                         $(dialog).dialog('close');
 
                         // Reload the updated data in the target div
                         $(updateTargetId).load(updateUrl);
                         //complete(result.Data);
-                        console.log(result.Data);
+                        //console.log(result.Data);
                     } else {
+                        alert("hata");
                         console.log("Dialog Form Post hatası");
                         // Reload the dialog to show model errors                    
                         $(dialog).html(result);
@@ -43,6 +46,9 @@
                         // Setup the ajax submit logic
                         wireUpForm(dialog, updateTargetId, updateUrl);
                     }
+                }, error: function(data) {
+                    console.log(data);
+                
                 }
             });
             return false;
@@ -118,7 +124,8 @@
                             $(form).submit();
                         },
                         "İptal": function () { $(this).dialog('close'); }
-                    }, open: function (event) {
+                    }
+                    , open: function (event) {
                         //var height = $('#' + dialogId).find('#content').height() + 40;
                         //var width = $('#' + dialogId).find('#content').width()+40;
                         ////console.log(width);
@@ -133,7 +140,7 @@
                 $.validator.unobtrusive.parse(this);
 
                 // Setup the ajax submit logic
-                wireUpForm(this, updateTargetId, updateUrl,settings.complete);
+                wireUpForm(this, updateTargetId, updateUrl);
             });
             return false;
         });

@@ -22,9 +22,8 @@ namespace ik.Models
     
         public int id { get; set; }
         public string ad { get; set; }
-        public System.DateTime sontarih { get; set; }
-        public int hatirlatma { get; set; }
-        public bool tamamlandı { get; set; }
+        public System.DateTime tarih { get; set; }
+        public Nullable<System.DateTime> sontarih { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task_Details> Task_Details { get; set; }

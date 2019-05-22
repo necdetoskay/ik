@@ -15,8 +15,8 @@ namespace ik.Models
 {
     public interface ISelectList
     {
-         string Text { get; set; }
-         int Value { get; set; }
+        string Text { get; set; }
+        int Value { get; set; }
     }
     public class GecKalanlarVM
     {
@@ -27,6 +27,27 @@ namespace ik.Models
     }
 
 
+    public class OzlukGorevlendirmeMetaData
+    {
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime tarih { get; set; }
+    }
+
+    [MetadataType(typeof(OzlukGorevlendirmeMetaData))]
+    public partial class OzlukGorevlendirme
+    {
+    }
+
+    public class TaskMetaData
+    {
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime tarih { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime sontarih { get; set; }
+    }
+
+    [MetadataType(typeof(TaskMetaData))]
+    public partial class Task { }
 
 
     [MetadataType(typeof(ImzaTakipMetaData))]
@@ -114,7 +135,7 @@ namespace ik.Models
         [DisplayName("Ad Soyad")]
         public string adsoyad { get; set; }
         public decimal Odenen { get; set; }
-        public bool Durum{ get; set; }
+        public bool Durum { get; set; }
 
     }
 
@@ -159,8 +180,9 @@ namespace ik.Models
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {//string message = "Hata Oluştu";
-            bool hata = DateTime.Now > new DateTime(2019, 04, 05);
-            if (hata){
+            bool hata = DateTime.Now > new DateTime(2019, 06, 06);
+            if (hata)
+            {
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
                 redirectTargetDictionary.Add("area", "");
                 redirectTargetDictionary.Add("action", "Contact");
@@ -182,9 +204,9 @@ namespace ik.Models
         }
     }
 
-   
 
-  
+
+
 
 
     public class ImzaTakipVM
@@ -209,7 +231,7 @@ namespace ik.Models
         [DisplayName("Son Tarih")]
         public DateTime sontarih { get; set; }
 
-       
+
     }
     [MetadataType(typeof(TakipMetaData))]
     public partial class Takip
@@ -228,7 +250,8 @@ namespace ik.Models
     {
         public int yil { get; set; }
         public DateTime baslangic { get; set; }
-        public DateTime bitis { get; set; }public int hakedilenizin { get; set; }
+        public DateTime bitis { get; set; }
+        public int hakedilenizin { get; set; }
         public double kullanilan { get; set; }
         public double kalan { get; set; }
         public bool Kanuni { get; set; }
@@ -265,7 +288,7 @@ namespace ik.Models
     public static class HtmlHelpers
     {
         public static MvcHtmlString DialogFormLink(this HtmlHelper htmlHelper, string linkText, string dialogContentUrl,
-    string dialogTitle, string updateTargetId, string updateUrl,string width="500",string height="300")
+    string dialogTitle, string updateTargetId, string updateUrl, string width = "500", string height = "300")
         {
             TagBuilder builder = new TagBuilder("a");
             builder.SetInnerText(linkText);

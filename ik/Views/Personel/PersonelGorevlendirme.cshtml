@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ik.Models.OzlukGorevlendirme>
+<div id="gorevlendirmeliste">
+    <p>
+        <div id="görevlendirmeekle"></div>
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ebysno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aciklama)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tarih)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ebysno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.aciklama)
+                </td>
+
+                <td></td>
+            </tr>
+        }
+
+    </table>
+
+
+</div>
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/DialogForm.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var selected = $("#personel option:selected");
+        var id = selected.val();
+        var content = $('#gorevlendirmeyukle').parent().find('.content');
+        $('#görevlendirmeekle').MakeDialogForm({
+            id: 'btnekle',
+            text: ' Ekle',
+            url: '@Url.Action("GorevlendirmeEkle")' + '/?id=' + id,
+            title: 'Görevlendirme Ekle',
+            updateurl: '@Url.Action("PersonelGorevlendirme")' + '/?id=' + id,
+            bclass: 'btn btn-info',
+            targetid: "gorevlendirmeliste",
+            width: "500",
+            height: "400"
+        });
+
+    })
+</script>

@@ -4,6 +4,8 @@
     ViewBag.Title = "PersonelDetay";
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
 @section styles{
     <style>
         #feedback {
@@ -58,24 +60,41 @@
     <div id="resimler">
 
     </div>
-    <div class="col-md-12">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#detay">Detay Bilgileri</a></li>
-        </ul>
 
-    </div>
+
 </div>
-<div class="col-lg-12">
+<div id="exTab2" class="container">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#detay" data-toggle="tab">Detay</a>
+        </li>
+        <li>
+            <a href="#gorevlendirme" data-toggle="tab">Görevlendirme</a>
+        </li>
+        <li>
+            <a href="#egitimler" data-toggle="tab">Alınan Eğitimler</a>
+        </li>
+    </ul>
 
-
-    <div class="tab-content">
-        <div id="detay" class="tab-pane fade in active">
-            @*<input type="button" id="detayyukle" value="Yükle" />*@
+    <div class="tab-content ">
+        <div class="tab-pane active" id="detay">
             <div class="content">
+            </div>
+        </div>
+        <div class="tab-pane" id="gorevlendirme">
+            <input type="button" id="gorevlendirmeyukle" value="Yükle" />
+            <div class="content">
+            </div>
+        </div>
+        <div class="tab-pane" id="egitimler">
+            <div class="content">
+                asdasdas das d
             </div>
         </div>
     </div>
 </div>
+
+
 @section scripts{
 
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -83,6 +102,9 @@
 
     <script type="text/javascript">
         $(function () {
+
+
+
 
             $('#next').on('click', function () {
                 var nextElement = $('#personel > option:selected').next('option');
@@ -99,6 +121,28 @@
                     $('#personel').trigger('change');
                 }
             });
+
+            $('#gorevlendirmeyukle').on('click', function () {
+                var content = $('#gorevlendirmeyukle').parent().find('.content');
+                content.html('<img src="@Url.Content("~/Content/Loading_icon.gif")"/>');
+                var selected = $("#personel option:selected");
+                //personel görevlendirmelerini yükle
+                $.ajax({
+                    url: '@Url.Action("PersonelGorevlendirme")',
+                    type: 'GET',
+                    data: {
+                        id: selected.val()
+                    },
+                    success: function (result) {
+                        content.html(result);
+                    }
+                });
+
+            });
+
+
+
+
             $("#personel").on('change', function () {
                 var selected = $("#personel option:selected");
                 $.ajax({
@@ -107,7 +151,8 @@
                     data: { ikID: selected.val() },
                     success: function (result) {
                         //console.log(result);
-                        $('.content').html(result);
+                        $('.content').html("");
+                        $('#detay>.content').html(result);
                     }
                 });
             });

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ik.Models.Personel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.sicilno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tcno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.giristarihi)
+        </th>
+      
+     
+        <th>
+            @Html.DisplayNameFor(model => model.dogumtarihi)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.birim.birimad)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.PersonelDetay.thumb)
+        </th>
+    
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.adsoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sicilno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tcno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.giristarihi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dogumtarihi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.birim.fullad)
+        </td>
+        <td>
+            <img src="@Url.Content("~/"+item.PersonelDetay.thumb)" width="50" height="50"/>
+            @*@Html.DisplayFor(modelItem => item.PersonelDetay.thumb)*@
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.id }) |*@
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+        </td>
+    </tr>
+}
+
+</table>

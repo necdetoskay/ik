@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "TekrarliGorevEkle";
+}
+
+<h2>Tekrarlı Görev Ekle</h2>
+
+
+
+<div class="form-group">
+    <label for="tekrararalik">Tekrar Aralığı</label>
+    <select class="form-control" id="tekrararalik">
+        <option value="0">Tekrarlanma Aralığı Seçiniz</option>
+        <option value="1">Haftalık</option>
+        <option value="2">Aylık</option>
+    </select>
+</div>
+
+<div class="form-group">
+   
+    <label for="tekrarzaman">Tekrar Zamanı</label>
+    <select class="form-control" id="tekrarzaman">
+    </select>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('#tekrararalik').change(function () {
+                var tekrararalik = $(this);
+                var tekrarzaman = $('#tekrarzaman');
+               
+                tekrarzaman.empty();
+                if (tekrararalik.val() == 1) {
+                    tekrarzaman.append('<option value="0">Seçiniz</option>');
+                    tekrarzaman.append('<option value="1">Pazartesi</option>');
+                    tekrarzaman.append('<option value="2">Salı</option>');
+                    tekrarzaman.append('<option value="3">Çarşamba</option>');
+                    tekrarzaman.append('<option value="4">Perşembe</option>');
+                    tekrarzaman.append('<option value="5">Cuma</option>');
+                    tekrarzaman.append('<option value="6">Cumartesi</option>');
+                    tekrarzaman.append('<option value="7">Pazar</option>');
+                } else if (tekrararalik.val() == 2) {
+                    
+                }
+            });
+        })
+    </script>
+    
+}
+
+

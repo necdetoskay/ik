@@ -558,9 +558,9 @@ namespace ik.Controllers
                     });
                     db.Yizins.Add(yi);
                     db.SaveChanges();
-
-                   YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
-                   return Json(new { success = true, Data = yi, console = "_YarimIzinEkle" }, JsonRequestBehavior.AllowGet);
+                    YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
+                    var result = new {success = true, console = "_YarimIzinEkle"};
+                   return Json(result);
                 }
                 else
                 {
@@ -579,10 +579,8 @@ namespace ik.Controllers
 
                     //YarimizniPdksMazeretGir(personel.pdksid.Value,izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                     //pdks ye yarım izni mazeret izni olarak gir
-                    return Json(new { success = true, Data = yi, console = "_YarimIzinEkle" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true,  console = "_YarimIzinEkle" });
                 }
-
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception x)
             {
@@ -607,7 +605,7 @@ namespace ik.Controllers
             }
         }
 
-        public ActionResult _PersonelYarimİzinListele(int id)
+        public ActionResult _PersonelYarimIzinListele(int id)
         {
             var liste = db.Yizins.Where(c => c.personelid == id & c.mikrokayit == false);
             var list = new List<YarimIzinEkleVM>();

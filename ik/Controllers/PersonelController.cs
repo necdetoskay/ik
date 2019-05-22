@@ -21,7 +21,6 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace ik.Controllers
 {
    
-
     [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class PersonelController : Controller
@@ -39,7 +38,7 @@ namespace ik.Controllers
             base.Dispose(disposing);
         }
 
-
+      
 
         // GET: Personel
         public ActionResult Index()
@@ -735,7 +734,7 @@ namespace ik.Controllers
 
         public ActionResult _PersonelByDepartman(int id = 0)
         {
-            var pers = db.Personels.Where(c => c.birimid == id)
+            var pers = db.Personels.Where(c => c.birimid == id & c.cikistarihi == null)
                 .Select(d => new
                 {
                     Text = d.adsoyad,
@@ -744,6 +743,19 @@ namespace ik.Controllers
 
             return Json(new { Success = true, Data = pers }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult _PersonelListesi()
+        {
+            var pers = db.Personels.Where(c => c.cikistarihi==null)
+                .Select(d => new
+                {
+                    Text = d.adsoyad,
+                    Value = d.id
+                });
+
+            return Json(new { Success = true, Data = pers }, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult SaglikRapor()
         {
@@ -1369,7 +1381,35 @@ namespace ik.Controllers
             return PartialView("_PersonelGrup", pers);
         }
 
-      
+
+        public ActionResult PersonelGorevlendirme(int id)
+        {
+            var gorevler = db.Personels.FirstOrDefault(c => c.id == id).OzlukGorevlendirmes.ToList();
+            return PartialView(gorevler);
+        }
+
+        public ActionResult GorevlendirmeEkle(int id)
+        {
+            var görevlendirme = new OzlukGorevlendirme {personelID = id,tarih = DateTime.Now};
+            return PartialView(görevlendirme);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GorevlendirmeEkle(int id,OzlukGorevlendirme gorev)
+        {
+            if (ModelState.IsValid)
+            {
+                db.OzlukGorevlendirmes.Add(gorev);
+                db.SaveChanges();
+                return Json(new {success = true}, JsonRequestBehavior.AllowGet);
+            }
+            return PartialView();
+        }
+
+        public ActionResult ibraname()
+        {
+            return View();}
     }
 
     public class SicilVM

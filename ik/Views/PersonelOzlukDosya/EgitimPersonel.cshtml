@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ik.Models.OzlukEgitimDetay>
+
+@{
+    ViewBag.Title = "EgitimPersonel";
+}
+
+
+    <h2>EgitimPersonel</h2>
+
+    <div data-id="@ViewBag.ID" id="personelekle"></div>
+
+    <table class="table">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.OzlukEgitim.egitimKonu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Personel.adsoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.not)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.OzlukEgitim.egitimKonu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Personel.adsoyad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.not)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+@section scripts{
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/DialogForm.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+
+            $('#personelekle').MakeDialogForm({
+                id: 'btnekle',
+                text: 'Personel Ekle',
+                title: 'Eğitime Personel Ekle',
+                url: '@Url.Action("EgitimPersonelEkle")' + '/?id=' + $('#personelekle').attr("data-id"),
+                updateurl: '@Url.Action("EgitimPersonel")' + '/?id=' + $('#personelekle').attr("data-id"),
+                bclass: 'btn brn-info',
+                targetid:'Info',width:'400',height:'500'
+        });
+
+
+        });
+    </script>
+
+}
+
+ @*id: 'btnekle',//butonid
+                text: 'Rutin Ekle',
+                url: '@Url.Action("Create", "Takip")' ,
+                title: '',
+                updateurl: '@Url.Action("RutinOzet", "Takip")' + '/?limit=10',
+                bclass: 'btn btn-info',
+                targetid: 'rutindiv',
+                width: "500",
+                height: "400",
+                complete: function () {
+                alert("sonunda tamamlandı");
+                }*@

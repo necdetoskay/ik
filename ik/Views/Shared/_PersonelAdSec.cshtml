@@ -75,7 +75,7 @@
                 select: function (event, ui) {
                     $('#personel').attr('data-id', ui.item.val);
                     if (typeof AutoCompleteSelected == 'function') {
-                        AutoCompleteSelected();
+                        AutoCompleteSelected($(this).attr("data-id"));
                     }
                     
                 },focus:function(event, ui) {

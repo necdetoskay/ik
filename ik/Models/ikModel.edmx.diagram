@@ -88,7 +88,7 @@
         <AssociationConnector Association="ikModel.FK__Rapor__raportip__4EDDB18F" />
       </Diagram>
       <Diagram DiagramId="453332083a6c4c1f832d89fe424772d5" Name="yapılacak iş" >
-        <EntityTypeShape EntityType="ikModel.Task" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="ikModel.Task" Width="1.5" PointX="0.75" PointY="1.125" />
         <EntityTypeShape EntityType="ikModel.Task_Details" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="ikModel.FK__Task_Deta__taski__26CFC035" />
       </Diagram>
@@ -121,6 +121,18 @@
         <EntityTypeShape EntityType="ikModel.Gorev_Detay_Not" Width="1.5" PointX="3" PointY="1.375" />
         <AssociationConnector Association="ikModel.FK__Gorev_Det__gorev__26EFBBC6" />
         <AssociationConnector Association="ikModel.FK__Gorev_Det__paren__27E3DFFF" />
+      </Diagram>
+      <Diagram DiagramId="3678fe41e0574cd9a381c096162903fc" Name="özlük" >
+        <EntityTypeShape EntityType="ikModel.OzlukAileFertleri" Width="1.5" PointX="3" PointY="3.625" />
+        <EntityTypeShape EntityType="ikModel.OzlukEvrak" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ikModel.OzlukGorevlendirme" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ikModel.OzlukGrupTanim" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="ikModel.OzlukGrupTanimDetay" Width="1.5" PointX="3" PointY="1.125" />
+        <AssociationConnector Association="ikModel.FK__OzlukAile__yakin__5634BA94" />
+        <AssociationConnector Association="ikModel.FK__OzlukGrup__ozluk__450A2E92" />
+        <EntityTypeShape EntityType="ikModel.OzlukEgitim" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="ikModel.OzlukEgitimDetay" Width="1.5" PointX="3" PointY="7.875" />
+        <AssociationConnector Association="ikModel.FK__OzlukEgit__egiti__0E7913B7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

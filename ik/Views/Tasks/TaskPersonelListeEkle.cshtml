@@ -1,0 +1,153 @@
+﻿@model ik.Models.Task
+
+@{
+    ViewBag.Title = "TaskPersonelListe";
+}
+
+@Html.Hidden("id",Model.id)
+<h2>@Model.ad</h2>
+
+
+
+
+@*@Html.DisplayFor(model => model.tarih)
+@Html.DisplayFor(model => model.sontarih)*@
+
+<div class="form-group">
+    <label class="col-md-4" for="personel">Personel</label>
+    <select id="personel" multiple="multiple" class="form-control"></select>
+</div>
+<div>
+    <input type="button" id="kaydet" value="Kaydet"/>
+</div>
+
+<div>
+    @Html.ActionLink("Listeye Geri Dön", "Index")
+</div>
+
+<div id="taskpesonels">
+
+    <img src="~/Content/Loading_icon.gif" />
+</div>
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/mdtimepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/mdtimepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/bootstrap-notify.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            function loadtaskpersonels(taskid) {
+                $.ajax({
+                    url: '@Url.Action("_TaskPersonels")',
+                    type: 'GET',
+                    data: {
+                        taskid: taskid
+                    }, success: function (result) {
+                        console.table(result);
+                        $('#taskpesonels').html(result);
+                    }
+
+                });
+            }
+
+
+            loadtaskpersonels($('#id').val());
+       
+
+            //task personellerini yukle
+
+
+
+            //$('.cleardates').on('click', function () {});
+
+            $('#kaydet').on("click", function() {
+                var selected = $("#personel").val();
+                var id = $('#id').val();
+                console.log(selected);
+                console.log(id);
+                $.ajax({
+                    url: '@Url.Action("_AddPersonelToTask")',
+                    type: "POST",
+                    data: { selected,id },
+                    success: function(result) {
+                        if (result.Success === true) {
+                            $.notify({
+                                title: '<strong>İşlem Başarılı </strong>',
+                                message: 'Seçili Personeller görev listesine eklendi'
+                            }, { type: 'success' });
+                            loadtaskpersonels($('#id').val());
+                            $('#personel option:selected').remove();
+                            $("#personel").multiselect('rebuild');
+                        }
+                    },
+                    error: function (jqXHR, exception) {
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
+                        console.log(msg);
+                    }
+                });
+
+            });
+       
+
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+            var personel = $('#personel');
+            personel.multiselect({
+                includeSelectAllOption: true,
+                selectAllText: 'Tümünü Seç',
+                nonSelectedText: 'Personel Seçiniz',
+                allSelectedText: 'Tümü Seçildi'
+            });
+
+            var value = $(this).val();
+            $.ajax({
+                url: '@Url.Action("_PersonelTaskSelectList")',
+                type: 'GET',
+                data: {
+                    id: $('#id').val()
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        personel.empty();
+                        $.each(result.Data, function (i, item) {
+                            personel.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        });
+                        personel.multiselect('rebuild');
+                    }
+                }
+            });
+        });
+       
+    </script>
+}

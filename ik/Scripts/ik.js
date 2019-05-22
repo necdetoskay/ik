@@ -1,4 +1,16 @@
-﻿function buildHtmlTable(selector,data) {
+﻿$.fn.KayıtAdet = function () {
+    this.each(function () {
+        var table = $(this);
+        var tr = table.find("tbody>tr");
+        var kayıt = tr.length - 1;
+        $(tr[0]).find("th:first").append('   <span class="badge badge-secondart">' + kayıt + '</span>');
+    });
+    return this;
+};
+
+
+
+function buildHtmlTable(selector, data) {
     var columns = addAllColumnHeaders(data, selector);
 
     for (var i = 0; i < data.length; i++) {

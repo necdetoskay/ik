@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ik.Controllers.MaasIsKontrolVM>
+
+<style>
+    .yesil {
+        background-color: forestgreen;
+    }
+    .red {
+        background-color: red;
+    }
+   
+</style>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@Html.TextBox("yil", null, new { Title="Yıl", @type = "number" }) @Html.TextBox("ay",null,new {Title="Ay",@type="number"})
+<input type="button" class="btn btn-info" id="kontrol" value="Kontrol Et"/><span class="pull-right"><a href="#" id="maaskontrol" class="btn btn-primary" >Maaş Kontrol</a></span>
+<br />
+<table id="isler" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAdi)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr data-url="@item.Url" data-bilgi="@item.Bilgi">
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdi)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var dt = new Date();
+            $('#yil').val(dt.getFullYear());
+            $('#ay').val(dt.getMonth()+1);
+
+            $('#maaskontrol').on('click', function() {
+                var url='@Url.Action("maaskontrol","Puantaj")'+'/?yil='+$('#yil').val()+'&ay='+$('#ay').val();
+                window.location.href = url;
+            });
+            $('#kontrol').on("click", function () {
+                var ay = $('#ay').val();
+
+                if (ay == "") {
+                    alert("değer girilmemiş");
+                    return;
+                }
+
+                var tr = $('#isler>tbody>tr').not(":first");
+                tr.each(function () {
+                    var t = $(this);
+                    if (t.attr("data-url") != "") {
+                        $(t.find("td:eq(1)")).html('<img width="50"  src="@Url.Content("~/Content/Loading_icon.gif")" />');
+
+                        var ur = t.attr("data-url");
+                        $.ajax({
+                            url: ur + "/?ay=" + ay,
+                            type: "GET",
+                            data: {
+                            },
+                            success: function (result) {
+
+                                var son = $('<div></div>').append(result);
+                                var Success = $(son).find('#Success').val();
+                                if (Success==="True") {
+                                    t.addClass("yesil");
+                                } else {
+                                    t.addClass("red");
+                                }
+                                var detay = $('<a href="#"><span class="glyphicon glyphicon-list" style="margin:3px 0 0 0"></span></a>');
+                                $(t.find("td:eq(1)")).html(detay);
+
+                                $(t.find("td:eq(1) > a")).on("click", function () {
+                                    BootstrapDialog.show({
+                                        message: son,
+                                        title:"Bilgi"
+                                    });
+                                });
+                            }
+                        });
+
+                    } else {
+                        //alert("url girilmemiş");
+                    }
+
+                });
+
+
+            });
+
+
+        })
+    </script>
+}

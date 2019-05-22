@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ik.Controllers.IkMikroAvansDurumVM>
+
+
+@Html.Hidden("Success",Model.Sum(c=>c.İkTutar)==Model.Sum(c=>c.MkroTutar))
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.İkTutar) (@Model.Sum(c=>c.İkTutar))
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MkroTutar) (@Model.Sum(c=>c.MkroTutar))
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adsoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.İkTutar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MkroTutar)
+        </td>
+        <td>
+           
+        </td>
+    </tr>
+}
+</table>

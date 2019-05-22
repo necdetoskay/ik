@@ -60,8 +60,6 @@ namespace ik.Models
         public virtual DbSet<Rapor> Rapors { get; set; }
         public virtual DbSet<Rapor_HastalikTip> Rapor_HastalikTip { get; set; }
         public virtual DbSet<Rapor_RaporTip> Rapor_RaporTip { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
-        public virtual DbSet<Task_Details> Task_Details { get; set; }
         public virtual DbSet<Kurul> Kuruls { get; set; }
         public virtual DbSet<KurulGorevTip> KurulGorevTips { get; set; }
         public virtual DbSet<KurulTip> KurulTips { get; set; }
@@ -80,5 +78,14 @@ namespace ik.Models
         public virtual DbSet<Meslek> Mesleks { get; set; }
         public virtual DbSet<PersonelUcret> PersonelUcrets { get; set; }
         public virtual DbSet<kanunparametre> kanunparametres { get; set; }
+        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<Task_Details> Task_Details { get; set; }
+        public virtual DbSet<OzlukAileFertleri> OzlukAileFertleris { get; set; }
+        public virtual DbSet<OzlukEvrak> OzlukEvraks { get; set; }
+        public virtual DbSet<OzlukGorevlendirme> OzlukGorevlendirmes { get; set; }
+        public virtual DbSet<OzlukGrupTanim> OzlukGrupTanims { get; set; }
+        public virtual DbSet<OzlukGrupTanimDetay> OzlukGrupTanimDetays { get; set; }
+        public virtual DbSet<OzlukEgitim> OzlukEgitims { get; set; }
+        public virtual DbSet<OzlukEgitimDetay> OzlukEgitimDetays { get; set; }
     }
 }

@@ -31,6 +31,10 @@ namespace ik.Models
             this.Rapors = new HashSet<Rapor>();
             this.Yizins = new HashSet<Yizin>();
             this.PersonelUcrets = new HashSet<PersonelUcret>();
+            this.Task_Details = new HashSet<Task_Details>();
+            this.OzlukAileFertleris = new HashSet<OzlukAileFertleri>();
+            this.OzlukGorevlendirmes = new HashSet<OzlukGorevlendirme>();
+            this.OzlukEgitimDetays = new HashSet<OzlukEgitimDetay>();
         }
     
         public int id { get; set; }
@@ -48,6 +52,7 @@ namespace ik.Models
         public Nullable<System.DateTime> cikistarihi { get; set; }
         public Nullable<int> kadro { get; set; }
         public string iban { get; set; }
+        public Nullable<bool> yaka { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Avanslar> Avanslars { get; set; }
@@ -81,5 +86,13 @@ namespace ik.Models
         public virtual ICollection<Yizin> Yizins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelUcret> PersonelUcrets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task_Details> Task_Details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OzlukAileFertleri> OzlukAileFertleris { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OzlukGorevlendirme> OzlukGorevlendirmes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OzlukEgitimDetay> OzlukEgitimDetays { get; set; }
     }
 }

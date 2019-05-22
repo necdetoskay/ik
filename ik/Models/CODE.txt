@@ -1,4 +1,11 @@
-﻿var dialog = bootbox.dialog({
+﻿Z:\Source\Repos\proje\ik\ik\Scripts\ik.js
+  $('.table').KayıtAdet(); //tablodaki kayıt sayısını gösterir
+
+
+
+
+
+var dialog = bootbox.dialog({
     title: 'A custom dialog with buttons and callbacks',
     message: "<p>This dialog has buttons. Each button has it's own callback function.</p>",
     size: 'large',

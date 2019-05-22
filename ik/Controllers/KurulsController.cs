@@ -19,7 +19,7 @@ namespace ik.Controllers
         // GET: Kuruls
         public async Task<ActionResult> Index()
         {
-            var kuruls = db.Kuruls.Include(k => k.KurulGorevTip).OrderBy(c=>c.KurulGorevTip.kurultipid);
+            var kuruls = db.Kuruls.Where(c=>c.cikistarih==null).Include(k => k.KurulGorevTip).OrderBy(c=>c.KurulGorevTip.kurultipid);
             return View(await kuruls.ToListAsync());
         }
 
@@ -85,7 +85,7 @@ namespace ik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,adsoyad,tc,kurultip,gorevtip,giristarih")] Kurul kurul)
+        public async Task<ActionResult> Edit([Bind(Include = "id,adsoyad,tc,kurultip,gorevtip,giristarih,cikistarih")] Kurul kurul)
         {
             if (ModelState.IsValid)
             {
@@ -217,5 +217,6 @@ namespace ik.Controllers
                 return Json(new { Success = false, Data = xx.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        
     }
 }

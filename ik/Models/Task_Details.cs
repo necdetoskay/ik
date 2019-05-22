@@ -16,9 +16,11 @@ namespace ik.Models
     {
         public int id { get; set; }
         public int taskid { get; set; }
-        public string yapilan { get; set; }
-        public System.DateTime tarih { get; set; }
+        public int personelid { get; set; }
+        public Nullable<System.DateTime> tarih { get; set; }
+        public string not { get; set; }
     
+        public virtual Personel Personel { get; set; }
         public virtual Task Task { get; set; }
     }
 }

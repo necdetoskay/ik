@@ -9,10 +9,10 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table id="kuruls" class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.adsoyad)
+            @Html.DisplayNameFor(model => model.adsoyad) 
         </th>
       
         <th>
@@ -43,10 +43,24 @@
             @Html.DisplayFor(modelItem => item.KurulGorevTip.ad)
         </td>
         <td>@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Delete", "Delete", new { id=item.id }) |
+            @*@Html.ActionLink("Details", "Details", new { id = item.id }) |*@
+           
         </td>
     </tr>
 }
 
 </table>
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            function Adet(tableid) {
+                var tablo = $('#' + tableid);
+                var adet = tablo.find("tbody>tr").length - 1;
+                tablo.find("tbody > tr:first >th:first").append('<span id="adet" class="badge badge-secondart">'+adet+'</span>');
+            }
+
+            Adet("kuruls");
+        })
+    </script>
+}

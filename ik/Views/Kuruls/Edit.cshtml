@@ -55,7 +55,14 @@
             </div>
         </div>
 
-       
+        <div class="form-group">
+            @Html.LabelFor(model => model.cikistarih, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cikistarih, new { htmlAttributes = new { @type="date", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cikistarih, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -76,6 +83,8 @@
     <script src="~/Scripts/editableselectlist.js"></script>
     <script type="text/javascript">
         $(function () {
+           
+
             $('#kurultip').MakeEditable({
                 fill: {
                     url: '@Url.Action("_KurulTipListe")',

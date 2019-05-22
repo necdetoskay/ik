@@ -138,6 +138,7 @@ namespace ik.Controllers
             try
             {
                 takip.ekleme = DateTime.Now;
+                takip.gostermegunu = 3;
                 if (ModelState.IsValid)
                 {
                     db.Takips.Add(takip);
@@ -471,6 +472,40 @@ namespace ik.Controllers
 
             return Json(new { success = false });
 
+        }
+
+        public JsonResult GorevTamamla(int parentid)
+        {
+            var takip = db.Takips.SingleOrDefault(c => c.id == parentid);
+            TamamlaRecursive(takip);
+           //alt görevlerin hepsini tamamla
+            db.SaveChanges();
+            return Json(new {Success=true},JsonRequestBehavior.AllowGet);
+        }
+
+        private void TamamlaRecursive(Takip takip)
+        {
+            if (takip.Takip1.Any())
+            {
+                foreach (var t in takip.Takip1)
+                {
+                    TamamlaRecursive(t);
+                    if(t.tamamlanma==null)
+                        t.tamamlanma=DateTime.Now;
+                }
+                if (takip.tamamlanma == null)
+                    takip.tamamlanma = DateTime.Now;
+            }
+            else
+            {
+                if(takip.tamamlanma==null)
+                    takip.tamamlanma=DateTime.Now;
+            }
+        }
+
+        public ActionResult TekrarliGorevEkle()
+        {
+            return View();
         }
     }
 }

@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Personel Avans Formu";
+}
+@Html.Partial("_PersonelAdSec")
+
+    <div class="col-md-12">
+
+        <div id="ibranameform" style="margin: 50px;">
+        </div>
+    </div>
+
+
+
+
+
+
+    @section scripts{
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+        <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+        <script src="~/Scripts/jquery.PrintArea.js"></script>
+        <script src="~/Scripts/bootstrap-notify.min.js"></script>
+        <script type="text/javascript">
+            function AutoCompleteSelected() {
+                alert("seçildi");
+                var perid = $('#personel').val();
+
+
+                //tutarlar hesaplanacak
+            }
+
+            $(function () {
+
+                //$('#avanstutar').bind('keypress', function (e) {
+                //    return !(e.which != 8 && e.which != 0 &&
+                //    (e.which < 48 || e.which > 57) && e.which != 46);
+                //});
+
+
+                $('#btnYazdir').on('click', function () {
+                    var mode = 'iframe'; //popup
+                    var close = mode == "popup";
+                    var options = { mode: mode, popClose: close };
+                    $("#ibranameform").printArea(options);
+                  
+                });
+                
+            });
+        </script>
+    }
+
+
+

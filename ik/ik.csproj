@@ -207,12 +207,15 @@
     <Compile Include="Controllers\PdksController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\PersonelOzlukDosyaController.cs" />
+    <Compile Include="Controllers\PersonelsBilgController.cs" />
     <Compile Include="Controllers\PTakipController.cs" />
     <Compile Include="Controllers\PuantajController.cs" />
     <Compile Include="Controllers\RaporController.cs" />
     <Compile Include="Controllers\StajController.cs" />
     <Compile Include="Controllers\TakipController.cs" />
     <Compile Include="Controllers\TaseronController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TestTestController.cs" />
     <Compile Include="Controllers\YillikIznimController.cs" />
@@ -278,6 +281,27 @@
     </Compile>
     <Compile Include="Models\MaasHesap.cs" />
     <Compile Include="Models\Meslek.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukAileFertleri.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukEgitim.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukEgitimDetay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukEvrak.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukGorevlendirme.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukGrupTanim.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OzlukGrupTanimDetay.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonelEtiket.cs">
@@ -1208,6 +1232,32 @@
     <Content Include="Views\ImzaTakip\ImzaTakibeEkle.cshtml" />
     <Content Include="Views\Takip\AltGorevler - Copy.cshtml" />
     <Content Include="Views\Takip\AltCreate.cshtml" />
+    <Content Include="Views\PersonelsBilg\Create.cshtml" />
+    <Content Include="Views\PersonelsBilg\Delete.cshtml" />
+    <Content Include="Views\PersonelsBilg\Details.cshtml" />
+    <Content Include="Views\PersonelsBilg\Edit.cshtml" />
+    <Content Include="Views\PersonelsBilg\Index.cshtml" />
+    <Content Include="Views\Tasks\Create.cshtml" />
+    <Content Include="Views\Tasks\Delete.cshtml" />
+    <Content Include="Views\Tasks\Edit.cshtml" />
+    <Content Include="Views\Tasks\Index.cshtml" />
+    <Content Include="Views\Tasks\_CreateEdit.cshtml" />
+    <Content Include="Views\Tasks\TaskPersonelListeEkle.cshtml" />
+    <Content Include="Views\Tasks\_TaskPersonels.cshtml" />
+    <Content Include="Views\Personel\PersonelGorevlendirme.cshtml" />
+    <Content Include="Views\Personel\GorevlendirmeEkle.cshtml" />
+    <Content Include="Views\Takip\TekrarliGorevEkle.cshtml" />
+    <Content Include="Views\PersonelOzlukDosya\Egitim.cshtml" />
+    <Content Include="Views\PersonelOzlukDosya\EgitimEkle.cshtml" />
+    <Content Include="Views\PersonelOzlukDosya\EgitimPersonel.cshtml" />
+    <Content Include="Views\PersonelOzlukDosya\EgitimPersonelEkle.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Personel\ibraname.cshtml" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\MaasDeneme.cshtml" />
+    <Content Include="Views\Template\MaasIsKontrol.cshtml" />
+    <Content Include="Views\Template\_MikroIkAvansGoster.cshtml" />
+    <Content Include="Views\Template\_HuzurHakları.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

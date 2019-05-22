@@ -1,0 +1,22 @@
+﻿@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="personel">Personel</label>
+        @Html.DropDownList("personel", (SelectList) @ViewBag.PersonelListe, "Personel Seçiniz", new {@class = "form-control", @multiple = "multiple"})
+        @*<select id="personel" multiple="multiple" class="form-control"></select>*@
+    </div>
+}
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet"/>
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<script src="~/Scripts/bootstrap-notify.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var personel = $('#personel');
+        personel.multiselect({
+            includeSelectAllOption: true,
+            selectAllText: 'Tümünü Seç',
+            nonSelectedText: 'Personel Seçiniz',
+            allSelectedText: 'Tümü Seçildi'
+        });
+    });
+</script>
