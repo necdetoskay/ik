@@ -405,6 +405,16 @@
           <Property Name="personelid" Type="int" Nullable="false" />
           <Property Name="ihaleid" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PersonelMesai">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="personelID" Type="int" Nullable="false" />
+          <Property Name="yil" Type="int" Nullable="false" />
+          <Property Name="ay" Type="int" Nullable="false" />
+          <Property Name="mesai" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="PersonelOzlukEvrak">
           <Key>
             <PropertyRef Name="id" />
@@ -1109,6 +1119,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PersonelM__perso__218BE82B">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PersonelMesai" Type="Self.PersonelMesai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PersonelMesai">
+              <PropertyRef Name="personelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__PersonelO__evrak__367C1819">
           <End Role="EvrakListe" Type="Self.EvrakListe" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1388,6 +1412,7 @@
           <EntitySet Name="PersonelGrup" EntityType="Self.PersonelGrup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelIhale" EntityType="Self.PersonelIhale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelIhaleDonemleri" EntityType="Self.PersonelIhaleDonemleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonelMesai" EntityType="Self.PersonelMesai" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelOzlukEvrak" EntityType="Self.PersonelOzlukEvrak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelUcret" EntityType="Self.PersonelUcret" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rapor" EntityType="Self.Rapor" Schema="dbo" store:Type="Tables" />
@@ -1555,6 +1580,10 @@
           <AssociationSet Name="FK__PersonelI__perso__2EA5EC27" Association="Self.FK__PersonelI__perso__2EA5EC27">
             <End Role="Personel" EntitySet="Personel" />
             <End Role="PersonelIhaleDonemleri" EntitySet="PersonelIhaleDonemleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonelM__perso__218BE82B" Association="Self.FK__PersonelM__perso__218BE82B">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelMesai" EntitySet="PersonelMesai" />
           </AssociationSet>
           <AssociationSet Name="FK__PersonelO__evrak__367C1819" Association="Self.FK__PersonelO__evrak__367C1819">
             <End Role="EvrakListe" EntitySet="EvrakListe" />
@@ -1910,6 +1939,11 @@
           <AssociationSet Name="FK__OzlukEgit__perso__0F6D37F0" Association="ikModel.FK__OzlukEgit__perso__0F6D37F0">
             <End Role="Personel" EntitySet="Personels" />
             <End Role="OzlukEgitimDetay" EntitySet="OzlukEgitimDetays" />
+          </AssociationSet>
+          <EntitySet Name="PersonelMesais" EntityType="ikModel.PersonelMesai" />
+          <AssociationSet Name="FK__PersonelM__perso__218BE82B" Association="ikModel.FK__PersonelM__perso__218BE82B">
+            <End Role="Personel" EntitySet="Personels" />
+            <End Role="PersonelMesai" EntitySet="PersonelMesais" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="birim">
@@ -2860,6 +2894,7 @@
           <NavigationProperty Name="OzlukAileFertleris" Relationship="ikModel.FK__OzlukAile__perso__5540965B" FromRole="Personel" ToRole="OzlukAileFertleri" />
           <NavigationProperty Name="OzlukGorevlendirmes" Relationship="ikModel.FK__OzlukGore__perso__7B663F43" FromRole="Personel" ToRole="OzlukGorevlendirme" />
           <NavigationProperty Name="OzlukEgitimDetays" Relationship="ikModel.FK__OzlukEgit__perso__0F6D37F0" FromRole="Personel" ToRole="OzlukEgitimDetay" />
+          <NavigationProperty Name="PersonelMesais" Relationship="ikModel.FK__PersonelM__perso__218BE82B" FromRole="Personel" ToRole="PersonelMesai" />
         </EntityType>
         <Association Name="FK__Avanslar__person__03F0984C">
           <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
@@ -3360,6 +3395,31 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="OzlukEgitimDetay">
+              <PropertyRef Name="personelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PersonelMesai">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="personelID" Type="Int32" Nullable="false" />
+          <Property Name="yil" Type="Int32" Nullable="false" />
+          <Property Name="ay" Type="Int32" Nullable="false" />
+          <Property Name="mesai" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelM__perso__218BE82B" FromRole="PersonelMesai" ToRole="Personel" />
+        </EntityType>
+        <Association Name="FK__PersonelM__perso__218BE82B">
+          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.PersonelMesai" Role="PersonelMesai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PersonelMesai">
               <PropertyRef Name="personelID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4019,6 +4079,17 @@
                 <ScalarProperty Name="not" ColumnName="not" />
                 <ScalarProperty Name="personelID" ColumnName="personelID" />
                 <ScalarProperty Name="egitimID" ColumnName="egitimID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonelMesais">
+            <EntityTypeMapping TypeName="ikModel.PersonelMesai">
+              <MappingFragment StoreEntitySet="PersonelMesai">
+                <ScalarProperty Name="mesai" ColumnName="mesai" />
+                <ScalarProperty Name="ay" ColumnName="ay" />
+                <ScalarProperty Name="yil" ColumnName="yil" />
+                <ScalarProperty Name="personelID" ColumnName="personelID" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

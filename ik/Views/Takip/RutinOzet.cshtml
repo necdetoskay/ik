@@ -15,6 +15,7 @@
     @foreach (var item in Model)
     {
         cls = item.sontarih.Date < DateTime.Now.Date ? "btn-danger" : "btn-info";
+        cls += item.sontarih.Date == DateTime.Today ? " blink" : "";
         if (item.sontarih > DateTime.Now.AddDays(item.gostermegunu))
         {
             continue;
@@ -27,12 +28,15 @@
                     <td>
                         @if (item.Takip1.Any())
                         {
-                            @Html.ActionLink(item.aciklama,"AltGorevler",new {id=item.id},new { @class = "btn " + cls })
-                        @*<span>@item.aciklama</span>*@
+                          
+                            @Html.ActionLink(item.aciklama, "AltGorevler", new { id = item.id }, new { @class = "btn " + cls })
+                         
+
+                            @*<span>@item.aciklama</span>*@
                         }
                         else
                         {
-                        <button type='button' style="font-size: 10px" class='btn @cls tamamla' id='@item.id'> @item.aciklama</button>
+                            <button type='button' style="font-size: 10px" class='btn @cls tamamla' id='@item.id'> @item.aciklama</button>
                         }
 
 
@@ -40,6 +44,11 @@
                     </td>
 
                     <td>
+                        @if (item.sontarih == DateTime.Today)
+                        {
+
+                        }
+
                         @Html.DisplayFor(modelItem => item.sontarih)
                     </td>
 
@@ -50,9 +59,10 @@
 
 </table>
 
-
+<script src="~/Scripts/blink.js"></script>
 <script type="text/javascript">
     $(function () {
+        $(".blink").blink();
         $('.tamamla').each(function () {
             var btn = $(this);
             btn.on('click', function () {
@@ -78,13 +88,13 @@
                                 },
                                 success: function (result) {
                                     var rutindiv = $('#rutindiv');
-                                   rutindiv.html(result);
+                                    rutindiv.html(result);
                                     //if (result === true) {
                                     //    console.log("rutin özet tamamlanma success");
-                                        $.notify({
-                                            title: 'İşlem Durumu',
-                                            message: 'İşlem Başarılı.'
-                                        }, { type: 'success' });
+                                    $.notify({
+                                        title: 'İşlem Durumu',
+                                        message: 'İşlem Başarılı.'
+                                    }, { type: 'success' });
                                     //   // btn.closest('tr').remove();
                                     //} else {
                                     //    console.log("rutin özet tamamlanma fail");

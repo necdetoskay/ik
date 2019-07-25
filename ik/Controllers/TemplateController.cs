@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ik.Models;
 using Microsoft.Ajax.Utilities;
+using PtakipDAL;
 
 namespace ik.Controllers
 {
@@ -44,9 +45,9 @@ namespace ik.Controllers
         {
             var isler = new[]
             {
-               new MaasIsKontrolVM { IsAdi = "Rapor Kontrolleri"},
-               new MaasIsKontrolVM { IsAdi = "Sgk Günleri"},
-               new MaasIsKontrolVM { IsAdi = "Yemek Paraları"},
+               new MaasIsKontrolVM { IsAdi = "Rapor Kontrolleri",Url = @Url.Action("_RaporKontrol")},
+               //new MaasIsKontrolVM { IsAdi = "Sgk Günleri"},
+               new MaasIsKontrolVM { IsAdi = "Yemek Paraları",Url = @Url.Action("_SGKGunYemek")},
                new MaasIsKontrolVM { IsAdi = "Avanslar",Url = @Url.Action("_MikroIkAvans")},
                new MaasIsKontrolVM { IsAdi = "Mesailer",Url=@Url.Action("_IkMikroMesai")},
                new MaasIsKontrolVM { IsAdi = "Huzur Hakları ve Doktor Maaşı",Url=@Url.Action("_HuzurHakları")}
@@ -137,14 +138,144 @@ namespace ik.Controllers
         }
 
         public ActionResult _IkMikroMesai(int ay)
-        {
-            //ik mesaileri oku
+        {   //ik mesaileri oku
+            var yıl = DateTime.Now.Year;
+            var ikmesai = db.PersonelMesais.Where(c => c.ay == ay & c.yil == yıl).Select(c=>new
+            {
+                AdSoyad=c.Personel.adsoyad,
+                IkMesai=c.mesai,
+                MikroID=c.Personel.mikroid
+            }).ToList();
+         
+
             //mikro karşılığı varmı
+            var mikromesai = (from pt in kent.PERSONEL_TAHAKKUKLARI
+                join p in kent.PERSONELLERs on pt.pt_pkod equals p.per_kod
+                where pt.pt_maliyil == yıl & pt.pt_tah_ay == ay & pt.pt_ekkazanc2_tksaat.Value>0
+                select new
+                {
+                    Guid=p.per_Guid,
+                    Mesai=pt.pt_ekkazanc2_tksaat,
+                    AdSoyad=p.per_adi+" "+p.per_soyadi
+                }).ToList();
+
+                List<MesaiKontrolVM> list=new List<MesaiKontrolVM>();
+            foreach (var ikm in ikmesai)
+            {
+                list.Add(new MesaiKontrolVM
+                {
+                    AdSoyad = ikm.AdSoyad,
+                    IkMesai = ikm.IkMesai,
+                    Guid = ikm.MikroID.ToString(),
+                    MikroMesai = mikromesai.FirstOrDefault(c=>c.Guid==ikm.MikroID)==null?0: (int)mikromesai.FirstOrDefault(c => c.Guid == ikm.MikroID).Mesai.Value
+                });
+            }
+
+            foreach (var mk in mikromesai)
+            {
+                if (list.Any(c => c.Guid == mk.Guid.ToString()))
+                {
+
+                }
+                else
+                {
+                    list.Add(new MesaiKontrolVM
+                    {
+                        AdSoyad = mk.AdSoyad,
+                        IkMesai = 0,
+                        MikroMesai = (int)mk.Mesai.Value
+                    });
+                }
+            }
+          
             //mikro ik sayıları eşitmi
-            return View();
+            return PartialView(list);
+        }
+
+        public ActionResult _RaporKontrol(int ay)
+        {
+            var now = DateTime.Now;
+            //rapor tarih aralığını seç
+            var start=new DateTime(now.Year,ay,1).AddDays(-1);
+            var fin=new DateTime(now.Year,ay+1,1).AddDays(-1);
+
+
+
+            var perk = new PerkotekContext();
+           var lste= perk.SGKGunRaporKontrol(start, fin);
+
+
+
+           var liste= lste.Select(c => new RaporKontrolVM
+            {
+                AdSoyad = db.Personels.FirstOrDefault(d => d.pdksid == c.PersonelID).adsoyad,
+                Devirmi = c.DevamRapor,
+               İkiGunOde = c.İkigünöde,
+                Raporgun = c.Raporgün,
+                SGKgün = c.SGKgün
+            }).ToList();
+
+            liste.ForEach(c =>
+            {
+                if (c.Raporgun >= 2)
+                {
+                     c.SGKgün = c.SGKgün - c.Raporgun+(c.İkiGunOde?2:0);
+                }
+               
+            });
+
+            return PartialView(liste.OrderByDescending(c=>c.Raporgun).ToList());
+
+            //return PartialView(new List<RaporKontrolVM>());
+
+
+        }
+
+        public ActionResult _SGKGunYemek(int ay)
+        {
+            var netyemek =(double)(400.0/22);
+           
+            var yıl = DateTime.Now.Year;
+            var list = (from pt in kent.PERSONEL_TAHAKKUKLARI
+                join p in kent.PERSONELLERs on pt.pt_pkod equals p.per_kod
+                where pt.pt_maliyil == yıl & pt.pt_tah_ay == ay & pt.pt_sskgunu<22select new YemekParaKontrolVM
+                {
+                    AdSoyad=p.per_adi+" "+p.per_soyadi,
+                    SGKgun= (int)pt.pt_sskgunu,
+                    YemekPara=pt.pt_sosyrdm8.Value,
+                    Hesaplanan= netyemek * pt.pt_sskgunu.Value
+
+
+                }).ToList();
+            return PartialView(list);
         }
     }
 
+    public class YemekParaKontrolVM
+    {
+        public string AdSoyad { get; set; }
+        public int SGKgun { get; set; }
+        public double YemekPara { get; set; }
+        public double Hesaplanan { get; set; }
+    }
+
+    public class RaporKontrolVM
+    {
+        public string AdSoyad { get; set; }
+        public int Raporgun { get; set; }
+        public bool Devirmi { get; set; }
+        public bool İkiGunOde { get; set; }
+        public int SGKgün { get; set; }
+        
+        
+    }
+    public class MesaiKontrolVM
+    {
+        public string AdSoyad { get; set; }
+        public int IkMesai { get; set; }
+        public int MikroMesai { get; set; }
+        public string Guid { get; set; }
+    }
     public class HuzurHakDurumVM
     {
         public string AdSoyad { get; set; }

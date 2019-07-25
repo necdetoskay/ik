@@ -482,101 +482,121 @@ namespace ik.Controllers
                     new MySqlConnection(
                         "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
-                var com = new MySqlCommand("", db);
-                db.Open();
-                StringBuilder sb = new StringBuilder();
-                foreach (var p in pers)
+                try
                 {
-                    sb.Append("personel_id=" + p.pdksid + " or ");
-                }
-                sb.Remove(sb.Length - 4, 3);
-                com.CommandText =
-                        string.Format(
-                            "select personel_id,tarih,giris_saat,cikis_saat from personel_giriscikis " +
-                            "INNER JOIN personel_kartlari ON personel_kartlari.id = personel_giriscikis.personel_id " +
-                            "where ({0}) and tarih>='{1}' and tarih<='{2}' and personel_kartlari.ozel_kod=0",
-                            sb.ToString(), tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
-                var dset = new GirisCikis();
-                var adapter = new MySqlDataAdapter(com);
-                adapter.Fill(dset.PersonelGirisCikis);
-                com.CommandText = String.Format(
-                    "SELECT personel_izin.personel_id,personel_izin.tatil_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.saatlik,personel_izin.aciklama from personel_izin " +
-                    "INNER JOIN personel_kartlari ON personel_kartlari.id = personel_izin.personel_id " +
-                    "where ({0}) and tarih>='{1}' and tarih<='{2}' and saatlik=1",
-                    sb.ToString(), tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
-                adapter.Fill(dset.PersonelIzin);
-                db.Close();
-              
-                foreach (var per in dset.PersonelGirisCikis.GroupBy(c => c.personel_id))
-                {
-                    foreach (var pt in per.GroupBy(d => d.tarih))
+                    var com = new MySqlCommand("", db);
+                    db.Open();
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var p in pers)
                     {
-                        if (pt.Key.Date.DayOfWeek == DayOfWeek.Saturday || pt.Key.Date.DayOfWeek == DayOfWeek.Sunday)
-                            continue;
+                        sb.Append("personel_id=" + p.pdksid + " or ");
+                    }
+                    sb.Remove(sb.Length - 4, 3);
+                    com.CommandText =
+                            string.Format(
+                                "select personel_id,tarih,giris_saat,cikis_saat,personel_giriscikis.id from personel_giriscikis " +
+                                "INNER JOIN personel_kartlari ON personel_kartlari.id = personel_giriscikis.personel_id " +
+                                "where ({0}) and tarih>='{1}' and tarih<='{2}' and personel_kartlari.ozel_kod=0",
+                                sb.ToString(), tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
+                    var dset = new GirisCikis();
+                    var adapter = new MySqlDataAdapter(com);
+                    adapter.Fill(dset.PersonelGirisCikis);
+                    com.CommandText = String.Format(
+                        "SELECT personel_izin.personel_id,personel_izin.tatil_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.saatlik,personel_izin.aciklama from personel_izin " +
+                        "INNER JOIN personel_kartlari ON personel_kartlari.id = personel_izin.personel_id " +
+                        "where ({0}) and tarih>='{1}' and tarih<='{2}' and saatlik=1",
+                        sb.ToString(), tarih1.ToString("yyyy-MM-dd"), tarih2.ToString("yyyy-MM-dd"));
+                    adapter.Fill(dset.PersonelIzin);
+                    db.Close();
 
-                        var gec = new GecKalanlarVM();
-                        gec.AdSoyad = pers.SingleOrDefault(c => c.pdksid == per.Key).adsoyad;
-                        gec.Tarih = pt.Key.ToShortDateString();
-                        var har = new List<TimeSpan>();
-                        foreach (var pg in pt)
+                    foreach (var per in dset.PersonelGirisCikis.GroupBy(c => c.personel_id))
+                    {
+                        foreach (var pt in per.GroupBy(d => d.tarih))
                         {
-                            try
+                            if (pt.Key.Date.DayOfWeek == DayOfWeek.Saturday || pt.Key.Date.DayOfWeek == DayOfWeek.Sunday)
+                                continue;
+
+                          
+                            var gec = new GecKalanlarVM();
+                            var prs = pers.SingleOrDefault(c => c.pdksid == per.Key);
+                            gec.personelid = prs.id;
+                            gec.ID = pt.FirstOrDefault().id;
+                            gec.AdSoyad = prs.adsoyad;
+                            gec.Tarih = pt.Key.ToShortDateString();
+                           
+                            var har = new List<TimeSpan>();
+                            foreach (var pg in pt)
                             {
-                                if (pg.giris_saat != new TimeSpan(0, 0, 0))
-                                    har.Add(pg.giris_saat);
-                            }
-                            catch { }
-                            try
-                            {
-                                if (pg.cikis_saat != new TimeSpan(0, 0, 0))
-                                    har.Add(pg.cikis_saat);
-                            }
-                            catch { }
-                        }
-                        gec.Giris = har.OrderBy(c => c.Ticks).FirstOrDefault();
-
-                        // var p = per.FirstOrDefault();
-
-
-
-
-
-                        var izinler = dset.PersonelIzin.Where(d => d.tarih == pt.Key & d.personel_id == per.Key);
-
-                        if (izinler.Any())
-                        {
-                            foreach (var v1 in izinler)
-                            {
-                                if (v1.gidis_saat == new TimeSpan(8, 30, 0))
+                               
+                                try
                                 {
-                                    gec.Giris = new TimeSpan(8, 30, 0);
-                                }
-                            }
-                            //
-                        }
+                                    if (pg.giris_saat != new TimeSpan(0, 0, 0))
+                                        har.Add(pg.giris_saat);
 
-                        var f = gec.Giris.Subtract(new TimeSpan(8, 30, 0));
-                        int fark = 0;
-                        if (f.Hours > 0)
-                        {
-                            fark += f.Hours * 60;
-                            fark += f.Minutes;
-                            gec.Fark = fark;
-                            gecvm.Add(gec);
-                        }
-                        else
-                        {
-                            if (f.Minutes > 5)
+
+
+
+
+                                }
+                                catch { }
+                                try
+                                {
+                                    if (pg.cikis_saat != new TimeSpan(0, 0, 0))
+                                        har.Add(pg.cikis_saat);
+                                }
+                                catch { }
+                            }
+                            gec.Giris = har.OrderBy(c => c.Ticks).FirstOrDefault();
+                            //gec.ID =pt.FirstOrDefault().id;
+                            // var p = per.FirstOrDefault();
+
+
+
+
+
+                            var izinler = dset.PersonelIzin.Where(d => d.tarih == pt.Key & d.personel_id == per.Key);
+
+                            if (izinler.Any())
                             {
+                                foreach (var v1 in izinler)
+                                {
+                                    if (v1.gidis_saat == new TimeSpan(8, 30, 0))
+                                    {
+                                        gec.Giris = new TimeSpan(8, 30, 0);
+                                    }
+                                }
+                                //
+                            }
+
+                            var f = gec.Giris.Subtract(new TimeSpan(8, 30, 0));
+                            int fark = 0;
+                            if (f.Hours > 0)
+                            {
+                                fark += f.Hours * 60;
                                 fark += f.Minutes;
                                 gec.Fark = fark;
                                 gecvm.Add(gec);
                             }
+                            else
+                            {
+                                if (f.Minutes > 5)
+                                {
+                                    fark += f.Minutes;
+                                    gec.Fark = fark;
+                                    gecvm.Add(gec);
+                                }
+                            }
+                            //gec.ID==
+                            // gecvm.Add(gec);
                         }
-                       // gecvm.Add(gec);
+
+
                     }
+                }
+                catch (Exception exc)
+                {
 
-
+                   
                 }
                 //her personel için ad soyad, tarih, giriş saat, geç kalma süresi
             }

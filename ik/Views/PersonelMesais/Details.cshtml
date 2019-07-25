@@ -1,0 +1,50 @@
+﻿@model ik.Models.PersonelMesai
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PersonelMesai</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.yil)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.yil)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mesai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mesai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personel.adsoyad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personel.adsoyad)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -87,5 +87,6 @@ namespace ik.Models
         public virtual DbSet<OzlukGrupTanimDetay> OzlukGrupTanimDetays { get; set; }
         public virtual DbSet<OzlukEgitim> OzlukEgitims { get; set; }
         public virtual DbSet<OzlukEgitimDetay> OzlukEgitimDetays { get; set; }
+        public virtual DbSet<PersonelMesai> PersonelMesais { get; set; }
     }
 }

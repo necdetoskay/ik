@@ -19,6 +19,7 @@
               <xs:element name="tarih" msprop:Generator_ColumnVarNameInTable="columntarih" msprop:Generator_ColumnPropNameInRow="tarih" msprop:Generator_ColumnPropNameInTable="tarihColumn" msprop:Generator_UserColumnName="tarih" type="xs:dateTime" minOccurs="0" />
               <xs:element name="giris_saat" msprop:Generator_ColumnVarNameInTable="columngiris_saat" msprop:Generator_ColumnPropNameInRow="giris_saat" msprop:Generator_ColumnPropNameInTable="giris_saatColumn" msprop:Generator_UserColumnName="giris_saat" type="xs:duration" minOccurs="0" />
               <xs:element name="cikis_saat" msprop:Generator_ColumnVarNameInTable="columncikis_saat" msprop:Generator_ColumnPropNameInRow="cikis_saat" msprop:Generator_ColumnPropNameInTable="cikis_saatColumn" msprop:Generator_UserColumnName="cikis_saat" type="xs:duration" minOccurs="0" />
+              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

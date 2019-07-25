@@ -322,6 +322,8 @@ namespace ik.Models {
             
             private global::System.Data.DataColumn columncikis_saat;
             
+            private global::System.Data.DataColumn columnid;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public PersonelGirisCikisDataTable() {
@@ -389,6 +391,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn idColumn {
+                get {
+                    return this.columnid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -424,13 +434,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PersonelGirisCikisRow AddPersonelGirisCikisRow(int personel_id, System.DateTime tarih, System.TimeSpan giris_saat, System.TimeSpan cikis_saat) {
+            public PersonelGirisCikisRow AddPersonelGirisCikisRow(int personel_id, System.DateTime tarih, System.TimeSpan giris_saat, System.TimeSpan cikis_saat, int id) {
                 PersonelGirisCikisRow rowPersonelGirisCikisRow = ((PersonelGirisCikisRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         personel_id,
                         tarih,
                         giris_saat,
-                        cikis_saat};
+                        cikis_saat,
+                        id};
                 rowPersonelGirisCikisRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPersonelGirisCikisRow);
                 return rowPersonelGirisCikisRow;
@@ -457,6 +468,7 @@ namespace ik.Models {
                 this.columntarih = base.Columns["tarih"];
                 this.columngiris_saat = base.Columns["giris_saat"];
                 this.columncikis_saat = base.Columns["cikis_saat"];
+                this.columnid = base.Columns["id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -470,6 +482,8 @@ namespace ik.Models {
                 base.Columns.Add(this.columngiris_saat);
                 this.columncikis_saat = new global::System.Data.DataColumn("cikis_saat", typeof(global::System.TimeSpan), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columncikis_saat);
+                this.columnid = new global::System.Data.DataColumn("id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnid);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -965,6 +979,22 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int id {
+                get {
+                    try {
+                        return ((int)(this[this.tablePersonelGirisCikis.idColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'id\' in table \'PersonelGirisCikis\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePersonelGirisCikis.idColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool Ispersonel_idNull() {
                 return this.IsNull(this.tablePersonelGirisCikis.personel_idColumn);
             }
@@ -1009,6 +1039,18 @@ namespace ik.Models {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void Setcikis_saatNull() {
                 this[this.tablePersonelGirisCikis.cikis_saatColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsidNull() {
+                return this.IsNull(this.tablePersonelGirisCikis.idColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetidNull() {
+                this[this.tablePersonelGirisCikis.idColumn] = global::System.Convert.DBNull;
             }
         }
         

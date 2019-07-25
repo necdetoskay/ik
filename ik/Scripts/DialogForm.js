@@ -22,7 +22,7 @@
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
-                    alert(result);
+                   // alert(result);
                     // Check whether the post was successful
                     if (result.success) {
                         //console.log(updateUrl);

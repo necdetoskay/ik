@@ -59,8 +59,12 @@ namespace ik.Controllers
             return sonuc;
         }
 
+
         public ActionResult Index()
         {
+
+            //new TemplateController()._RaporKontrol(5);
+
             //var giri = new DateTime(2013, 02, 01);
             //var cik = new DateTime(2019, 5, 16);
             //var fark = ikiTarihFarki(cik, giri);

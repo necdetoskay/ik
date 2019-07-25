@@ -3,7 +3,7 @@
     .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
         background: blue;
     }
-
+    .working{background:url('@Url.Content("~/content/Loading_icon.gif")') no-repeat right center;}
     .ui-autocomplete {
         -moz-background-clip: padding;
         -moz-border-radius: 5px;
@@ -55,6 +55,7 @@
 
             $("#personel").autocomplete({
                 source: function (request, response) {
+                
                     $.ajax({
                         url: '@Url.Action("AutoComplete", "PTakip")',
                         minLength: 3,
@@ -72,6 +73,11 @@
                     });
                 },
                 minLeght: 3,
+                search: function() {
+                  
+                    $(this).addClass('working');
+                },
+                response    : function(){$(this).removeClass('working');},
                 select: function (event, ui) {
                     $('#personel').attr('data-id', ui.item.val);
                     if (typeof AutoCompleteSelected == 'function') {

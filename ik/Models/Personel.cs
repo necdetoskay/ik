@@ -35,6 +35,7 @@ namespace ik.Models
             this.OzlukAileFertleris = new HashSet<OzlukAileFertleri>();
             this.OzlukGorevlendirmes = new HashSet<OzlukGorevlendirme>();
             this.OzlukEgitimDetays = new HashSet<OzlukEgitimDetay>();
+            this.PersonelMesais = new HashSet<PersonelMesai>();
         }
     
         public int id { get; set; }
@@ -94,5 +95,7 @@ namespace ik.Models
         public virtual ICollection<OzlukGorevlendirme> OzlukGorevlendirmes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OzlukEgitimDetay> OzlukEgitimDetays { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonelMesai> PersonelMesais { get; set; }
     }
 }

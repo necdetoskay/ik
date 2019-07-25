@@ -1407,9 +1407,32 @@ namespace ik.Controllers
             return PartialView();
         }
 
-        public ActionResult ibraname()
+        public ActionResult IbranameForm()
         {
-            return View();}
+            return View();
+        }
+
+        //personel için ibraname formu hazırlamakta kullanılacak kıdem vs bilgileri
+        public ActionResult _PersonelIbranameBilgi(int id)
+        {
+            var pers = db.Personels.FirstOrDefault(c => c.id == id);
+            var mikro = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == pers.mikroid);
+           
+            var bilgi = new
+            {
+                AdSoyad = mikro.per_adi + ' ' + mikro.per_soyadi,
+                SGKSicilno=mikro.Per_TcKimlikNo,
+                İşeGirişTarihi=mikro.per_giris_tar,
+                KıdemTarihi=mikro.per_Kidem_Tarih,
+                İştenÇıkışTarihi=mikro.per_cikis_tar,
+                PersonelÇıkışDetay=mikro.per_cikis_neden,
+                PersonelÇıkışKod=mikro.per_CikisSebebiSecimli,
+                PersonelFirma=mikro.per_kim_SGK_kod
+
+
+            };
+            return View();
+        }
     }
 
     public class SicilVM

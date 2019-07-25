@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ik.Controllers.YemekParaKontrolVM>
+
+
+@Html.Hidden("Success", Model.Any(c=>(c.YemekPara-c.Hesaplanan)<1))
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SGKgun)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YemekPara)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hesaplanan)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SGKgun)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YemekPara)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hesaplanan)
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+}
+
+</table>

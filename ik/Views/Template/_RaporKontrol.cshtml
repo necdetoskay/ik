@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ik.Controllers.RaporKontrolVM>
+
+@Html.Hidden("Success", false)
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Devirmi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.İkiGunOde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Raporgun)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SGKgün)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    if (item.Raporgun == 0)
+    {
+        continue;
+    };
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Devirmi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.İkiGunOde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Raporgun)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SGKgün)
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+}
+
+</table>

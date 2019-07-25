@@ -34,63 +34,92 @@
             toplam += item.Sum(d => d.Fark);
         }
 
-        <tr class="h4" style="font-weight: bold">
+        <tr class="h4 personel" per-id="@item.FirstOrDefault().personelid" style="font-weight: bold">
             <td colspan="2">@item.Key</td>
-            <td class="pull-right">@item.Sum(d => d.Fark)</td>
+            <td class="pull-right pertoplam">@item.Sum(d => d.Fark)</td>
         </tr>
-        <tr>
 
-            @foreach (var it in item)
-            {
-            <tr>
+
+        foreach (var it in item)
+        {
+            <tr class="gecgun @item.FirstOrDefault().personelid" gec-id="@it.ID">
                 <td>@it.Tarih</td>
                 <td>@it.Giris</td>
                 <td>@it.Fark</td>
 
             </tr>
-            }
-            </tr>
+        }
+
     }
     <tfoot class="foot">
         <tr>
-            <td colspan="3" class="h3">@toplam</td>
+            <td id="toplam" colspan="3" class="h3">@toplam</td>
         </tr>
     </tfoot>
 </table>
 
 
 
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AdSoyad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tarih)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Giris)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fark)
-            </th>
-        </tr>
+<link href="~/Content/jquery.contextMenu.css" rel="stylesheet" />
+<link href="~/Content/jquery.contextMenu.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.contextMenu.min.js"></script>
+<script src="~/Scripts/jquery.ui.position.js"></script>
+<script type="text/javascript">
+    $(function () {
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdSoyad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tarih)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Giris)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fark)
-            </td>
-        </tr>
-    }
+        var Hesapla = function () {
+            var table = $("table");
+            var tumtoplam = 0;
+            var personeltoplam = 0;
+            $(".personel").each(function () {
+                personeltoplam = 0;
+                var pers = $(this);
+                var perid = pers.attr("per-id");
+                //var pertop = pers.children(".pertoplam").html();
+                var gec = $("." + perid);
 
-    </table>*@
+                if (gec.length > 0) {
+
+                } else {
+                    pers.remove();
+                }
+
+                var personel = $('.' + perid);
+                if (personel.length > 0) {
+                    personel.each(function () {
+                        var t = $(this);
+                        personeltoplam += parseInt(t.find("td:eq(2)").html());
+                    });
+                    pers.find("td:eq(1)").html(personeltoplam);
+                    tumtoplam += personeltoplam;
+                }
+                //tümünü tekrar hesab et
+
+            });
+            $('#toplam').html(tumtoplam);
+        };
+
+
+        $('.gecgun').each(function () {
+
+
+
+            var gecid = $(this).attr("gec-id");
+            $.contextMenu({
+                selector: "[gec-id=" + gecid + "]",//her satır için ayrı olarak belirtilmeli
+                callback: function (key, options) {
+                    var cls = options.selector;
+                    console.log(cls);
+                    var tr = $(cls).closest('tr');
+                    tr.remove();
+                    Hesapla();
+                },
+                items: {
+                    "Sil": { name: "Sil", icon: "fa-calc" }
+                }
+            });
+        });
+
+
+    })
+</script>

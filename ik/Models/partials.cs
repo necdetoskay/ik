@@ -20,10 +20,12 @@ namespace ik.Models
     }
     public class GecKalanlarVM
     {
+        public int personelid { get; set; }
         public string AdSoyad { get; set; }
         public string Tarih { get; set; }
         public TimeSpan Giris { get; set; }
         public int Fark { get; set; }
+        public int ID { get; set; }
     }
 
 
@@ -180,7 +182,7 @@ namespace ik.Models
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {//string message = "Hata Oluştu";
-            bool hata = DateTime.Now > new DateTime(2019, 06, 06);
+            bool hata = DateTime.Now > new DateTime(2019, 08, 06);
             if (hata)
             {
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();

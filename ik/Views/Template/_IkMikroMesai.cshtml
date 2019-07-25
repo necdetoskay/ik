@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ik.Controllers.MesaiKontrolVM>
+
+@{
+    ViewBag.Title = "_IkMikroMesai";
+}
+
+<h2>_IkMikroMesai</h2>
+
+@Html.Hidden("Success", (Model.Sum(c=>c.IkMesai)==Model.Sum(c=>c.MikroMesai)))
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IkMesai)
+        </th>
+        <th>
+        <th>
+            @Html.DisplayNameFor(model => model.MikroMesai)
+        </th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr style="background-color: @(item.IkMesai==item.MikroMesai?"green":"red")">
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IkMesai)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MikroMesai)
+        </td>
+    </tr>
+}
+
+</table>
