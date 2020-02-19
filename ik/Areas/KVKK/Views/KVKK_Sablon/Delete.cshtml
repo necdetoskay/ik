@@ -1,0 +1,137 @@
+﻿@model ik.Areas.KVKK.Models.KVKK_Sablon
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/KVKK/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>KVKK_Sablon</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ozelNitelik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ozelNitelik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.yurticiaktarım)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.yurticiaktarım)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.yurtdisiaktarim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.yurtdisiaktarim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_1_VeriSahibi.verisahibi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_1_VeriSahibi.verisahibi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_2_VeriIslemeAmaci.veriislemeamaci)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_2_VeriIslemeAmaci.veriislemeamaci)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_3_VeriTransferAlici.veritransferalicisi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_3_VeriTransferAlici.veritransferalicisi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_5_VeriSaklamaSuresi.verisaklamasuresi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_5_VeriSaklamaSuresi.verisaklamasuresi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_Departman.departman)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_Departman.departman)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_Faaliyet.faaliyet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_Faaliyet.faaliyet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_HukukiDayanak.hukukidayanak)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_HukukiDayanak.hukukidayanak)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_IdariTedbirGrup.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_IdariTedbirGrup.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_KisiselVeri.kisiselveriad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_KisiselVeri.kisiselveriad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_TeknikTedbirGrup.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_TeknikTedbirGrup.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KVKK_VeriKategori.verikategori)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KVKK_VeriKategori.verikategori)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

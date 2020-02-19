@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ik.Controllers.IcraKontrolVM>
+
+@{
+    var durum = false;
+    var icra = Model.Any(c => c.MikroIcra == 0);
+    var icrafark = true;
+    if (icra == false)
+    {
+        icrafark = Model.Any(c => Math.Abs(c.IcraHesaplanan - c.MikroIcra) > 1);
+    }
+
+
+    var icravar = Model.Any();
+
+
+
+}
+
+    @Html.Hidden("Success",(icravar & !icrafark))
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IcraHesaplanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MikroIcra)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IcraHesaplanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MikroIcra)
+        </td>
+        <td></td>
+    </tr>
+}
+
+</table>

@@ -18,7 +18,10 @@
             @Html.DisplayNameFor(model => model.ay)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.mesai)
+            @Html.DisplayNameFor(model => model.mesai1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mesai2)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Personel.adsoyad)
@@ -26,7 +29,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderByDescending(c=>c.id)) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.yil)
@@ -35,8 +38,10 @@
             @Html.DisplayFor(modelItem => item.ay)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.mesai)
+            @Html.DisplayFor(modelItem => item.mesai1)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mesai2)</td>
         <td>
             @Html.DisplayFor(modelItem => item.Personel.adsoyad)
         </td>

@@ -1,7 +1,21 @@
 ﻿@model IEnumerable<ik.Controllers.YemekParaKontrolVM>
+@{
+    var durum = true;
+    foreach (var item in Model)
+    {
 
+        if (item.YemekPara == Math.Round(item.Hesaplanan,2))
+        {
+        }
+        else
+        {
+            durum = false;
+        }
+    }
+}
+@Html.Hidden("Success",durum)
 
-@Html.Hidden("Success", Model.Any(c=>(c.YemekPara-c.Hesaplanan)<1))
+@*@Html.Hidden("Success", Model.Any(c => (c.YemekPara - c.Hesaplanan)<1 & (c.YemekPara - c.Hesaplanan) > 0))*@
 <table class="table">
     <tr>
         <th>
@@ -34,7 +48,7 @@
             @Html.DisplayFor(modelItem => item.Hesaplanan)
         </td>
         <td>
-            
+
         </td>
     </tr>
 }

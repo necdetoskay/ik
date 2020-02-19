@@ -188,6 +188,83 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\KVKK\Controllers\IndexController.cs" />
+    <Compile Include="Areas\KVKK\Controllers\KVKK_SablonController.cs" />
+    <Compile Include="Areas\KVKK\Controllers\KVKK_TeknikTedbirController.cs" />
+    <Compile Include="Areas\KVKK\KVKKAreaRegistration.cs" />
+    <Compile Include="Areas\KVKK\Models\KVKKModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KVKKModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKKModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKKModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KVKKModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_1_VeriSahibi.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_2_VeriIslemeAmaci.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_3_VeriTransferAlici.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_4_VeriGuvenligiAlinanTedbirler.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_5_VeriSaklamaSuresi.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_Departman.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_Faaliyet.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_HukukiDayanak.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_IdariTedbir.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_IdariTedbirGrup.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_IdariTedbirGrupDetay.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_KisiselVeri.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_Sablon.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_TeknikTedbir.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_TeknikTedbirGrup.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_TeknikTedbirGrupListe.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\KVKK_VeriKategori.cs">
+      <DependentUpon>KVKKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\KVKK\Models\partialClasses.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\EnumController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\EnumDetayController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisEvrakController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisGerekEvrakTipController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\OzlukHomeController.cs" />
+    <Compile Include="Areas\OzlukAdmin\OzlukAdminAreaRegistration.cs" />
     <Compile Include="Controllers\AileFertleriController.cs" />
     <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
@@ -221,6 +298,7 @@
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TestTestController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\YillikIznimController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -305,6 +383,21 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OzlukGrupTanimDetay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_Enum.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_Enum_Detay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_IseGirisEvrak.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_IseGirisEvrakUrl.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_IseGirisGerekEvrakTip.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonelEtiket.cs">
@@ -509,6 +602,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\KVKK\Models\KVKKModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KVKKModel.edmx</DependentUpon>
+      <LastGenOutput>KVKKModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\KVKK\Models\KVKKModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KVKKModel.edmx</DependentUpon>
+      <LastGenOutput>KVKKModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -902,6 +1005,46 @@
     </Content>
     <Content Include="Content\Report\Avans\merkez.xls" />
     <Content Include="Content\Report\Avans\khk.xls" />
+    <Content Include="Areas\KVKK\Views\web.config" />
+    <Content Include="Areas\KVKK\Views\Shared\_Layout.cshtml" />
+    <EntityDeploy Include="Areas\KVKK\Models\KVKKModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KVKKModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Areas\KVKK\Models\KVKKModel.edmx.diagram">
+      <DependentUpon>KVKKModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Create.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Delete.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Details.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Edit.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Index.cshtml" />
+    <Content Include="Areas\KVKK\Views\Index\Index.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Create.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Delete.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Details.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Edit.cshtml" />
+    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\web.config" />
+    <Content Include="Areas\OzlukAdmin\Views\Enum\Create.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\Enum\Delete.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\Enum\Details.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\Enum\Edit.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\Enum\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\OzlukHome\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Create.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Delete.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Details.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Edit.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Create.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Delete.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Details.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Edit.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1272,11 +1415,19 @@
     <Content Include="Views\Template\_IkMikroMesai.cshtml" />
     <Content Include="Views\Template\_SGKGunYemek.cshtml" />
     <Content Include="Views\Template\_RaporKontrol.cshtml" />
+    <Content Include="Views\Template\_IcraKontrol.cshtml" />
+    <Content Include="Views\Personel\PersonelDosyaYukle.cshtml" />
+    <Content Include="Views\Personel\IseGirisEvrak.cshtml" />
+    <Content Include="Views\Personel\_GirisEvrakYukle.cshtml" />
+    <Content Include="Views\Personel\EkleGirisEvrak.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\OzlukAdmin\Models\" />
+    <Folder Include="Uploads\" />
     <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />
+    <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1365,7 +1516,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_ReactorR.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

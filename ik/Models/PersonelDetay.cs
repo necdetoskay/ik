@@ -25,6 +25,8 @@ namespace ik.Models
         public string mailadres { get; set; }
         public Nullable<int> sgkdosya { get; set; }
         public Nullable<int> meslek { get; set; }
+        public string ebyskullaniciadi { get; set; }
+        public string ebyssifre { get; set; }
     
         public virtual Gorev Gorev1 { get; set; }
         public virtual Lokasyon Lokasyon1 { get; set; }

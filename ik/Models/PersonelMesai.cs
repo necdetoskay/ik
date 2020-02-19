@@ -18,7 +18,8 @@ namespace ik.Models
         public int personelID { get; set; }
         public int yil { get; set; }
         public int ay { get; set; }
-        public int mesai { get; set; }
+        public int mesai1 { get; set; }
+        public int mesai2 { get; set; }
     
         public virtual Personel Personel { get; set; }
     }

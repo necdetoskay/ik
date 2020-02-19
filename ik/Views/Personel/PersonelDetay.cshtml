@@ -74,6 +74,12 @@
         <li>
             <a href="#egitimler" data-toggle="tab">Alınan Eğitimler</a>
         </li>
+        <li>
+            <a href="#upload" data-toggle="tab">Dosya Yükle</a>
+        </li>
+        <li>
+            <a href="#isegiris" data-toggle="tab">İşe Giriş Evrakları</a>
+        </li>
     </ul>
 
     <div class="tab-content ">
@@ -91,6 +97,19 @@
                 asdasdas das d
             </div>
         </div>
+        <div class="tab-pane" id="upload">
+            <input type="button" id="dosyayukle" value="Yükle"/>
+            <div id="dialogform"></div>
+            <div class="content">
+                dosya yükleme ekranı
+            </div>
+        </div>
+        <div class="tab-pane" id="isegiris" data-url="@Url.Action("IseGirisEvrak")">
+            <div id="content"></div>
+            <div class="content">
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -99,9 +118,31 @@
 
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
+
 
     <script type="text/javascript">
         $(function () {
+           
+
+
+            //////////////////////////////////////////////////////////////////////////////
+            $('.nav-tabs').each(function() {
+                var tab = $(this);
+                tab.on('click', function() {
+                    var input = tab.find('button');
+                   // console.log(input);
+                });
+            });
+
+            
+            //////////////////////////////////////////////////////////////////////////////
+
+
+
 
 
 
@@ -143,8 +184,54 @@
 
 
 
+            $('#dosyayukle').on('click', function () {
+                var content = $('#dosyayukle').parent().find('.content');
+                content.html('<img src="@Url.Content("~/Content/Loading_icon.gif")"/>');
+                var selected = $("#personel option:selected");
+                console.log(selected);
+                $('#dialogform').MakeDialogForm({
+                    id: 'btnresimekle',
+                    text: 'Dosya Yükle',
+                    url: '@Url.Action("PersonelDosyaYukle")'+'/?id='+selected.val(),
+                    title: 'Resmin Ekle',
+                    updateurl: '' @*'@Url.Action("Index")'*@,
+                    bclass: 'btn btn-info',
+                    targetid: 'empty',
+                    width: "600",
+                    height: "500",
+                    complete: function (data) {
+
+                    }
+
+                });
+
+
+                //personel görevlendirmelerini yükle
+                @*$.ajax({
+                    url: '@Url.Action("PersonelDosyaYukle")',
+                    type: 'GET',
+                    data: {
+                        id: selected.val()
+                    },
+                    success: function (result) {
+                        content.html(result);
+                    }
+                });*@
+
+            });
+
+
+
+
             $("#personel").on('change', function () {
                 var selected = $("#personel option:selected");
+
+
+              
+
+
+
+
                 $.ajax({
                     url: '@Url.Action("Sicil","Personel")',
                     type: 'GET',
@@ -245,6 +332,26 @@
 
                 $('.loading').removeClass("hidden");
                 //yükleme tamamlanınca loading ikonunu gizle
+
+                var load = $('#isegiris');
+                var url = load.attr('data-url');
+                var pid = selected.val();
+                console.log(pid);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: {
+                        pid: pid
+                    },
+                    success: function (result) {
+                        var content = $('#isegiris').parent().find('#content');
+                        content.html(result);
+                    }
+
+                });
+
+
+
             }));
         })
     </script>

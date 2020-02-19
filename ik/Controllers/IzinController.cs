@@ -634,5 +634,11 @@ namespace ik.Controllers
             var liste = db.YizinDetays.OrderByDescending(c => c.id).Take(25).ToList();
             return View(liste);
         }
+
+        public ActionResult _PersonelYarimIzinleri(int id)
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }

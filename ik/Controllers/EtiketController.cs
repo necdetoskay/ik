@@ -135,8 +135,7 @@ namespace ik.Controllers
         public JsonResult _Etiketler()
         {
             var liste = db.EtiketTanims.Select(c => new
-            {
-                label = c.ad+" ["+c.PersonelEtikets.Count+"]",
+            {label = c.ad+" ["+c.PersonelEtikets.Where(d=>d.Personel.cikistarihi == null).ToList().Count+"]",
                 url = "",
                 target = "_top"
             });
@@ -144,3 +143,4 @@ namespace ik.Controllers
         }
     }
 }
+//.Where(c=>c.PersonelEtikets.Any(d=>d.Personel.cikistarihi==new DateTime(1899,12,31)))

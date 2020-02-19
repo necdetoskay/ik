@@ -64,9 +64,9 @@ namespace ik.Controllers
             var liste = new ArrayList();
             using (ikEntities db = new ikEntities())
             {
-                var query=(from pi in ke.PERSONEL_IZINLERI join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod where pi.pz_izin_tipi==0 orderby pi.pz_create_date descending select new {i.per_adi,i.per_soyadi,i.per_Guid,pi.pz_izin_tipi,pi.pz_pers_kod,pi.pz_baslangictarih,pi.pz_gerceklesen_donus_tarihi,pi.pz_gun_sayisi,pi.pz_izin_aciklama}).
-                Take(100);
-
+                var query=(from pi in ke.PERSONEL_IZINLERI join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod
+                           where pi.pz_izin_tipi==0 && i.per_cikis_tar.Value==new DateTime(1899,12,31)  orderby pi.pz_create_date descending select new {i.per_adi,i.per_soyadi,i.per_Guid,pi.pz_izin_tipi,pi.pz_pers_kod,pi.pz_baslangictarih,pi.pz_gerceklesen_donus_tarihi,pi.pz_gun_sayisi,pi.pz_izin_aciklama}).
+                Take(50);
                 foreach (var izin in query.ToList())
                 {
                     var list=db.Izins.Where(c => c.Personel.mikroid == izin.per_Guid & c.baslangictarih==izin.pz_baslangictarih );

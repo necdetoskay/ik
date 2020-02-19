@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ik.Models.Ozluk_IseGirisEvrak>
+
+@Html.Hidden("PersonelID",(int)ViewBag.personelID)
+<div id="evrakekle"></div> <span>burada sadece listede olmayan evraklar listelenecek, evrak gerekli 1 ise rakam gösterme</span>
+
+
+<div id="content">
+    @Html.Partial("_GirisEvrakYukle", Model)
+</div>
+
+
+
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/DialogForm.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        var pid = $('#PersonelID').val();
+
+        $('#evrakekle').MakeDialogForm({
+            id: 'btnresimekle',
+            text: 'Evrak Kaydı Ekle',
+            url: '@Url.Action("EkleGirisEvrak")' + '/?id=' + $('#PersonelID').val(),
+            title: 'İşe Giriş Evrak Ekle',
+            updateurl: '@Url.Action("IseGirisEvrak")'+'/?pid='+pid,
+            bclass: 'btn btn-info',
+            targetid: 'content',
+            width: "600",
+            height: "500",
+            complete: function (data) {
+
+            }
+
+        });
+
+    })
+</script>

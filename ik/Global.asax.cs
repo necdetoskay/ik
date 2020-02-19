@@ -14,7 +14,7 @@ namespace ik
     {
         protected void Application_Start()
         {
-            if (DateTime.Now > new DateTime(2019, 08, 06)) return;
+            if (DateTime.Now > new DateTime(2020, 03, 05)) return;
             AreaRegistration.RegisterAllAreas();
             GlobalFilters.Filters.Add(new MapAttribute());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -1,0 +1,77 @@
+﻿@using ik.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", false)
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top marginBottom-25" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("I.K.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("KVKK Şablon", "Index", "KVKK_Sablon", new { area = "KVKK" }, new { @class = "navbar-brand" })
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Arşiv Arama <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li> @Html.ActionLink("Arşiv", "Index", "Arsiv")</li>
+                        <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale")</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+    </nav>
+
+    <div class="container body-content" style="margin-top:25px">
+        <div id="Info">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/ptakip.js"></script>
+    @Html.PageScripts()
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //$('.dropdown-toggle').dropdown();
+            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(this).parent().siblings().removeClass('open');
+                $(this).parent().toggleClass('open');
+            });
+        });
+    </script>
+    @RenderSection("scripts", false)
+</body>
+</html>

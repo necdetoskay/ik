@@ -27,6 +27,7 @@ namespace ik.Models
         public string SistemSifre { get; set; }
         public string IsyeriSifre { get; set; }
         public int SiraNo { get; set; }
+        public string Adres { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelDetay> PersonelDetays { get; set; }

@@ -12,13 +12,14 @@
 }
 @helper Durum(IcralarVM icra)
 {
-    var kalan = icra.tutar - icra.Odenen;
-    var durum = ( kalan == 0 || icra.Durum  ? "TAMAMLANMIŞ" : (kalan==icra.tutar?"SIRADA":"DEVAM EDİYOR"));
+var kalan = icra.tutar - icra.Odenen;
+var durum = (kalan == 0 || icra.Durum ? "TAMAMLANMIŞ" : (kalan == icra.tutar ? "SIRADA" : "DEVAM EDİYOR"));
+//var durum = ( icra.Durum == false ? "SIRADA" : (icra.Durum ?"TAMAMLANMIŞ":"DEVAM EDİYOR"));
 
     <span>@durum</span>
 }
 <p>
-    @Html.ActionLink("Yeni İcra Dosyası Ekle", "Create", null, new { @class = "btn btn-primary" }).If(User.Identity.Name == @"KENTKONUT\noskay")
+    @Html.ActionLink("Yeni İcra Dosyası Ekle", "Create", null, new { @class = "btn btn-primary" })
 </p><table class="table">
     <tr>
         <th>

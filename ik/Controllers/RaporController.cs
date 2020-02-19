@@ -11,7 +11,7 @@ using PtakipDAL;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\yyazici,KENTKONUT\derya.aslan")]
     public class RaporController : Controller
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -173,9 +173,9 @@ namespace ik.Controllers
         }
 
 
+        
         public ActionResult PersonelDurum()
         {
-
             return View();
         }
 

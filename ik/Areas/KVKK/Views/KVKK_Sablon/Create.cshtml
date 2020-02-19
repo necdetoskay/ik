@@ -1,0 +1,326 @@
+﻿@model ik.Areas.KVKK.Models.KVKK_Sablon
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/KVKK/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "KVKK_Sablon", FormMethod.Post, new { id="createform" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>KVKK_Sablon</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.departmanID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("departmanID", null, "Departman Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="departmanbtn" data-title="Departman" target="@Url.Action("_DepartmanEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.departmanID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.kisiselveriID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("kisiselveriID", null, "Kişisel Veri Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="kisiselveribtn" data-title="Kişisel Veri" target="@Url.Action("_KisiselVeriEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.kisiselveriID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.faaliyetID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("faaliyetID", null, "Faaliyet Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="faaliyetbtn" data-title="Faaliyet" target="@Url.Action("_FaaliyetEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.faaliyetID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.verikategoriID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("verikategoriID", null, "Veri Kategorisi Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="verikategoribtn" data-title="Veri Kategorisi" target="@Url.Action("_VeriKategoriEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.verikategoriID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ozelNitelik, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.ozelNitelik)
+                    @Html.ValidationMessageFor(model => model.ozelNitelik, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.verisahibiID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("verisahibiID", null, "Veri Sahibi Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="verisahibibtn" data-title="Veri Sahibi" target="@Url.Action("_VeriSahibiEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.verisahibiID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.veriislemeamacID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("veriislemeamacID", null, "Veri İşleme Amacı Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="veriislemeamacibtn" data-title="Veri İşleme Amacı" target="@Url.Action("_VeriİslemeAmacıEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.veriislemeamacID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.hukukidayanakID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("hukukidayanakID", null, "Hukuki Dayanak Seçiniz", htmlAttributes: new { @class = "form-control" })
+                <input id="hukukidayanakbtn" data-title="Hukuki Dayanak" target="@Url.Action("_HukukiDayanakEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @Html.ValidationMessageFor(model => model.hukukidayanakID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" target="veritransferaliciID">
+            @Html.LabelFor(model => model.yurticiaktarim, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.yurticiaktarim)
+                    @Html.ValidationMessageFor(model => model.yurticiaktarim, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group gizle hidden">
+            @Html.LabelFor(model => model.veritransferaliciID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("veritransferaliciID", null, "Veri Transfer Alıcılarını Seçiniz", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.veritransferaliciID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.yurtdisiaktarim, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.yurtdisiaktarim)
+                    @Html.ValidationMessageFor(model => model.yurtdisiaktarim, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idaritedbirgrupID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idaritedbir", null, null, htmlAttributes: new { @class = "form-control", multiple = "multiple" })
+                <input id="idaritedbirbtn" data-title="İdari Tedbir" target="@Url.Action("_IdariTedbirEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+               @*@Html.ValidationMessageFor(model => model.idaritedbirgrupID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tekniktedbirgrupID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("tekniktedbir", null, null, htmlAttributes: new { @class = "form-control", multiple = "multiple" })
+                <input id="tekniktedbirbtn" data-title="Teknik Tedbir" target="@Url.Action("_TeknikTedbirEkle")" type="button" class="btn btn-primary btn-sm" value="EKLE" />
+                @*@Html.ValidationMessageFor(model => model.tekniktedbirgrupID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.verisaklamasuresiID, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("verisaklamasuresiID", null, "Veri Saklama Süresini Seçiniz", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.verisaklamasuresiID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet"/>
+    <link href="~/Content/mdtimepicker.css" rel="stylesheet"/>
+    <link href="~/Content/themes/base/all.css" rel="stylesheet"/>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script type="text/javascript">
+        $(function() {
+
+            function teknikidaritedbir() {
+                alert("before submit");
+            }
+
+            $('#yurticiaktarim').change(function () {
+                var target = $('#veritransferaliciID').closest('.gizle');
+                if ($(this).is(":checked")) {
+                    if(target.hasClass("hidden"))
+                        target.removeClass("hidden");
+                    return;
+                } else {
+                    if (!target.hasClass("hidden"))
+                        target.addClass("hidden");
+                    return;
+                }
+            });
+
+      
+        
+
+            $("#createform").submit(function(e) {
+                e.preventDefault();
+                teknikidaritedbir();
+                this.submit();
+                return false; //I put it here as a fallback
+            });
+
+
+            function EkleEkle(select, element, title, messagetext) {
+
+                console.log(element);
+                console.log(title);
+                console.log(messagetext);
+                var target = element.attr('target');
+                var $vad = "";
+                BootstrapDialog.show({
+                    title: title,
+                    message: messagetext + ' <input id="veriad" type="text" class="form-control">',
+                    buttons: [
+                        {
+                            label: 'İptal',
+                            action: function(dialogRef) {
+                                dialogRef.close();
+                            }
+                        },
+                        {
+                            label: 'Kaydet',
+                            action: function(dialogRef) {
+
+                                $vad = $('#veriad').val();
+                                $.ajax({
+                                    url: target,
+                                    type: 'POST',
+                                    data: {
+                                        ad: $vad
+                                    },
+                                    success: function(result) {
+                                        if (result.Success === false) return;
+                                        var okullar = select;
+                                        okullar.empty();
+                                        $.each(result.Data, function(i, item) {
+                                            okullar.append('<option Value="' + item.Value + '" >' + item.Text + '</option>');
+                                        });
+                                        okullar.find("option:contains(" + $vad + ")").attr('selected', 'selected');
+                                        dialogRef.close();
+                                    }
+                                });
+                            }
+                        }
+                    ]
+                });
+
+            }
+
+
+            jQuery.validator.methods.date = function(value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+
+            $('#kisiselveribtn').on('click', function() {
+                EkleEkle($('#kisiselveriID'), $(this), 'Kişisel Veri Ekle', 'Kişisel Veri Adı Giriniz:');
+            });
+
+            $('#faaliyetbtn').on('click', function() {
+                EkleEkle($('#faaliyetID'), $(this), 'Faaliyet Ekle', 'Faaliyet Adı Giriniz:');
+            });
+
+            $('#verikategoribtn').on('click', function() {
+                EkleEkle($('#verikategoriID'), $(this), 'Veri Kategorisi Ekle', 'Kategori Adı Giriniz:');
+            });
+
+            $('#verikategoriID').change(function() {
+                var element = $(this);
+                var val = element.val();
+                element.attr('title', "");
+                $.ajax({
+                    url: '@Url.Action("_KategoriTitle")' + '/?id=' + val,
+                    type: 'get',
+                    data: {
+                        id: val
+                    },
+                    success: function(result) {
+                        element.attr("title", result);
+                    }
+                });
+            });
+
+            $('#verisahibibtn').on('click', function() {
+                EkleEkle($('#verisahibiID'), $(this), 'Veri Sahibi Ekle', 'Veri Sahibi Adı Giriniz:');
+            });
+
+            $('#verisahibibtn').on('click', function() {
+                EkleEkle($('#veriislemeamaciID'), $(this), 'Veri İşleme Amacı Ekle', 'Veri İşleme Amacı Giriniz:');
+            });
+
+            $('#hukukidayanakbtn').on('click', function() {
+                EkleEkle($('#hukukidayanakID'), $(this), 'Hukuki Dayanak Ekle', 'Hukuki Dayanak Giriniz:');
+            });
+
+            $('#idaritedbirbtn').on('click', function() {
+                EkleEkle($('#idaritedbir'), $(this), 'İdari Tedbir Ekle', 'İdari Tedbir Giriniz:');
+            });
+
+            $('#departmanbtn').on('click', function() {
+                EkleEkle($('#departmanID'), $(this), 'Departman Ekle', 'Departman Adı Giriniz:');
+            });
+
+            $('#idaritedbir').multiselect({
+                includeSelectAllOption: true,
+                selectAllText: 'Tümünü Seç',
+                nonSelectedText: 'İdari Tedbirleri Seçiniz',
+                allSelectedText: 'Tümü Seçildi'
+            });
+
+
+            $('#tekniktedbirbtn').on('click', function() {
+                EkleEkle($('#tekniktedbir'), $(this), 'Teknik Tedbir Ekle', 'Teknik Tedbir Giriniz:');
+            });
+            $('#tekniktedbir').multiselect({
+                includeSelectAllOption: true,
+                selectAllText: 'Tümünü Seç',
+                nonSelectedText: 'Teknik Tedbirleri Seçiniz',
+                allSelectedText: 'Tümü Seçildi'
+            });
+
+        })
+    </script>
+}

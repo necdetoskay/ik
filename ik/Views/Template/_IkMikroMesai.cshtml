@@ -2,36 +2,62 @@
 
 @{
     ViewBag.Title = "_IkMikroMesai";
+
+    var durum = true;
+    foreach (var item in Model)
+    {
+        if (!(item.IkMesai1 == item.MikroMesai1 && item.IkMesai2 == item.MikroMesai2))
+        {
+            durum = false;
+            break;
+        }
+    }
+
+
+
 }
+@Html.Hidden("Success",durum)
+<h2>Mesai Durumu</h2>
 
-<h2>_IkMikroMesai</h2>
-
-@Html.Hidden("Success", (Model.Sum(c=>c.IkMesai)==Model.Sum(c=>c.MikroMesai)))
-
+@*//@Html.Hidden("Success", (Model.Sum(c=>c.IkMesai1)==Model.Sum(c=>c.MikroMesai1))& Model.Sum(c => c.IkMesai2) == Model.Sum(c => c.MikroMesai2))*@
+@Html.ActionLink("Mesailer","Index","PersonelMesais")
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.AdSoyad)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IkMesai)
+            @Html.DisplayNameFor(model => model.IkMesai1)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.MikroMesai1)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.IkMesai2)
+        </th>
+     
         <th>
-            @Html.DisplayNameFor(model => model.MikroMesai)
-        </th></th>
+            @Html.DisplayNameFor(model => model.MikroMesai2)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr style="background-color: @(item.IkMesai==item.MikroMesai?"green":"red")">
+    <tr style="background-color: @((item.IkMesai1==item.MikroMesai1)&&(item.IkMesai2==item.MikroMesai2) ?"green":"red")">
         <td>
             @Html.DisplayFor(modelItem => item.AdSoyad)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IkMesai)
+            @Html.DisplayFor(modelItem => item.IkMesai1)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MikroMesai)
+            @Html.DisplayFor(modelItem => item.MikroMesai1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IkMesai2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MikroMesai2)
         </td>
     </tr>
 }

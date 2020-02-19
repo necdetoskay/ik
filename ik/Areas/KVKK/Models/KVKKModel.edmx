@@ -1,0 +1,919 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="kvkkModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="KVKK_1_VeriSahibi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="verisahibi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_2_VeriIslemeAmaci">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="veriislemeamaci" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_3_VeriTransferAlici">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="veritransferalicisi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_4_VeriGuvenligiAlinanTedbirler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="alinantedbirler" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="KVKK_5_VeriSaklamaSuresi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="verisaklamasuresi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_Departman">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="departman" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_Faaliyet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="faaliyet" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_HukukiDayanak">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hukukidayanak" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_IdariTedbir">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idaritedbir" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_IdariTedbirGrup">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idaritedbirgrup" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_IdariTedbirGrupDetay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idaritedbirgrupid" Type="int" Nullable="false" />
+          <Property Name="idaritedbir" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_KisiselVeri">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kisiselveriad" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_Sablon">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="departmanID" Type="int" Nullable="false" />
+          <Property Name="kisiselveriID" Type="int" Nullable="false" />
+          <Property Name="faaliyetID" Type="int" Nullable="false" />
+          <Property Name="verikategoriID" Type="int" Nullable="false" />
+          <Property Name="ozelNitelik" Type="bit" Nullable="false" />
+          <Property Name="verisahibiID" Type="int" Nullable="false" />
+          <Property Name="veriislemeamacID" Type="int" Nullable="false" />
+          <Property Name="hukukidayanakID" Type="int" Nullable="false" />
+          <Property Name="yurticiaktarim" Type="bit" Nullable="false" />
+          <Property Name="veritransferaliciID" Type="int" />
+          <Property Name="yurtdisiaktarim" Type="bit" Nullable="false" />
+          <Property Name="idaritedbirgrupID" Type="int" />
+          <Property Name="tekniktedbirgrupID" Type="int" />
+          <Property Name="verisaklamasuresiID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_TeknikTedbir">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tedbir" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_TeknikTedbirGrup">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tekniktedbirgrup" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_TeknikTedbirGrupListe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tekniktedbirgrupid" Type="int" Nullable="false" />
+          <Property Name="tekniktedbir" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_VeriKategori">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="verikategori" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="örnekler" Type="text" />
+        </EntityType>
+        <Association Name="FK__KVKK_Idar__idari__7B313519">
+          <End Role="KVKK_IdariTedbirGrup" Type="Self.KVKK_IdariTedbirGrup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_IdariTedbirGrupDetay" Type="Self.KVKK_IdariTedbirGrupDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_IdariTedbirGrup">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_IdariTedbirGrupDetay">
+              <PropertyRef Name="idaritedbirgrupid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__depar__5F891AA4">
+          <End Role="KVKK_Departman" Type="Self.KVKK_Departman" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_Departman">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="departmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__faali__6359AB88">
+          <End Role="KVKK_Faaliyet" Type="Self.KVKK_Faaliyet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_Faaliyet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="faaliyetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__hukuk__672A3C6C">
+          <End Role="KVKK_HukukiDayanak" Type="Self.KVKK_HukukiDayanak" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_HukukiDayanak">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="hukukidayanakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__kisis__6DD739FB">
+          <End Role="KVKK_KisiselVeri" Type="Self.KVKK_KisiselVeri" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_KisiselVeri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="kisiselveriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__verii__66361833">
+          <End Role="KVKK_2_VeriIslemeAmaci" Type="Self.KVKK_2_VeriIslemeAmaci" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_2_VeriIslemeAmaci">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="veriislemeamacID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__verik__644DCFC1">
+          <End Role="KVKK_VeriKategori" Type="Self.KVKK_VeriKategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_VeriKategori">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="verikategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__veris__6541F3FA">
+          <End Role="KVKK_1_VeriSahibi" Type="Self.KVKK_1_VeriSahibi" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_1_VeriSahibi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="verisahibiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__veris__6AFACD50">
+          <End Role="KVKK_5_VeriSaklamaSuresi" Type="Self.KVKK_5_VeriSaklamaSuresi" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_5_VeriSaklamaSuresi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="verisaklamasuresiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__verit__681E60A5">
+          <End Role="KVKK_3_VeriTransferAlici" Type="Self.KVKK_3_VeriTransferAlici" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_Sablon" Type="Self.KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_3_VeriTransferAlici">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="veritransferaliciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Tekn__tekni__7A3D10E0">
+          <End Role="KVKK_IdariTedbirGrup" Type="Self.KVKK_IdariTedbirGrup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_TeknikTedbirGrupListe" Type="Self.KVKK_TeknikTedbirGrupListe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_IdariTedbirGrup">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_TeknikTedbirGrupListe">
+              <PropertyRef Name="tekniktedbirgrupid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="kvkkModel1StoreContainer">
+          <EntitySet Name="KVKK_1_VeriSahibi" EntityType="Self.KVKK_1_VeriSahibi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_2_VeriIslemeAmaci" EntityType="Self.KVKK_2_VeriIslemeAmaci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_3_VeriTransferAlici" EntityType="Self.KVKK_3_VeriTransferAlici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_4_VeriGuvenligiAlinanTedbirler" EntityType="Self.KVKK_4_VeriGuvenligiAlinanTedbirler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_5_VeriSaklamaSuresi" EntityType="Self.KVKK_5_VeriSaklamaSuresi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_Departman" EntityType="Self.KVKK_Departman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_Faaliyet" EntityType="Self.KVKK_Faaliyet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_HukukiDayanak" EntityType="Self.KVKK_HukukiDayanak" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_IdariTedbir" EntityType="Self.KVKK_IdariTedbir" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_IdariTedbirGrup" EntityType="Self.KVKK_IdariTedbirGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_IdariTedbirGrupDetay" EntityType="Self.KVKK_IdariTedbirGrupDetay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_KisiselVeri" EntityType="Self.KVKK_KisiselVeri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_Sablon" EntityType="Self.KVKK_Sablon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_TeknikTedbir" EntityType="Self.KVKK_TeknikTedbir" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_TeknikTedbirGrup" EntityType="Self.KVKK_TeknikTedbirGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_TeknikTedbirGrupListe" EntityType="Self.KVKK_TeknikTedbirGrupListe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KVKK_VeriKategori" EntityType="Self.KVKK_VeriKategori" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__KVKK_Idar__idari__7B313519" Association="Self.FK__KVKK_Idar__idari__7B313519">
+            <End Role="KVKK_IdariTedbirGrup" EntitySet="KVKK_IdariTedbirGrup" />
+            <End Role="KVKK_IdariTedbirGrupDetay" EntitySet="KVKK_IdariTedbirGrupDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__depar__5F891AA4" Association="Self.FK__KVKK_Sabl__depar__5F891AA4">
+            <End Role="KVKK_Departman" EntitySet="KVKK_Departman" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__faali__6359AB88" Association="Self.FK__KVKK_Sabl__faali__6359AB88">
+            <End Role="KVKK_Faaliyet" EntitySet="KVKK_Faaliyet" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__hukuk__672A3C6C" Association="Self.FK__KVKK_Sabl__hukuk__672A3C6C">
+            <End Role="KVKK_HukukiDayanak" EntitySet="KVKK_HukukiDayanak" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__kisis__6DD739FB" Association="Self.FK__KVKK_Sabl__kisis__6DD739FB">
+            <End Role="KVKK_KisiselVeri" EntitySet="KVKK_KisiselVeri" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__verii__66361833" Association="Self.FK__KVKK_Sabl__verii__66361833">
+            <End Role="KVKK_2_VeriIslemeAmaci" EntitySet="KVKK_2_VeriIslemeAmaci" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__verik__644DCFC1" Association="Self.FK__KVKK_Sabl__verik__644DCFC1">
+            <End Role="KVKK_VeriKategori" EntitySet="KVKK_VeriKategori" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__veris__6541F3FA" Association="Self.FK__KVKK_Sabl__veris__6541F3FA">
+            <End Role="KVKK_1_VeriSahibi" EntitySet="KVKK_1_VeriSahibi" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__veris__6AFACD50" Association="Self.FK__KVKK_Sabl__veris__6AFACD50">
+            <End Role="KVKK_5_VeriSaklamaSuresi" EntitySet="KVKK_5_VeriSaklamaSuresi" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__verit__681E60A5" Association="Self.FK__KVKK_Sabl__verit__681E60A5">
+            <End Role="KVKK_3_VeriTransferAlici" EntitySet="KVKK_3_VeriTransferAlici" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Tekn__tekni__7A3D10E0" Association="Self.FK__KVKK_Tekn__tekni__7A3D10E0">
+            <End Role="KVKK_IdariTedbirGrup" EntitySet="KVKK_IdariTedbirGrup" />
+            <End Role="KVKK_TeknikTedbirGrupListe" EntitySet="KVKK_TeknikTedbirGrupListe" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kvkkModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="KVKK_1_VeriSahibi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="verisahibi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__veris__6541F3FA" FromRole="KVKK_1_VeriSahibi" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_2_VeriIslemeAmaci">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="veriislemeamaci" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__verii__66361833" FromRole="KVKK_2_VeriIslemeAmaci" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_3_VeriTransferAlici">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="veritransferalicisi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__verit__681E60A5" FromRole="KVKK_3_VeriTransferAlici" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_4_VeriGuvenligiAlinanTedbirler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="alinantedbirler" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="KVKK_5_VeriSaklamaSuresi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="verisaklamasuresi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__veris__6AFACD50" FromRole="KVKK_5_VeriSaklamaSuresi" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_Departman">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="departman" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__depar__5F891AA4" FromRole="KVKK_Departman" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_Faaliyet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="faaliyet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__faali__6359AB88" FromRole="KVKK_Faaliyet" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_HukukiDayanak">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hukukidayanak" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__hukuk__672A3C6C" FromRole="KVKK_HukukiDayanak" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_IdariTedbir">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idaritedbir" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_IdariTedbirGrup">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idaritedbirgrup" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="KVKK_IdariTedbirGrupDetay" Relationship="Self.FK__KVKK_Idar__idari__7B313519" FromRole="KVKK_IdariTedbirGrup" ToRole="KVKK_IdariTedbirGrupDetay" />
+          <NavigationProperty Name="KVKK_TeknikTedbirGrupListe" Relationship="Self.FK__KVKK_Tekn__tekni__7A3D10E0" FromRole="KVKK_IdariTedbirGrup" ToRole="KVKK_TeknikTedbirGrupListe" />
+        </EntityType>
+        <EntityType Name="KVKK_IdariTedbirGrupDetay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idaritedbirgrupid" Type="Int32" Nullable="false" />
+          <Property Name="idaritedbir" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="KVKK_IdariTedbirGrup" Relationship="Self.FK__KVKK_Idar__idari__7B313519" FromRole="KVKK_IdariTedbirGrupDetay" ToRole="KVKK_IdariTedbirGrup" />
+        </EntityType>
+        <EntityType Name="KVKK_KisiselVeri">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kisiselveriad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__kisis__6DD739FB" FromRole="KVKK_KisiselVeri" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <EntityType Name="KVKK_TeknikTedbir">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tedbir" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_TeknikTedbirGrup">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tekniktedbirgrup" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KVKK_TeknikTedbirGrupListe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tekniktedbirgrupid" Type="Int32" Nullable="false" />
+          <Property Name="tekniktedbir" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="KVKK_IdariTedbirGrup" Relationship="Self.FK__KVKK_Tekn__tekni__7A3D10E0" FromRole="KVKK_TeknikTedbirGrupListe" ToRole="KVKK_IdariTedbirGrup" />
+        </EntityType>
+        <EntityType Name="KVKK_VeriKategori">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="verikategori" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="örnekler" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="KVKK_Sablon" Relationship="kvkkModel1.FK__KVKK_Sabl__verik__644DCFC1" FromRole="KVKK_VeriKategori" ToRole="KVKK_Sablon" />
+        </EntityType>
+        <Association Name="FK__KVKK_Idar__idari__7B313519">
+          <End Role="KVKK_IdariTedbirGrup" Type="Self.KVKK_IdariTedbirGrup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_IdariTedbirGrupDetay" Type="Self.KVKK_IdariTedbirGrupDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_IdariTedbirGrup">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_IdariTedbirGrupDetay">
+              <PropertyRef Name="idaritedbirgrupid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Tekn__tekni__7A3D10E0">
+          <End Role="KVKK_IdariTedbirGrup" Type="Self.KVKK_IdariTedbirGrup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KVKK_TeknikTedbirGrupListe" Type="Self.KVKK_TeknikTedbirGrupListe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_IdariTedbirGrup">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_TeknikTedbirGrupListe">
+              <PropertyRef Name="tekniktedbirgrupid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KvkkEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="KVKK_1_VeriSahibi" EntityType="Self.KVKK_1_VeriSahibi" />
+          <EntitySet Name="KVKK_2_VeriIslemeAmaci" EntityType="Self.KVKK_2_VeriIslemeAmaci" />
+          <EntitySet Name="KVKK_3_VeriTransferAlici" EntityType="Self.KVKK_3_VeriTransferAlici" />
+          <EntitySet Name="KVKK_4_VeriGuvenligiAlinanTedbirler" EntityType="Self.KVKK_4_VeriGuvenligiAlinanTedbirler" />
+          <EntitySet Name="KVKK_5_VeriSaklamaSuresi" EntityType="Self.KVKK_5_VeriSaklamaSuresi" />
+          <EntitySet Name="KVKK_Departman" EntityType="Self.KVKK_Departman" />
+          <EntitySet Name="KVKK_Faaliyet" EntityType="Self.KVKK_Faaliyet" />
+          <EntitySet Name="KVKK_HukukiDayanak" EntityType="Self.KVKK_HukukiDayanak" />
+          <EntitySet Name="KVKK_IdariTedbir" EntityType="Self.KVKK_IdariTedbir" />
+          <EntitySet Name="KVKK_IdariTedbirGrup" EntityType="Self.KVKK_IdariTedbirGrup" />
+          <EntitySet Name="KVKK_IdariTedbirGrupDetay" EntityType="Self.KVKK_IdariTedbirGrupDetay" />
+          <EntitySet Name="KVKK_KisiselVeri" EntityType="Self.KVKK_KisiselVeri" />
+          <EntitySet Name="KVKK_TeknikTedbir" EntityType="Self.KVKK_TeknikTedbir" />
+          <EntitySet Name="KVKK_TeknikTedbirGrup" EntityType="Self.KVKK_TeknikTedbirGrup" />
+          <EntitySet Name="KVKK_TeknikTedbirGrupListe" EntityType="Self.KVKK_TeknikTedbirGrupListe" />
+          <EntitySet Name="KVKK_VeriKategori" EntityType="Self.KVKK_VeriKategori" />
+          <AssociationSet Name="FK__KVKK_Idar__idari__7B313519" Association="Self.FK__KVKK_Idar__idari__7B313519">
+            <End Role="KVKK_IdariTedbirGrup" EntitySet="KVKK_IdariTedbirGrup" />
+            <End Role="KVKK_IdariTedbirGrupDetay" EntitySet="KVKK_IdariTedbirGrupDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Tekn__tekni__7A3D10E0" Association="Self.FK__KVKK_Tekn__tekni__7A3D10E0">
+            <End Role="KVKK_IdariTedbirGrup" EntitySet="KVKK_IdariTedbirGrup" />
+            <End Role="KVKK_TeknikTedbirGrupListe" EntitySet="KVKK_TeknikTedbirGrupListe" />
+          </AssociationSet>
+          <EntitySet Name="KVKK_Sablon" EntityType="kvkkModel1.KVKK_Sablon" />
+          <AssociationSet Name="FK__KVKK_Sabl__veris__6541F3FA" Association="kvkkModel1.FK__KVKK_Sabl__veris__6541F3FA">
+            <End Role="KVKK_1_VeriSahibi" EntitySet="KVKK_1_VeriSahibi" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__verii__66361833" Association="kvkkModel1.FK__KVKK_Sabl__verii__66361833">
+            <End Role="KVKK_2_VeriIslemeAmaci" EntitySet="KVKK_2_VeriIslemeAmaci" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__verit__681E60A5" Association="kvkkModel1.FK__KVKK_Sabl__verit__681E60A5">
+            <End Role="KVKK_3_VeriTransferAlici" EntitySet="KVKK_3_VeriTransferAlici" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__veris__6AFACD50" Association="kvkkModel1.FK__KVKK_Sabl__veris__6AFACD50">
+            <End Role="KVKK_5_VeriSaklamaSuresi" EntitySet="KVKK_5_VeriSaklamaSuresi" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__depar__5F891AA4" Association="kvkkModel1.FK__KVKK_Sabl__depar__5F891AA4">
+            <End Role="KVKK_Departman" EntitySet="KVKK_Departman" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__faali__6359AB88" Association="kvkkModel1.FK__KVKK_Sabl__faali__6359AB88">
+            <End Role="KVKK_Faaliyet" EntitySet="KVKK_Faaliyet" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__hukuk__672A3C6C" Association="kvkkModel1.FK__KVKK_Sabl__hukuk__672A3C6C">
+            <End Role="KVKK_HukukiDayanak" EntitySet="KVKK_HukukiDayanak" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__kisis__6DD739FB" Association="kvkkModel1.FK__KVKK_Sabl__kisis__6DD739FB">
+            <End Role="KVKK_KisiselVeri" EntitySet="KVKK_KisiselVeri" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KVKK_Sabl__verik__644DCFC1" Association="kvkkModel1.FK__KVKK_Sabl__verik__644DCFC1">
+            <End Role="KVKK_VeriKategori" EntitySet="KVKK_VeriKategori" />
+            <End Role="KVKK_Sablon" EntitySet="KVKK_Sablon" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="KVKK_Sablon">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="departmanID" Type="Int32" Nullable="false" />
+          <Property Name="kisiselveriID" Type="Int32" Nullable="false" />
+          <Property Name="faaliyetID" Type="Int32" Nullable="false" />
+          <Property Name="verikategoriID" Type="Int32" Nullable="false" />
+          <Property Name="ozelNitelik" Type="Boolean" Nullable="false" />
+          <Property Name="verisahibiID" Type="Int32" Nullable="false" />
+          <Property Name="veriislemeamacID" Type="Int32" Nullable="false" />
+          <Property Name="hukukidayanakID" Type="Int32" Nullable="false" />
+          <Property Name="yurticiaktarim" Type="Boolean" Nullable="false" />
+          <Property Name="veritransferaliciID" Type="Int32" />
+          <Property Name="yurtdisiaktarim" Type="Boolean" Nullable="false" />
+          <Property Name="idaritedbirgrupID" Type="Int32" />
+          <Property Name="tekniktedbirgrupID" Type="Int32" />
+          <Property Name="verisaklamasuresiID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="KVKK_1_VeriSahibi" Relationship="kvkkModel1.FK__KVKK_Sabl__veris__6541F3FA" FromRole="KVKK_Sablon" ToRole="KVKK_1_VeriSahibi" />
+          <NavigationProperty Name="KVKK_2_VeriIslemeAmaci" Relationship="kvkkModel1.FK__KVKK_Sabl__verii__66361833" FromRole="KVKK_Sablon" ToRole="KVKK_2_VeriIslemeAmaci" />
+          <NavigationProperty Name="KVKK_3_VeriTransferAlici" Relationship="kvkkModel1.FK__KVKK_Sabl__verit__681E60A5" FromRole="KVKK_Sablon" ToRole="KVKK_3_VeriTransferAlici" />
+          <NavigationProperty Name="KVKK_5_VeriSaklamaSuresi" Relationship="kvkkModel1.FK__KVKK_Sabl__veris__6AFACD50" FromRole="KVKK_Sablon" ToRole="KVKK_5_VeriSaklamaSuresi" />
+          <NavigationProperty Name="KVKK_Departman" Relationship="kvkkModel1.FK__KVKK_Sabl__depar__5F891AA4" FromRole="KVKK_Sablon" ToRole="KVKK_Departman" />
+          <NavigationProperty Name="KVKK_Faaliyet" Relationship="kvkkModel1.FK__KVKK_Sabl__faali__6359AB88" FromRole="KVKK_Sablon" ToRole="KVKK_Faaliyet" />
+          <NavigationProperty Name="KVKK_HukukiDayanak" Relationship="kvkkModel1.FK__KVKK_Sabl__hukuk__672A3C6C" FromRole="KVKK_Sablon" ToRole="KVKK_HukukiDayanak" />
+          <NavigationProperty Name="KVKK_KisiselVeri" Relationship="kvkkModel1.FK__KVKK_Sabl__kisis__6DD739FB" FromRole="KVKK_Sablon" ToRole="KVKK_KisiselVeri" />
+          <NavigationProperty Name="KVKK_VeriKategori" Relationship="kvkkModel1.FK__KVKK_Sabl__verik__644DCFC1" FromRole="KVKK_Sablon" ToRole="KVKK_VeriKategori" />
+        </EntityType>
+        <Association Name="FK__KVKK_Sabl__veris__6541F3FA">
+          <End Type="kvkkModel1.KVKK_1_VeriSahibi" Role="KVKK_1_VeriSahibi" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_1_VeriSahibi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="verisahibiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__verii__66361833">
+          <End Type="kvkkModel1.KVKK_2_VeriIslemeAmaci" Role="KVKK_2_VeriIslemeAmaci" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_2_VeriIslemeAmaci">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="veriislemeamacID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__verit__681E60A5">
+          <End Type="kvkkModel1.KVKK_3_VeriTransferAlici" Role="KVKK_3_VeriTransferAlici" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_3_VeriTransferAlici">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="veritransferaliciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__veris__6AFACD50">
+          <End Type="kvkkModel1.KVKK_5_VeriSaklamaSuresi" Role="KVKK_5_VeriSaklamaSuresi" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_5_VeriSaklamaSuresi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="verisaklamasuresiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__depar__5F891AA4">
+          <End Type="kvkkModel1.KVKK_Departman" Role="KVKK_Departman" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_Departman">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="departmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__faali__6359AB88">
+          <End Type="kvkkModel1.KVKK_Faaliyet" Role="KVKK_Faaliyet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_Faaliyet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="faaliyetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__hukuk__672A3C6C">
+          <End Type="kvkkModel1.KVKK_HukukiDayanak" Role="KVKK_HukukiDayanak" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_HukukiDayanak">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="hukukidayanakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__kisis__6DD739FB">
+          <End Type="kvkkModel1.KVKK_KisiselVeri" Role="KVKK_KisiselVeri" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_KisiselVeri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="kisiselveriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KVKK_Sabl__verik__644DCFC1">
+          <End Type="kvkkModel1.KVKK_VeriKategori" Role="KVKK_VeriKategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kvkkModel1.KVKK_Sablon" Role="KVKK_Sablon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KVKK_VeriKategori">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="KVKK_Sablon">
+              <PropertyRef Name="verikategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="kvkkModel1StoreContainer" CdmEntityContainer="KvkkEntities">
+          <EntitySetMapping Name="KVKK_1_VeriSahibi">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_1_VeriSahibi">
+              <MappingFragment StoreEntitySet="KVKK_1_VeriSahibi">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="verisahibi" ColumnName="verisahibi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_2_VeriIslemeAmaci">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_2_VeriIslemeAmaci">
+              <MappingFragment StoreEntitySet="KVKK_2_VeriIslemeAmaci">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="veriislemeamaci" ColumnName="veriislemeamaci" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_3_VeriTransferAlici">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_3_VeriTransferAlici">
+              <MappingFragment StoreEntitySet="KVKK_3_VeriTransferAlici">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="veritransferalicisi" ColumnName="veritransferalicisi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_4_VeriGuvenligiAlinanTedbirler">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_4_VeriGuvenligiAlinanTedbirler">
+              <MappingFragment StoreEntitySet="KVKK_4_VeriGuvenligiAlinanTedbirler">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="alinantedbirler" ColumnName="alinantedbirler" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_5_VeriSaklamaSuresi">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_5_VeriSaklamaSuresi">
+              <MappingFragment StoreEntitySet="KVKK_5_VeriSaklamaSuresi">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="verisaklamasuresi" ColumnName="verisaklamasuresi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_Departman">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_Departman">
+              <MappingFragment StoreEntitySet="KVKK_Departman">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="departman" ColumnName="departman" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_Faaliyet">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_Faaliyet">
+              <MappingFragment StoreEntitySet="KVKK_Faaliyet">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="faaliyet" ColumnName="faaliyet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_HukukiDayanak">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_HukukiDayanak">
+              <MappingFragment StoreEntitySet="KVKK_HukukiDayanak">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hukukidayanak" ColumnName="hukukidayanak" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_IdariTedbir">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_IdariTedbir">
+              <MappingFragment StoreEntitySet="KVKK_IdariTedbir">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idaritedbir" ColumnName="idaritedbir" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_IdariTedbirGrup">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_IdariTedbirGrup">
+              <MappingFragment StoreEntitySet="KVKK_IdariTedbirGrup">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idaritedbirgrup" ColumnName="idaritedbirgrup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_IdariTedbirGrupDetay">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_IdariTedbirGrupDetay">
+              <MappingFragment StoreEntitySet="KVKK_IdariTedbirGrupDetay">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idaritedbirgrupid" ColumnName="idaritedbirgrupid" />
+                <ScalarProperty Name="idaritedbir" ColumnName="idaritedbir" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_KisiselVeri">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_KisiselVeri">
+              <MappingFragment StoreEntitySet="KVKK_KisiselVeri">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="kisiselveriad" ColumnName="kisiselveriad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_TeknikTedbir">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_TeknikTedbir">
+              <MappingFragment StoreEntitySet="KVKK_TeknikTedbir">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tedbir" ColumnName="tedbir" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_TeknikTedbirGrup">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_TeknikTedbirGrup">
+              <MappingFragment StoreEntitySet="KVKK_TeknikTedbirGrup">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tekniktedbirgrup" ColumnName="tekniktedbirgrup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_TeknikTedbirGrupListe">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_TeknikTedbirGrupListe">
+              <MappingFragment StoreEntitySet="KVKK_TeknikTedbirGrupListe">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tekniktedbirgrupid" ColumnName="tekniktedbirgrupid" />
+                <ScalarProperty Name="tekniktedbir" ColumnName="tekniktedbir" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_VeriKategori">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_VeriKategori">
+              <MappingFragment StoreEntitySet="KVKK_VeriKategori">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="verikategori" ColumnName="verikategori" />
+                <ScalarProperty Name="örnekler" ColumnName="örnekler" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KVKK_Sablon">
+            <EntityTypeMapping TypeName="kvkkModel1.KVKK_Sablon">
+              <MappingFragment StoreEntitySet="KVKK_Sablon">
+                <ScalarProperty Name="verisaklamasuresiID" ColumnName="verisaklamasuresiID" />
+                <ScalarProperty Name="tekniktedbirgrupID" ColumnName="tekniktedbirgrupID" />
+                <ScalarProperty Name="idaritedbirgrupID" ColumnName="idaritedbirgrupID" />
+                <ScalarProperty Name="yurtdisiaktarim" ColumnName="yurtdisiaktarim" />
+                <ScalarProperty Name="veritransferaliciID" ColumnName="veritransferaliciID" />
+                <ScalarProperty Name="yurticiaktarim" ColumnName="yurticiaktarim" />
+                <ScalarProperty Name="hukukidayanakID" ColumnName="hukukidayanakID" />
+                <ScalarProperty Name="veriislemeamacID" ColumnName="veriislemeamacID" />
+                <ScalarProperty Name="verisahibiID" ColumnName="verisahibiID" />
+                <ScalarProperty Name="ozelNitelik" ColumnName="ozelNitelik" />
+                <ScalarProperty Name="verikategoriID" ColumnName="verikategoriID" />
+                <ScalarProperty Name="faaliyetID" ColumnName="faaliyetID" />
+                <ScalarProperty Name="kisiselveriID" ColumnName="kisiselveriID" />
+                <ScalarProperty Name="departmanID" ColumnName="departmanID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

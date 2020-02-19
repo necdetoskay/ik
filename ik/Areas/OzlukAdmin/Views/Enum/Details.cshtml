@@ -1,0 +1,27 @@
+﻿@model ik.Models.Ozluk_Enum
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/KVKK/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ozluk_Enum</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EnumAd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnumAd)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

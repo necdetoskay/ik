@@ -15,7 +15,7 @@
 
             // Client side validation passed, submit the form
             // using the jQuery.ajax form
-            console.log(this);
+            console.log(updateUrl);
            
             $.ajax({
                 url: this.action,

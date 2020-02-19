@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1201,7 +1202,8 @@ namespace ik.Controllers
                 int rowCount = xlRange.Rows.Count;
                 int colCount = xlRange.Columns.Count;
                 int row = 11;
-                foreach (var avans in avanslar.Where(c => c.Kadro == kadro))
+                // foreach (var avans in avanslar.Where(c => c.Kadro == kadro))
+                foreach (var avans in avanslar)
                 {
                     (xlRange.Cells[row, 1] as Excel.Range).Value2 = avans.AdSoyad;
                     (xlRange.Cells[row, 2] as Excel.Range).Value2 = avans.IBAN.Remove(0, 9);
@@ -1407,6 +1409,14 @@ namespace ik.Controllers
             return PartialView();
         }
 
+        public ActionResult PersonelDosyaYukle(int id,int kayitid=0)
+        {
+            ViewBag.EvrakListe = new SelectList(db.EvrakListes, "id", "ad");
+            ViewBag.PersonelID = id;
+            ViewBag.KayitID = kayitid;
+            return PartialView();
+        }
+
         public ActionResult IbranameForm()
         {
             return View();
@@ -1432,6 +1442,66 @@ namespace ik.Controllers
 
             };
             return View();
+        }
+
+
+        public ActionResult IseGirisEvrak(int pid)
+        {
+            var persevrak = db.Personels.FirstOrDefault(c => c.id == pid);
+            ViewBag.personelID = pid;
+            return PartialView(persevrak.Ozluk_IseGirisEvrak.ToList());
+        }
+
+
+        public ActionResult EkleGirisEvrak(int id)
+        {
+            var mevcut = db.Ozluk_IseGirisEvrak.Where(c => c.personelid == id).Select(d=>d.Ozluk_IseGirisGerekEvrakTip).ToList();
+            var list = db.Ozluk_IseGirisGerekEvrakTip.ToList();
+            var fark = list.Except(mevcut);
+
+            ViewBag.evrakListe = new SelectList(fark, "id", "ad");
+           
+
+            var evr = new Ozluk_IseGirisEvrak()
+            {
+                personelid = id
+            };
+            return PartialView(evr);
+        }
+
+        [HttpPost]
+        public ActionResult EkleGirisEvrak(int id, Ozluk_IseGirisEvrak evrak)
+        {
+            var mevcut = db.Ozluk_IseGirisEvrak.Where(c => c.personelid == id).Select(d => d.Ozluk_IseGirisGerekEvrakTip).ToList();
+            var list = db.Ozluk_IseGirisGerekEvrakTip.ToList();
+            var fark = list.Except(mevcut);
+            if (ModelState.IsValid)
+            {
+                evrak.mevcut = true;
+                db.Ozluk_IseGirisEvrak.Add(evrak);
+                try
+                {
+                    evrak.tarih=DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
+                return Json(new { success = true });
+            }
+            ViewBag.evrakListe = new SelectList(fark, "id", "ad");
+            return PartialView(evrak);
         }
     }
 

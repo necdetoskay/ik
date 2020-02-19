@@ -20,8 +20,7 @@ namespace ik.Controllers
         public async Task<ActionResult> Index()
         {
             var personelMesais = db.PersonelMesais.Include(p => p.Personel);
-            return View(await personelMesais.ToListAsync());
-        }
+            return View(await personelMesais.ToListAsync());}
 
         // GET: PersonelMesais/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -41,7 +40,7 @@ namespace ik.Controllers
         // GET: PersonelMesais/Create
         public ActionResult Create()
         {
-            ViewBag.personelID = new SelectList(db.Personels.Where(c=>c.cikistarihi==null), "id", "adsoyad");
+            ViewBag.personelID = new SelectList(db.Personels.Where(c=>c.cikistarihi==null).OrderBy(c => c.adsoyad), "id", "adsoyad");
             return View();
         }
 
@@ -50,7 +49,7 @@ namespace ik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,personelID,yil,ay,mesai")] PersonelMesai personelMesai)
+        public async Task<ActionResult> Create([Bind(Include = "id,personelID,yil,ay,mesai1,,mesai2")] PersonelMesai personelMesai)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +58,7 @@ namespace ik.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.personelID = new SelectList(db.Personels.Where(c => c.cikistarihi == null), "id", "adsoyad", personelMesai.personelID);
+            ViewBag.personelID = new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad", personelMesai.personelID);
             return View(personelMesai);
         }
 
@@ -75,7 +74,7 @@ namespace ik.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.personelID = new SelectList(db.Personels.Where(c => c.cikistarihi == null), "id", "adsoyad", personelMesai.personelID);
+            ViewBag.personelID = new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad", personelMesai.personelID);
             return View(personelMesai);
         }
 
@@ -84,7 +83,7 @@ namespace ik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,personelID,yil,ay,mesai")] PersonelMesai personelMesai)
+        public async Task<ActionResult> Edit([Bind(Include = "id,personelID,yil,ay,mesai1,mesai2")] PersonelMesai personelMesai)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +91,7 @@ namespace ik.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.personelID = new SelectList(db.Personels.Where(c => c.cikistarihi == null), "id", "adsoyad", personelMesai.personelID);
+            ViewBag.personelID = new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c=>c.adsoyad), "id", "adsoyad", personelMesai.personelID);
             return View(personelMesai);
         }
 

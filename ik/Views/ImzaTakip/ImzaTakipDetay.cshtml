@@ -65,7 +65,7 @@
                 btn.attr('id', id);
                 $('#' + id).MakeDialogForm({
                     id: 'btnekle', //butonid
-                    text: 'İmzala',
+                    text: 'Tamam',
                     url: '@Url.Action("TakipImzala", "ImzaTakip")' + '/?id=' + btn.attr('data-id'),
                     title: '@Model.FirstOrDefault().ImzaTakip.ad',
                     updateurl: '@Url.Action("ImzaTakipDetay", "ImzaTakip")',

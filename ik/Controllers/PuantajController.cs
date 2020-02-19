@@ -29,11 +29,16 @@ namespace ik.Controllers
         {
             ViewBag.HesaplananAy = AyAdi(ay);
             ViewBag.GeçenAy = AyAdi(ay < 1 ? 1 : ay - 1);
-
+            var temp=new DateTime(yil,ay,1);
+            var yil1 = temp.Year;
+            var ay1 = temp.Month;
+            temp = temp.AddMonths(-1);
+            var yil2 = temp.Year;
+            var ay2 = temp.Month;
 
             var query = (from p in ke.PERSONELLERs
                          join pt in ke.PERSONEL_TAHAKKUKLARI on p.per_kod equals pt.pt_pkod
-                         where p.per_cikis_tar == new DateTime(1899, 12, 31) & pt.pt_maliyil == yil & (pt.pt_tah_ay == ay || pt.pt_tah_ay == ay - 1)
+                         where p.per_cikis_tar == new DateTime(1899, 12, 31) & (pt.pt_maliyil == yil1 & pt.pt_tah_ay == ay1) || (pt.pt_maliyil == yil2 & pt.pt_tah_ay == ay2)
                          select new MassKontrolVM
                          {
                              sicilno = p.per_kod,
@@ -42,6 +47,7 @@ namespace ik.Controllers
                              ay = pt.pt_tah_ay.Value,
                              bes = pt.pt_otobes_tutari.Value,
                              fm1 = Math.Round(pt.pt_ekkazanc2_tktutar.Value, 2),
+                             fm2 = Math.Round(pt.pt_ekkazanc1_tktutar.Value, 2),
                              avans = pt.pt_ozksnt5.Value,
                              icra = pt.pt_ozksnt3.Value,
                              sgkgun = pt.pt_sskgunu.Value,
@@ -50,34 +56,38 @@ namespace ik.Controllers
                              devgelvermatrah = Math.Round(pt.pt_devgvmatrah.Value, 2),
                              gvmatrah = Math.Round(pt.pt_gvmatrah.Value, 2),
                              brüt = Math.Round(pt.pt_brutucret.Value, 2),
-                             yemek = Math.Round(pt.pt_sosyrdm.Value)
+                             yemek = Math.Round(pt.pt_sosyrdm.Value,2)
 
                          });
             var liste = new List<MaasVM>();
+            int tip = 0;
             foreach (var pers in query.GroupBy(c => c.sicilno))
             {
-                if (pers.Key == "1370")
-                {}
+                tip = 0;
+                if (pers.Key == "1375")
+                {
+                    tip = 1;
+                }
                 try
                 {
                     var p = pers.OrderBy(d => d.ay).ToList();
-                    var gan = p[0].net - p[0].fm1 + p[0].icra + p[0].avans + p[0].bes;
-                    var ban = p[1].net - p[1].fm1 + p[1].icra + p[1].avans + p[1].bes;
-                    var ayson = pers.FirstOrDefault(f => f.ay == ay);
+                    var ban = p[0].net + p[0].icra + p[0].avans + p[0].bes;
+                    var gan = p[1].net + p[1].icra + p[1].avans + p[1].bes;
+                    var ayson = pers.FirstOrDefault(f => f.ay == ay1);
 
                     var hesap = MaasHesap(ayson.brüt, ayson.yemek, ayson.avans, ayson.bes, ayson.devgelvermatrah,
-                    ayson.agi, ayson.sgkgun, ayson.fm1);
+                    ayson.agi, ayson.sgkgun, ayson.fm1, ayson.fm2,tip);
                     hesap.Avans = ayson.avans;
                     var maasvm = new MaasVM
                     {
-                        AdSoyad = p[0].adsoyad,
+                        AdSoyad = p[1].adsoyad,
                         GecenAyNet = gan,
-                        GecenAyGun = p[0].sgkgun,
-                        BuAyGun = p[1].sgkgun,
-                        BuAyNet = p[1].net,
+                        GecenAyGun = p[1].sgkgun,
+                        BuAyGun = p[0].sgkgun,
+                        BuAyNet = p[0].net,
                         Fark = Math.Round(hesap.Net - ban, 2),
                         Hesaplana = hesap.Net,
-                        Mesai = ayson.fm1,
+                        Mesai = ayson.fm1 + ayson.fm2,
                         Bes = ayson.bes,
                         hesap = hesap
                     };
@@ -134,7 +144,7 @@ namespace ik.Controllers
             double devgelvermatrah = 0,
             double agi = 0,
             int sgkgun = 30,
-            double mesai = 0)
+            double mesai = 0, double mesai2 = 0, int tip = 0)
         {
 
             if (sgkgun == 0)
@@ -142,29 +152,39 @@ namespace ik.Controllers
                 return new Hesap
                 {
                     Net = 0,
-                    DamgaVer =0,
+                    DamgaVer = 0,
                     GelirVergisi = 0,
                     SGKPay = 0,
                     İşsizlikPay = 0
                 };
             }
-            var yemekistisna = 5.12;
+            var yemekistisna = 5.89;
 
-            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2019).vergi_dilim_detay.ToList();
+            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2020).vergi_dilim_detay.ToList();
             brütmaaş = ((brütmaaş / 30) * sgkgun);// 4307.32m;
-            double brütyemek = Math.Round(sgkgun < 22 ? (yemek / 22.0) * sgkgun : yemek);
-
-            
+            double brütyemek = yemek;//Math.Round(sgkgun < 22 ? (yemek / 22.0) * sgkgun : yemek);
 
 
-            var yemekistisnatutar = yemekistisna * 22;
-            var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar + mesai, 2);
-            sgkmatrah = sgkmatrah > 19188.0 ? 19188.0 : sgkmatrah;
 
-            var sgkprim = Math.Round(sgkmatrah * 0.14, 2);
-            var işsizlikprim = Math.Round(sgkmatrah * 0.01, 2);
-            var damga = Math.Round((brütmaaş + brütyemek + mesai) * 0.00759, 2);
-            var gelirvergimatrah = Math.Round(brütmaaş + brütyemek + mesai - sgkprim - işsizlikprim, 2);
+
+            var yemekistisnatutar =Math.Round(yemekistisna * 22,2);
+            var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar + mesai + mesai2, 2);
+            sgkmatrah = sgkmatrah > 22072.5 ? 22072.5 : sgkmatrah;
+            double işsizlikprim = 0;
+            double sgkprim = 0;
+            if (tip == 1)
+            {
+                sgkprim = Math.Round(sgkmatrah * 0.075, 2);
+                işsizlikprim = 0;
+            }
+            else if (tip == 0)
+            {
+                sgkprim = Math.Round(sgkmatrah * 0.14, 2);
+                işsizlikprim = Math.Round(sgkmatrah * 0.01, 2);
+            }
+
+            var damga = Math.Round((brütmaaş + brütyemek + mesai + mesai2) * 0.00759, 2);
+            var gelirvergimatrah = Math.Round(brütmaaş + brütyemek + mesai + mesai2 - sgkprim - işsizlikprim, 2);
             var kümülatif = Math.Round((decimal)(devgelvermatrah + gelirvergimatrah), 2);
             var gelirvergisi = 0m;
 
@@ -182,8 +202,7 @@ namespace ik.Controllers
                         var üdilim = (double)(kümülatif - dilim[i].ust);
                         var üst = (üdilim * dilim[i + 1].oran) / 100;
                         var alt = ((gelirvergimatrah - üdilim) * dilim[i].oran) / 100;
-                        gelirvergisi = (decimal)(alt + üst);
-                        gelirvergisi = Math.Round(gelirvergisi, 2);
+                        gelirvergisi = (decimal)(alt + üst); gelirvergisi = Math.Round(gelirvergisi, 2);
                         break;
                         //iki dilim
                     }
@@ -200,89 +219,88 @@ namespace ik.Controllers
             //gelirvergisi hesapla
             gelirvergisi -= (decimal)agi;
 
-            var net = brütmaaş + brütyemek - sgkprim - ((double)gelirvergisi) - damga - işsizlikprim;
+            var net = brütmaaş + brütyemek + mesai + mesai2 - sgkprim - ((double)gelirvergisi) - damga - işsizlikprim;
             return new Hesap
             {
                 Net = Math.Round(net, 2),
                 DamgaVer = damga,
                 GelirVergisi = (double)gelirvergisi,
                 SGKPay = sgkprim,
-                İşsizlikPay = işsizlikprim
-            };
+                İşsizlikPay = işsizlikprim};
         }
 
-        public JsonResult _PersonelMaasHesap(int id, double devgelvermatrah = 0, double agi = 0, int sgkgun = 30, double mesai = 0)
-        {
-            var yemekistisna = 4.05;
+        //public JsonResult _PersonelMaasHesap(int id, double devgelvermatrah = 0, double agi = 0, int sgkgun = 30, double mesai = 0)
+        //{
+        //    var yemekistisna = 4.05;
 
-            var pers = db.Personels.FirstOrDefault(c => c.id == id);
-            var mikroper = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == pers.mikroid);
-            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2018).vergi_dilim_detay.ToList();
-            var brütmaaş = Math.Round(((mikroper.per_ucret.Value / 30) * sgkgun), 2) + mesai;// 4307.32m;
-            double brütyemek = Math.Round(sgkgun < 22 ? (350.0 / 22.0) * sgkgun : 350);
-            
-
+        //    var pers = db.Personels.FirstOrDefault(c => c.id == id);
+        //    var mikroper = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == pers.mikroid);
+        //    var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2018).vergi_dilim_detay.ToList();
+        //    var brütmaaş = Math.Round(((mikroper.per_ucret.Value / 30) * sgkgun), 2) + mesai;// 4307.32m;
+        //    double brütyemek = Math.Round(sgkgun < 22 ? (350.0 / 22.0) * sgkgun : 350);
 
 
-            var yemekistisnatutar = yemekistisna * 22;
-            var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar, 2);
 
 
-            var sgkprim = Math.Round(sgkmatrah * 0.14, 2);
-            var işsizlikprim = Math.Round(sgkmatrah * 0.01, 2);
-            var damga = Math.Round((brütmaaş + brütyemek) * 0.00759, 2);
-            var gelirvergimatrah = Math.Round(brütmaaş + brütyemek - sgkprim - işsizlikprim, 2);
-            var kümülatif = Math.Round((decimal)(devgelvermatrah + gelirvergimatrah), 2);
-            var gelirvergisi = 0m;
-            var devgbmatrah = (decimal)devgelvermatrah;
-            for (int i = 0; i < dilim.Count; i++)
-            {
-                if (devgbmatrah > dilim[i].ust)
-                {
-
-                }
-                else
-                {
-                    if (kümülatif > dilim[i].ust)
-                    {
-                        var üdilim = (double)(kümülatif - dilim[i].ust);
-                        var üst = (üdilim * dilim[i + 1].oran) / 100;
-                        var alt = ((gelirvergimatrah - üdilim) * dilim[i].oran) / 100;
-                        gelirvergisi = (decimal)(alt + üst);
-                        gelirvergisi = Math.Round(gelirvergisi, 2);
-                        break;
-                        //iki dilim
-                    }
-                    else
-                    {
-                        //tek dilim
-                        gelirvergisi += (decimal)(gelirvergimatrah * dilim[i].oran) / 100;
-
-                        gelirvergisi = Math.Round(gelirvergisi, 2);
-                        break;
-                    }
-                }
-            }
-            //gelirvergisi hesapla
-            gelirvergisi -= (decimal)agi;
-
-            var net = brütmaaş + brütyemek - sgkprim - ((double)gelirvergisi) - damga - işsizlikprim;
+        //    var yemekistisnatutar = yemekistisna * 22;
+        //    var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar, 2);
 
 
-            return Json(new
-            {
-                Success = true,
-                Net = Math.Round(net, 2),
-                sgkmatrah,
-                sgkprim,
-                işsizlikprim,
-                damga,
-                gelirvergimatrah,
-                kümülatif,
-                gelirvergisi
+        //    var sgkprim = Math.Round(sgkmatrah * 0.14, 2);
+        //    var işsizlikprim = Math.Round(sgkmatrah * 0.01, 2);
+        //    var damga = Math.Round((brütmaaş + brütyemek) * 0.00759, 2);
+        //    var gelirvergimatrah = Math.Round(brütmaaş + brütyemek - sgkprim - işsizlikprim, 2);
+        //    var kümülatif = Math.Round((decimal)(devgelvermatrah + gelirvergimatrah), 2);
+        //    var gelirvergisi = 0m;
+        //    var devgbmatrah = (decimal)devgelvermatrah;
+        //    for (int i = 0; i < dilim.Count; i++)
+        //    {
+        //        if (devgbmatrah > dilim[i].ust)
+        //        {
 
-            }, JsonRequestBehavior.AllowGet);
-        }
+        //        }
+        //        else
+        //        {
+        //            if (kümülatif > dilim[i].ust)
+        //            {
+        //                var üdilim = (double)(kümülatif - dilim[i].ust);
+        //                var üst = (üdilim * dilim[i + 1].oran) / 100;
+        //                var alt = ((gelirvergimatrah - üdilim) * dilim[i].oran) / 100;
+        //                gelirvergisi = (decimal)(alt + üst);
+        //                gelirvergisi = Math.Round(gelirvergisi, 2);
+        //                break;
+        //                //iki dilim
+        //            }
+        //            else
+        //            {
+        //                //tek dilim
+        //                gelirvergisi += (decimal)(gelirvergimatrah * dilim[i].oran) / 100;
+
+        //                gelirvergisi = Math.Round(gelirvergisi, 2);
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    //gelirvergisi hesapla
+        //    gelirvergisi -= (decimal)agi;
+
+        //    var net = brütmaaş + brütyemek - sgkprim - ((double)gelirvergisi) - damga - işsizlikprim;
+
+
+        //    return Json(new
+        //    {
+        //        Success = true,
+        //        Net = Math.Round(net, 2),
+        //        sgkmatrah,
+        //        sgkprim,
+        //        işsizlikprim,
+        //        damga,
+        //        gelirvergimatrah,
+        //        kümülatif,
+        //        gelirvergisi
+
+        //    }, JsonRequestBehavior.AllowGet);
+        //}
 
         /// <summary>
         /// yüzde kaç zam aldım neden maaşım düştü diyen personel için hazırlanan
@@ -302,10 +320,10 @@ namespace ik.Controllers
         /// <returns></returns>
         public JsonResult _Agi(int yil)
         {
-            var fod =db.kanunparametres.FirstOrDefault(c =>c.yil==yil);
+            var fod = db.kanunparametres.FirstOrDefault(c => c.yil == yil);
             var agi = fod == null ? 0 : fod.agi;
-           
-            return Json(agi==null?0:agi, JsonRequestBehavior.AllowGet);
+
+            return Json(agi == null ? 0 : agi, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -318,11 +336,11 @@ namespace ik.Controllers
         /// <param name="baslangic">başlangıç ayı</param>
         /// <param name="bitis">bitis ayı</param>
         /// <returns></returns>
-        public ActionResult _MaaşHesapla(int id, int yil,decimal agi,decimal dkgvm,int baslangic,int bitis)
+        public ActionResult _MaaşHesapla(int id, int yil, decimal agi, decimal dkgvm, int baslangic, int bitis)
         {
             var asgariücret = db.kanunparametres.FirstOrDefault(c => c.yil == yil).brutasgari;
             var istisnagun = db.kanunparametres.FirstOrDefault(c => c.yil == yil).yemekistisnagun;
-            var brütyemek= db.kanunparametres.FirstOrDefault(c => c.yil == yil ).brutyemek;
+            var brütyemek = db.kanunparametres.FirstOrDefault(c => c.yil == yil).brutyemek;
             //asgari ücretten yemek istisna bul
             //personel brüt ücretini bul yoksa mikrodan çek ve kaydı oluştur
             //personel brüt yemek ücretini bul
@@ -336,7 +354,7 @@ namespace ik.Controllers
     {
         public void NetHesapla(decimal brüt, bool yemek = false)
         {
-            
+
         }
         //net hesapla
     }
@@ -381,6 +399,7 @@ namespace ik.Controllers
         public int ay { get; set; }
         public double bes { get; set; }
         public double fm1 { get; set; }
+        public double fm2 { get; set; }
         public double avans { get; set; }
         public double icra { get; set; }
         public int sgkgun { get; set; }

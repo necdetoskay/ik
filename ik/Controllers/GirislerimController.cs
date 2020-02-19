@@ -29,6 +29,7 @@ namespace ik.Controllers
             var user = UserPrincipalExtended.FindByIdentity(
            new PrincipalContext(ContextType.Domain), User.Identity.Name);
             var id = int.Parse(user.Pager);
+        
             var personel = db.Personels.SingleOrDefault(c => c.id == id);
             if (personel != null)
             {

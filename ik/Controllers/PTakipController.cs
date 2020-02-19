@@ -101,9 +101,8 @@ namespace ik.Controllers
                     try
                     {
                         foreach (var bb in b)
-                        {
-                            var p = db.Personels.FirstOrDefault(c => c.adsoyad == bb.ToString());
-                            if(p.kadro!=1) continue;
+                        {var p = db.Personels.FirstOrDefault(c => c.adsoyad == bb.ToString());
+                            if(p.kadro>2) continue;
                             var mm = p.GeciciMazerets.FirstOrDefault(c => c.personelID == p.id & c.tarih.Date == t1.Date);
                             if (mm == null && (t1.DayOfWeek == DayOfWeek.Saturday || t1.DayOfWeek == DayOfWeek.Sunday || db.ResmiTatils.Any(c => c.tarih == t1))) continue;
                             var eksik =

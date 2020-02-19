@@ -89,6 +89,25 @@
                             <button type="button" id="btnYazdir" class="btn btn-default">Yazdır</button><span id="kıdemtarih"></span>
                             <div id="bilgi" class="bilgi">buraya personel sgk dosya bilgisi gibi şeyler getirilebilir</div>
                             <div id="yarimekle"></div>
+
+                            @*<div class="container">
+                                <div class="row">
+                                    <div class="col-sm">
+                                       
+                                    </div>
+                                    <div class="col-sm">
+                                        <a class="btn btn-primary" href="javascript:void(0)" data-target="' + url + '" id="yarimizinler">Yarım İzin Listesi</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>*@
+
+
+
+
+
+
+                            
                         </div>
                     </div>
 
@@ -170,6 +189,11 @@
     <script src="~/Scripts/DialogForm.js"></script>
     <script type="text/javascript">
         $(function () {
+
+           
+
+
+
 
             $.ajax({
                 url:'@Url.Action("_SonGirilenIzinler","Mikro")',
@@ -460,6 +484,30 @@
                     height: "400"
                 });
 
+                var url = '@Url.Action("_PersonelYarimIzinleri")' + '/?id=' + id;
+               // $('#yarim').html('<a class="btn btn-primary" href="javascript:void(0)"  data-target="' + url + '" id="yarimizinler">Yarım İzin Listesi</a>');
+
+                $('#yarimizinler').on('click', function () {
+                    console.log($(this).attr("data-target"));
+                    BootstrapDialog.show({
+                        title: 'Personelin yarım gün  izin detayları',
+                        message: '<div id="content"><img src="@Url.Content("~/Content/Loading_icon.gif")"</div>',
+                        onshown: function (dialogRef) {
+                            $.ajax({
+                                url: $(this).attr("data-target"),
+                                type: 'GET',
+                                data: {
+                                  
+                                },
+                                success: function (result) {
+                                    var content = $('#content');
+                                    content.replaceWith(result);
+
+                                }
+                            });
+                        }
+                    });
+                });
 
 
                 var izinler = $('#result');
@@ -502,12 +550,6 @@
 
                     }
                 });
-                ///////////   PERSONEL SEÇİLDİĞİNDE YARIM GÜZ İZİNLERİ LİSTELENİR   ////////////
-                @*var personelyarimizinurl = '@Url.Action("_PersonelYarimİzinListele")' + '/?id=' + id;
-                personelyarimizinyukle(personelyarimizinurl, "yarimtablo");*@
-                ////////////////////////////////////////////////////////////////////////////////
-                //yarim izin varsa ana tablodan düş
-                //yarimizinleridus();
             });
         });
 

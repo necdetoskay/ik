@@ -35,3 +35,13 @@ ERROR 2018-12-11 15:05:33,930 37602ms RaporController        PersonelDurumRapor 
 ERROR 2018-12-11 15:05:33,963 37635ms RaporController        PersonelDurumRapor - MEDÝNE YILDIZ
 ERROR 2018-12-11 15:05:34,012 37684ms RaporController        PersonelDurumRapor - MEHTAP ERGÜN BAÞARAN
 ERROR 2018-12-11 15:05:34,043 37715ms RaporController        PersonelDurumRapor - MERT ÝBRAHÝM TÜRKMEN
+ERROR 2019-11-14 15:31:03,827 77100ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:31:35,181 108455ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:32:14,471 147744ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:32:29,852 163126ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:33:56,363 249636ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:34:12,213 265486ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:34:19,626 272899ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:34:29,809 283083ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:40:24,867 177558ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2019-11-14 15:44:36,228 428919ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.

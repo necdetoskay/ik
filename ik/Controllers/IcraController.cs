@@ -45,9 +45,9 @@ namespace ik.Controllers
         }
         [HttpPost]
         public ActionResult Create(Icralar icra)
-        {
-            if (ModelState.IsValid)
+        {if (ModelState.IsValid)
             {
+                icra.tamamlanma = false;
                 db.Icralars.Add(icra);
                 db.SaveChanges();
                 return RedirectToAction("Index");

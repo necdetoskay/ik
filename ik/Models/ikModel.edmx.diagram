@@ -110,6 +110,7 @@
         <AssociationConnector Association="ikModel.FK__ImzaTakip__takip__62AFA012" />
       </Diagram>
       <Diagram DiagramId="6db11f201e9b460fae79fca6c82368ab" Name="maaş çalışma" >
+        <EntityTypeShape EntityType="ikModel.PersonelMesai" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
       <Diagram DiagramId="ca673b4b730e413c82ce26beda27b4b5" Name="etiket" >
         <EntityTypeShape EntityType="ikModel.EtiketTanim" Width="1.5" PointX="0.75" PointY="1.125" />
@@ -125,7 +126,7 @@
       <Diagram DiagramId="3678fe41e0574cd9a381c096162903fc" Name="özlük" >
         <EntityTypeShape EntityType="ikModel.OzlukAileFertleri" Width="1.5" PointX="3" PointY="3.625" />
         <EntityTypeShape EntityType="ikModel.OzlukEvrak" Width="1.5" PointX="5.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ikModel.OzlukGorevlendirme" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ikModel.OzlukGorevlendirme" Width="3" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ikModel.OzlukGrupTanim" Width="1.5" PointX="0.75" PointY="2.75" />
         <EntityTypeShape EntityType="ikModel.OzlukGrupTanimDetay" Width="1.5" PointX="3" PointY="1.125" />
         <AssociationConnector Association="ikModel.FK__OzlukAile__yakin__5634BA94" />
@@ -133,7 +134,16 @@
         <EntityTypeShape EntityType="ikModel.OzlukEgitim" Width="1.5" PointX="0.75" PointY="7.875" />
         <EntityTypeShape EntityType="ikModel.OzlukEgitimDetay" Width="1.5" PointX="3" PointY="7.875" />
         <AssociationConnector Association="ikModel.FK__OzlukEgit__egiti__0E7913B7" />
-        <EntityTypeShape EntityType="ikModel.PersonelMesai" Width="1.5" PointX="5.375" PointY="7.75" />
+      </Diagram>
+      <Diagram DiagramId="ce4f102fe80842608fecf5d919bec58c" Name="özlük area" >
+        <EntityTypeShape EntityType="ikModel.Ozluk_Enum" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_Enum_Detay" Width="1.5" PointX="3.125" PointY="0.625" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Enu__enumi__28F7FFC9" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrak" Width="1.5" PointX="7.375" PointY="0.5" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisGerekEvrakTip" Width="1.5" PointX="5.125" PointY="1" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ise__evrak__0A3E6E7F" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrakUrl" Width="1.5" PointX="9.625" PointY="1" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ise__isegi__2C938683" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

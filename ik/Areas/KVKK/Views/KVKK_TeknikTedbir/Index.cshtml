@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ik.Areas.KVKK.Models.KVKK_TeknikTedbir>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/KVKK/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Teknik Tedbirler</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tedbir)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tedbir)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
