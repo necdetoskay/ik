@@ -45,3 +45,20 @@ ERROR 2019-11-14 15:34:19,626 272899ms PersonelController     _MerkezAvanslarý  
 ERROR 2019-11-14 15:34:29,809 283083ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
 ERROR 2019-11-14 15:40:24,867 177558ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
 ERROR 2019-11-14 15:44:36,228 428919ms PersonelController     _MerkezAvanslarý   - Object reference not set to an instance of an object.
+ERROR 2020-02-20 17:07:23,533 388958ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\86a67f30-e5fd-4a04-a124-7f1c4ff120a8.jpg
+ERROR 2020-02-20 17:07:25,941 391365ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\c603cc57-9677-4cf2-aeeb-285c406edfc5.jpg
+ERROR 2020-02-20 17:07:27,696 393120ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\db44c449-4bb4-4f84-b476-6d6c42d26fb1.jpg
+ERROR 2020-02-20 17:07:29,797 395221ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\4e8f2dd8-80f8-4434-bf5d-9c0086499f56.jpg
+ERROR 2020-02-20 17:07:31,742 397167ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\ce50c558-a380-4272-a760-8f8b71e08947.jpg
+ERROR 2020-02-20 17:07:33,426 398850ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\0d74d760-cc2b-49de-86cd-9b55b51df2dd.jpg
+ERROR 2020-02-20 17:08:24,975 450400ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\b365a643-00cd-4ae0-8812-998aa3f1e118.jpg
+ERROR 2020-02-20 17:09:16,523 501948ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\2814be8e-f275-4b73-8691-a7579551e313.jpg
+ERROR 2020-02-21 08:35:23,287 10826ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\26660a68-5fa9-4aca-b18f-14af80b85e17.jpg
+ERROR 2020-02-21 08:35:25,848 13387ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\812722e5-e783-4b5f-8072-07afbb45b67f.jpg
+ERROR 2020-02-21 08:35:29,127 16666ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\25c72b37-95ce-4576-a0c5-f6be16c9bd0c.jpg
+ERROR 2020-02-21 13:08:27,404 70603ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\a0d141fe-d5eb-4692-9cc8-ad5e4b6d71b8.pdf
+ERROR 2020-02-21 13:09:19,790 122988ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\7cf58595-cecd-444a-a122-8fd9ea0628bd.pdf
+ERROR 2020-02-21 13:11:14,955 238154ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\3d383b97-c1ec-4420-acd9-95d09dfdad73.pdf
+ERROR 2020-02-21 13:12:53,801 337000ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\5b46ba24-b45c-43c1-a018-22db03ce6132.pdf
+ERROR 2020-02-21 13:14:03,336 406535ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\ededa5fd-17c6-49a1-b780-67972934d468.pdf
+ERROR 2020-02-21 14:19:36,909 701326ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\8f4fabca-1460-442e-b9c4-03f0897869aa.pdf

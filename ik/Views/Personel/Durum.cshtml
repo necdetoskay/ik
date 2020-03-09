@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Durum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Durum</h2>
+
+<div id="personellist"></div>
+<div id="sonuc"></div>
+
+
+@section scripts{
+
+<script src="~/Scripts/ozlukadmin.js"></script>
+    <script type="text/javascript">
+        function sonuc(result) {
+            $('#sonuc').html(result);
+        }
+
+
+        $(function () {
+            $('#personellist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                callafterchange: '@Url.Action("MaaşDurum","Personel")',
+                change: function (result) {
+                    sonuc(result);
+                }
+            });
+        });
+    </script>
+    
+}

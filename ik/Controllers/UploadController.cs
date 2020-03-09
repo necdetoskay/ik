@@ -12,12 +12,17 @@ namespace ik.Controllers
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class UploadController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly ikEntities db = new ikEntities();
 
 
-        public ActionResult DosyaYukle(string tcno,int kayitid)
+        public ActionResult DosyaYukle(int pid,int kayitid)
         {
+            var tcno = db.Personels.FirstOrDefault(c => c.id == pid).tcno;
             string FileName = "";
+            string dosyaresmi = "";
+            int kayit = 0;
             HttpFileCollectionBase files = Request.Files;
             for (int i = 0; i < files.Count; i++)
             {
@@ -62,16 +67,36 @@ namespace ik.Controllers
                 {
                     var sanalyol = fname.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
                     FileName = sanalyol;
-                    db.Ozluk_IseGirisEvrakUrl.Add(new Ozluk_IseGirisEvrakUrl
+                    var evrakurl = new Ozluk_IseGirisEvrakUrl
                     {
                         isegirisevrakid = kayitid,
                         url = sanalyol
-                    });
+                    };
+                   
+                    db.Ozluk_IseGirisEvrakUrl.Add(evrakurl);
+                    db.SaveChanges();
+                    kayit = evrakurl.id;
                 }
-            }
-            db.SaveChanges();
+                switch (fi.Extension)
+                {
+                    case ".jpg":
+                    {
+                        dosyaresmi = FileName;
+                        break;
+                    }
+                    default:
+                    {
+                        dosyaresmi =
+                            string.Format(@"Content\Adobe-PDF-Document-icon.png")
+                                .Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
+                        break;
+                    }
 
-            return Json(FileName, JsonRequestBehavior.AllowGet);
+                }
+                
+            }
+           
+            return Json(new {DosyaAdi= FileName,DosyaResmi=dosyaresmi ,KayitNo= kayit} , JsonRequestBehavior.AllowGet);
         }
 
         // GET: Upload

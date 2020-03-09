@@ -1,20 +1,40 @@
-﻿@{
+﻿@using ik.Models
+@model List<GunlukRapor>
+
+@{
     ViewBag.Title = "Contact";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-@*listeden personel seç*@
+
+<table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>Adı Soyadı</th>
+        <th>Birim</th>
+        <th>Başlama Tarihi</th>
+        <th>Bitiş Tarihi</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Where(c => c.Durum == PEnumDurum.izinliler))
+    {
+        var list = item.personel.Izins.Where(c => c.baslangictarih <= DateTime.Now.Date && c.bitistarihi >= DateTime.Now);
+    }
+    </tbody>
+</table>
+
 
 
 
 
 @section scripts{
- 
+
     <script src="~/Scripts/bootstrap-dialog.js"></script>
     <script type="text/javascript">
         $(function () {
-           
+
         })
     </script>
-} 
+}

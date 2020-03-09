@@ -12,6 +12,8 @@ namespace ik.Areas.OzlukAdmin.Controllers
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class IseGirisEvrakController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly ikEntities db = new ikEntities();
         private ik.Models.KENTEntities ke = new KENTEntities();
         // GET: OzlukAdmin/IseGirisEvrak
@@ -20,16 +22,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
             return View();
         }
 
-        public ActionResult _SelectList()
-        {
-            var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
-            {
-                Text = c.adsoyad,
-                Value = c.id,
-                Thumb = c.PersonelDetay.thumb
-            }).ToList();
-            return Json(liste, JsonRequestBehavior.AllowGet);
-        }
+      
 
         public ActionResult EvraklariHazirla(int id)
         {
@@ -48,10 +41,79 @@ namespace ik.Areas.OzlukAdmin.Controllers
 
             db.SaveChanges();
             ViewBag.tcNO = personel.tcno;
-           
-            return PartialView("_PersonelGirisEvrak",personel.Ozluk_IseGirisEvrak.ToList());
 
+            return PartialView("_PersonelGirisEvrak", personel.Ozluk_IseGirisEvrak.ToList());
+
+
+        }
+
+        public JsonResult _GirisEvrakKayitGuncelle(int kayitid, string detay, bool mevcut)
+        {
+            try
+            {
+                var kayit = db.Ozluk_IseGirisEvrak.FirstOrDefault(c => c.id == kayitid);
+                var kaydet = false;
+                if (!string.IsNullOrEmpty(detay)&& kayit.detay!=detay)
+                {
+                    kayit.detay = detay;
+                    kaydet = true;
+                }
+                if (kayit.mevcut != mevcut)
+                {
+                    kayit.mevcut = mevcut;
+                    kaydet = true;
+                }
+                if (kaydet)
+                {
+                    db.SaveChanges();
+                    return Json(new { Success = true, Message = kayit.Ozluk_IseGirisGerekEvrakTip.ad + " kaydı değiştirildi." }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { Success = false, Message = kayit.Ozluk_IseGirisGerekEvrakTip.ad + " kaydı değiştirilmedi." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Success = false, Message = "Hata Oluştu. "+ex.Message }, JsonRequestBehavior.AllowGet);
+            }
            
+        }
+
+        public JsonResult _IseGirisEvrakResmiSil(int id)
+        {
+            try
+            {
+                var evrak = db.Ozluk_IseGirisEvrakUrl.FirstOrDefault(c => c.id == id);
+                //önce resmi sil
+                var url = evrak.url;
+                var fizikselyol = System.Web.HttpContext.Current.Request.MapPath("~")+"\\"+url;
+
+                logger.Error(fizikselyol);
+
+                if (System.IO.File.Exists(fizikselyol))
+                {
+                    System.IO.File.Delete(fizikselyol);
+                    db.Ozluk_IseGirisEvrakUrl.Remove(evrak);
+                    db.SaveChanges();
+                    return Json(new { Success = true, Message = "Dosya ve Kayıt Silindi." }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    db.Ozluk_IseGirisEvrakUrl.Remove(evrak);
+                    db.SaveChanges();
+                    return Json(new { Success = true, Message = "Dosya Bulunamadı fakat Kayıt Silindi." }, JsonRequestBehavior.AllowGet);
+                }
+
+
+                
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Success = false, Message = "Hata Oluştu. " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

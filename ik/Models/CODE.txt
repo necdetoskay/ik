@@ -1,4 +1,38 @@
-﻿$('#openBtn').click(function(){  
+﻿selectlist personel kullanımı
+<script src="~/Scripts/ozlukadmin.js"></script>
+ function sonuc(result) {
+            $('#evrakliste').html(result);
+        }
+
+
+ $('#selectlist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                callafterchange: '@Url.Action("EvraklariHazirla")',
+                change: function(result) {
+                    sonuc(result);
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$('#openBtn').click(function(){  
   	$('.modal-body').load('/render/62805',function(result){
 	    $('#myModal').modal({show:true});
 	});  	

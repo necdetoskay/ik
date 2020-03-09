@@ -264,6 +264,7 @@
     <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisEvrakController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisGerekEvrakTipController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\OzlukHomeController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\İseGirisCikisIslemleriController.cs" />
     <Compile Include="Areas\OzlukAdmin\OzlukAdminAreaRegistration.cs" />
     <Compile Include="Controllers\AileFertleriController.cs" />
     <Compile Include="Controllers\ArsivController.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Models\Ozluk_IseGirisGerekEvrakTip.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PerkotekDB.cs" />
     <Compile Include="Models\PersonelEtiket.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -612,12 +614,18 @@
       <DependentUpon>KVKKModel.edmx</DependentUpon>
       <LastGenOutput>KVKKModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\Adobe-PDF-Document-icon.png" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-toggle.min.css" />
+    <Content Include="Content\delete-png.png" />
+    <Content Include="Content\switchery.min.css" />
+    <Content Include="Models\notify.txt" />
+    <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\checktree_icon.png" />
@@ -938,7 +946,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="modal form.txt" />
+    <Content Include="Models\modal form.txt" />
     <Content Include="Models\CODE.txt" />
     <Content Include="Models\form html kodları.txt" />
     <Content Include="Models\ikModel.Context.tt">
@@ -969,6 +977,8 @@
     <Content Include="Scripts\jquery.svg3dtagcloud.min.js" />
     <Content Include="Scripts\jquery.treetable.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
+    <Content Include="Scripts\ozlukadmin.js" />
+    <Content Include="Scripts\switchery.min.js" />
     <Content Include="Views\Personel\_PersonelResimleri.cshtml" />
     <Content Include="yapılacaklar.txt" />
     <EntityDeploy Include="Models\ikModel.edmx">
@@ -1045,6 +1055,7 @@
     <Content Include="Areas\OzlukAdmin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\Index.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\İseGirisCikisIslemleri\Sozleşme.cshtml" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1097,7 +1108,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\ik.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="multiselect grupped.txt" />
+    <Content Include="Models\multiselect grupped.txt" />
     <Content Include="Scripts\bootstrap-confirmation.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.tr.js" />
@@ -1420,6 +1431,9 @@
     <Content Include="Views\Personel\IseGirisEvrak.cshtml" />
     <Content Include="Views\Personel\_GirisEvrakYukle.cshtml" />
     <Content Include="Views\Personel\EkleGirisEvrak.cshtml" />
+    <Content Include="Views\Shared\_PersonelList.cshtml" />
+    <Content Include="Views\Personel\Durum.cshtml" />
+    <Content Include="Views\Personel\MaaşDurum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1516,7 +1530,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_ReactorR.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

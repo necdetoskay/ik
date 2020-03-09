@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "Sozleşme";
+    Layout = "~/Areas/OzlukAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<form>
+    <div class="form-group row">
+        <label for="adsoyad" class="col-sm-2 col-form-label">Adı Soyadı</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="adsoyad" placeholder="">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="sgkdosya" class="col-sm-2 col-form-label">Personelin Alınacağı SGK Dosyası</label>
+        <div class="col-sm-10">
+            @Html.DropDownList("sgkdosya", (SelectList)ViewBag.sgkdosyaListe, "SGK Dosya Seçiniz")
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="dogumyeryil" class="col-sm-2 col-form-label">Doğum Yeri ve Yılı</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control-plaintext" id="dogumyeryil">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ikametadres" class="col-sm-2 col-form-label">İkametgah Adresi</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="ikametadres" placeholder="İkametgah Adresi">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="brutucret" class="col-sm-2 col-form-label">Brüt Ücret</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="brutucret" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="evceptel" class="col-sm-2 col-form-label">Ev ve Cep Telefonu</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="evceptel" placeholder="">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button id="hazirla" type="button" class="btn btn-primary">Hazırla</button>
+        </div>
+    </div>
+
+    <div id="sozleme" style="margin: 50px;"></div>
+</form>
+<style>
+    .center {
+        text-align: center;
+    }
+
+    .yirmibes {
+        width: 25%;
+    }
+    .yirmi {
+        width: 20%;
+        text-align: justify;
+    }
+
+    .elli {
+        width: 50%;
+    }
+
+    .yetmisbes {
+        width: 75%;
+    }
+</style>
+@section scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            $('#hazirla').on('click', function () {
+                var sgkNo = "24612010111453969041133-20";
+                var dogumyeryil = "06.10.1976 / İZMİT";
+                var ikametgah = "Körfez Mah. Hafız Binbaşı Cad. No:3 Kat:1-2 İzmit/KOCAELİ";
+                var evceptel = "0262 331 07 03";
+                var baslangictarih = "01.01.2019";
+                var brutucret = "2.000";
+                var gorevi = "Pazarlama Elemanı";
+                var adsoyad = "KENT KONUT";
+
+                var table = $('<table class="table table-bordered" ></table>');
+                table.append('<tr><td colspan="4" class="center bold">BELİRSİZ SÜRELİ İŞ SÖZLEŞMESİ</td></tr>');
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;">İŞVERENİN</td></tr>');
+                table.append('<tr><td class="yirmi">ÜNVAN :</td><td colspan="3">KENT KONUT İNŞAAT SANAYİ VE TİCARET A.Ş.</td></tr>');
+                table.append('<tr><td class="yirmi">VE ADRESİ :</td><td colspan="3">Körfez Mah. Hafız Binbaşı Cad. No:3 Kat:1-2 (Dolphin Kültür Merkezi) İzmit/KOCAELİ</td></tr>');
+                table.append('<tr><td class="yirmi">SGK İşyeri Sicil Nosu :</td><td colspan="3">' + sgkNo + '</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;">PERSONELİN</td></tr>');
+                table.append('<tr><td class="yirmi">Doğum Yeri ve Yılı :</td><td colspan="3">' + dogumyeryil + '</td></tr>');
+                table.append('<tr><td class="yirmi">İkametgah Adresi :</td><td colspan="3">' + ikametgah + '</td></tr>');
+                table.append('<tr><td class="yirmi">Ev ve Cep Tel :</td><td colspan="3">' + evceptel + '</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;">SÖZLEŞMENİN</td></tr>');
+                table.append('<tr><td class="yirmi">Başlangıç Tarihi :</td><td colspan="3">' + baslangictarih + '</td></tr>');
+                table.append('<tr><td class="yirmi">Sözleşme Süresi :</td><td colspan="3">Belirsiz Sürelidir.</td></tr>');
+                table.append('<tr><td class="yirmi">Ücret (Brüt): TL/AYLIK</td><td colspan="3">' + brutucret + '</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi">Yapılacak İşin Konusu :</td><td colspan="3">' + gorevi + '</td></tr>');
+                table.append('<tr><td class="yirmi">Deneme Süresi :</td><td colspan="3">Yasal Hükümler Uygulanır.</td></tr>');
+                table.append('<tr><td class="yirmi"colspan="5">Sözleşmede Adı geçen işveren deyimi; Kent Konut İnş. San. ve Tic. A.Ş. yi</td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">Personel deyimi ,se bu sözleşmede ismi geçen' + adsoyad + ' ifade eder</td></tr>');
+
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+
+                table.append('<tr><td colspan="4" class="center bold">MADDE 1) PERSONELİN SORUMLULUKLARI</td></tr>');
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.1. Personel, tecrübe ve mesleki birikimine uygun olarak, şirketin vereceği bütün işleri ve görevleri yapmayı kabul taahhüt eder. Bu hizmetleri karşılığında belirtilen aylık ücret dışında herhangi bir ücret talep edemez.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.2. Personel, görevin ifasında ve işyeri disiplininin sağlanmasında; şirketin talimatlarına işveren tarafından belirlenen çalışma kurallarına, işyerinin genel politikalarına uyacağını kabul ve taahhüt eder. Personel, verilen işi özenle yapmak, ahlak ve iyi niyet kurallarına uymak, işçi sağlığı ve iş güvenliği tedbirlerine riayet etmekle yükümlüdür.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.3. Personel, görevi nedeniyle kendisine ve bağlı bulunduğu birime teslim edilen demirbaş, her türlü mefruşat, elektronik teçhizat vb. eşyanın muhafazasından, hasar ve ziyan görmesinden sorumludur.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.4. Personel, görevi nedeniyle sahip olacağı, işverenin ve işyerinin sırlarını üçüncü şahıs ve kurumlara veremez. İşçinin bu hükümlere aykırı hareket etmesi halinde işverenin tazminat hakkı saklıdır.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.5. Personel, işverenin yazılı izni olmadan başka herhangi bir kuruluş, şirkette çalışamaz, ortak olamaz, herhangi bir sıfatla görev alamaz. İşveren, izin verip vermemekte serbesttir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.6. Personel, gerektiği takdirde işyeri içinde unvanı, niteliği benzer yahut birbirine yakın başka işlerde Kocaeli Büyükşehir Belediyesinde yada iştiraklerinde, Büyükşehir Belediyesi sınırları içindeki Kamu Kurum ve Kuruluşlarında muvafakat aranmaksızın geçici ve devamlı olarak işveren tarafından görevlendirilebilir. Personel, görülen işin niteliğinde benzerlik olması şartıyla  işverene bağlı ve Büyük şehir belediye sınırları içindeki bir başka işyerine nakledilebilir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.7. Personel, işveren tarafından tespit edilen günlük ve haftalık mesai çalışma saatleri ile ilgili düzenlemelere uymak zorundadır. Personelin işveren tarafından belirlenen ve işyerinde ilan edilen çalışma saatlerine uymaması ve mesaiye geç kalması halinde çalışmadığı saat ücreti kesilir. Bir ay içinde iki defa geç gelen personele ihtar verilir. İhtar almış personel bir daha geç kalırsa o gün iş başı yaptırılmaz ve işe gelmemiş kabul edilir ve o günkü ücreti esilir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.8. Personel, ücretleri brüt ücrettir. Personel yıl içerisinde farklı gelir vergisi dilimlerine tabi olması, yasal mevzuatın devlet tarafından değiştirilmesi ve benzeri durumlarda meydana gelecek ücret değişikliklerini kabul eder.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.9. Personel, ay sonunda tahakkuk eden ve kendisine ücret bordrosu ile bildirilen ödemelere bir hafta içerisinde yazılı olarak itiraz eder. Bir hafta içerisinde itiraz da bulunmaması halinde bordroya mutabık kalındığını kabul eder.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.10. Personel, istendiğinde fazla çalışma yapmayı, 4857 sayılı İş Kanununun 64. Maddesi hükmüne uygun olarak telafi çalışma yapmayı, ve aynı kanunun 68. maddesi gereği yasal şartlarda uygun denkleştirme çalışması yapmayı kabul eder, bayram ve genel tatil günlerinde çalışmayı peşinen kabul eder, çalışılan ulusal bayram ve genel tatillerde her gün  için fazladan bir günlük ücret ödenir. Fazla mesai yapılması halinde fazla mesainin her bir saati karşılığında normal saat ücretinin %50 fazlası ödenir. Hafta içinde kendisine hafta tatili verilen personel için Pazar günü “İş Günü” niteliğindedir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.11. Personel, istendiğinde hizmet içi veya görevin gerektirdiği diğer eğitimlere katılmak zorundadır. Bu çeşit personelden zorunlu hizmet talep edilir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.12.İşçinin yasal tebligat adresi işverene yazılı olarak bildirdiğiikamet adresidir.İşçi, adresinde değişiklik olması halinde bir hafta içerisinde bunu yazılı olarak işverene bildirmekle yükümlüdür.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.13.İşçi, işverenin önceden haber verdiği esnek çalışma koşullarını kabul eder.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">1.14.İşçi, İşverenin belirlemiş olduğu günlük ve haftalık çalışma saatlerini kabul eder.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td colspan="4" class="center bold">MADDE 2) İŞVERENİN SORUMLULUKLARI</td></tr>');
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">2.1. İşveren, personele ücretini çalıştığı her ayı takip eden ayın ilk haftası içerisinde ödeyecektir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">2.2. İşveren, işçilik haklarını ödemek, ahlak ve iyi niyet kurallarına uymak, işçi sağlığı ve iş güvenliği tedbirlerini almakla yükümlüdür.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">2.3. İşveren, personele evlilik halinde 3 gün, ana-baba-kardeş-eş ve çocukların ölümü halinde 3 gün, eşinin doğum yapmasında ise 5 gün izin verir. İşveren, 4857 sayılı İş Kanununda belirtilen kıdeme göre 14-20 ve 26 gün yıllık ücretli izin vermek zorundadır.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">2.4. Personelin, ücretine yapılacak zam tamamen işverenin takdirindedir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">2.5. İşçinin talep ettiği ücretsiz izinlerin verilip verilmemesi tamamen işverenin takdirindedir. Ücretsiz izin süresince işçiye herhangi bir ücret ödenmez. Hafta tatili ücretine hak kazanmak için, haftalık çalışma süresinin doldurulması şartı aranır.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">2.6.İşveren, işçilerin bir bölümüne veya tümüne sözleşme gereği olmaksızın teşvik amaçlı olarak yapacağı süreklilik arzetmeyen nakdi ve ayni ödemeler, işçiler bakımından kazanılmış hak niteliğinde olmayıp tekrarlanacağı anlamına gelmez.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td colspan="4" class="center bold">MADDE 3) SÖZLEŞME SÜRESÜ, FESİH VE TAZMİNATLAR</td></tr>');
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">3.1 Taraflar, yukarıdaki maddelerde yazılı sorumluluklarını yerine getiremez ise karşı tarafa sözleşmeyi herhangi bir tazminat ödemeden feshetme hakkı doğduğunu kabul ve taahhüt etmişlerdir. İşyeri personel disiplin yönetmeliği hizmet akdinin ayrılmaz bir parçası niteliğindedir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">3.2 Sözleşmenin taraflarından herhangi birisi sözleşmeyi feshetmek isterse; 4857 sayılı İş Kanunun 17. Maddesindeki ihbar önellerine uygun olarak, personelin işyerindeki kıdemine göre önceden karşı tarafa yazılı olarak haber vermek zorundadır. Haber verilmemesi halinde tarafların  ayrıca tazminat isteme hakkı saklıdır.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td colspan="4" class="center bold">MADDE 4) SON HÜKÜMLER</td></tr>');
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">4.1 Sözleşmede düzenlenmemiş konularda kanun ve mevzuat hükümleri saklıdır.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">4.2 Uyuşmazlıklarda çözüm mercii Kocaeli mahkeme ve icra daireleridir.</td></tr>');
+
+                table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                table.append('<tr><td class="yirmi" colspan="5">4.3 İş bu hizmet akdi, 10.05.2018 tarihinde tanzimle okundu ve kabulle imzalandı.</td></tr>');
+
+
+                //table.append('<tr><td colspan="2" class="yirmibes"></td><td colspan="3" style="padding: 10px;"></td></tr>');
+                //table.append('<tr><td class="yirmi" colspan="5"></td></tr>');
+
+                //table.append('<tr><td></td><td></td></tr>');
+
+
+                $('#sozleme').html(table);
+            });
+        })
+    </script>
+}

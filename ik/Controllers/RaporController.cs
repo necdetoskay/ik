@@ -445,10 +445,12 @@ namespace ik.Controllers
         }
 
 
+        public ActionResult GünlükRapor()
+        {
+            
 
-
-
-
+            return View();
+        }
     }
 
     public class MaasNet

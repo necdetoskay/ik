@@ -24,6 +24,40 @@ namespace ik.Controllers
             return View();
         }
 
+        public MassKontrolVM PersonelBilgi(Guid kod, int yil, int ay)
+        {
+            var temp = new DateTime(yil, ay, 1);
+            var yil1 = temp.Year;
+            var ay1 = temp.Month;
+            var query = (from p in ke.PERSONELLERs
+                         join pt in ke.PERSONEL_TAHAKKUKLARI on p.per_kod equals pt.pt_pkod
+                         where p.per_cikis_tar == new DateTime(1899, 12, 31) & (pt.pt_maliyil == yil1 & pt.pt_tah_ay == ay1) & p.per_Guid==kod
+                         select new MassKontrolVM
+                         {
+                             sicilno = p.per_kod,
+                             adsoyad = p.per_adi + " " + p.per_soyadi,
+                             yil = pt.pt_maliyil.Value,
+                             ay = pt.pt_tah_ay.Value,
+                             bes = pt.pt_otobes_tutari.Value,
+                             fm1 = Math.Round(pt.pt_ekkazanc2_tktutar.Value, 2),
+                             fm2 = Math.Round(pt.pt_ekkazanc1_tktutar.Value, 2),
+                             avans = pt.pt_ozksnt5.Value,
+                             icra = pt.pt_ozksnt3.Value,
+                             sgkgun = pt.pt_sskgunu.Value,
+                             net = Math.Round(pt.pt_net.Value, 2),
+                             agi = pt.pt_asgarigecimindirimi.Value,
+                             devgelvermatrah = Math.Round(pt.pt_devgvmatrah.Value, 2),
+                             gvmatrah = Math.Round(pt.pt_gvmatrah.Value, 2),
+                             brüt = Math.Round(pt.pt_brutucret.Value, 2),
+                             yemek = Math.Round(pt.pt_sosyrdm.Value, 2)
+                         });
+
+
+
+            return query.ToList()[0];
+        }
+
+
         [HandleError]
         public ActionResult MaasKontrol(int yil, int ay)
         {
@@ -71,8 +105,8 @@ namespace ik.Controllers
                 try
                 {
                     var p = pers.OrderBy(d => d.ay).ToList();
-                    var ban = p[0].net + p[0].icra + p[0].avans + p[0].bes;
-                    var gan = p[1].net + p[1].icra + p[1].avans + p[1].bes;
+                    var gan = p[0].net + p[0].icra + p[0].avans + p[0].bes;
+                    var ban = p[1].net + p[1].icra + p[1].avans + p[1].bes;
                     var ayson = pers.FirstOrDefault(f => f.ay == ay1);
 
                     var hesap = MaasHesap(ayson.brüt, ayson.yemek, ayson.avans, ayson.bes, ayson.devgelvermatrah,

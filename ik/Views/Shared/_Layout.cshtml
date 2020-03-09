@@ -23,6 +23,7 @@
             @Html.ActionLink("I.K.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
             @Html.ActionLink("KVKK", "Index", "Index", new { area = "KVKK" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Personel Özlük", "Index", "OzlukHome", new { area = "OzlukAdmin" }, new { @class = "navbar-brand" })
 
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -48,8 +49,10 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personel İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Personel Durumu", "Durum", "Personel")</li>
+
                         <li>@Html.ActionLink("Etiketler", "Bulut", "Etiket")</li>
-                    
+
                         @*<li><a href="#">Dropdown Link 1</a></li>
                             <li><a href="#">Dropdown Link 2</a></li>
                             <li><a href="#">Dropdown Link 3</a></li>>*@
@@ -136,7 +139,9 @@
                                 <li>@Html.ActionLink("Departman Bazında Giriş Çıkış", "DepartmanGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li>@Html.ActionLink("Genel Personel Durumu", "PersonelDurum", "Rapor")</li>
                                 <li>@Html.ActionLink("Genel Personel Durum Raporu", "PersonelDurumRapor", "Rapor")</li>
-                              
+                                <li>@Html.ActionLink("Günlük Gelen/Gelmeyen Personel Raporu", "GünlükRapor", "Rapor")</li>
+
+
                             </ul>
                         </li>
 

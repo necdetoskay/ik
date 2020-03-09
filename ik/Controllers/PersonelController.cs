@@ -465,48 +465,7 @@ namespace ik.Controllers
             }
         }
 
-        //public JsonResult _PersonelIhale(int personelid)
-        //{
-
-        //    try
-        //    {
-        //        //personel tablosundan çalışma dönemini getir.
-        //        var personel = db.Personels.SingleOrDefault(c => c.id == personelid);
-        //        var firmaid = personel.PersonelIhaleDonemleri.PersonelIhale.firmaid;
-        //        var kadrotipi = personel.kadro;
-        //        var birimi = personel.birimid;
-        //        var donemler = personel.PersonelIhaleDonemleri.PersonelIhale.Firma.PersonelIhales.Select(c =>
-        //            new
-        //            {
-        //                Tarih1 = c.baslangic,
-        //                Tarih2 = c.bitis,
-        //                Value = c.id
-        //            }).ToList(); ;
-        //        var secilidonem = personel.PersonelIhaleDonemleri.ihaleid;
-        //        return Json(new
-        //        {
-        //            Success = true,
-        //            firmaid,
-        //            donemler,
-        //            secilidonem,
-        //            kadrotipi,
-        //            birimi,
-        //            lokasyon = (personel.PersonelDetay.Lokasyon1 == null ? 0 : personel.PersonelDetay.Lokasyon1.id),
-        //            gorevi = personel.PersonelDetay.gorev,
-        //            tahsili = personel.PersonelDetay.tahsili
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception hata)
-        //    {
-        //        return Json(new { Success = false, hata.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-
-        //    //kayıtla ilişkili firma id sini döndür
-        //    //firma id ile ilişkili ihale kayıtlarını ve seçili ihale kaydını getir
-
-
-        //}
-
+       
         public ActionResult TumPersonel()
         {
             ViewBag.FirmaListe = new SelectList(db.Firmas, "id", "firmaad");
@@ -582,28 +541,7 @@ namespace ik.Controllers
             return View(liste.ToList());
         }
 
-        //public ActionResult TumPersonelSayi()
-        //{
-        //    var liste = db.Personels.Where(c => c.cikistarihi == null).GroupBy(c => c.PersonelIhaleDonemleri.PersonelIhale.Firma.firmaad).Select(c => new PersonelListeSayıVM
-        //    {//        FirmaID = c.FirstOrDefault().PersonelIhaleDonemleri.PersonelIhale.Firma.id,
-        //        Firma = c.Key,
-        //        Sayı = c.Count()
-        //    }).ToList();
-        //    return View(liste);
-        //}
-
-        //public ActionResult PersonelsByFirma(int id)
-        //{
-        //    ViewBag.Firma = db.Firmas.FirstOrDefault(c => c.id == id).firmaad;
-        //    var liste = db.Personels.OrderBy(c => c.adsoyad).Where(c => c.cikistarihi == null && c.PersonelIhaleDonemleri.PersonelIhale.firmaid == id).Select(c => new PersonelsByFirmasVM
-        //    {
-        //        ID = c.id,
-        //        AdSoyad = c.adsoyad,
-        //        Görevi = c.PersonelDetay.Gorev1.ad
-
-        //    }).ToList();
-        //    return View(liste);
-        //}
+      
         [HttpPost]
         public ActionResult _MeslekEkle(string ad)
         {
@@ -815,16 +753,16 @@ namespace ik.Controllers
 
         
 
-        public ActionResult _SelectList()
-        {
-            var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
-            {
-                Text = c.adsoyad,
-                Value = c.id,
-                Thumb = c.PersonelDetay.thumb
-            }).ToList();
-            return Json(liste, JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult _SelectList()
+        //{
+        //    var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
+        //    {
+        //        Text = c.adsoyad,
+        //        Value = c.id,
+        //        Thumb = c.PersonelDetay.thumb
+        //    }).ToList();
+        //    return Json(liste, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult _PersonelResimleri()
         {
@@ -1469,6 +1407,18 @@ namespace ik.Controllers
             return PartialView(evr);
         }
 
+        public ActionResult _SelectList()
+        {
+            var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
+            {
+                Text = c.adsoyad,
+                Value = c.id,
+                Thumb = c.PersonelDetay.thumb
+            }).ToList();
+            return Json(liste, JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
         public ActionResult EkleGirisEvrak(int id, Ozluk_IseGirisEvrak evrak)
         {
@@ -1502,6 +1452,16 @@ namespace ik.Controllers
             }
             ViewBag.evrakListe = new SelectList(fark, "id", "ad");
             return PartialView(evrak);
+        }
+
+        public ActionResult Durum()
+        {
+            return View();
+        }
+
+        public ActionResult MaaşDurum(int id)
+        {
+            return PartialView();
         }
     }
 

@@ -1,57 +1,36 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Areas/KVKK/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/OzlukAdmin/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
 
-<select id="personel"> </select><img class="hidden" id="loading" src="~/Content/Loading_icon.gif"/> <span id="sayi"></span>
+<div id="selectlist"></div>
+
+@*<select data-target="evrakliste" id="personel"> </select><img class="hidden" id="loading" src="~/Content/Loading_icon.gif" /> <span id="sayi"></span>*@
 <div id="evrakliste"></div>
 
-@section scripts{
-    <script type="text/javascript">
-        function personellisteyukle() {
-            var load = $('#loading');
-            var pers = $('#personel');
-            pers.empty();
-            pers.append('<option>Personel Seçiniz.....</option>');
-            $('#sayi').html('<img src="+@Url.Content("~/Content/Loading_icon.gif")+"/>');
-            load.removeClass("hidden");
-            $.ajax({
-                url: '@Url.Action("_SelectList")',
-                type: 'GET',
-                success: function(result) {
-                    var say = 0;
-                    $.each(result, function(i, item) {
-                        pers.append('<option value="' + item.Value + '">' + item.Text + '</option>');
-                        say = i;
-                    });
-                    $('#sayi').html(say + 1 + ' kişi bulundu');
 
-                    load.addClass("hidden");
-                    pers.on('change', (function () { 
-                        var selected = $("#personel option:selected");
-                        load.removeClass("hidden");
-                        // personel seçildiğinde özlük evraklarını yukle eğer kayıt yoksa yenilerini ekle
-                        $.ajax({
-                            url:'@Url.Action("EvraklariHazirla")',
-                            type:'GET',
-                            data: { id:selected.val()},
-                            success:function(result) {
-                                $('#evrakliste').html(result);
-                                load.addClass("hidden");
-                            }
-                        });
-                    }));
-                }
-            });
+@section scripts{
+<script src="~/Scripts/ozlukadmin.js"></script>
+    <script type="text/javascript">
+        
+        function sonuc(result) {
+            $('#evrakliste').html(result);
         }
 
         $(function() {
-            personellisteyukle();
-
-           
+            $('#selectlist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                callafterchange: '@Url.Action("EvraklariHazirla")',
+                change: function(result) {
+                    sonuc(result);
+                }
+            });
         });
+
     </script>
 }
