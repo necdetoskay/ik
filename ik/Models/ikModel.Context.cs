@@ -80,7 +80,6 @@ namespace ik.Models
         public virtual DbSet<kanunparametre> kanunparametres { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<Task_Details> Task_Details { get; set; }
-        public virtual DbSet<OzlukAileFertleri> OzlukAileFertleris { get; set; }
         public virtual DbSet<OzlukEvrak> OzlukEvraks { get; set; }
         public virtual DbSet<OzlukGorevlendirme> OzlukGorevlendirmes { get; set; }
         public virtual DbSet<OzlukGrupTanim> OzlukGrupTanims { get; set; }
@@ -93,5 +92,7 @@ namespace ik.Models
         public virtual DbSet<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
         public virtual DbSet<Ozluk_IseGirisGerekEvrakTip> Ozluk_IseGirisGerekEvrakTip { get; set; }
         public virtual DbSet<Ozluk_IseGirisEvrakUrl> Ozluk_IseGirisEvrakUrl { get; set; }
+        public virtual DbSet<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
+        public virtual DbSet<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
     }
 }

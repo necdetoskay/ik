@@ -12,18 +12,13 @@ namespace ik.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OzlukGrupTanim
+    public partial class Ozluk_AileFertleriUrl
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OzlukGrupTanim()
-        {
-            this.OzlukGrupTanimDetays = new HashSet<OzlukGrupTanimDetay>();
-        }
-    
         public int id { get; set; }
-        public string ad { get; set; }
+        public int ailefertID { get; set; }
+        public string url { get; set; }
+        public string aciklama { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OzlukGrupTanimDetay> OzlukGrupTanimDetays { get; set; }
+        public virtual Ozluk_AileFertleri Ozluk_AileFertleri { get; set; }
     }
 }

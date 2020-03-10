@@ -259,14 +259,15 @@
       <DependentUpon>KVKKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\KVKK\Models\partialClasses.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\AileFertleriController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\EnumController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\EnumDetayController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisEvrakController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisGerekEvrakTipController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\OzlukHomeController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\İseGirisCikisIslemleriController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Models\partials.cs" />
     <Compile Include="Areas\OzlukAdmin\OzlukAdminAreaRegistration.cs" />
-    <Compile Include="Controllers\AileFertleriController.cs" />
     <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\DatatablesTestController.cs" />
@@ -365,9 +366,6 @@
     <Compile Include="Models\Meslek.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OzlukAileFertleri.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\OzlukEgitim.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -384,6 +382,12 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OzlukGrupTanimDetay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_AileFertleri.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ozluk_AileFertleriUrl.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ozluk_Enum.cs">
@@ -1056,6 +1060,15 @@
     <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\Index.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\İseGirisCikisIslemleri\Sozleşme.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Create.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Delete.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Details.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Edit.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\AileFertleri.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Ekle.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\FertListe.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\PersonelFertListe.cshtml" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1437,7 +1450,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\OzlukAdmin\Models\" />
     <Folder Include="Uploads\" />
     <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />

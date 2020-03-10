@@ -12,8 +12,14 @@ namespace ik.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OzlukAileFertleri
+    public partial class Ozluk_AileFertleri
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Ozluk_AileFertleri()
+        {
+            this.Ozluk_AileFertleriUrl = new HashSet<Ozluk_AileFertleriUrl>();
+        }
+    
         public int id { get; set; }
         public int personelID { get; set; }
         public int yakinlikID { get; set; }
@@ -21,7 +27,9 @@ namespace ik.Models
         public string dogumYeri { get; set; }
         public System.DateTime dogumTarihi { get; set; }
     
+        public virtual Ozluk_Enum_Detay Ozluk_Enum_Detay { get; set; }
         public virtual Personel Personel { get; set; }
-        public virtual OzlukGrupTanim OzlukGrupTanim { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
     }
 }

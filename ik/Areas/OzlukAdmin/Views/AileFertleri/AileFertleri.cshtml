@@ -1,19 +1,19 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "AileFertleri";
     Layout = "~/Areas/OzlukAdmin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
 <div id="selectlist"></div>
+
 <div id="evrakliste"></div>
 
 
 @section scripts{
+  
 <script src="~/Scripts/ozlukadmin.js"></script>
     <script type="text/javascript">
-        
+
         function sonuc(result) {
             $('#evrakliste').html(result);
         }
@@ -23,7 +23,7 @@
                 loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
                 listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
                 targetdiv: 'evrakliste',
-                callafterchange: '@Url.Action("EvraklariHazirla")',
+                callafterchange: '@Url.Action("PersonelFertListe",new {Area="OzlukAdmin"})',
                 change: function(result) {
                     sonuc(result);
                 }

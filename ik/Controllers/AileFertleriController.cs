@@ -21,10 +21,5 @@ namespace ik.Controllers
         }
 
 
-
-
-
-        ik.Models.KENTEntities db = new ik.Models.KENTEntities();
-
     }
 }

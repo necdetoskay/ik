@@ -180,6 +180,13 @@ namespace ik.Controllers
             }
         }
 
-      
+
+        public ActionResult Yukle()
+        {
+            var url = Request["url"];
+            var folder = Request["folder"];
+            var id = Request["id"];
+            return null;
+        }
     }
 }

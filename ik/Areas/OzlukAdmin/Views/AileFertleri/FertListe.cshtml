@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ik.Models.Ozluk_AileFertleri>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Yakınlık Derecesi
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.adsoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dogumYeri)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dogumTarihi)
+        </th>
+        <th>
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ozluk_Enum_Detay.degerad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adsoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dogumYeri)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dogumTarihi)
+            </td>
+            <td></td>
+
+
+            <td>
+                <div style="display: flex;" class="uploadable"></div>
+            </td>
+        </tr>
+    }
+</table>
+
+
+
+
+
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/DialogForm.js"></script>
+<script src="~/Scripts/ozlukadmin.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.uploadable').TopluDialogForm(
+            {
+                id: '',//butonid
+                text: 'Rutin Ekle',
+                url: '@Url.Action("Create","Takip")',
+                title: '',
+                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=10',
+                bclass: 'btn btn-info',
+                targetid: 'rutindiv',
+                width: "500",
+                height: "400",
+                complete: function () {
+                    alert("sonunda tamamlandı");
+                }
+            });
+
+
+
+
+
+
+        var url = '@Url.Action("Yukle","Upload",new {Area=""})';
+        var folder = '/' + 'IseGirisEvraklar/' + $('#tcno').val();
+        //var folder = 'IseGirisEvraklar/' + $('#tcno').val();
+        //console.log(url);
+        //$('.uploadable').MakeUploader({
+        //    url: url,
+        //    folder: folder
+        //});
+
+
+    });
+</script>

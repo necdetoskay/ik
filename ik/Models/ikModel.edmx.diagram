@@ -124,12 +124,10 @@
         <AssociationConnector Association="ikModel.FK__Gorev_Det__paren__27E3DFFF" />
       </Diagram>
       <Diagram DiagramId="3678fe41e0574cd9a381c096162903fc" Name="özlük" >
-        <EntityTypeShape EntityType="ikModel.OzlukAileFertleri" Width="1.5" PointX="3" PointY="3.625" />
         <EntityTypeShape EntityType="ikModel.OzlukEvrak" Width="1.5" PointX="5.75" PointY="4.75" />
         <EntityTypeShape EntityType="ikModel.OzlukGorevlendirme" Width="3" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ikModel.OzlukGrupTanim" Width="1.5" PointX="0.75" PointY="2.75" />
         <EntityTypeShape EntityType="ikModel.OzlukGrupTanimDetay" Width="1.5" PointX="3" PointY="1.125" />
-        <AssociationConnector Association="ikModel.FK__OzlukAile__yakin__5634BA94" />
         <AssociationConnector Association="ikModel.FK__OzlukGrup__ozluk__450A2E92" />
         <EntityTypeShape EntityType="ikModel.OzlukEgitim" Width="1.5" PointX="0.75" PointY="7.875" />
         <EntityTypeShape EntityType="ikModel.OzlukEgitimDetay" Width="1.5" PointX="3" PointY="7.875" />
@@ -144,6 +142,10 @@
         <AssociationConnector Association="ikModel.FK__Ozluk_Ise__evrak__0A3E6E7F" />
         <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrakUrl" Width="1.5" PointX="9.625" PointY="1" />
         <AssociationConnector Association="ikModel.FK__Ozluk_Ise__isegi__2C938683" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_AileFertleri" Width="1.5" PointX="0.5" PointY="3" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ail__yakin__3DBE1285" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_AileFertleriUrl" Width="1.5" PointX="2.375" PointY="3" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ail__ailef__52B92F6B" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
