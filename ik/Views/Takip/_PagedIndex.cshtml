@@ -1,0 +1,110 @@
+﻿@using ik.Models
+@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Takip>
+
+@{
+    ViewBag.Title = "Index";
+    var cls = "";
+}
+
+<div id="pagedTakip">
+    @helper Tamamlanma(Takip it)
+    {
+if (it.tamamlanma != null)
+{
+        <p>@it.tamamlanma.Value.ToShortDateString()</p>
+}
+else
+{
+    if (it.sontarih.Date < DateTime.Now.Date)
+    {
+            <p class="text-warning">Süresi Geçmiş</p>
+    }
+    else if (it.sontarih.Date == DateTime.Now.Date)
+    {
+            <p class="text-danger">Son Gün</p>
+    }
+    else
+    {
+            <p>Devam Ediyor</p>
+    }
+}
+}
+
+
+   
+
+    <table class="table">
+        <tr>
+            <th>
+                Açıklama
+            </th>
+            <th>
+                Ekleme Tarihi
+            </th>
+
+            <th>
+                Son Tarih
+            </th>
+            <th>
+                Tamamlanma
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            {
+                if (item.tamamlanma != null)
+                {
+                    cls = "#008000";
+                }
+                else
+                {
+                    if (item.sontarih > DateTime.Now)
+                    {
+                        cls = "#FFA500";
+                    }
+                    else
+                    {
+                        cls = "##FF0000";
+
+                    }
+
+                }
+            }
+            <tr bgcolor="@cls" class="@cls">
+                <td>
+                    @Html.DisplayFor(modelItem => item.aciklama)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ekleme)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sontarih)
+                </td>
+
+                <td>
+                    @Tamamlanma(item)
+                    @*@Html.DisplayFor(modelItem => item.tamamlanma)*@
+                </td>
+
+                <td>
+                    @if (item.tamamlanma == null)
+                    {
+                        @Html.ActionLink("Tamamla", "Tamamla", new { item.id })
+                    } |
+                    @Html.ActionLink("Delete", "Delete", new { item.id })
+                </td>
+            </tr>
+        }
+
+    </table>
+    @Html.PagedListPager(Model, _sayfaNo => Url.Action("Index", "Takip", new { SayfaNo = _sayfaNo }))
+</div>
+
+
+
+

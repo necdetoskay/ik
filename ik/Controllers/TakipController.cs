@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ik.Models;
+using PagedList;
 
 namespace ik.Controllers
 {
@@ -19,10 +20,19 @@ namespace ik.Controllers
         }
 
         // GET: Takip
-        public ActionResult Index()
+        public ActionResult Index(int? SayfaNo)
         {
-            var liste = db.Takips.Where(c => c.tamamlanma != null).OrderBy(c => c.sontarih).ToList();
-            return View(liste);
+            int _sayfaNo = SayfaNo ?? 1;
+            var takip = db.Takips.OrderByDescending(m => m.tamamlanma==null).ToPagedList<Takip>(_sayfaNo, 10);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_PagedIndex", takip);
+            }
+
+            return View(takip);
+            //var liste = db.Takips.Where(c => c.tamamlanma != null).OrderByDescending(c => c.sontarih).ToList();
+            //return View(liste);
         }
 
         public ActionResult AltCreate(int? parentid)

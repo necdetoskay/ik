@@ -983,6 +983,7 @@
     <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\ozlukadmin.js" />
     <Content Include="Scripts\switchery.min.js" />
+    <Content Include="Scripts\uploadscripts.js" />
     <Content Include="Views\Personel\_PersonelResimleri.cshtml" />
     <Content Include="yapılacaklar.txt" />
     <EntityDeploy Include="Models\ikModel.edmx">
@@ -1069,6 +1070,7 @@
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Ekle.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\FertListe.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\PersonelFertListe.cshtml" />
+    <Content Include="Views\Upload\DosyaYukleDialog.cshtml" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1447,13 +1449,14 @@
     <Content Include="Views\Shared\_PersonelList.cshtml" />
     <Content Include="Views\Personel\Durum.cshtml" />
     <Content Include="Views\Personel\MaaşDurum.cshtml" />
+    <Content Include="Views\Template\GunlukRapor.cshtml" />
+    <Content Include="Views\Takip\_PagedIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
+    <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />
-    <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1542,7 +1545,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

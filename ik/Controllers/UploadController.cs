@@ -16,22 +16,33 @@ namespace ik.Controllers
 
         private readonly ikEntities db = new ikEntities();
 
+        public ActionResult DosyaYukleDialog()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ActionName("DosyaYukleDialog")]
+        public ActionResult DosyaYukleDialogKaydet()
+        {
+            return Json(new{success=true}, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult DosyaYukle(int pid,int kayitid)
         {
             var tcno = db.Personels.FirstOrDefault(c => c.id == pid).tcno;
             string FileName = "";
+        
             string dosyaresmi = "";
             int kayit = 0;
             HttpFileCollectionBase files = Request.Files;
             for (int i = 0; i < files.Count; i++)
             {
-                ////string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";    
-                ////string filename = Path.GetFileName(Request.Files[i].FileName);    
+                
 
                 HttpPostedFileBase file = files[i];
                 string fname;
-                //// Checking for Internet Explorer 
+            
                  
                 if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                 {
@@ -97,6 +108,7 @@ namespace ik.Controllers
             }
            
             return Json(new {DosyaAdi= FileName,DosyaResmi=dosyaresmi ,KayitNo= kayit} , JsonRequestBehavior.AllowGet);
+          
         }
 
         // GET: Upload
@@ -121,11 +133,8 @@ namespace ik.Controllers
                     }
                     tc = personel.tcno;
                 }
-              
-
-
-
                 string FileName = "";
+
                 HttpFileCollectionBase files = Request.Files;
                 
                 for (int i = 0; i < files.Count; i++)
@@ -181,12 +190,72 @@ namespace ik.Controllers
         }
 
 
-        public ActionResult Yukle()
+        public ActionResult Yukle(string folder)
         {
-            var url = Request["url"];
-            var folder = Request["folder"];
-            var id = Request["id"];
-            return null;
+            string FileName = "";
+            string dosyaresmi = "";
+            HttpFileCollectionBase files = Request.Files;
+
+            for (int i = 0; i < files.Count; i++)
+            {
+              
+
+                HttpPostedFileBase file = files[i];
+                string fname;
+
+                // Checking for Internet Explorer    
+                if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                {
+                    string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                    fname = testfiles[testfiles.Length - 1];
+                }
+                else
+                {
+                    fname = file.FileName;
+                    FileName = file.FileName;
+                }
+                var kayitklasor = Request.Form["kayitklasor"];
+                // Get the complete folder path and store the file inside it.   
+                var klasör = Server.MapPath("~/Uploads");
+                klasör = klasör + kayitklasor;
+                if (!System.IO.File.Exists(klasör))
+                {
+                    Directory.CreateDirectory(klasör);
+                }
+                FileInfo fi = new FileInfo(fname);
+                fname = fname.Replace(fi.Name, Guid.NewGuid().ToString());
+                fname = Path.Combine(klasör, fname + fi.Extension);
+                file.SaveAs(fname);
+                FileName = fname.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty); ;
+                if (System.IO.File.Exists(fname))
+                {
+                    switch (fi.Extension)
+                    {
+                        case ".jpg":
+                            {
+                                dosyaresmi = FileName;
+                                break;
+                            }
+                        default:
+                            {
+                                dosyaresmi =
+                                    string.Format(@"Content\Adobe-PDF-Document-icon.png")
+                                        .Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
+                                break;
+                            }
+
+                    }
+
+                }
+
+                //kaydı database e kaydet
+            }
+            return Json(new { DosyaAdi = FileName, Thumb = dosyaresmi }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Sil(int id,string url)
+        {
+            throw new NotImplementedException();
         }
     }
 }

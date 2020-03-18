@@ -37,55 +37,87 @@
             <td>
                 @Html.DisplayFor(modelItem => item.dogumTarihi)
             </td>
-            <td></td>
-
+            <td>
+                <div  data-id="@item.id"  class="imglist" style="display: flex">
+                    
+                </div>
+            </td>
 
             <td>
-                <div style="display: flex;" class="uploadable"></div>
+                <div class="uploadgoster">
+                </div>
             </td>
         </tr>
     }
 </table>
 
 
-
+<div >
+    <div class="imglist"></div>
+    <div class="uploadgoster"></div>
+</div>
 
 
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <script src="~/Scripts/DialogForm.js"></script>
 <script src="~/Scripts/ozlukadmin.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/uploadscripts.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.uploadable').TopluDialogForm(
-            {
-                id: '',//butonid
-                text: 'Rutin Ekle',
-                url: '@Url.Action("Create","Takip")',
-                title: '',
-                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=10',
-                bclass: 'btn btn-info',
-                targetid: 'rutindiv',
-                width: "500",
-                height: "400",
-                complete: function () {
-                    alert("sonunda tamamlandı");
+
+        function deleted(id) {
+            console.log(id);
+        }
+
+        function complete(uploadresult, targetimgdiv) {
+
+           // console.log(targetimgdiv);
+            var resim = $('<div class="fert-url" style="">' +
+                '<a target="_blank" href="/' + uploadresult.DosyaAdi + '" style="float:right">' +
+                '<img width="100" src="/' + uploadresult.Thumb + '" class="card-img-top" alt="...">' +
+                '</a>' +
+                '<a  href="javascript:void(0)" class="resimsil" style="position: absolute">' +
+                '<img  width="20" src="/Content/delete-png.png" />' +
+                '</a></div>');
+            targetimgdiv.append(resim);
+            var fertid = targetimgdiv.attr("data-id");
+            //db kaydetme işlemi yapılacak
+            $.ajax({
+                url: '@Url.Action("AileFertResimEkle")',
+                type: 'GET',
+                data: {
+                    url: uploadresult.DosyaAdi,
+                    fertid: fertid
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        var id = result.ID;
+
+
+                        var sil = resimdiv.find('.resimsil');
+                        sil.attr('data-id', id);
+                    }
+
                 }
             });
 
+        }
+
+        var pid = $('#tcno').val();
 
 
+        $('.uploadgoster').TopluDosyaYukle({
+            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',///standart view
+            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',///standart dosya uplaod işlemleri
+            deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})',///standart yüklenen dosyayı silme işlemleri
+            deletecompleteurl: '',
+            kayitklasor: '\\IseGirisEvraklar\\' + pid,/// değişebilir
+            targetimgdiv: 'imglist',
+            uploadcomplete: complete,
+            deletecomplete: deleted
 
 
-
-        var url = '@Url.Action("Yukle","Upload",new {Area=""})';
-        var folder = '/' + 'IseGirisEvraklar/' + $('#tcno').val();
-        //var folder = 'IseGirisEvraklar/' + $('#tcno').val();
-        //console.log(url);
-        //$('.uploadable').MakeUploader({
-        //    url: url,
-        //    folder: folder
-        //});
-
-
+        });
     });
 </script>

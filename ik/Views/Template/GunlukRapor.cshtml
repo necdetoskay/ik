@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "GunlukRapor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    h4 {
+        text-align: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel-heading">
+            <h4>
+                RAPORLU PERSONEL LİSTESİ VE TARİHLERİ
+            </h4>
+        </div>
+        <table id="raporlupersonel" class="table table-condensed table-bordered table-stroke">
+            <thead>
+            <tr>
+                <th>ADI SOYADI</th>
+                <th>BİRİM</th>
+                <th>RAPOR BAŞLAMA TARİHİ</th>
+                <th>RAPOR BİTİŞ TARİHİ</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel-heading">
+            <h4>
+                İZİNLİ PERSONEL LİSTESİ VE İZİN TARİHLERİ
+            </h4>
+        </div>
+        <table id="izinlipersonel" class="table table-condensed table-bordered table-stroke">
+            <thead>
+            <tr>
+                <th>ADI SOYADI</th>
+                <th>İZİN SÜRESİ</th>
+                <th>İZİN TİPİ</th>
+                <th>BAŞLAMA TARİHİ</th>
+                <th>BİTİŞ TARİHİ</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+   
+    <div class="panel-heading">
+        <h4>
+            GİRİŞTE KART BASMAYAN PERSONEL
+        </h4>
+    </div>
+    <table id="kartbasmayanpersonel" class="table table-condensed table-bordered table-stroke">
+        <thead>
+        <tr>
+            <th>ADI SOYADI</th>
+            <th>BİRİM</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+@section scripts{
+<script src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript">
+        
+        function mazeretsizgelmeyenler() {
+            var target = $("#kartbasmayanpersonel >tbody");
+            var now = new Date();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MazeretsizGelmeyenler", "PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (response) {
+                    target.empty();
+                    for (var i = 0; i < response.length; i++) {
+                        var product = response[i];
+                        target.append("<tr><td>" + product.adsoyad + "</td><td>"
+                                 + " " + "</td><td>" + "" + "</td</tr>");
+                    }
+                    target.append('</ul>');
+                    //$('.loading').remove();
+                    //$('#girisyapmayan').html(response.length);
+                }
+            });
+        }
+
+
+
+        function mazeretligelmeyenler() {
+            var izinli = $("#izinlipersonel >tbody");
+            var raporlu = $("#raporlupersonel > tbody");
+            var izinsiz = $('#kartbasmayanpersonel');
+            var now = new Date();
+            $.ajax({
+                type: 'GET', url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
+                data: {
+                    'tarih1': now.toISOString()
+                },
+                success: function (data) {
+                   // console.table(data);
+                    raporlu.empty();
+
+                    var tplm = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        // tplm++;
+                        var product = data[i];
+                        var d1 = moment(product.baslama, "DD.MM.YYYY");
+                        var d2 = moment(product.isbasi, "DD.MM.YYYY");
+                        var diff = d2.diff(d1, 'days') + 1;
+                        if (product.aciklama === "İSTİRAHAT") {
+                        
+
+                           
+                            raporlu.append("<tr><td>" + product.adsoyad + "</td><td>"
+                                + product.birimad + "</td><td>" + product.baslama + "</td><td>" + product.isbasi + "</td></tr>");
+                        } else {
+                          
+                            izinli.append("<tr><td>" + product.adsoyad + "</td><td>" + diff + "</td><td>"
+                              + product.aciklama + "</td><td>" + product.baslama + "</td><td>" + product.isbasi + "</td></tr>");
+                        }
+                       
+                    }
+                   // $('#gelmeyentoplam').html("[" + tplm + "]");
+                }
+            });
+        }
+
+
+        $(function () {
+
+            mazeretligelmeyenler();
+            mazeretsizgelmeyenler();
+        });
+    </script>
+}

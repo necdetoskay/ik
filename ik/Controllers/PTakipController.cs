@@ -166,7 +166,7 @@ namespace ik.Controllers
                         "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
                 var com =
-                    new MySqlCommand("select id,sicilno,adi,soyadi,sirket_kod from personel_kartlari",
+                    new MySqlCommand("SELECT personel_kartlari.id,personel_kartlari.sicilno,personel_kartlari.adi,personel_kartlari.soyadi,personel_kartlari.sirket_kod,kodlar_departman.aciklama as birim FROM personel_kartlari INNER JOIN kodlar_departman ON kodlar_departman.kod = personel_kartlari.departman_kod",
                         con);
                 if (con.State != ConnectionState.Open)
                     con.Open();
@@ -174,12 +174,17 @@ namespace ik.Controllers
                 adapter.Fill(dset.personel_kartlari);
                 com.CommandText =
                     string.Format(
-                        "select personel_izin.id, personel_izin.personel_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_id,tatil_tablo.aciklama as IzinTur from personel_izin inner join tatil_tablo on personel_izin.tatil_id=tatil_tablo.id");// where tarih='{0}'",
+                        "select personel_izin.id, personel_izin.personel_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_id,tatil_tablo.aciklama  as IzinTur from personel_izin inner join tatil_tablo on personel_izin.tatil_id=tatil_tablo.id");// where tarih='{0}'",
                        // tarih1.ToString("yyyy-MM-dd"));
                 adapter.Fill(dset.personel_izin);
 
 
                 con.Close();
+
+                foreach (var p in dset.personel_kartlari)
+                {
+                    Console.WriteLine(p.birim);
+                }
 
                 foreach (var personel in dset.personel_kartlari)
                 {
@@ -191,7 +196,6 @@ namespace ik.Controllers
                         if (personelIzinRow != null) { 
                             if(personelIzinRow.tatil_id==9 && personelIzinRow.gidis_saat>new TimeSpan(8,30,0)) continue;
                             personel.Takip = personelIzinRow.IzinTur;
-
                             var id = personelIzinRow.id;
                             var aciklama = personelIzinRow.aciklama;
                             var pid = personelIzinRow.personel_id;
@@ -250,7 +254,7 @@ namespace ik.Controllers
             }
             var data =
                 dset.personel_kartlari.Where(c => c.Takip != null)
-                    .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip,isbasi=c.isbasi,baslama=c.baslama});
+                    .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip,isbasi=c.isbasi,baslama=c.baslama,birimad=c.birim});
             return Json(data.OrderBy(c=>c.adsoyad), JsonRequestBehavior.AllowGet);
         }
         public JsonResult MazeretsizGelmeyenler(DateTime tarih1)

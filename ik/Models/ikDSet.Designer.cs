@@ -759,6 +759,8 @@ namespace ik.Models {
             
             private global::System.Data.DataColumn columnbaslama;
             
+            private global::System.Data.DataColumn columnbirim;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public personel_kartlariDataTable() {
@@ -858,6 +860,14 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn birimColumn {
+                get {
+                    return this.columnbirim;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -893,7 +903,7 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public personel_kartlariRow Addpersonel_kartlariRow(int id, string sicilno, string adi, string soyadi, int sirket_kod, string Takip, string isbasi, string baslama) {
+            public personel_kartlariRow Addpersonel_kartlariRow(int id, string sicilno, string adi, string soyadi, int sirket_kod, string Takip, string isbasi, string baslama, string birim) {
                 personel_kartlariRow rowpersonel_kartlariRow = ((personel_kartlariRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         id,
@@ -903,7 +913,8 @@ namespace ik.Models {
                         sirket_kod,
                         Takip,
                         isbasi,
-                        baslama};
+                        baslama,
+                        birim};
                 rowpersonel_kartlariRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowpersonel_kartlariRow);
                 return rowpersonel_kartlariRow;
@@ -934,6 +945,7 @@ namespace ik.Models {
                 this.columnTakip = base.Columns["Takip"];
                 this.columnisbasi = base.Columns["isbasi"];
                 this.columnbaslama = base.Columns["baslama"];
+                this.columnbirim = base.Columns["birim"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -955,6 +967,8 @@ namespace ik.Models {
                 base.Columns.Add(this.columnisbasi);
                 this.columnbaslama = new global::System.Data.DataColumn("baslama", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnbaslama);
+                this.columnbirim = new global::System.Data.DataColumn("birim", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnbirim);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2592,6 +2606,22 @@ namespace ik.Models {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string birim {
+                get {
+                    if (this.IsbirimNull()) {
+                        return null;
+                    }
+                    else {
+                        return ((string)(this[this.tablepersonel_kartlari.birimColumn]));
+                    }
+                }
+                set {
+                    this[this.tablepersonel_kartlari.birimColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsidNull() {
                 return this.IsNull(this.tablepersonel_kartlari.idColumn);
             }
@@ -2684,6 +2714,18 @@ namespace ik.Models {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetbaslamaNull() {
                 this[this.tablepersonel_kartlari.baslamaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsbirimNull() {
+                return this.IsNull(this.tablepersonel_kartlari.birimColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetbirimNull() {
+                this[this.tablepersonel_kartlari.birimColumn] = global::System.Convert.DBNull;
             }
         }
         

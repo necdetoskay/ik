@@ -48,12 +48,6 @@
            url:'',
            folder:''
 
-            //loadimgurl: '',
-            //listurl: '',
-            //targetdiv: '',
-            //change: function() {
-            //    alert("selectlist değişti");
-            //}
         }, options);
 
         $(this).each(function() {
@@ -64,6 +58,7 @@
            
             btn.on('click', function () {
                 var islem = btn.parent().find('.islem');
+               // var islem = $(this);
                 islem.html(' <div  class="col-sm-8 yukleislem"> <input type="file" class="Files"/> </div> <div class="col-sm-2">   ' +
                     '<input type="button" class="btn btn-danger UploadBtn" value="Yükle"/></div><div class="col-sm-2"> ' +
                     '<button class="iptalislem">İptal</button> </div>' +

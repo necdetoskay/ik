@@ -33,6 +33,7 @@
               <xs:element name="Takip" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Takip" msprop:Generator_ColumnVarNameInTable="columnTakip" msprop:Generator_ColumnPropNameInTable="TakipColumn" msprop:Generator_UserColumnName="Takip" type="xs:string" minOccurs="0" />
               <xs:element name="isbasi" msprop:Generator_ColumnVarNameInTable="columnisbasi" msprop:Generator_ColumnPropNameInRow="isbasi" msprop:Generator_ColumnPropNameInTable="isbasiColumn" msprop:Generator_UserColumnName="isbasi" type="xs:string" minOccurs="0" />
               <xs:element name="baslama" msprop:Generator_ColumnVarNameInTable="columnbaslama" msprop:Generator_ColumnPropNameInRow="baslama" msprop:Generator_ColumnPropNameInTable="baslamaColumn" msprop:Generator_UserColumnName="baslama" type="xs:string" minOccurs="0" />
+              <xs:element name="birim" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="birim" msprop:Generator_ColumnVarNameInTable="columnbirim" msprop:Generator_ColumnPropNameInTable="birimColumn" msprop:Generator_UserColumnName="birim" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

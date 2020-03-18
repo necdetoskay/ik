@@ -213,5 +213,19 @@ namespace ik.Areas.OzlukAdmin.Controllers
             var liste = pers.Ozluk_AileFertleri.ToList();
            return PartialView(liste);
         }
+
+
+        public ActionResult AileFertResimEkle(string url,int fertid)
+        {
+            var ferturl = new Ozluk_AileFertleriUrl
+            {
+                ailefertID = fertid,
+                url = url
+            };
+            db.Ozluk_AileFertleriUrl.Add(ferturl);
+            db.SaveChanges();
+            return Json(new {Success=true,ID=ferturl.id}, JsonRequestBehavior.AllowGet);
+           
+        }
     }
 }

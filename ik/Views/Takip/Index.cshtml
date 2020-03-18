@@ -6,98 +6,42 @@
     var cls = "";
 }
 
-@helper Tamamlanma(Takip it)
-{
-    if (it.tamamlanma != null)
-    {
-        <p>@it.tamamlanma.Value.ToShortDateString()</p>
-    }
-    else
-    {
-        if (it.sontarih.Date < DateTime.Now.Date)
-        {
-            <p class="text-warning">Süresi Geçmiş</p>
-        }
-        else if (it.sontarih.Date == DateTime.Now.Date)
-        {
-            <p class="text-danger">Son Gün</p>
-        }
-        else
-        {
-            <p>Devam Ediyor</p>
-        }
-    }
+
+<div id="rutinekle"></div>
+
+
+<div id="pagedTakip">
+    @Html.Partial("_PagedIndex")
+</div>
+
+@section scripts{
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/DialogForm.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#rutinekle').MakeDialogForm({
+                id: 'btnyarimekle',
+                text: 'Görev Ekle',
+                url: '@Url.Action("Create","Takip")',
+                title: 'Görev Ekle',
+                updateurl: '@Url.Action("Index","Takip")',
+                bclass: 'btn btn-info',
+                targetid: 'Info',
+                width: "500",
+                height: "350",
+                complete: function () {
+                    $.notify({
+                        title: 'Kayıt Durumu',
+                        message: 'Kaydedildi'
+                    }, { type: 'success' });
+                }
+            });
+        });
+    </script>
 }
-<h2>Index</h2>
-
-<p>
-    @Html.DialogFormLink("Yeni Görev Ekle",@Url.Action("Create"),"Görev ekle","Info",@Url.Action("Index"),"500","500")
-   @*@Html.ActionLink("Create New", "Create")*@
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.aciklama)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ekleme)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.sontarih)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tamamlanma)
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        {
-            if (item.tamamlanma != null)
-            {
-                cls = "#008000";
-            }
-            else
-            {
-                if (item.sontarih > DateTime.Now)
-                {
-                    cls = "#FFA500";
-                }
-                else
-                {
-                    cls = "##FF0000";
-
-                }
-
-            }
-        }
-        <tr bgcolor="@cls" class="@cls">
-            <td>
-                @Html.DisplayFor(modelItem => item.aciklama)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ekleme)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sontarih)
-            </td>
-
-            <td>
-                @Tamamlanma(item)
-                @*@Html.DisplayFor(modelItem => item.tamamlanma)*@
-            </td>
-
-            <td>
-                @if (item.tamamlanma == null)
-                {
-                    @Html.ActionLink("Tamamla", "Tamamla", new {item.id})
-                } |
-                @Html.ActionLink("Delete", "Delete", new {item.id})
-            </td>
-        </tr>
-    }
-
-</table>

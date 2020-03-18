@@ -291,6 +291,12 @@ namespace ik.Controllers
 
             return PartialView(liste);
         }
+
+        public ActionResult GunlukRapor()
+        {
+            return View();
+            throw new NotImplementedException();
+        }
     }
 
     public class IcraKontrolVM
