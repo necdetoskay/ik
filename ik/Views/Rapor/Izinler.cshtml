@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Izinler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Yıllık Izinler</h2>
+
+
+<div class="form-group">
+    <label class="col-md-4" for="departman">Departman</label>
+    <select id="departman" class="form-control"></select>
+</div>
+
+<div class="form-group">
+    <label class="col-md-4" for="personel">Personel</label>
+    <select id="personel" multiple="multiple" class="form-control"></select>
+</div>
+
+
+<input type="button" id="sorgula" value="Rapor Al" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Kalan İzin</th>
+            <th>Hak edeceği Tarih</th>
+            <th>Hak edeceği İzin Günü</th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+
+
+@section scripts{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/mdtimepicker.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/mdtimepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+            function isNull(obj, key) {
+                return (obj[key] == null || obj[key] === undefined || obj[key] === "null");
+            }
+
+            function validate(obj) {
+                var objKeys = Object.keys(obj);
+                objKeys.forEach((key) => {
+                    if (isNull(obj, key)) {
+                        obj[key] = "";
+                    }
+                    if (typeof (obj[key]) == "object") {
+                        validate(obj[key]);
+                    }
+                });
+            }
+
+            $('#sorgula').on('click', function () {
+             
+
+                var selected = $("#personel option:selected");
+                var liste = $('#liste');
+                var tarih = $('#tarih');
+                var body =$('#body');
+                var personeller = [];
+                $.each(selected, function(index, value) {
+                    personeller.push(value.value);
+                });
+                $.ajax({
+                    url:'@Url.Action("IzinleriHesapla")',
+                    type:'post',
+                    data: {
+                        personeller: personeller
+                    },
+                    success: function (result) {
+                        validate(result);
+                        $.each(result, function(i, item) {
+                            body.append('<tr><td>' + item.AdSoyad + '</td><td>' +item.KalanIzin + '</td><td>' + item.HakedilecekTrih + '</td><td>' + item.HakedilecekIzin + '</td></tr>');
+                        });
+                    }
+                });
+
+            });
+
+            var departman = $('#departman');
+            var personel = $('#personel');
+            personel.multiselect({
+                includeSelectAllOption: true,
+                selectAllText: 'Tümünü Seç',
+                nonSelectedText: 'Personel Seçiniz',
+                allSelectedText: 'Tümü Seçildi'
+            });
+            departman.change(function () {
+                var value = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("_PersonelByDepartman","Personel")',
+                    type: 'GET',
+                    data: {
+                        id: value
+                    },
+                    success: function (result) {
+                        if (result.Success === true) {
+                            personel.empty();
+                            $.each(result.Data, function (i, item) {
+                                personel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
+                            });
+                            personel.multiselect('rebuild');
+                        }
+                    }
+                });
+            });
+            $.ajax({
+                url: '@Url.Action("_Departmanlar","Personel")',
+                type: 'GET',
+                data: {},
+                success: function (result) {
+                    var departman = $('#departman');
+
+                    $.each(result.Data, function (i, item) {
+                        departman.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                    });
+                    departman.prop("selectedIndex", '-1');
+
+                }
+            });
+        })
+    </script>
+}

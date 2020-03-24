@@ -1,5 +1,34 @@
 ﻿@model IEnumerable<ik.Models.Ozluk_AileFertleri>
+<style>
+    .imglist {
+        display: flex;
+    }
 
+    .fertimgdiv {
+        padding-right: 10px;
+    }
+
+        .fertimgdiv:hover {
+            border-style: solid;
+            border-color: black;
+        }
+
+        .fertimgdiv > a.fertimgsil > img:hover {
+            opacity: 1;
+        }
+
+        .fertimgdiv > a.thumba > img {
+            height: 100px;
+            float: right;
+        }
+
+        .fertimgdiv > a.fertimgsil > img {
+            height: 20px;
+            position: absolute;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+</style>
 
 
 <table class="table">
@@ -38,11 +67,20 @@
                 @Html.DisplayFor(modelItem => item.dogumTarihi)
             </td>
             <td>
-                <div  data-id="@item.id"  class="imglist" style="display: flex">
-                    
+                <div data-id="@item.id" class="imglist">
+                    @foreach (var resim in item.Ozluk_AileFertleriUrl)
+                {
+                        <div class="fertimgdiv">
+                            <a class="thumba" target="_blank" href="/@resim.url">
+                                <img src="/@resim.url" class="fertimg">
+                            </a>
+                            <a href="javascript:void(0)" class="fertimgsil">
+                                <img src="/Content/delete-png.png"/>
+                            </a>
+                        </div>
+                    }
                 </div>
             </td>
-
             <td>
                 <div class="uploadgoster">
                 </div>
@@ -52,10 +90,7 @@
 </table>
 
 
-<div >
-    <div class="imglist"></div>
-    <div class="uploadgoster"></div>
-</div>
+
 
 
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -66,23 +101,27 @@
 <script type="text/javascript">
     $(function () {
 
-        function deleted(id) {
-            console.log(id);
+        //targetimgdiv: silinecek olan resmi içeren div(resim idsini içerir)
+        function deleted(targetimgdiv) {
+            var dataid = targetimgdiv.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("AileFertResimSil")',
+                data: {
+                    id: dataid
+                },
+                type: 'GET',
+                success: function (result) {
+                    if (result.Success === true)
+                        targetimgdiv.remove();
+                }
+            });
+
         }
-
-        function complete(uploadresult, targetimgdiv) {
-
-           // console.log(targetimgdiv);
-            var resim = $('<div class="fert-url" style="">' +
-                '<a target="_blank" href="/' + uploadresult.DosyaAdi + '" style="float:right">' +
-                '<img width="100" src="/' + uploadresult.Thumb + '" class="card-img-top" alt="...">' +
-                '</a>' +
-                '<a  href="javascript:void(0)" class="resimsil" style="position: absolute">' +
-                '<img  width="20" src="/Content/delete-png.png" />' +
-                '</a></div>');
-            targetimgdiv.append(resim);
+        //uploadresult: yüklenen dosyanın yolu,thumb yolu ve alt bilgisi,
+        //targetimgdiv: aile ferdine ait dosyaların ama container div(fert idsini içerir)
+        //resimdiv: aile ferdine yüklenen resmi içeren div (resim idsini içerir)
+        function complete(uploadresult, targetimgdiv, resimdiv) {
             var fertid = targetimgdiv.attr("data-id");
-            //db kaydetme işlemi yapılacak
             $.ajax({
                 url: '@Url.Action("AileFertResimEkle")',
                 type: 'GET',
@@ -93,25 +132,17 @@
                 success: function (result) {
                     if (result.Success === true) {
                         var id = result.ID;
-
-
-                        var sil = resimdiv.find('.resimsil');
-                        sil.attr('data-id', id);
+                        resimdiv.attr('data-id', id);
                     }
-
                 }
             });
 
         }
-
         var pid = $('#tcno').val();
-
-
         $('.uploadgoster').TopluDosyaYukle({
             uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',///standart view
             uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',///standart dosya uplaod işlemleri
             deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})',///standart yüklenen dosyayı silme işlemleri
-            deletecompleteurl: '',
             kayitklasor: '\\IseGirisEvraklar\\' + pid,/// değişebilir
             targetimgdiv: 'imglist',
             uploadcomplete: complete,

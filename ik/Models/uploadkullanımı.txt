@@ -1,0 +1,56 @@
+﻿ $(function () {
+
+        //targetimgdiv: silinecek olan resmi içeren div(resim idsini içerir)
+        function deleted(targetimgdiv) {
+            var dataid = targetimgdiv.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("AileFertResimSil")',
+                data: {
+                    id: dataid
+                },
+                type: 'GET',
+                success: function (result) {
+                    if (result.Success === true)
+                        targetimgdiv.remove();
+                }
+            });
+
+        }
+        //uploadresult: yüklenen dosyanın yolu,thumb yolu ve alt bilgisi,
+        //targetimgdiv: aile ferdine ait dosyaların ama container div(fert idsini içerir)
+        //resimdiv: aile ferdine yüklenen resmi içeren div (resim idsini içerir)
+        function complete(uploadresult, targetimgdiv, resimdiv) {
+            var fertid = targetimgdiv.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("AileFertResimEkle")',
+                type: 'GET',
+                data: {
+                    url: uploadresult.DosyaAdi,
+                    fertid: fertid
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        var id = result.ID;
+                        resimdiv.attr('data-id', id);
+                    }
+                }
+            });
+
+        }
+
+
+
+        var pid = $('#tcno').val();
+
+
+        $('.uploadgoster').TopluDosyaYukle({
+            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',///standart view
+            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',///standart dosya uplaod işlemleri
+            deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})',///standart yüklenen dosyayı silme işlemleri
+            kayitklasor: '\\IseGirisEvraklar\\' + pid,/// değişebilir
+            targetimgdiv: 'imglist',
+            uploadcomplete: complete,
+            deletecomplete: deleted
+
+
+        });

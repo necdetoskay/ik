@@ -1,38 +1,135 @@
-﻿(function ($) {
+﻿var uploadnamespace;
 
-    function resimekle( dosya, thumb,targetimgdiv) {
-        console.log(targetimgdiv);
-        var resim = $('<div class="card" style="">' +
-            '<a target="_blank" href="/' + dosya + '" style="float:right">' +
-            '<img width="100" src="/' + thumb + '" class="card-img-top" alt="...">' +
-            '</a>' +
-            '<a  href="javascript:void(0)" class="resimsil" style="position: absolute">' +
-            '<img  width="20" src="/Content/delete-png.png" />' +
+(function ($) {
+
+
+   
+
+    uploadnamespace= {
+        sil: function (sildiv, silid, dosya, deleteurl, deleted) {
+
+      var del = sildiv.find('.fertimgsil');
+    //*  var id = sildiv.attr('data-id');
+      del.on('click', function () {
+            //soru sor
+            BootstrapDialog.show({
+                title: 'Kayıt Sil',
+                message: 'Kayıt Silinsin mi?',
+                buttons: [{
+                    label: 'İptal',
+                    action: function (dialogRef) {
+                        dialogRef.close();
+                    }
+                }, {
+                    label: 'Sil',
+                    action: function (dialogRef) {
+                        $.ajax({
+                            url: deleteurl,
+                            type: 'GET',
+                            data: {
+                                url: dosya
+                            },
+                            success: function (result) {
+                              //  if (result.Success === true)
+                                    deleted(sildiv);
+                            }
+                        });
+                        dialogRef.close();
+                    }
+                }]
+            });
+        });
+}
+    }
+
+
+    //function sil(sildiv, silid, dosya, deleteurl, deleted) {
+    //       var del = sildiv.find('.fertimgsil');
+    //    // var id = targetimgdiv.attr('data-id');
+    //       del.on('click', function () {
+    //        //soru sor
+    //        BootstrapDialog.show({
+    //            title: 'Kayıt Sil',
+    //            message: 'Kayıt Silinsin mi?',
+    //            buttons: [{
+    //                label: 'İptal',
+    //                action: function (dialogRef) {
+    //                    dialogRef.close();
+    //                }
+    //            }, {
+    //                label: 'Sil',
+    //                action: function (dialogRef) {
+    //                    $.ajax({
+    //                        url: deleteurl,
+    //                        type: 'GET',
+    //                        data: {
+    //                            url: dosya
+    //                        },
+    //                        success: function (result) {
+    //                            if (result.Success === true)
+    //                                deleted(sildiv);
+    //                        }
+    //                    });
+    //                    dialogRef.close();
+    //                }
+    //            }]
+    //        });
+    //    });
+    //}
+
+
+    
+
+    function resimekle(dosya, thumb, alt, targetimgdiv, deleteurl, deleted) {
+        // console.log(targetimgdiv);
+        var resim = $('<div class="fertimgdiv" ><a class="thumba" target="_blank" href="/' + dosya + '" >' +
+            '<img  src="/' + thumb + '" class="fertimg" title="' + alt + '" alt="' + alt + '"></a>' +
+            '<a  href="javascript:void(0)" class="fertimgsil">' +
+            '<img  src="/Content/delete-png.png" />' +
             '</a></div>');
         targetimgdiv.append(resim);
 
+        //var sil = resim.find('.fertimgsil');
+        var id = targetimgdiv.attr('data-id');
 
-        //var sil = resim.find('.resimsil');
-        //var id = sil.attr('data-id');
+        uploadnamespace.sil(resim, id, dosya, deleteurl, deleted);
+
+
         //sil.on('click', function () {
-        //    $.ajax({
-        //        url: deleteurl,
-        //        type: 'GET',
-        //        data: {
-        //            id: id,
-        //            url: dosya
-        //        },
-        //        success: function (result) {
-        //            deleted(result.ID);
-        //        }
+        //    //soru sor
+        //    BootstrapDialog.show({
+        //        title: 'Kayıt Sil',
+        //        message:'Kayıt Silinsin mi?',
+        //        buttons: [ {
+        //            label: 'İptal',
+        //            action: function (dialogRef) {
+        //                dialogRef.close();
+        //            }
+        //        },{
+        //            label: 'Sil',
+        //            action: function (dialogRef) {
+        //                $.ajax({
+        //                    url: deleteurl,
+        //                    type: 'GET',
+        //                    data: {
+        //                        url: dosya
+        //                    },
+        //                    success: function (result) {
+        //                        if (result.Success === true)
+        //                            deleted(resim);
+        //                    }
+        //                });
+        //                dialogRef.close();
+        //            }
+        //        }]
         //    });
         //});
-     
 
-        return targetimgdiv;
+
+        return resim;
     }
 
-    function loadProgressBar(result, dialogref, complete, targetimgdiv){// ,deleted,  deleteurl) {
+    function loadProgressBar(result, dialogref, complete, targetimgdiv, deleteurl, deleted) {// ,deleted,  deleteurl) {
         var progressbar = $(".progressbar-5");
         var progressLabel = $(".progress-label");
         progressbar.show();
@@ -49,9 +146,10 @@
                 $('#Files').val('');
                 $('#FileBrowse').find("*").prop("disabled", false);
                 // $('#UploadBtn').attr('dosya', result.DosyaAdi);
-             /// var eklenenresimdiv= resimekle(result.DosyaAdi, result.Thumb, targetimgdiv);//, deleted, deleteurl);
-                
-                complete(result, targetimgdiv);//, targetimgdiv);
+                /// var eklenenresimdiv= 
+                var resimdiv = resimekle(result.DosyaAdi, result.Thumb, result.Alt, targetimgdiv, deleteurl, deleted);//, deleted, deleteurl);
+
+                complete(result, targetimgdiv, resimdiv);//, targetimgdiv);
                 dialogref.close();
             }
         });
@@ -68,7 +166,7 @@
     }
 
 
-    function uploadfile(file, dialogref,uploadurl, complete, kayitklasor, targetimgdiv){//, deleted, deleteurl) {
+    function uploadfile(file, dialogref, uploadurl, complete, kayitklasor, targetimgdiv, deleteurl, deleted) {//, deleted, deleteurl) {
         var fileUpload = file.get(0);
         var files = fileUpload.files;
         var fileData = new FormData();
@@ -87,7 +185,7 @@
             success: function (result) {
                 if (result.DosyaAdi != "") {
                     $('#FileBrowse').find("*").prop("disabled", true);
-                    loadProgressBar(result, dialogref, complete, targetimgdiv);//,  targetimgdivdeleted, deleteurl); //calling LoadProgressBar function to load the progress bar.
+                    loadProgressBar(result, dialogref, complete, targetimgdiv, deleteurl, deleted);//,  targetimgdivdeleted, deleteurl); //calling LoadProgressBar function to load the progress bar.
                 }
             },
             error: function (err) {
@@ -98,16 +196,13 @@
 
     function recurs(element) {
         if (element.find(".imglist").length === 0) {
-
             return recurs(element.parent());
-
-
         } else {
             return element.find(".imglist");
         }
     }
-    var dosyaYukle = function (upload,settings) {
-       
+    var dosyaYukle = function (upload, settings) {
+
 
         var yukle = upload;
         var html = $('<button title="Dosya Yükle" type="button" class="btn btn-default upload" aria-label="Left Align"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>');
@@ -140,7 +235,7 @@
                         //hotkey: 65, // Keycode of keyup event of key 'A' is 65.
                         action: function (dialogRef) {
                             var file = dialogRef.getModalBody().find('#Files');
-                            uploadfile(file, dialogRef, settings.uploadurl, settings.uploadcomplete, settings.kayitklasor, settings.targetimgdiv);//, settings.deleted, settings.deleteurl);
+                            uploadfile(file, dialogRef, settings.uploadurl, settings.uploadcomplete, settings.kayitklasor, settings.targetimgdiv, settings.deleteurl, settings.deletecomplete);//, settings.deleted, settings.deleteurl);
                         }
                     }, {
                         label: 'İptal',
@@ -155,10 +250,10 @@
         });
     }
 
-  
+
 
     $.fn.TopluDosyaYukle = function (options) {
-      
+
         $(this).each(function () {
             var settings = $.extend({
                 uploadurl: '',
@@ -168,7 +263,7 @@
                 uploadcomplete: function () { console.log('dialog tamamlandı') },
                 deleted: function () { console.log('silindi') }
             }, options);
-            dosyaYukle($(this),settings);
+            dosyaYukle($(this), settings);
         });
     }
 

@@ -22,7 +22,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
             return View();
         }
 
-      
+
 
         public ActionResult EvraklariHazirla(int id)
         {
@@ -53,7 +53,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
             {
                 var kayit = db.Ozluk_IseGirisEvrak.FirstOrDefault(c => c.id == kayitid);
                 var kaydet = false;
-                if (!string.IsNullOrEmpty(detay)&& kayit.detay!=detay)
+                if (!string.IsNullOrEmpty(detay) && kayit.detay != detay)
                 {
                     kayit.detay = detay;
                     kaydet = true;
@@ -76,9 +76,9 @@ namespace ik.Areas.OzlukAdmin.Controllers
             catch (Exception ex)
             {
 
-                return Json(new { Success = false, Message = "Hata Oluştu. "+ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = false, Message = "Hata Oluştu. " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-           
+
         }
 
         public JsonResult _IseGirisEvrakResmiSil(int id)
@@ -88,7 +88,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
                 var evrak = db.Ozluk_IseGirisEvrakUrl.FirstOrDefault(c => c.id == id);
                 //önce resmi sil
                 var url = evrak.url;
-                var fizikselyol = System.Web.HttpContext.Current.Request.MapPath("~")+"\\"+url;
+                var fizikselyol = System.Web.HttpContext.Current.Request.MapPath("~") + "\\" + url;
 
                 logger.Error(fizikselyol);
 
@@ -107,13 +107,57 @@ namespace ik.Areas.OzlukAdmin.Controllers
                 }
 
 
-                
+
             }
             catch (Exception ex)
             {
 
                 return Json(new { Success = false, Message = "Hata Oluştu. " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult _GirisEvrakEkle(int id, string url)
+        {
+            var girisevrak = db.Ozluk_IseGirisEvrak.FirstOrDefault(c => c.id == id);
+            var evrakurl = new Ozluk_IseGirisEvrakUrl
+            {
+                isegirisevrakid = girisevrak.id,
+                url = url
+            };
+            girisevrak.Ozluk_IseGirisEvrakUrl.Add(evrakurl);
+            girisevrak.mevcut = true;
+            try
+            {
+                db.SaveChanges();
+                return Json(new { Success = true, ID = evrakurl.id }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            //geriye url idsin döndür
+        }
+
+        public ActionResult _GirisEvrakSil(int id)
+        {
+            var evrakurl = db.Ozluk_IseGirisEvrakUrl.FirstOrDefault(c => c.id == id);
+            if (evrakurl != null)
+            {
+                db.Ozluk_IseGirisEvrakUrl.Remove(evrakurl);
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new { Success = true,Message="Kayıt silindi" }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { Success = false,Message="Kayıt Silinemedi" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            //url sil
+            return Json(new { Success = false,Message="Kayıt Bulunamadı!!" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

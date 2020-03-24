@@ -629,6 +629,7 @@
     <Content Include="Content\delete-png.png" />
     <Content Include="Content\switchery.min.css" />
     <Content Include="Models\notify.txt" />
+    <Content Include="Models\uploadkullanımı.txt" />
     <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -1451,6 +1452,7 @@
     <Content Include="Views\Personel\MaaşDurum.cshtml" />
     <Content Include="Views\Template\GunlukRapor.cshtml" />
     <Content Include="Views\Takip\_PagedIndex.cshtml" />
+    <Content Include="Views\Rapor\Izinler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1545,7 +1547,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

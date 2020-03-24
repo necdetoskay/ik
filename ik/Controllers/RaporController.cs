@@ -173,7 +173,7 @@ namespace ik.Controllers
         }
 
 
-        
+
         public ActionResult PersonelDurum()
         {
             return View();
@@ -325,15 +325,15 @@ namespace ik.Controllers
         }
 
 
-        public ActionResult PersonelDurumRapor(bool birim=false,bool lokasyon=false,bool tahsil=false,bool gorev=false,bool meslek=false,bool isegiris=false
-            ,bool kidem=false)
+        public ActionResult PersonelDurumRapor(bool birim = false, bool lokasyon = false, bool tahsil = false, bool gorev = false, bool meslek = false, bool isegiris = false
+            , bool kidem = false)
         {
-            var data = db.Personels.Where(c => c.cikistarihi == null & (c.kadro == 1 || c.kadro == 2)).Select(d=>new MaasNet
+            var data = db.Personels.Where(c => c.cikistarihi == null & (c.kadro == 1 || c.kadro == 2)).Select(d => new MaasNet
             {
-                Personel=d.adsoyad,
-                TC=d.mikroid.Value,
-                Brüt=0,
-                Net=0
+                Personel = d.adsoyad,
+                TC = d.mikroid.Value,
+                Brüt = 0,
+                Net = 0
             }).ToList();
 
             try
@@ -342,14 +342,14 @@ namespace ik.Controllers
                 {
                     foreach (var d in data)
                     {
-                        d.Brüt =(int) kent.PERSONELLERs.FirstOrDefault(c => c.per_Guid==d.TC )
+                        d.Brüt = (int)kent.PERSONELLERs.FirstOrDefault(c => c.per_Guid == d.TC)
                                 .per_ucret.Value;
                         d.Net = (int)MaasHesap(d.Brüt, 0, 0, 0).Net;
-                      // logger.Error(d.Personel);
+                        // logger.Error(d.Personel);
                     }
-                   
+
                 }
-              
+
             }
             catch (Exception ex)
             {
@@ -447,10 +447,151 @@ namespace ik.Controllers
 
         public ActionResult GünlükRapor()
         {
-            
+
 
             return View();
         }
+
+        public ActionResult Izinler()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult IzinleriHesapla(string[] personeller)
+        {
+
+            var list= new List<IzinRapor>();
+            foreach (var personell in personeller)
+            {
+             
+                var pid = int.Parse(personell);
+                var personel = db.Personels.SingleOrDefault(c => c.pdksid == pid);
+                var kidem = new List<Kidem>();
+                var izinrapor = new IzinRapor { AdSoyad = personel.adsoyad };
+                var kidembaslangic = personel.giristarihi.Value;
+                var kidembitis = personel.giristarihi.Value;
+                var kidemyil = 1;
+
+                if (personel.PersonelDevir != null)
+                {
+
+                    kidembaslangic = new DateTime(personel.giristarihi.Value.Year - 1, personel.PersonelDevir.kidemTarih.Month, personel.PersonelDevir.kidemTarih.Day);
+                    if (kidembaslangic.AddYears(1) <= personel.giristarihi.Value)
+                    {
+                        kidembaslangic = kidembaslangic.AddYears(1);
+                    }
+                    //kıdem başlangıç gün ay geçen yıl
+                    //kıdem bitiş gun ay bu yil
+                    kidembitis = kidembaslangic;
+                    kidemyil = personel.giristarihi.Value.Year - personel.PersonelDevir.kidemTarih.Year;
+                    var hakedilen = personel.PersonelDevir.izinDevir;
+                    var kullanılan = personel.Izins.Where(c => c.yil == kidembaslangic.Year).Sum(c => c.gun);
+                    //kidemyil = kidembitis.Year - personel.PersonelDevir.kidemTarih.Year;
+                    kidem.Add(new Kidem
+                    {
+                        baslangic = personel.PersonelDevir.kidemTarih,
+                        bitis = kidembitis,
+                        yil = kidembaslangic.Year,
+                        hakedilenizin = hakedilen,
+                        kullanilan = kullanılan,
+                        kalan = hakedilen - kullanılan
+                    });
+                    //kullanılanları düş
+                }
+
+                while (kidembitis.Year < DateTime.Now.Year)
+                {
+                    kidembitis = kidembaslangic.AddYears(1);
+                    var ücretsiz =
+                        personel.Izins.Where(c => c.izintip == 3)
+                            .Where(d => d.baslangictarih >= kidembaslangic && d.baslangictarih <= kidembitis)
+                            .ToList();
+                    if (ücretsiz.Count > 0)
+                    {
+                        foreach (var uizin in ücretsiz)
+                        {
+                            var fark = uizin.bitistarihi.Subtract(uizin.baslangictarih);
+                            kidembitis = kidembitis.AddDays(fark.Days);
+                        }
+                    }
+
+
+                    var yas = kidembitis.Year - personel.dogumtarihi.Value.Year;
+                    var hakedilen = 0;
+                    var kullanılan = 0;
+                    var yil = kidembitis.Year;
+                    if (kidemyil < 6)
+                    {
+                        hakedilen = 14;
+                        if (yas > 49)
+                            hakedilen = 20;
+                    }
+                    else
+                    {
+                        hakedilen = 20;
+                    }
+                    kullanılan = personel.Izins.Where(c => c.yil == yil & c.izintip == 1).Sum(c => c.gun);
+                    var kanuni = personel.Izins.Where(c => c.yil == yil & c.izintip == 1).Any(c => c.gun >= 10);
+                    kidem.Add(new Kidem
+                    {
+                        yil = yil,
+                        baslangic = kidembaslangic,
+                        bitis = kidembitis,
+                        hakedilenizin = hakedilen,
+                        kullanilan = kullanılan,
+                        kalan = hakedilen - kullanılan,
+                        Kanuni = kanuni
+                    });
+                    kidembaslangic = kidembitis;
+                    kidemyil++;
+                }
+
+
+                int kalan = 0;
+
+                foreach (var kdm in kidem)
+                {
+                    if (kdm.yil < DateTime.Now.Year)
+                    {
+                        kalan += (int) (kdm.hakedilenizin - kdm.kullanilan);
+                    }
+                    else
+                    {
+                        var tarih = personel.kidemtarihi ?? personel.giristarihi;
+                        var kdmtarih=new DateTime(kdm.yil,tarih.Value.Month,tarih.Value.Day);
+                        if (DateTime.Now.Date < kdmtarih)
+                        {
+                            // 
+                            izinrapor.HakedilecekIzin = kdm.hakedilenizin;
+                            izinrapor.HakedilecekTrih = kdmtarih.ToShortDateString();
+                            izinrapor.KalanIzin = kalan;
+
+                            //list.Add(new IzinRapor { AdSoyad = personel.adsoyad, KalanIzin = kalan ,HakedilecekIzin = kdm.hakedilenizin,HakedilecekTrih =kdmtarih.Value.ToShortDateString()});
+                        }
+                        else
+                        {
+                            kalan += (int)(kdm.hakedilenizin - kdm.kullanilan);
+                        }
+                        izinrapor.KalanIzin = kalan;
+                    }
+                }
+                list.Add(izinrapor);
+            }
+          
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+
+        }
+    }
+
+    public class IzinRapor
+    {
+        public string  AdSoyad { get; set; }
+        public int KalanIzin { get; set; }
+        public string HakedilecekTrih { get; set; }
+        public int  HakedilecekIzin { get; set; }
     }
 
     public class MaasNet

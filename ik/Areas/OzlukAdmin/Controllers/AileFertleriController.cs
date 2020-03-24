@@ -198,7 +198,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
 
 
 
-                return Json(new {success=true}, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
 
 
@@ -208,14 +208,14 @@ namespace ik.Areas.OzlukAdmin.Controllers
 
         public ActionResult FertListe(int pid)
         {
-            var pers = db.Personels.FirstOrDefault(c=>c.id==pid);
+            var pers = db.Personels.FirstOrDefault(c => c.id == pid);
             ViewBag.tc = pers.tcno;
             var liste = pers.Ozluk_AileFertleri.ToList();
-           return PartialView(liste);
+            return PartialView(liste);
         }
 
 
-        public ActionResult AileFertResimEkle(string url,int fertid)
+        public ActionResult AileFertResimEkle(string url, int fertid)
         {
             var ferturl = new Ozluk_AileFertleriUrl
             {
@@ -224,8 +224,30 @@ namespace ik.Areas.OzlukAdmin.Controllers
             };
             db.Ozluk_AileFertleriUrl.Add(ferturl);
             db.SaveChanges();
-            return Json(new {Success=true,ID=ferturl.id}, JsonRequestBehavior.AllowGet);
-           
+            return Json(new { Success = true, ID = ferturl.id }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult AileFertResimSil(int id)
+        {
+            var ferturl = db.Ozluk_AileFertleriUrl.FirstOrDefault(c => c.id == id);
+            if (ferturl != null)
+            {
+                db.Ozluk_AileFertleriUrl.Remove(ferturl);
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new {Success = true, Message = "Kayıt Silindi."}, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception x)
+                {
+                    return Json(new {Success = false, Message = x.Message}, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { Success = false, Message = "Kayıt Bulunamadı" }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

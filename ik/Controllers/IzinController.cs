@@ -139,7 +139,6 @@ namespace ik.Controllers
                     kalan = hakedilen - kullanılan
                 });
                 //kullanılanları düş
-                
             }
 
 
@@ -205,7 +204,6 @@ namespace ik.Controllers
                 }
                 catch (Exception XX)
                 {
-
                     throw;
                 }
             }
