@@ -29,7 +29,12 @@
             transition: 0.3s;
         }
 </style>
-
+@helper ThumbPath(string path)
+{
+    var a = path.LastIndexOf("\\") + 1;
+    var p = path.Insert(a, "thumb\\");
+    <img src="/@p" class="fertimg">
+}
 
 <table class="table">
     <tr>
@@ -53,6 +58,8 @@
 
     @foreach (var item in Model)
     {
+
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Ozluk_Enum_Detay.degerad)
@@ -69,10 +76,14 @@
             <td>
                 <div data-id="@item.id" class="imglist">
                     @foreach (var resim in item.Ozluk_AileFertleriUrl)
-                {
-                        <div class="fertimgdiv">
-                            <a class="thumba" target="_blank" href="/@resim.url">
-                                <img src="/@resim.url" class="fertimg">
+                    {
+                        //var url = @Url.Action("Indir", "Upload", new {Area="OzlukAdmin",resim.url});
+
+
+                        <div class="fertimgdiv" data-url="@resim.url" data-id="@resim.id">
+                            <a class="thumba" target="_blank" href="@Url.Action("Indir", "Upload", new {Area="",resim.url})">
+                                <img src="/@resim.Thumb" class="fertimg">
+                                @*@ThumbPath(resim.url)*@
                             </a>
                             <a href="javascript:void(0)" class="fertimgsil">
                                 <img src="/Content/delete-png.png"/>
@@ -100,6 +111,7 @@
 <script src="~/Scripts/uploadscripts.js"></script>
 <script type="text/javascript">
     $(function () {
+
 
         //targetimgdiv: silinecek olan resmi içeren div(resim idsini içerir)
         function deleted(targetimgdiv) {
@@ -147,7 +159,17 @@
             targetimgdiv: 'imglist',
             uploadcomplete: complete,
             deletecomplete: deleted
+        });
 
+        $('.fertimgdiv').each(function () {
+            var a = $(this);
+
+            console.log(a);
+            console.log(a.attr("data-url"));
+            console.log('@Url.Action("Sil", "Upload",new {Area=""})');
+            console.log(deleted);
+
+            uploadnamespace.sil(a, "", a.attr("data-url"), '@Url.Action("Sil", "Upload",new {Area=""})', deleted);
 
         });
     });

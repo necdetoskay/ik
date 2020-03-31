@@ -692,7 +692,7 @@ namespace ik.Controllers
                     Value = d.id
                 });
 
-            return Json(new { Success = true, Data = pers }, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, Data = pers.OrderBy(c=>c.Text) }, JsonRequestBehavior.AllowGet);
         }
 
 

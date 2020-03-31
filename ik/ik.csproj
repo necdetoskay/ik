@@ -317,6 +317,7 @@
     <Compile Include="Models\birim.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cryptography.cs" />
     <Compile Include="Models\DataClasslari\IzinVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelFirmaVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelGorevVM.cs" />
@@ -618,7 +619,7 @@
       <DependentUpon>KVKKModel.edmx</DependentUpon>
       <LastGenOutput>KVKKModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\Adobe-PDF-Document-icon.png" />
+    <Content Include="Content\PDF.png" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -1453,6 +1454,8 @@
     <Content Include="Views\Template\GunlukRapor.cshtml" />
     <Content Include="Views\Takip\_PagedIndex.cshtml" />
     <Content Include="Views\Rapor\Izinler.cshtml" />
+    <Content Include="Views\Template\IdariIzinEkle.cshtml" />
+    <Content Include="Views\Shared\_PersonelBootstrapMultiSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "IdariIzinEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>IdariIzinEkle</h2>
+
+
+@*@Html.Partial("_PersonelBootstrapMultiSelect")*@
+<div class="form-group col-md-12">
+    <label class="col-md-4" for="personel">Personeller</label>
+    <select id="personel" class="form-control" multiple="multiple"></select>
+</div>
+
+<div class="form-group" >
+    <label class="col-md-4" for="tarih">Tarih</label>
+    <input style="display: initial" id="tarih" autocomplete="off" type="text" class="datetime form-control" />
+</div>
+
+<div class="form-group" style="position: relative">
+    <div class="form-group" style="position: relative">
+        <label class="col-md-4" for="tatiller">İzin Türü</label>
+        <select id="tatiller">
+            <option>İzin Türü Seçin</option>
+            <option value="9">MAZERET</option>
+            <option value="3">ÜCRETLİ İZİN</option>
+            <option value="9">SÜT İZNİ</option>
+            <option value="5">İDARİ İZİN</option>
+        </select>
+    </div>
+
+    <div id="timepicker" class="form-group col-md-12"></div>
+    <div class="form-group">
+        <label for="aciklama">Açıklama</label>
+        <input style="max-width: 100%" type="text" autocomplete="off" class="form-control" id="aciklama">
+    </div>
+
+</div>
+@*<div class="form-group">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+            <label class="form-check-label" for="inlineCheckbox1">Cumartesi dahil et</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+            <label class="form-check-label" for="inlineCheckbox2">Pazar dahil et</label>
+        </div>
+    </div>*@
+<input type="button" id="kaydet" value="Kaydet" /><input style="margin-left: 10px" id="kay" type="checkbox" />
+
+
+@section scripts{
+
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/mdtimepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/mdtimepicker.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/imzatakip.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+         
+
+            var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste", "Personel")';
+            personelliste(personelbirimlisteurl); //dropdown doldur
+
+            
+
+            $('#kaydet').on('click', function () {
+                var btnkaydet = $(this);
+                var selected = $("#personel option:selected");
+                var tarihler = $('.datetime').datepicker().val().split(',');
+                var izintur = $('#tatiller option:selected').val();
+                var aciklama = $('#aciklama').val();
+                var kaydet = $('#kay').prop('checked');
+
+                var pers = [];
+                selected.each(function () {
+                    pers.push($(this).val());
+                });
+                if (selected.length < 1) {
+                    alert("personel seçiniz!");
+                    return false;
+                }
+                if ($('.datetime').datepicker().val() === "") {
+                    alert("izin tarihlerini seçiniz!");
+                    return false;
+                }
+                if ($('#tatiller option:selected').attr('value') === undefined) {
+                    alert("izin türünü seçiniz!");
+                    return false;
+                }
+                if ($.trim($('#aciklama').val()).length < 7) {
+                    alert("geçerli bir mazeret giriniz");
+                    return false;
+                }
+                btnkaydet.prop('disabled', true);
+                //verileri çek
+                $.ajax({
+                    url: '@Url.Action("TopluMazeretGir","Pdks")',
+                    type: 'POST',
+                    data: {
+                        personeller: pers,
+                        tarihler: tarihler,
+                        izintur: izintur,
+                        aciklama: aciklama,
+                        kaydet: kaydet
+                    },
+                    success: function (result) {
+                        if (result.Success === true) {
+                            btnkaydet.prop('disabled', false);
+                            console.log(result.Data);
+                        }
+                    }
+                });
+                //post et
+                //kaydet
+                //kaydedilen verileri geri döndür
+            });
+
+
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+            $('.datetime').datepicker({
+                language: 'tr',
+                multidate: true,
+                clearBtn: true,
+                todayHighlight: true
+            });
+
+            $('#tatiller').on('change', function () {
+                var val = $("option:selected", this).attr('value');
+                var timepicker = $('#timepicker');
+                timepicker.html('');
+                if (val === undefined) {
+                    //timepicker yükle
+                } else {
+                    if (val == 9) {
+                        timepicker.append('' +
+                            '<div class="form-group col-md-4"><label >Çıkış Saati</label><input class="timepicker" type="text"></div>' +
+                            '<div class="form-group col-md-4"><label >Dönüş Saati</label><input class="timepicker" type="text"></div>');
+                        $('.timepicker').mdtimepicker({ format: 'hh:mm' });
+                        $('.timepicker').mdtimepicker().each(function () {
+                            $(this).on('timechanged', function (e) {
+                                $(this).attr("value", e.value);
+                                $(this).attr("time", e.time);
+                            });
+                        });
+                    } else {
+
+                    }
+                }
+                //var val = $(this).prop("value");
+                //console.log(val);
+            });
+
+
+            //$('.timepicker').mdtimepicker({ format: 'hh:mm' });
+            //$('.timepicker').mdtimepicker().each(function () {
+            //    $(this).on('timechanged', function (e) {
+            //        $(this).attr("value", e.value);
+            //        $(this).attr("time", e.time);
+            //    });
+            //});
+        });
+    </script>
+}

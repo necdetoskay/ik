@@ -60,6 +60,24 @@ namespace ik.Models
         public int grupID { get; set; }
     }
 
+    public partial class Ozluk_AileFertleriUrl
+    {
+        public string Thumb
+        {
+            get
+            {
+                var a = url.LastIndexOf("\\") + 1;
+                var p = url.Insert(a, "thumb\\");
+                int fileExtPos = p.LastIndexOf(".");
+                if (fileExtPos >= 0)
+                    p = p.Substring(0, fileExtPos);
+                p += ".jpg";
+                return p;
+            }
+           
+        }
+    }
+
     public class ImzaTakipMetaData
     {
 

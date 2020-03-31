@@ -1,0 +1,53 @@
+﻿<div class="form-group">
+    <label class="col-md-4" for="personel">Personel</label>
+    <select id="personel" multiple="multiple" class="form-control"></select> 
+    <button id="invert" type="button" class="btn btn-default btn-xs"><span title="Diğerlerini seç" class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+    <span id="wait">Bekleyiniz.....</span>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet"/>
+<script type="text/javascript">
+
+
+    $("#example").multiselect();
+    var personel = $('#personel');
+    personel.multiselect({
+        includeSelectAllOption: true,
+        enableFiltering: true,
+        selectAllText: 'Tümünü Seç',
+        nonSelectedText: 'Personel Seçiniz',
+        allSelectedText: 'Tümü Seçildi',
+        enableCaseInsensitiveFiltering: false,
+        enableFullValueFiltering: false
+    });
+    $.ajax({
+        url: '@Url.Action("_PersonelListesi", "Personel")',
+        type: 'GET',
+        success: function (result) {
+            personel.empty();
+            $.each(result.Data, function (i, item) {
+                personel.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+            });
+            personel.multiselect('rebuild');
+            $('#wait').html(result.Data.length + ' kişi bulundu');
+            $('#wait').hide(3000);
+        }
+    });
+    $('#invert').on('click', function () {
+    
+        var options = $('#personel option');
+        $.each(options, function (i, item) {
+            var itm = $(item);
+            if (itm.prop('selected')) {
+                personel.multiselect('deselect', itm.val());
+            } else {
+                personel.multiselect('select', itm.val());
+            }
+        });
+    });
+
+
+</script>

@@ -7,6 +7,11 @@
 
     uploadnamespace= {
         sil: function (sildiv, silid, dosya, deleteurl, deleted) {
+            console.log(sildiv);
+            console.log(silid);
+            console.log(dosya);
+            console.log(deleteurl);
+            console.log(deleted);
 
       var del = sildiv.find('.fertimgsil');
     //*  var id = sildiv.attr('data-id');

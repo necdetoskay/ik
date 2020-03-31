@@ -114,11 +114,11 @@ namespace ik.Controllers
                     hesap.Avans = ayson.avans;
                     var maasvm = new MaasVM
                     {
-                        AdSoyad = p[1].adsoyad,
+                        AdSoyad = p[0].adsoyad,
                         GecenAyNet = gan,
-                        GecenAyGun = p[1].sgkgun,
-                        BuAyGun = p[0].sgkgun,
-                        BuAyNet = p[0].net,
+                        GecenAyGun = p[0].sgkgun,
+                        BuAyGun = p[1].sgkgun,
+                        BuAyNet = p[1].net,
                         Fark = Math.Round(hesap.Net - ban, 2),
                         Hesaplana = hesap.Net,
                         Mesai = ayson.fm1 + ayson.fm2,

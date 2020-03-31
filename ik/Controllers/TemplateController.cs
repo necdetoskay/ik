@@ -297,6 +297,12 @@ namespace ik.Controllers
             return View();
             throw new NotImplementedException();
         }
+
+
+        public ActionResult IdariIzinEkle()
+        {
+            return View();
+        }
     }
 
     public class IcraKontrolVM
