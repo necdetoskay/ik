@@ -4,10 +4,14 @@
     var sınıf = "";
 }
 <style>
+    table.treetable tbody tr td {
+        font-size: 16px;
+    }
+
     .yesil {
         background-color: yellowgreen;
     }
-  
+
     /*.table > tr {border: 1px solid; }*/
 </style>
 <h2>@Model.FirstOrDefault().Takip2.aciklama  işlemleri</h2>
@@ -32,17 +36,17 @@
 </p>
 @helper AddRow(Takip item)
 {
-    <tr data-id="@item.id" class="@(item.tamamlanma!=null?"yesil":"")"  data-tt-id="@item.id" data-tt-parent-id="@(item.Takip2!=null?item.Takip2.id:0)">
+    <tr data-id="@item.id" class="@(item.tamamlanma!=null?"yesil":"")" data-tt-id="@item.id" data-tt-parent-id="@(item.Takip2!=null?item.Takip2.id:0)">
         <td>@Html.DisplayFor(modelItem => item.aciklama)</td>
-        <td class="pull-right">@islemyap(item) <a class="tamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a></td>
+        <td class="">@islemyap(item) <a class="tamamla" href="javascript:void(0);"><span class="glyphicon @(item.tamamlanma!=null?"bob glyphicon-remove":"notbob glyphicon-ok")"></span></a></td>
     </tr>
-if (item.Takip1.Any())
-{
-    foreach (var sub in item.Takip1.OrderBy(c=>c.sira))
+    if (item.Takip1.Any())
     {
-            @AddRow(sub)
+        foreach (var sub in item.Takip1.OrderBy(c => c.sira))
+        {
+                @AddRow(sub)
+        }
     }
-}
 }
 
 <table id="example-basic-expandable" class="treetable table">
@@ -50,7 +54,7 @@ if (item.Takip1.Any())
         <th>@Html.DisplayNameFor(model => model.aciklama)</th>
         <th></th>
     </tr>
-    @foreach (var item in Model.OrderByDescending(c => c.id))
+    @foreach (var item in Model.OrderBy(c => c.id))
     {
         @AddRow(item)
     }
@@ -75,7 +79,7 @@ if (item.Takip1.Any())
         $(function () {
 
 
-            $('#gorevtamamla').on("click", function() {
+            $('#gorevtamamla').on("click", function () {
                 var btn = $(this);
                 var id = btn.attr('data-parent-id');
                 BootstrapDialog.confirm({
@@ -112,7 +116,7 @@ if (item.Takip1.Any())
             //tüm listeyi kontrol et
             //parentid si
 
-            $('#gorevsil').on('click', function() {
+            $('#gorevsil').on('click', function () {
                 var btn = $(this);
                 var id = btn.attr('data-parent-id');
                 console.log(id);
@@ -159,9 +163,9 @@ if (item.Takip1.Any())
                 $(this).css("background", "");
             });
 
-            var tamamla = function (btn) {
+            @*var tamamla = function (btn) {
                 var id = btn.closest('tr').attr("data-id");
-                btn.on('click', function() {
+                btn.on('click', function () {
                     BootstrapDialog.confirm({
                         title: 'Tamamla',
                         message: 'Seçilen Kayıt ve varsa Tüm alt kayıtlar tamamlansın mı?',
@@ -176,23 +180,23 @@ if (item.Takip1.Any())
                             console.log(id);
                             if (result) {
                                 $.ajax({
-                                    url:'@Url.Action("_Tamamla")',
+                                    url: '@Url.Action("_Tamamla")',
                                     type: 'GET',
                                     data: {
-                                        id:id
+                                        id: id
                                     },
-                                    success:function(sonuc) {
+                                    success: function (sonuc) {
                                         if (sonuc === true)
                                             console.log(btn);
 
-                                            btn.closest('tr').addClass("yesil");
+                                        btn.closest('tr').addClass("yesil");
                                     }
                                 });
                             }
                         }
                     });
                 });
-            }
+            }*@
 
 
 
@@ -200,7 +204,7 @@ if (item.Takip1.Any())
 
 
 
-            var sil = function (btn) {
+            @*var sil = function (btn) {
                 var id = btn.attr("data-id");
                 btn.on('click', function () {
                     BootstrapDialog.confirm({
@@ -232,9 +236,9 @@ if (item.Takip1.Any())
                         }
                     });
                 });
-            }
+            }*@
 
-            var ekle = function (btn) {
+            @*var ekle = function (btn) {
                 var id = ID();
                 var parentid = btn.attr("data-parent-id");
                 btn.attr("id", id);
@@ -243,7 +247,7 @@ if (item.Takip1.Any())
                     text: '<span class="glyphicon glyphicon-plus"></span>',
                     url: '@Url.Action("AltCreate")' + '/?parentid=' + parentid,
                     title: 'Görev Ekle',
-                    updateurl: '', @*'@Url.Action("Index")',*@
+                    updateurl: '', 
                     bclass: '',
                     targetid: 'empty',
                     width: "500",
@@ -251,12 +255,12 @@ if (item.Takip1.Any())
                     complete: function (data) {
 
                         var node = $("#example-basic-expandable").treetable("node", data.parentid);
-                        var nod =$('<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '" >' +
+                        var nod = $('<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '" >' +
                                 "<td> " + data.ad + '</td><td  class="pull-right"><a class="sil yenisil" data-id="' + data.id + '" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
                             '<div style="display:-webkit-inline-box;" class="ekle yeniekle" data-parent-id="' + data.id + '"></div><a class="tamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a></td>' +
                            '</tr>');
                         console.log(nod);
-                        $("#example-basic-expandable").treetable("loadBranch", node,nod);
+                        $("#example-basic-expandable").treetable("loadBranch", node, nod);
 
 
                         var yeni = $('.yeniekle');
@@ -268,57 +272,41 @@ if (item.Takip1.Any())
                         //var node = btn.closest("tr").attr("data-tt-id");
                     }
                 });
-            }
+            }*@
 
 
 
-            var createrow = function (data) {
-                console.log(data);
+            //var createrow = function (data) {
+            //    console.log(data);
 
-                var node = $("#example-basic-expandable").treetable("node", data.parentid);
-                var nod = $('<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '" >' +
-                        "<td> " + data.ad + '</td><td  class="pull-right"><a class="sil yenisil" data-id="' + data.id + '" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
-                    '<div style="display:-webkit-inline-box;" class="ekle yeniekle" data-parent-id="' + data.id + '"></div><a class="tamamla yenitamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a></td>' +
-                   '</tr>');
+            //    var node = $("#example-basic-expandable").treetable("node", data.parentid);
+            //    var nod = $('<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '" >' +
+            //            "<td> " + data.ad + '</td><td  class="pull-right"><a class="sil yenisil" data-id="' + data.id + '" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
+            //        '<div style="display:-webkit-inline-box;" class="ekle yeniekle" data-parent-id="' + data.id + '"></div><a class="tamamla yenitamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a></td>' +
+            //       '</tr>');
 
-                $("#example-basic-expandable").treetable("loadBranch", node, nod);
-
-
-                var yeni = $('.yeniekle');
-                ekle(yeni);
-                yeni.removeClass("yeniekle");
-                var ys = $('.yenisil');
-                sil(ys);
-                ys.removeClass(".yenisil");
-                var yt = $('.yenitamamla');
-                tamamla(yt);
-                yt.removeClass('.yenitamamla');
-                return;
+            //    $("#example-basic-expandable").treetable("loadBranch", node, nod);
 
 
-
-                var node = $("#example-basic-expandable").treetable("node", data.parentid);
-                $("#example-basic-expandable").treetable("loadBranch", node,
-                '<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '"><td>' + data.ad + '</td><td class="pull-right">' +
-
-                '<a class="sil yenisil" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
-                '<a style="display:-webkit-inline-box;"  class="ekle yeniekle" data-parent-id="' + data.parentid + '"> </a>' +
-                '</td></tr>');
-                var yeni = $('.yeniekle');
-                ekle(yeni);
-                yeni.removeClass("yeniekle");
-                var ys = $('.yenisil');
-                sil(ys);
-                ys.removeClass(".yenisil");
-            }
+            //    var yeni = $('.yeniekle');
+            //    ekle(yeni);
+            //    yeni.removeClass("yeniekle");
+            //    var ys = $('.yenisil');
+            //    sil(ys);
+            //    ys.removeClass(".yenisil");
+            //    var yt = $('.yenitamamla');
+            //    tamamla(yt);
+            //    yt.removeClass('.yenitamamla');
+            //    return;
+            //}
 
 
-            $('#ekle').MakeDialogForm({
+            @*$('#ekle').MakeDialogForm({
                 id: 'btnyarimekle',
                 text: 'Yeni Görev Ekle',
                 url: '@Url.Action("AltCreate")' + '/?parentid=' + $('#id').val(),
                 title: 'Görev Ekle',
-                updateurl: '' @*'@Url.Action("Index")'*@,
+                updateurl: '',
                 bclass: 'btn btn-info',
                 targetid: 'empty',
                 width: "500",
@@ -328,22 +316,64 @@ if (item.Takip1.Any())
 
 
                 }
-            });
+            });*@
 
-            $('.ekle').each(function () {
-                var btn = $(this);
-                ekle(btn);
-            });
+            //$('.ekle').each(function () {
+            //    var btn = $(this);
+            //    ekle(btn);
+            //});
 
-            $('.sil').each(function () {
-                var silbtn = $(this);
-                sil(silbtn);
-            });
+            //$('.sil').each(function () {
+            //    var silbtn = $(this);
+            //    sil(silbtn);
+            //});
 
-            $('.tamamla').each(function () {
-                var tamambtn = $(this);
-                tamamla(tamambtn);
+            //$('.tamamla').each(function () {
+            //    var tamambtn = $(this);
+            //    tamamla(tamambtn);
+            //});
+
+            function goreviptal(bob) {
+                var id = bob.closest('tr').data("id");
+                //console.log(id);
+                BootstrapDialog.confirm({
+                    title: 'Kayıt Sil',
+                    message: 'Bu kayıt ve varsa alt tüm kayıtlar iptal edilsin mi?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Görev İptal', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        if (result) {
+                            //tüm alt kayıtların tamamlanmasını iptal et iptal et
+                            $.ajax({
+                                url:'@Url.Action("_TakipTamamlaIptal")',
+                                type:'GET',
+                                data: {
+                                    id:id
+                                },
+                                success:function(result) {
+                                    console.table(result);
+                                }
+                            });
+
+                        }
+                    }
+                });
+            }
+            $('.bob').each(function() {
+                var bob = $(this);
+                bob.on('click', function() {
+                    goreviptal(bob);
+                });
+
             });
+            //$("#example-basic-expandable tbody").on("mousedown", "tr", function () {
+            //    $(".selected").not(this).removeClass("selected");
+            //    $(this).toggleClass("selected");
+            //});
 
             $("#example-basic-expandable").treetable({ expandable: true });
             //$("#example-basic-expandable").treetable("expandAll");

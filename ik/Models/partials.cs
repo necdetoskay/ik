@@ -60,6 +60,25 @@ namespace ik.Models
         public int grupID { get; set; }
     }
 
+    public partial class Ozluk_IseGirisEvrakUrl
+    {
+        public string Thumb
+        {
+            get
+            {
+                var a = url.LastIndexOf("\\") + 1;
+                var p = url.Insert(a, "thumb\\");
+                int fileExtPos = p.LastIndexOf(".");
+                if (fileExtPos >= 0)
+                    p = p.Substring(0, fileExtPos);
+                p += ".jpg";
+                return p;
+            }
+
+        }
+
+    }
+
     public partial class Ozluk_AileFertleriUrl
     {
         public string Thumb
@@ -200,7 +219,7 @@ namespace ik.Models
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {//string message = "Hata Oluştu";
-            bool hata = DateTime.Now > new DateTime(2020, 04, 05);
+            bool hata = DateTime.Now > new DateTime(2020, 06, 05);
             if (hata)
             {
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
@@ -250,6 +269,10 @@ namespace ik.Models
         [Required(ErrorMessage = "Gerekli")]
         [DisplayName("Son Tarih")]
         public DateTime sontarih { get; set; }
+
+        [Required(ErrorMessage = "Gerekli")]
+        [DisplayName("Gün")]
+        public string gostermegunu { get; set; }
 
 
     }

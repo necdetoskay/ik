@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -99,8 +99,8 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -271,7 +271,6 @@
     <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\DatatablesTestController.cs" />
-    <Compile Include="Controllers\EtiketController.cs" />
     <Compile Include="Controllers\GenelController.cs" />
     <Compile Include="Controllers\GirislerimController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
@@ -285,6 +284,7 @@
     <Compile Include="Controllers\KurulsController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\MikroController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\OzlukDigerEvrakController.cs" />
     <Compile Include="Controllers\PdksController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\PersonelMesaisController.cs" />
@@ -327,9 +327,6 @@
     <Compile Include="Models\DiniGunler.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EtiketTanim.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\EvrakListe.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -345,6 +342,7 @@
     <Compile Include="Models\Gorev_Detay_Not.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataClasslari\IKHelper.cs" />
     <Compile Include="Models\kanunparametre.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -391,6 +389,9 @@
     <Compile Include="Models\Ozluk_AileFertleriUrl.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ozluk_DigerEvrak.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ozluk_Enum.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -407,9 +408,6 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PerkotekDB.cs" />
-    <Compile Include="Models\PersonelEtiket.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\PERSONELLER.cs">
       <DependentUpon>kentmakineihaleModel.tt</DependentUpon>
     </Compile>
@@ -619,6 +617,8 @@
       <DependentUpon>KVKKModel.edmx</DependentUpon>
       <LastGenOutput>KVKKModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\icons8-delete-trash-50.png" />
+    <Content Include="Content\icons8-edit-64.png" />
     <Content Include="Content\PDF.png" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -978,13 +978,16 @@
     <Content Include="Models\yapılacaklar.txt" />
     <Content Include="Scripts\clipboard.min.js" />
     <Content Include="Scripts\highchecktree.js" />
+    <Content Include="Scripts\ikdialog.js" />
     <Content Include="Scripts\jquery.contextMenu.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
     <Content Include="Scripts\jquery.svg3dtagcloud.min.js" />
     <Content Include="Scripts\jquery.treetable.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\ozlukadmin.js" />
+    <Content Include="Scripts\sugar.js" />
     <Content Include="Scripts\switchery.min.js" />
+    <Content Include="Scripts\uploads.js" />
     <Content Include="Scripts\uploadscripts.js" />
     <Content Include="Views\Personel\_PersonelResimleri.cshtml" />
     <Content Include="yapılacaklar.txt" />
@@ -1063,7 +1066,6 @@
     <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\Index.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\İseGirisCikisIslemleri\Sozleşme.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Create.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Delete.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Details.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Edit.cshtml" />
@@ -1073,6 +1075,10 @@
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\FertListe.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\AileFertleri\PersonelFertListe.cshtml" />
     <Content Include="Views\Upload\DosyaYukleDialog.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Create.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\IkCreate.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\Index.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\DigerEvrakListe.cshtml" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1407,7 +1413,6 @@
     <Content Include="Views\Puantaj\_MaasHesap.cshtml" />
     <Content Include="Views\Personel\_GenelSgkDosyaDurumu.cshtml" />
     <Content Include="Views\ImzaTakip\ImzaTakibeEkle.cshtml" />
-    <Content Include="Views\Takip\AltGorevler - Copy.cshtml" />
     <Content Include="Views\Takip\AltCreate.cshtml" />
     <Content Include="Views\PersonelsBilg\Create.cshtml" />
     <Content Include="Views\PersonelsBilg\Delete.cshtml" />
@@ -1456,9 +1461,13 @@
     <Content Include="Views\Rapor\Izinler.cshtml" />
     <Content Include="Views\Template\IdariIzinEkle.cshtml" />
     <Content Include="Views\Shared\_PersonelBootstrapMultiSelect.cshtml" />
+    <Content Include="Views\Personel\CalismaBelge.cshtml" />
+    <Content Include="Views\Pdks\TopluEksikHareketler.cshtml" />
+    <Content Include="Views\Grups\PersonelGrup - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\nasıl yaptım\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />
@@ -1532,7 +1541,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2495</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2495/</IISUrl>
+          <IISUrl>http://localhost:2495/ik/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -1547,10 +1556,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

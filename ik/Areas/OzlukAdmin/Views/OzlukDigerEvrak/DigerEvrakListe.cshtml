@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ik.Models.Ozluk_DigerEvrak>
+
+
+<div class="yeniekle"></div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.evrakadi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aciklama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.url)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Personel.adsoyad)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.evrakadi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.aciklama)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.url)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Personel.adsoyad)
+                </td>*@
+            <td></td>
+        </tr>
+    }
+
+</table>
+@Scripts.Render("~/bundles/ikdialog")
+
+<script type="text/javascript">
+    $(function () {
+        var id = $('#personel option:selected').val();
+        var url = '@Url.Action("ikCreate","OzlukDigerEvrak",new {Area="OzlukAdmin"},null)' + '\?personelid=' + id;
+        $('.yeniekle').ikDialog({
+            formurl: url,
+            data: {
+            }, complete: function (result) {
+                buraya tüm tabloyu tekrar yüklemek yerinde tablonun altına yeni satır ekleme kodu yazılacak
+
+
+                $('#evrakliste').load('@Url.Action("DigerEvrakListe",new {Area="OzlukAdmin"})' + '\?id=' + id);
+            }
+        });
+    });
+</script>

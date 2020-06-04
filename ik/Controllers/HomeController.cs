@@ -71,15 +71,6 @@ namespace ik.Controllers
         {
 
           
-            //Kesinti kesinti = new Kesinti
-            //{
-            //    sgk = true,
-            //    gelirvergi = true,
-            //    damgavergi = true,
-            //    işsizlik = true,
-            //    yemekistisna = true
-            //};
-
 
 
 
@@ -194,7 +185,7 @@ namespace ik.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+          
             return View();
         }
 

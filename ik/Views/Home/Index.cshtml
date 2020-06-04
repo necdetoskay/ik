@@ -100,9 +100,7 @@
             <div class="panel panel-success">
                 <div class="panel-heading ">
                     <div id="rutinekle"></div>
-                    @*@Html.DialogFormLink("Yeni Görev Ekle", @Url.Action("Create", "Takip"), "Görev ekle", "rutindiv", @Url.Action("RutinOzet", "Takip"), "400", "300").If(User.Identity.Name == @"KENTKONUT\noskay")*@
                     <span class="pull-right">@Html.ActionLink("İş Liste", "RutinListe", "Takip")</span>
-                    @*@Html.ActionLink("Rutin İş Takibi", "Index", "Takip").If(User.Identity.Name == @"KENTKONUT\noskay")*@
                 </div>
                 <div class="panel-body " id="rutindiv">
                     <table id="rutinis" class="table table-xs">
@@ -129,6 +127,7 @@
                                 <th>Tarih</th>
                                 <th>Personel Ad Soyad</th>
                                 <th>Mazeret</th>
+
                             </tr>
                         </thead>
                         <tbody id="eksikhareketler"></tbody>
@@ -139,40 +138,8 @@
     </div>
 
     <div class="col-md-4">
-        @*<h3>İzinli Gelmeyenler</h3>
-            <p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Personel AdSoyad</th>
-                            <th>Mazeret</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="izinligelmeyenler"></tbody>
-                </table>
-                <div id="izinligelmeyenler">
-                    <img class="loading" src="~/Content/Loading_icon.gif" />
-                </div>
-            </p>*@
     </div>
     <div class="col-md-4">
-        @*<h3>Geç Kalanlar</h3>
-            <p>
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>Personel AdSoyad</th>
-                            <th>Geç Kalma</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="geckalanlartable"></tbody>
-                </table>
-                <div id="geckalanlar">
-                    <img class="loading" src="~/Content/Loading_icon.gif" />
-                </div>
-            </p>*@
     </div>
 
 
@@ -187,9 +154,6 @@
                 <img class="loading" src="~/Content/Loading_icon.gif" />
             </div>
         </p>
-        @*<p>
-                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
-            </p>*@
     </div>
     <div class="col-md-4">
         <h3>İzinli Gelmeyenler</h3><span id="gelmeyentoplam"></span>
@@ -284,7 +248,7 @@
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script src="~/Scripts/bootstrap-notify.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
-
+    @Scripts.Render("~/bundles/ikdialog")
     <script type="text/javascript">
 
         function eksikhareket() {
@@ -390,7 +354,7 @@
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("RutinOzet", "Takip")',
-            
+
                 data: {
                     'limit': 10
                 },
@@ -443,7 +407,7 @@
             var izinli = $("#izinligelmeyenler");
             var now = new Date();
             $.ajax({
-                type: 'GET',url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
+                type: 'GET', url: '@Url.Action("MazeretliGelmeyenler", "PTakip")',
                 data: {
                     'tarih1': now.toISOString()
                 },
@@ -451,9 +415,9 @@
                     izinli.empty();
                     var tplm = 0;
                     for (var i = 0; i < data.length; i++) {
-                        tplm++;var product = data[i];
+                        tplm++; var product = data[i];
                         izinli.append("<tr><td>" + product.adsoyad + "</td><td>"
-                            + product.aciklama + "</td><td>"+product.baslama+"</td><td>" + product.isbasi + "</td></tr>");
+                            + product.aciklama + "</td><td>" + product.baslama + "</td><td>" + product.isbasi + "</td></tr>");
                     }
                     $('#gelmeyentoplam').html("[" + tplm + "]");
                 }
@@ -462,7 +426,7 @@
         function geckalanlar() {
             var ur = '@Url.Action("PersonelGecKalma", "Personel")';
             var now = new Date();
-            var img='@Url.Content("~/Content/Loading_icon.gif")';
+            var img = '@Url.Content("~/Content/Loading_icon.gif")';
             $.ajax({
                 type: 'GET',
                 data: {
@@ -478,12 +442,12 @@
                             + gec.giris + "</td><td>"
                             + gec.geckalma + "</td></tr>");
                     }
-                    $('.geckal').on('click', function() {
+                    $('.geckal').on('click', function () {
                         var a = $(this);
                         var url = a.attr('data-url');
                         BootstrapDialog.show({
                             title: 'Aylık Giriş Durumu',
-                            message:$('<div><img hright="50" src="'+img+'"/></div>').load(url)
+                            message: $('<div><img hright="50" src="' + img + '"/></div>').load(url)
                         });
                     });
                 }
@@ -495,7 +459,7 @@
                 return this.optional(element) || moment(value, "DD/MM/YYYY").isValid();
             }, "Please enter a valid date in the format DD/MM/YYYY");
 
-            $('#rutinekle').MakeDialogForm({
+            @*$('#rutinekle').MakeDialogForm({
                 id: 'btnyarimekle',
                 text: 'Görev Ekle',
                 url: '@Url.Action("Create","Takip")',
@@ -511,7 +475,26 @@
                         message: 'Kaydedildi'
                     }, { type: 'success' });
                 }
+            });*@
+
+
+            var url = '@Url.Action("Create","Takip")';
+            var update = '@Url.Action("RutinOzet","Takip")' + '/?limit=20';
+            $('#rutinekle').ikDialog({
+                formurl: url,
+                Title: "title 1",
+                data: {
+                }, complete: function (result) {
+                    console.log(result);
+                    // buraya tüm tabloyu tekrar yüklemek yerinde tablonun altına yeni satır ekleme kodu yazılacak
+
+
+                    $('#evrakliste').load(update);
+                }
             });
+
+
+
 
 
 

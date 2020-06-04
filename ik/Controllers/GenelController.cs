@@ -32,7 +32,7 @@ namespace ik.Controllers
                 if (gun != null)
                     return Json(new { Success = true, Data = gun.ad }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception x)
+            catch 
             {
 
               

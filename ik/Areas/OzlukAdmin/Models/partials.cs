@@ -7,8 +7,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ik.Models
 {
+    [MetadataType(typeof(OzlukDigerEvrakMetaData))]
+    public partial class Ozluk_DigerEvrak
+    {
+    }
 
+    public class OzlukDigerEvrakMetaData
+    {
+        [Required]
+        public string evrakadi { get; set; }
 
+    }
     public class Ozluk_AileFertleriMetaData
     {
         [DisplayFormat(DataFormatString = "{0:d}")]

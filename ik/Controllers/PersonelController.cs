@@ -39,6 +39,10 @@ namespace ik.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult CalismaBelge()
+        {
+            return View();
+        }
       
 
         // GET: Personel
@@ -1191,7 +1195,7 @@ namespace ik.Controllers
 
         }
 
-        public ActionResult Sicil(int ikID)
+        public ActionResult Sicil(int id)
         {
             ViewBag.gorevListe = new SelectList(db.Gorevs.OrderBy(c=>c.ad), "id", "ad");
             ViewBag.birimListe= new SelectList(db.birims.OrderBy(c => c.fullad), "id", "fullad");
@@ -1199,7 +1203,7 @@ namespace ik.Controllers
             ViewBag.lokasyonListe = new SelectList(db.Lokasyons.OrderBy(c => c.ad), "id", "ad");
             ViewBag.meslekListe = new SelectList(db.Mesleks.OrderBy(c => c.ad), "id", "ad");
             ViewBag.sgkdosyaListe = new SelectList(db.SgkDosyas, "id", "ad");
-            var personel = db.Personels.SingleOrDefault(c => c.id == ikID);
+            var personel = db.Personels.SingleOrDefault(c => c.id == id);
             if (personel == null)
                 return new EmptyResult();
             var sicil=new SicilVM();
@@ -1462,6 +1466,41 @@ namespace ik.Controllers
         public ActionResult MaaşDurum(int id)
         {
             return PartialView();
+        }
+
+        public ActionResult _CalismaBelge(int id)
+        {
+            using (var db = new ikEntities())
+            {
+                var personel = db.Personels.FirstOrDefault(c => c.id == id);
+                using (var mikro=new KENTEntities() )
+                {
+                    var mikroper = mikro.PERSONELLERs.FirstOrDefault(c => c.per_Guid == personel.mikroid);
+                    var adsoyad = mikroper.per_adi + " " + mikroper.per_soyadi;
+                    var dogumyeryil = mikroper.per_nuf_dogum_yer + " / " + mikroper.per_nuf_dogum_tarih.Value.ToShortDateString();
+                    var tcno = mikroper.Per_TcKimlikNo;
+
+                    var unvan = "KENT KONUT İNŞ. SAN. ve TİC. A.Ş.";
+                    var adres = "Körfez Mahallesi, Hafiz Binbaşı Cad. No:3 Kat:1-2 İZMİT/KOCAELİ";
+                    var yapılanis = "İNŞAAT";
+                    var meslekkod = mikroper.per_meslek_kodu;
+                    var gorev = personel.PersonelDetay.Gorev1.ad;
+                    var baslamatarih = mikroper.per_giris_tar.Value.ToShortDateString();
+                    var sicil = personel.PersonelDetay.SgkDosya1.SgkNo;
+                    return Json(new
+                    {
+                        adsoyad,dogumyeryil,tcno,unvan,adres,
+                        yapılanis,
+                        meslekkod,
+                        gorev,
+                        baslamatarih,sicil
+
+                    },JsonRequestBehavior.AllowGet)
+;                }
+            }
+           
+           
+            return null;
         }
     }
 

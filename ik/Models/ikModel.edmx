@@ -53,13 +53,6 @@
           <Property Name="ad" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="tarih" Type="date" Nullable="false" />
         </EntityType>
-        <EntityType Name="EtiketTanim">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ad" Type="nvarchar" MaxLength="25" Nullable="false" />
-        </EntityType>
         <EntityType Name="EvrakListe">
           <Key>
             <PropertyRef Name="id" />
@@ -175,6 +168,7 @@
           <Property Name="izintip" Type="int" Nullable="false" />
           <Property Name="aciklama" Type="text" />
           <Property Name="gun" Type="int" Nullable="false" />
+          <Property Name="not" Type="text" />
         </EntityType>
         <EntityType Name="IzinTip">
           <Key>
@@ -275,6 +269,16 @@
           <Property Name="ailefertID" Type="int" Nullable="false" />
           <Property Name="url" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="aciklama" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Ozluk_DigerEvrak">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="evrakadi" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="aciklama" Type="text" />
+          <Property Name="url" Type="nvarchar" MaxLength="250" />
+          <Property Name="personelid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Ozluk_Enum">
           <Key>
@@ -419,14 +423,6 @@
           <Property Name="personelID" Type="int" Nullable="false" />
           <Property Name="kidemTarih" Type="date" Nullable="false" />
           <Property Name="izinDevir" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PersonelEtiket">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="personelID" Type="int" Nullable="false" />
-          <Property Name="etiketID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonelFirma">
           <Key>
@@ -885,6 +881,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Ozluk_Dig__perso__0BF1ACC7">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ozluk_DigerEvrak" Type="Self.Ozluk_DigerEvrak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ozluk_DigerEvrak">
+              <PropertyRef Name="personelid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Ozluk_Enu__enumi__28F7FFC9">
           <End Role="Ozluk_Enum" Type="Self.Ozluk_Enum" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1132,34 +1142,6 @@
             </Principal>
             <Dependent Role="PersonelDetay">
               <PropertyRef Name="tahsili" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelE__etike__3A02903A">
-          <End Role="EtiketTanim" Type="Self.EtiketTanim" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="PersonelEtiket" Type="Self.PersonelEtiket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EtiketTanim">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelEtiket">
-              <PropertyRef Name="etiketID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelE__perso__390E6C01">
-          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="PersonelEtiket" Type="Self.PersonelEtiket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelEtiket">
-              <PropertyRef Name="personelID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1503,7 +1485,6 @@
           <EntitySet Name="Avanslar" EntityType="Self.Avanslar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="birim" EntityType="Self.birim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiniGunler" EntityType="Self.DiniGunler" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EtiketTanim" EntityType="Self.EtiketTanim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvrakListe" EntityType="Self.EvrakListe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Firma" EntityType="Self.Firma" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeciciMazeret" EntityType="Self.GeciciMazeret" Schema="dbo" store:Type="Tables" />
@@ -1527,6 +1508,7 @@
           <EntitySet Name="Meslek" EntityType="Self.Meslek" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_AileFertleri" EntityType="Self.Ozluk_AileFertleri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_AileFertleriUrl" EntityType="Self.Ozluk_AileFertleriUrl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ozluk_DigerEvrak" EntityType="Self.Ozluk_DigerEvrak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_Enum" EntityType="Self.Ozluk_Enum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_Enum_Detay" EntityType="Self.Ozluk_Enum_Detay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_IseGirisEvrak" EntityType="Self.Ozluk_IseGirisEvrak" Schema="dbo" store:Type="Tables" />
@@ -1541,7 +1523,6 @@
           <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelDetay" EntityType="Self.PersonelDetay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelDevir" EntityType="Self.PersonelDevir" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonelEtiket" EntityType="Self.PersonelEtiket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelFirma" EntityType="Self.PersonelFirma" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelGrup" EntityType="Self.PersonelGrup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelIhale" EntityType="Self.PersonelIhale" Schema="dbo" store:Type="Tables" />
@@ -1631,6 +1612,10 @@
             <End Role="Ozluk_Enum_Detay" EntitySet="Ozluk_Enum_Detay" />
             <End Role="Ozluk_AileFertleri" EntitySet="Ozluk_AileFertleri" />
           </AssociationSet>
+          <AssociationSet Name="FK__Ozluk_Dig__perso__0BF1ACC7" Association="Self.FK__Ozluk_Dig__perso__0BF1ACC7">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="Ozluk_DigerEvrak" EntitySet="Ozluk_DigerEvrak" />
+          </AssociationSet>
           <AssociationSet Name="FK__Ozluk_Enu__enumi__28F7FFC9" Association="Self.FK__Ozluk_Enu__enumi__28F7FFC9">
             <End Role="Ozluk_Enum" EntitySet="Ozluk_Enum" />
             <End Role="Ozluk_Enum_Detay" EntitySet="Ozluk_Enum_Detay" />
@@ -1702,14 +1687,6 @@
           <AssociationSet Name="FK__PersonelD__tahsi__0E04126B" Association="Self.FK__PersonelD__tahsi__0E04126B">
             <End Role="Tahsil" EntitySet="Tahsil" />
             <End Role="PersonelDetay" EntitySet="PersonelDetay" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelE__etike__3A02903A" Association="Self.FK__PersonelE__etike__3A02903A">
-            <End Role="EtiketTanim" EntitySet="EtiketTanim" />
-            <End Role="PersonelEtiket" EntitySet="PersonelEtiket" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelE__perso__390E6C01" Association="Self.FK__PersonelE__perso__390E6C01">
-            <End Role="Personel" EntitySet="Personel" />
-            <End Role="PersonelEtiket" EntitySet="PersonelEtiket" />
           </AssociationSet>
           <AssociationSet Name="FK__PersonelF__firma__308E3499" Association="Self.FK__PersonelF__firma__308E3499">
             <End Role="Firma" EntitySet="Firma" />
@@ -1953,12 +1930,6 @@
             <End Role="vergi_dilim" EntitySet="vergi_dilim" />
             <End Role="vergi_dilim_detay" EntitySet="vergi_dilim_detay" />
           </AssociationSet>
-          <EntitySet Name="EtiketTanims" EntityType="ikModel.EtiketTanim" />
-          <EntitySet Name="PersonelEtikets" EntityType="ikModel.PersonelEtiket" />
-          <AssociationSet Name="FK__PersonelE__etike__3A02903A" Association="ikModel.FK__PersonelE__etike__3A02903A">
-            <End Role="EtiketTanim" EntitySet="EtiketTanims" />
-            <End Role="PersonelEtiket" EntitySet="PersonelEtikets" />
-          </AssociationSet>
           <AssociationSet Name="FK__Takip__parentid__4850AF91" Association="ikModel.FK__Takip__parentid__4850AF91">
             <End Role="Takip" EntitySet="Takips" />
             <End Role="Takip1" EntitySet="Takips" />
@@ -2013,10 +1984,6 @@
           <AssociationSet Name="FK__PersonelD__perso__74AE54BC" Association="ikModel.FK__PersonelD__perso__74AE54BC">
             <End Role="Personel" EntitySet="Personels" />
             <End Role="PersonelDevir" EntitySet="PersonelDevirs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelE__perso__390E6C01" Association="ikModel.FK__PersonelE__perso__390E6C01">
-            <End Role="Personel" EntitySet="Personels" />
-            <End Role="PersonelEtiket" EntitySet="PersonelEtikets" />
           </AssociationSet>
           <AssociationSet Name="FK__PersonelF__perso__756D6ECB" Association="ikModel.FK__PersonelF__perso__756D6ECB">
             <End Role="Personel" EntitySet="Personels" />
@@ -2125,6 +2092,11 @@
             <End Role="Ozluk_AileFertleri" EntitySet="Ozluk_AileFertleri" />
             <End Role="Ozluk_AileFertleriUrl" EntitySet="Ozluk_AileFertleriUrl" />
           </AssociationSet>
+          <EntitySet Name="Ozluk_DigerEvrak" EntityType="ikModel.Ozluk_DigerEvrak" />
+          <AssociationSet Name="FK__Ozluk_Dig__perso__0BF1ACC7" Association="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7">
+            <End Role="Personel" EntitySet="Personels" />
+            <End Role="Ozluk_DigerEvrak" EntitySet="Ozluk_DigerEvrak" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="birim">
           <Key>
@@ -2163,6 +2135,7 @@
           <NavigationProperty Name="IzinTip1" Relationship="ikModel.FK__Izin__izintip__66603565" FromRole="Izin"
                               ToRole="IzinTip" />
           <NavigationProperty Name="Personel" Relationship="ikModel.FK__Izin__personelid__656C112C" FromRole="Izin" ToRole="Personel" />
+          <Property Name="not" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IzinTip">
           <Key>
@@ -2943,38 +2916,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="EtiketTanim">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ad" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PersonelEtikets" Relationship="ikModel.FK__PersonelE__etike__3A02903A" FromRole="EtiketTanim" ToRole="PersonelEtiket" />
-        </EntityType>
-        <EntityType Name="PersonelEtiket">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="personelID" Type="Int32" Nullable="false" />
-          <Property Name="etiketID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EtiketTanim" Relationship="ikModel.FK__PersonelE__etike__3A02903A" FromRole="PersonelEtiket" ToRole="EtiketTanim" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelE__perso__390E6C01" FromRole="PersonelEtiket" ToRole="Personel" />
-        </EntityType>
-        <Association Name="FK__PersonelE__etike__3A02903A">
-          <End Type="ikModel.EtiketTanim" Role="EtiketTanim" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.PersonelEtiket" Role="PersonelEtiket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EtiketTanim">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelEtiket">
-              <PropertyRef Name="etiketID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Takip__parentid__4850AF91">
           <End Type="ikModel.Takip" Role="Takip" Multiplicity="0..1" />
           <End Type="ikModel.Takip" Role="Takip1" Multiplicity="*" />
@@ -3064,7 +3005,6 @@
           <NavigationProperty Name="Kadro1" Relationship="ikModel.FK__Personel__kadro__0A688BB1" FromRole="Personel" ToRole="Kadro" />
           <NavigationProperty Name="PersonelDetay" Relationship="ikModel.FK__PersonelD__perso__69C6B1F5" FromRole="Personel" ToRole="PersonelDetay" />
           <NavigationProperty Name="PersonelDevir" Relationship="ikModel.FK__PersonelD__perso__74AE54BC" FromRole="Personel" ToRole="PersonelDevir" />
-          <NavigationProperty Name="PersonelEtikets" Relationship="ikModel.FK__PersonelE__perso__390E6C01" FromRole="Personel" ToRole="PersonelEtiket" />
           <NavigationProperty Name="PersonelFirmas" Relationship="ikModel.FK__PersonelF__perso__756D6ECB" FromRole="Personel" ToRole="PersonelFirma" />
           <NavigationProperty Name="PersonelGrups" Relationship="ikModel.FK__PersonelG__perso__6EF57B66" FromRole="Personel" ToRole="PersonelGrup" />
           <NavigationProperty Name="PersonelIhaleDonemleris" Relationship="ikModel.FK__PersonelI__perso__2EA5EC27" FromRole="Personel" ToRole="PersonelIhaleDonemleri" />
@@ -3079,6 +3019,7 @@
           <NavigationProperty Name="PersonelMesais" Relationship="ikModel.FK__PersonelM__perso__218BE82B" FromRole="Personel" ToRole="PersonelMesai" />
           <NavigationProperty Name="Ozluk_IseGirisEvrak" Relationship="ikModel.FK__Ozluk_Ise__perso__066DDD9B" FromRole="Personel" ToRole="Ozluk_IseGirisEvrak" />
           <NavigationProperty Name="Ozluk_AileFertleri" Relationship="ikModel.FK__OzlukAile__perso__5540965B1" FromRole="Personel" ToRole="Ozluk_AileFertleri" />
+          <NavigationProperty Name="Ozluk_DigerEvrak" Relationship="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7" FromRole="Personel" ToRole="Ozluk_DigerEvrak" />
         </EntityType>
         <Association Name="FK__Avanslar__person__03F0984C">
           <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
@@ -3214,20 +3155,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="PersonelDevir">
-              <PropertyRef Name="personelID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelE__perso__390E6C01">
-          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.PersonelEtiket" Role="PersonelEtiket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelEtiket">
               <PropertyRef Name="personelID" />
             </Dependent>
           </ReferentialConstraint>
@@ -3741,6 +3668,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Ozluk_DigerEvrak">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="evrakadi" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="personelid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Personel" Relationship="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7" FromRole="Ozluk_DigerEvrak" ToRole="Personel" />
+        </EntityType>
+        <Association Name="FK__Ozluk_Dig__perso__0BF1ACC7">
+          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.Ozluk_DigerEvrak" Role="Ozluk_DigerEvrak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ozluk_DigerEvrak">
+              <PropertyRef Name="personelid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3770,6 +3722,7 @@
           <EntitySetMapping Name="Izins">
             <EntityTypeMapping TypeName="ikModel.Izin">
               <MappingFragment StoreEntitySet="Izin">
+                <ScalarProperty Name="not" ColumnName="not" />
                 <ScalarProperty Name="gun" ColumnName="gun" />
                 <ScalarProperty Name="aciklama" ColumnName="aciklama" />
                 <ScalarProperty Name="izintip" ColumnName="izintip" />
@@ -4219,23 +4172,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EtiketTanims">
-            <EntityTypeMapping TypeName="ikModel.EtiketTanim">
-              <MappingFragment StoreEntitySet="EtiketTanim">
-                <ScalarProperty Name="ad" ColumnName="ad" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonelEtikets">
-            <EntityTypeMapping TypeName="ikModel.PersonelEtiket">
-              <MappingFragment StoreEntitySet="PersonelEtiket">
-                <ScalarProperty Name="etiketID" ColumnName="etiketID" />
-                <ScalarProperty Name="personelID" ColumnName="personelID" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Gorev_Detay">
             <EntityTypeMapping TypeName="ikModel.Gorev_Detay">
               <MappingFragment StoreEntitySet="Gorev_Detay">
@@ -4470,6 +4406,17 @@
                 <ScalarProperty Name="aciklama" ColumnName="aciklama" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="ailefertID" ColumnName="ailefertID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ozluk_DigerEvrak">
+            <EntityTypeMapping TypeName="ikModel.Ozluk_DigerEvrak">
+              <MappingFragment StoreEntitySet="Ozluk_DigerEvrak">
+                <ScalarProperty Name="personelid" ColumnName="personelid" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="aciklama" ColumnName="aciklama" />
+                <ScalarProperty Name="evrakadi" ColumnName="evrakadi" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

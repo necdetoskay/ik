@@ -23,7 +23,6 @@ namespace ik.Models
             this.Icralars = new HashSet<Icralar>();
             this.ImzaTakipDetays = new HashSet<ImzaTakipDetay>();
             this.Izins = new HashSet<Izin>();
-            this.PersonelEtikets = new HashSet<PersonelEtiket>();
             this.PersonelFirmas = new HashSet<PersonelFirma>();
             this.PersonelGrups = new HashSet<PersonelGrup>();
             this.PersonelIhaleDonemleris = new HashSet<PersonelIhaleDonemleri>();
@@ -37,6 +36,7 @@ namespace ik.Models
             this.PersonelMesais = new HashSet<PersonelMesai>();
             this.Ozluk_IseGirisEvrak = new HashSet<Ozluk_IseGirisEvrak>();
             this.Ozluk_AileFertleri = new HashSet<Ozluk_AileFertleri>();
+            this.Ozluk_DigerEvrak = new HashSet<Ozluk_DigerEvrak>();
         }
     
         public int id { get; set; }
@@ -73,8 +73,6 @@ namespace ik.Models
         public virtual PersonelDetay PersonelDetay { get; set; }
         public virtual PersonelDevir PersonelDevir { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonelEtiket> PersonelEtikets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelFirma> PersonelFirmas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelGrup> PersonelGrups { get; set; }
@@ -100,5 +98,7 @@ namespace ik.Models
         public virtual ICollection<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
     }
 }

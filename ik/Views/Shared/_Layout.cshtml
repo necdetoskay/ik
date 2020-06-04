@@ -61,6 +61,8 @@
                         <li class="divider"></li>
                         <li>@Html.ActionLink("PDKS Eksik Hareket ekle", "EksikHareketler", "Pdks")</li>
                         <li class="divider"></li>
+                        <li>@Html.ActionLink("Toplu Eksik Hareket Ekle", "TopluEksikHareketler", "Pdks")</li>
+                        <li class="divider"></li>
                         @* <li>@Html.ActionLink("Taşeron Personel", "Index", "Taseron").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
 
                         <li class="dropdown dropdown-submenu">
@@ -70,6 +72,19 @@
                                 @*<li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                             </ul>
                         </li>
+
+
+                        <li class="dropdown dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Covid-19</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("TopluPersonelDurumuGirme", "TopluEksikHareketler", "Pdks")</li>
+                                <li>@Html.ActionLink("İdari İzin Ekle", "IdariIzinEkle", "Template")</li>
+                                @*<li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
+                            </ul>
+                        </li>
+
+
+
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">PDKS</a>
                             <ul class="dropdown-menu">

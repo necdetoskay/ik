@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Diğer Evraklar";
+    Layout = "~/Areas/OzlukAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<div id="selectlist"></div>
+
+
+
+<div id="evrakliste"></div>
+
+
+@section scripts{
+    <script src="~/Scripts/ozlukadmin.js"></script>
+    <script type="text/javascript">
+
+        function sonuc(result) {
+            $('#evrakliste').html(result);
+        }
+
+        $(function () {
+            $('#selectlist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                callafterchange: '@Url.Action("DigerEvrakListe",new {Area="OzlukAdmin"})',
+                change: function (result) {
+                    sonuc(result);
+                }
+            });
+
+        });
+    </script>
+}

@@ -73,7 +73,7 @@ namespace ik.Controllers
 
             db.SaveChanges();
             
-            return Json(new {Success=true,Data=string.Format("{0} adet personel {1} adlı gruba kaydedildi",grup.PersonelGrups.Count,grup.ad)},JsonRequestBehavior.AllowGet);
+            return Json(new {Success=true,redirect=true,redirecturl=@Url.Action("PersonelGrup","Grups",new {grupid=grup.id}),Data=string.Format("{0} adet personel {1} adlı gruba kaydedildi",grup.PersonelGrups.Count,grup.ad)},JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

@@ -2,29 +2,29 @@
 @using ik.Models
 @model IEnumerable<ik.Models.Ozluk_IseGirisEvrak>
 <style>
-    .imglist {
+    .dosyaliste {
         display: flex;
     }
 
-    .fertimgdiv {
+    .dosya {
         padding-right: 10px;
     }
 
-        .fertimgdiv:hover {
+        .dosya:hover {
             border-style: solid;
             border-color: black;
         }
 
-        .fertimgdiv > a.fertimgsil > img:hover {
+        .dosya > a.dosyasil > img:hover {
             opacity: 1;
         }
 
-        .fertimgdiv > a.thumba > img {
+        .dosya > a.thumba > img {
             height: 100px;
             float: right;
         }
 
-        .fertimgdiv > a.fertimgsil > img {
+        .dosya > a.dosyasil > img {
             height: 20px;
             position: absolute;
             opacity: 0.6;
@@ -89,14 +89,14 @@ switch (fizikselyol.Extension)
                 <input type="checkbox" data-value="@item.mevcut" checked="@item.mevcut" class="js-switch mevcut" />
             </td>
             <td>
-                <div data-id="@item.id" class="imglist">
+                <div data-id="@item.id" class="dosyaliste">
                     @foreach (var it in item.Ozluk_IseGirisEvrakUrl)
                     {
-                        <div class="fertimgdiv" data-id="@it.id">
+                        <div class="dosya" data-id="@it.id">
                             <a class="thumba" target="_blank" href="/@it.url">
-                                <img src="/@it.url" class="fertimg">
+                                <img src="/@it.Thumb" class="dosyaresim">
                             </a>
-                            <a href="javascript:void(0)" class="fertimgsil">
+                            <a href="javascript:void(0)" class="dosyasil">
                                 <img src="/Content/delete-png.png"/>
                             </a>
                         </div>
@@ -165,9 +165,6 @@ switch (fizikselyol.Extension)
         }
 
         function complete(uploadresult, targetimgdiv, resimdiv) {
-            //console.table(uploadresult);// dosya yolu,thumbyolu,alt
-            //console.log(targetimgdiv);//bundan evrak id si al
-            //console.log(resimdiv);//buna resim url id si ekle
             var evrid = targetimgdiv.attr("data-id");
             $.ajax({
                 url: '@Url.Action("_GirisEvrakEkle")',
@@ -180,18 +177,17 @@ switch (fizikselyol.Extension)
                     if (result.Success === true) {
                         console.log(result.ID);
                         resimdiv.attr("data-id", result.ID);
-                        //checkbox check olarak işaretle
                         var check = $(targetimgdiv.closest("tr")).find("input:checkbox");
                         if (!check.attr("checked"))
                             check.trigger('click');
-                        console.log(check);
+                       
                     }
                 }
             });
 
         }
         
-        $(".fertimgdiv").each(function () {
+        $(".dosya").each(function () {
             var imgdiv = $(this);
             var dosya = imgdiv.find('a').attr('href');
             uploadnamespace.sil(imgdiv, 0, dosya, '@Url.Action("Sil", "Upload",new {Area=""})',deleted);
@@ -204,7 +200,7 @@ switch (fizikselyol.Extension)
             uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
             deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})', ///standart yüklenen dosyayı silme işlemleri
             kayitklasor: '\\IseGirisEvraklar\\' + pid, /// değişebilir
-            targetimgdiv: 'imglist',
+            targetimgdiv: 'dosyaliste',
             uploadcomplete: complete,
             deletecomplete: deleted
         });

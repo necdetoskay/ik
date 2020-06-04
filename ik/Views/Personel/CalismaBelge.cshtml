@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "CalismaBelge";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .clear {
+        clear: both;
+        margin-bottom: 60px;
+    }
+     .imza {
+         margin-top: 40px;
+      
+         margin-bottom: 40px;
+     }
+    .imza>div {
+        float: right;
+    }
+    .imza>div>div {
+        text-align: center;
+    }
+    .yazı {
+        margin-top: 25px;
+        margin-bottom: 10px;
+      
+    }
+    #result > div {
+        font-size: 16px;
+        text-indent: 50px;
+        text-align: justify;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .konu {
+        text-align: center;
+        display: block;
+        font-size: 2em;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .baslik {
+        text-align: center;
+        padding: 10px;
+        font-size: 21px;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    table, table > tr, table > tr > td {
+        border: 1px solid;
+        padding: 8px;
+    }
+</style>
+
+@Html.Action("_PersonelAdSec")
+<input id="hazirla" type="button" class="btn btn-primary" value="Hazırla" />
+
+<div id="result"></div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            $('#hazirla').on('click', function () {
+                var fullDate = new Date();
+                var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+                var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+                var id = $('#personel').attr("data-id");
+                console.log(id);
+                $.ajax({
+                    url: '@Url.Action("_CalismaBelge")',
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    success: function (result) {
+                        console.table(result);
+                        var dv = $("<div></div>");
+                        dv.append('<span class="konu">ÇALIŞMA BELGESİ</span>');
+                        var table = $('<table class=table"></table>');
+                        table.append('<tr><td colspan=2 class="baslik">İŞÇİNİN</td></tr>');
+                        table.append('<tr><td>Adı Soyadı</td><td>' + result.adsoyad + '</td></tr>');
+                        table.append('<tr><td>Baba Adı</td><td></td></tr>');
+                        table.append('<tr><td>Doğum Yeri ve Yılı</td><td>' + result.dogumyeryil + '</td></tr>');
+                        table.append('<tr><td>T.C. Kimlik No</td><td>' + result.tcno + '</td></tr>');
+
+                        table.append('<tr><td colspan=2 class="baslik">ÇALIŞTIĞI İŞYERİNİN</td></tr>');
+                        table.append('<tr><td>Ünvanı</td><td>' + result.unvan + '</td></tr>');
+                        table.append('<tr><td>Adresi</td><td>' + result.adres + '</td></tr>');
+                        table.append('<tr><td>Yetkili</td><td> Yalçın ÖZÖN </td></tr>');
+                        table.append('<tr><td>İş Yeri Sicil Numarası</td><td>' + result.sicil + '</td></tr>');
+
+                        table.append('<tr><td>İş Yerinde Yapılan İş/İş Kolu</td><td>' + result.yapılanis + '</td></tr>');
+                        table.append('<tr><td>İşçinin Meslek Kodu</td><td>' + result.meslekkod + '</td></tr>');
+                        table.append('<tr><td>İşçinin Görevi</td><td>' + result.gorev + '</td></tr>');
+                        table.append('<tr><td>İşe Başlama Tarihi</td><td>' + result.baslamatarih + '</td></tr>');
+                        table.append('<tr><td>İşten Ayrılış Tarihi</td><td></td></tr>');
+                        dv.append(table);
+                        dv.append('<div class="yazı">Yukarıda kimlik bilgileri belirtilen ' + result.adsoyad + ', ' + result.baslamatarih + ' tarihinden beri işyerimizde çalışmaktadır.</div>');
+                        dv.append("<div class='yazı'>İş Bu Çalışma Belgesi İl Umumi Hıfzıssıhha Meclis Kararı'nın 02.04.2020 Tarih ve 17 Nolu Kararına İstinaden Verilmiştir.</div>");
+                        dv.append("<div class='imza'><div><div>İşveren veya İşveren Vekilinin</br></div><div>Adı-Soyadı İmza-Kaşe</div></div></div>");
+                        dv.append("<div class='clear'></div>");
+
+                        dv.append("<div class='yazı'>Yukarıdaki bilgiler doğrudur. Söz konusu belgenin bir nüshasını aldım.</div>");
+                        dv.append("<div class='imza'><div> " + currentDate + "<div><div>İşçi İmza</div></div></div>");
+                        dv.append("<div class='clear'></div>");
+
+                        $('#result').append(dv);
+                    }
+                });
+            });
+        })
+    </script>
+}

@@ -2,8 +2,11 @@
 @{
     ViewBag.Title = "YeniImzaTakip";
 }
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Grup Listesi","Index")</li>
+</ul>
 <h2>YeniImzaTakip</h2>
-<table class="table table-hover">
+@*<table class="table table-hover">
     <thead>
         <tr>
             <th scope="col">Takip Konusu</th>
@@ -14,7 +17,7 @@
     </thead>
     <tbody id="takipbody">
     </tbody>
-</table>
+</table>*@
 
 
 
@@ -45,7 +48,7 @@
 
             var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste","Personel")';
             var imzakaydeturl = '@Url.Action("_imzalistekaydet","ImzaTakip")';
-            var imzalisteulr = '@Url.Action("_imzaliste","ImzaTakip")';
+            @*var imzalisteulr = '@Url.Action("_imzaliste","ImzaTakip")';*@
           
             izmatakiplistegoster();//daha önce oluşturulmuş takipleri listele
 

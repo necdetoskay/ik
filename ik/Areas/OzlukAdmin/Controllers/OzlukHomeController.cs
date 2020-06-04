@@ -6,6 +6,8 @@ using System.Web.Mvc;
 
 namespace ik.Areas.OzlukAdmin.Controllers
 {
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class OzlukHomeController : Controller
     {
         // GET: OzlukAdmin/Home
@@ -13,5 +15,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
         {
             return View();
         }
+
+      
     }
 }

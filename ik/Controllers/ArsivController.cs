@@ -42,7 +42,7 @@ namespace ik.Controllers
                     }
                 }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception xx)
+            catch
             {
 
                 return null;

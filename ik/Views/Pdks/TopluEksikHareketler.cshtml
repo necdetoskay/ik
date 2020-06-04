@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "TopluEksikHareketler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="form-inline" >
+    <div class="form-group">
+        <label class="sr-only" for="tarih">Tarih</label>
+        <input type="text" class="form-control datetime" autocomplete="off" id="tarih">
+        <button id="filtrele" type="button" class="btn btn-default">Filtrele</button>
+    </div>
+</form>
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Sıra</th>
+            <th>Tarih</th>
+            <th>Personel Ad Soyad</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody id="eksikhareketler">
+        <tr>
+            <td colspan="4" style="text-align: center;">
+                <img src="@Url.Content("~/Content/Loading_icon.gif")" />
+                <h2>Yükleniyor!!!</h2>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/bootstrap-notify.min.js"></script>
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.tr.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/sugar.js"></script>
+    <script type="text/javascript">
+        var result;
+        $(function () {
+
+            function cuteHide(el) {
+                el.animate({ opacity: '0' }, 150, function () {
+                    el.animate({ height: '0px' }, 150, function () {
+                        el.remove();
+                    });
+                });
+            }
+            //  var tarihler = $('.datetime').datepicker().val().split(',');
+            var tabloolustur = function (data) {
+                console.table(data);
+                var $table = $('#eksikhareketler');
+                $table.empty();
+                jQuery.each(data, function (i, a) {
+                    $('<tr data-id="' + a.id + '"><td><input type="checkbox" /></td><td>' + (i + 1) + '</td><td class="eksiktarih">' + a.tarih + '</td><td>' + a.adsoyad + '</td><td><div class="islemler"></div></td></tr>').appendTo($table);
+                });
+                $('#eksikhareketler tr').click(function (event) {
+                    if (event.target.type !== 'checkbox') {
+                        $(':checkbox', this).trigger('click');
+                    }
+                });
+                $('.islemler').each(function () {
+                    var islem = $(this);
+                    islem.append('<input class="ekle izin btn btn-warning" type="button" value="İzin Ekle"><input class="ekle giris btn btn-primary" type="button" value="Giriş Ekle">');
+                });
+                $('.ekle').each(function () {
+                    var ekle = $(this);
+                    var id = ekle.closest('tr').attr("data-id");
+                    var tr = ekle.closest('tr');
+                    var tar = $(tr).find('.eksiktarih').html();
+                    console.log(tar);
+                    ekle.on('click', function () {
+                        var tip = ekle.hasClass("izin") ? true : false;
+                        BootstrapDialog.confirm({
+                            title: 'Eksik Hareket Giriş',
+                            message: tip === true ? "İdari İzin Girilsin mi?" : "Personel için PDKS girişi yapılsın mı?",
+                            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                            closable: true, // <-- Default value is false
+                            draggable: true, // <-- Default value is false
+                            btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                            btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
+                            btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                            callback: function (result) {
+                                // result will be true if button was click, while it will be false if users close the dialog directly.
+
+                                var date =tar ;// $("#tarih").datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
+                                if (result) {
+                                    $.ajax({
+                                        url: '@Url.Action("_IzinGirisEkle")',
+                                        type: 'GET',
+                                        data: {
+                                            id: id,
+                                            tarih: date,
+                                            tip: tip
+                                        },
+                                        success: function (result) {
+                                            console.table(result);
+                                            if (result.Success === true) {
+                                                Sugar.Array.remove(result, function (el) { return el.id === id; });
+                                                $.notify({
+                                                    title: '<strong>Kayıt İşlemi</strong>',
+                                                    message: result.Mesaj
+                                                }, {
+                                                    type: 'success'
+                                                });
+                                                var tr = ekle.closest('tr');
+                                                cuteHide($(tr));
+
+                                            } else {
+                                                $.notify({
+                                                    title: '<strong>Kayıt İşlemi</strong>',
+                                                    message: result.Mesaj
+                                                }, {
+                                                    type: 'danger'
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    });
+
+                });
+            };
+            $('#filtrele').on('click', function () {
+                var filtered = new Array();
+                $.each(result, function (i, item) {
+                    if (Date.parse(item.tarih) === Date.parse($('.datetime').datepicker().val())) {
+                        filtered.push(item);
+                    }
+                });
+
+                tabloolustur(filtered);
+                //var filterednames = result.filter(function(obj) {
+                //    return (obj.tarih == $('.datetime').datepicker().val());
+                //});
+                //console.table(filterednames);
+            });
+
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+            $('.datetime').datepicker({
+                language: 'tr',
+                clearBtn: true,
+                todayHighlight: true
+            });
+
+
+
+            function compareName(a, b) {
+
+                if (a[3] < b[3]) return -1;
+                if (a[3] > b[3]) return 1;
+                return 0;
+            }
+
+            $('#adsirala').on('click', function () {
+                console.table(result);
+                var sira = $(this).attr("data-sira");
+                sira = sira === "asc" ? "desc" : "asc";
+                result.sort(compareName);
+            });
+
+
+            $.ajax({
+                url: '@Url.Action("AylikEksikHareket", "PTakip")',
+                type: 'get',
+                data: ({
+                    tarih: new Date().toISOString()
+                }),
+                success: function (data) {
+                    result = data;
+                    tabloolustur(data);
+                    //console.table(data);
+
+                }
+            });
+
+        });
+    </script>
+}
+

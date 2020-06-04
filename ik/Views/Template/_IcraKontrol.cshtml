@@ -16,7 +16,7 @@
 
 }
 
-    @Html.Hidden("Success",(icravar & !icrafark))
+@Html.Hidden("Success", (icravar & !icrafark))
 
 
 
@@ -34,19 +34,20 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AdSoyad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IcraHesaplanan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MikroIcra)
-        </td>
-        <td></td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IcraHesaplanan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MikroIcra)
+            </td>
+            <td></td>
+        </tr>
+    }
 
 </table>

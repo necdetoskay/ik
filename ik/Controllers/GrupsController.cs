@@ -21,9 +21,6 @@ namespace ik.Controllers
 
         public ActionResult PersonelGrup(int? grupid)
         {
-            //if (User.Identity.Name != @"KENTKONUT\noskay")
-            //    return RedirectToAction("Index");
-
             if (grupid == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -31,7 +28,7 @@ namespace ik.Controllers
             var liste = db.PersonelGrups.Where(c => c.grupid == grupid).ToList();
             ViewBag.grupid = grupid;
             ViewBag.grupad = db.Grups.SingleOrDefault(c => c.id == grupid).ad;
-            return View(liste);
+            return View(liste.OrderBy(c=>c.Personel.adsoyad));
         }
 
         [HttpPost]
@@ -179,10 +176,10 @@ namespace ik.Controllers
         {
             var liste =
                 db.Personels.Where(
-                    c => !db.PersonelGrups.Where(g => g.grupid == grupid).Select(b => b.personelid).Contains(c.id))
+                    c => !db.PersonelGrups.Where(g => g.grupid == grupid).Select(b => b.personelid).Contains(c.id)).Where(d=>d.cikistarihi==null)
                     .Select(c => new {c.id, c.adsoyad})
                     .ToList();
-            return Json(liste, JsonRequestBehavior.AllowGet);
+            return Json(liste.OrderBy(c=>c.adsoyad), JsonRequestBehavior.AllowGet);
         }
     }
 }

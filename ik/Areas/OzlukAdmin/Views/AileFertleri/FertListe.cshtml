@@ -1,40 +1,34 @@
 ﻿@model IEnumerable<ik.Models.Ozluk_AileFertleri>
 <style>
-    .imglist {
+    .dosyaliste {
         display: flex;
     }
 
-    .fertimgdiv {
+    .dosya {
         padding-right: 10px;
     }
 
-        .fertimgdiv:hover {
+        .dosya:hover {
             border-style: solid;
             border-color: black;
         }
 
-        .fertimgdiv > a.fertimgsil > img:hover {
+        .dosya > a.dosyasil > img:hover {
             opacity: 1;
         }
 
-        .fertimgdiv > a.thumba > img {
+        .dosya > a.thumba > img {
             height: 100px;
             float: right;
         }
 
-        .fertimgdiv > a.fertimgsil > img {
+        .dosya > a.dosyasil > img {
             height: 20px;
             position: absolute;
             opacity: 0.6;
             transition: 0.3s;
         }
 </style>
-@helper ThumbPath(string path)
-{
-    var a = path.LastIndexOf("\\") + 1;
-    var p = path.Insert(a, "thumb\\");
-    <img src="/@p" class="fertimg">
-}
 
 <table class="table">
     <tr>
@@ -54,10 +48,10 @@
 
         </th>
         <th></th>
-    </tr>
+        <th></th>
 
-    @foreach (var item in Model)
-    {
+        @foreach (var item in Model)
+        {
 
 
         <tr>
@@ -74,19 +68,15 @@
                 @Html.DisplayFor(modelItem => item.dogumTarihi)
             </td>
             <td>
-                <div data-id="@item.id" class="imglist">
+                <div data-id="@item.id" class="dosyaliste">
                     @foreach (var resim in item.Ozluk_AileFertleriUrl)
                     {
-                        //var url = @Url.Action("Indir", "Upload", new {Area="OzlukAdmin",resim.url});
-
-
-                        <div class="fertimgdiv" data-url="@resim.url" data-id="@resim.id">
+                        <div class="dosya" data-url="@resim.url" data-id="@resim.id">
                             <a class="thumba" target="_blank" href="@Url.Action("Indir", "Upload", new {Area="",resim.url})">
-                                <img src="/@resim.Thumb" class="fertimg">
-                                @*@ThumbPath(resim.url)*@
+                                <img src="/@resim.Thumb" class="dosyaresim">
                             </a>
-                            <a href="javascript:void(0)" class="fertimgsil">
-                                <img src="/Content/delete-png.png"/>
+                            <a href="javascript:void(0)" class="dosyasil">
+                                <img src="/Content/delete-png.png" />
                             </a>
                         </div>
                     }
@@ -96,81 +86,136 @@
                 <div class="uploadgoster">
                 </div>
             </td>
+            <td>
+                <a class="sil" href="javascript:void(0)">
+                    <img width="50" src="/Content/icons8-delete-trash-50.png" />
+                </a>
+                <a class="duzenle" href="javascript:void(0)">
+                    <img width="50" src="/Content/icons8-edit-64.png" />
+                </a>
+            </td>
         </tr>
-    }
-</table>
+        }
+    </table>
 
 
 
 
 
-<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-<script src="~/Scripts/DialogForm.js"></script>
-<script src="~/Scripts/ozlukadmin.js"></script>
-<script src="~/Scripts/bootstrap-dialog.js"></script>
-<script src="~/Scripts/uploadscripts.js"></script>
-<script type="text/javascript">
-    $(function () {
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
+    <script src="~/Scripts/ozlukadmin.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/uploads.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            ///tüm fert i siliyor alt resimleri ile beraber
+            $('.sil').each(function () {
+                $(this).on('click', function () {
+                    var sil = $(this);
+                    BootstrapDialog.confirm({
+                        title: 'DİKKAT',
+                        message: 'Aile ferdi silinsin mi?',
+                        btnCancelLabel: 'İptal',
+                        btnOKLabel: 'Sil',
+                        callback: function (result) {
+                            if (result) {
+                                var id = sil.closest('tr').find('.dosyaliste').attr("data-id");
+                                console.log('@Url.Action("AileFertSil")');
+                                $.ajax({
+                                    url: '@Url.Action("AileFertSil")',
+                                    type: 'GET',
+                                    data: {
+                                        id: id
+                                    },
+                                    success: function(res) {
+                                        if (res.Success) {
+                                            sil.closest('tr').remove();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
 
 
-        //targetimgdiv: silinecek olan resmi içeren div(resim idsini içerir)
-        function deleted(targetimgdiv) {
-            var dataid = targetimgdiv.attr("data-id");
-            $.ajax({
-                url: '@Url.Action("AileFertResimSil")',
-                data: {
-                    id: dataid
-                },
-                type: 'GET',
-                success: function (result) {
-                    if (result.Success === true)
-                        targetimgdiv.remove();
-                }
+                });
+            });
+            $('.düzenle').each(function() {
+
             });
 
-        }
-        //uploadresult: yüklenen dosyanın yolu,thumb yolu ve alt bilgisi,
-        //targetimgdiv: aile ferdine ait dosyaların ama container div(fert idsini içerir)
-        //resimdiv: aile ferdine yüklenen resmi içeren div (resim idsini içerir)
-        function complete(uploadresult, targetimgdiv, resimdiv) {
-            var fertid = targetimgdiv.attr("data-id");
-            $.ajax({
-                url: '@Url.Action("AileFertResimEkle")',
-                type: 'GET',
-                data: {
-                    url: uploadresult.DosyaAdi,
-                    fertid: fertid
-                },
-                success: function (result) {
-                    if (result.Success === true) {
-                        var id = result.ID;
-                        resimdiv.attr('data-id', id);
+            //targetimgdiv: silinecek olan resmi içeren div(resim idsini içerir)
+            @*function deleted(targetimgdiv) {
+                var dataid = targetimgdiv.attr("data-id");
+                $.ajax({
+                    url: '@Url.Action("AileFertdosyasil")',
+                    data: {
+                        id: dataid
+                    },
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.Success === true)
+                            targetimgdiv.remove();
                     }
-                }
+                });
+
+            }*@
+
+            function silbagla(sildiv) {
+                var dosya = sildiv.closest(".dosya");
+                var url = dosya.data("url");
+                sildiv.on('click', function () {
+                   
+                });
+            }
+
+            $('.dosyasil').each(function() {
+                var sil = $(this);
+
+                silbagla(sil);
             });
 
-        }
-        var pid = $('#tcno').val();
-        $('.uploadgoster').TopluDosyaYukle({
-            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',///standart view
-            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',///standart dosya uplaod işlemleri
-            deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})',///standart yüklenen dosyayı silme işlemleri
-            kayitklasor: '\\IseGirisEvraklar\\' + pid,/// değişebilir
-            targetimgdiv: 'imglist',
-            uploadcomplete: complete,
-            deletecomplete: deleted
+
+
+            function complete(uploadresult, uploaddiv) {
+                var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
+               // console.log(uploadresult.DosyaAdi);
+                var dosyaliste = uploaddiv.closest('tr').find('.dosyaliste');
+
+                var resim = $('<div class="dosya" data-url="' + uploadresult.DosyaAdi + '" ><a class="thumba"  target="_blank" href=' + indirurl + '/?url=' + uploadresult.DosyaAdi + ' >' +
+                '<img  src="/' + uploadresult.Thumb + '" class="dosyaresim" title="' + uploadresult.Alt + '" alt="' + uploadresult.Alt + '"></a>' +
+                '<a  href="javascript:void(0)" class="dosyasil">' +
+                '<img  src="/Content/delete-png.png" />' +
+                '</a></div>');
+                dosyaliste.append(resim);
+
+                var fertid = dosyaliste.attr("data-id");
+                console.log(fertid);
+
+                $.ajax({
+                    url: '@Url.Action("AileFertResimEkle")',
+                    type: 'GET',
+                    data: {
+                        url: uploadresult.DosyaAdi,
+                        fertid: fertid
+                    },
+                    success: function (result) {
+                        if (result.Success === true) {
+                            var id = result.ID;
+                            resim.attr('data-id', id);
+                            silbagla(resim.find(".dosyasil"));
+                        }
+                    }
+                });
+
+            }
+            /////////////////////////////////////////////////////
+            var pid = $('#tcno').val();
+            $('.uploadgoster').DosyaYukle({
+                multi: 'true',
+                kayitklasor: '\\IseGirisEvraklar\\' + pid,
+                uploadcomplete: complete
+            });
         });
-
-        $('.fertimgdiv').each(function () {
-            var a = $(this);
-
-            console.log(a);
-            console.log(a.attr("data-url"));
-            console.log('@Url.Action("Sil", "Upload",new {Area=""})');
-            console.log(deleted);
-
-            uploadnamespace.sil(a, "", a.attr("data-url"), '@Url.Action("Sil", "Upload",new {Area=""})', deleted);
-
-        });
-    });
-</script>
+    </script>

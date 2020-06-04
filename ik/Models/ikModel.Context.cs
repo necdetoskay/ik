@@ -70,8 +70,6 @@ namespace ik.Models
         public virtual DbSet<SgkDosya> SgkDosyas { get; set; }
         public virtual DbSet<vergi_dilim> vergi_dilim { get; set; }
         public virtual DbSet<vergi_dilim_detay> vergi_dilim_detay { get; set; }
-        public virtual DbSet<EtiketTanim> EtiketTanims { get; set; }
-        public virtual DbSet<PersonelEtiket> PersonelEtikets { get; set; }
         public virtual DbSet<Gorev_Detay> Gorev_Detay { get; set; }
         public virtual DbSet<Gorev_Detay_Not> Gorev_Detay_Not { get; set; }
         public virtual DbSet<Personel> Personels { get; set; }
@@ -94,5 +92,6 @@ namespace ik.Models
         public virtual DbSet<Ozluk_IseGirisEvrakUrl> Ozluk_IseGirisEvrakUrl { get; set; }
         public virtual DbSet<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
         public virtual DbSet<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
+        public virtual DbSet<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
     }
 }

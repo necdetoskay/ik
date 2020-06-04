@@ -6,4 +6,32 @@
 
 <p>Hata Oluştu</p>
 
+<div class="yeniekle"></div>
 
+
+@section scripts{
+
+    @*<script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/ikdialog.js"></script>*@
+    @Scripts.Render("~/bundles/ikdialog")
+    <script type="text/javascript">
+
+
+
+        $(function () {
+            var personelid = 2243;
+            $('.yeniekle').ikDialog({
+                formurl: '@Url.Action("ikCreate","OzlukDigerEvrak",new {Area="OzlukAdmin",personelid=2248},null)',
+                data: {
+                }, complete: function (result) {
+                    alert(result);
+                }
+            });
+
+        });
+    </script>
+}

@@ -113,9 +113,6 @@
         <EntityTypeShape EntityType="ikModel.PersonelMesai" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
       <Diagram DiagramId="ca673b4b730e413c82ce26beda27b4b5" Name="etiket" >
-        <EntityTypeShape EntityType="ikModel.EtiketTanim" Width="1.5" PointX="0.75" PointY="1.125" />
-        <EntityTypeShape EntityType="ikModel.PersonelEtiket" Width="1.5" PointX="3" PointY="0.875" />
-        <AssociationConnector Association="ikModel.FK__PersonelE__etike__3A02903A" />
       </Diagram>
       <Diagram DiagramId="a34fd7d3fac54633ad5810d449e76d93" Name="gorev" >
         <EntityTypeShape EntityType="ikModel.Gorev_Detay" Width="1.5" PointX="0.75" PointY="1" />
@@ -146,6 +143,7 @@
         <AssociationConnector Association="ikModel.FK__Ozluk_Ail__yakin__3DBE1285" />
         <EntityTypeShape EntityType="ikModel.Ozluk_AileFertleriUrl" Width="1.5" PointX="2.375" PointY="3" />
         <AssociationConnector Association="ikModel.FK__Ozluk_Ail__ailef__52B92F6B" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_DigerEvrak" Width="1.5" PointX="4.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

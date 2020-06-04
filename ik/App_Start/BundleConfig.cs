@@ -7,6 +7,13 @@ namespace ik
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/ikdialog").Include(
+              "~/Scripts/bootstrap-dialog.js",
+               "~/Scripts/jquery.unobtrusive-ajax.js", "~/Scripts/jquery.validate.min.js", "~/Scripts/jquery.validate.unobtrusive.min.js", "~/Scripts/ikdialog.js"
+
+
+               ));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 

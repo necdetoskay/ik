@@ -1,45 +1,56 @@
 ﻿@model ik.Controllers.SicilVM
+<style>
+    #kaydet, .row {
+        margin: 20px;
+    }
+</style>
 
 <div class="row">
+
     @Html.HiddenFor(item => Model.ikID)
     <div class="form-group">
-        <label class="col-md-2" for="gorevID">Görevi</label>
-        @Html.DropDownListFor(item => Model.gorevID, (SelectList) ViewBag.gorevListe)<input id="gorevekle" type="button" class="btn btn-info" value="Ekle"/>
+        <label class="com-md-4" for="gorevID">Görevi</label>
+        @Html.DropDownListFor(item => Model.gorevID, (SelectList) ViewBag.gorevListe)<input id="gorevekle" type="button" class="btn btn-info" value="Ekle" />
     </div>
     <div class="form-group">
 
-        <label class="col-md-2" for="birimID">Birimi <a href="@Url.Action("_BirimDetaylar","Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        <label class="com-md-4" for="birimID">Birimi <a href="@Url.Action("_BirimDetaylar", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
         @Html.DropDownListFor(item => Model.birimID, (SelectList) ViewBag.birimListe, "Birim Seçimiz")
     </div>
 
     <div class="form-group">
-        <label class="col-md-2" for="lokasyonID">Görev Yaptığı Yer <a href="@Url.Action("_GörevYerleri","Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        <label class="com-md-4" for="lokasyonID">Görev Yaptığı Yer <a href="@Url.Action("_GörevYerleri", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
         @Html.DropDownListFor(item => Model.lokasyonID, (SelectList) ViewBag.lokasyonListe, "Lokasyon Seçiniz")
     </div>
     <div class="form-group">
-        <label class="col-md-2" for="tahsilID">Tahsili <a href="@Url.Action("_GenelTahsilDurumu","Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
-        @Html.DropDownListFor(item => Model.tahsilID, (SelectList)ViewBag.tahsilListe, "Tahsil Seçiniz")
+        <label class="com-md-4" for="tahsilID">Tahsili <a href="@Url.Action("_GenelTahsilDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.tahsilID, (SelectList) ViewBag.tahsilListe, "Tahsil Seçiniz")
     </div>
     <div class="form-group">
-        <label class="col-md-2" for="meslekID">Mesleği (Mezuniyet) <a href="@Url.Action("_GenelMeslekDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
-        @Html.DropDownListFor(item => Model.meslekID, (SelectList) ViewBag.meslekListe, "Meslek Seçiniz")<input id="meslekekle" type="button" class="btn btn-info" value="Ekle"/>
+        <label class="com-md-4" for="meslekID">Mesleği (Mezuniyet) <a href="@Url.Action("_GenelMeslekDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.meslekID, (SelectList) ViewBag.meslekListe, "Meslek Seçiniz")<input id="meslekekle" type="button" class="btn btn-info" value="Ekle" />
     </div>
 
     <div class="form-group">
-        <label class="col-md-2" for="sgkDosya">SGK Dosya  <a href="@Url.Action("_GenelSgkDosyaDurumu","Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
-        @Html.DropDownListFor(item => Model.sgkDosya, (SelectList)ViewBag.sgkdosyaListe, "SGK Dosyası Seçiniz......")
+        <label class="com-md-4" for="sgkDosya">SGK Dosya <a href="@Url.Action("_GenelSgkDosyaDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.sgkDosya, (SelectList) ViewBag.sgkdosyaListe, "SGK Dosyası Seçiniz......")
     </div>
 
 
-    <input type="button" id="kaydet" class="btn btn-primary btn-rounded" value="Kaydet"/>
+    <input type="button" id="kaydet" class="btn btn-primary btn-rounded" value="Kaydet" />
 </div>
+
+
+ 
+
+
 
 
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <script src="~/Scripts/bootstrap-dialog.js"></script>
 <script src="~/Scripts/bootstrap-notify.min.js"></script>
 <script type="text/javascript">
-    
+
     $(function () {
         $('#kaydet').on('click', function () {
             var ikID = $('#ikID').val();
@@ -56,18 +67,18 @@
             console.log(lokasyon);
             console.log(meslek);
             $.ajax({
-                url:'@Url.Action("_PersonelDetayKaydet")',
-                type:'GET',
+                url: '@Url.Action("_PersonelDetayKaydet")',
+                type: 'GET',
                 data: {
-                    id:ikID,
-                    gorev:gorev,
+                    id: ikID,
+                    gorev: gorev,
                     birim: birim,
                     tahsil: tahsil,
-                    lokasyon:lokasyon,
+                    lokasyon: lokasyon,
                     meslek: meslek,
-                    sgkdosya:dosya
+                    sgkdosya: dosya
                 },
-                success:function(result) {
+                success: function (result) {
                     if (result === true)
                         console.log("kayıt başarılı");
                     $.notify({
@@ -83,7 +94,7 @@
 
 
 
-        $('#gorevekle').on('click', function() {
+        $('#gorevekle').on('click', function () {
             BootstrapDialog.show({
                 title: 'Yeni Görev Ekle',
                 message: 'Görev Adı Giriniz: <input id="ad" type="text" class="form-control">',
@@ -93,7 +104,7 @@
                         action: function (dialogRef) {
                             dialogRef.close();
                         }
-                    },{
+                    }, {
                         label: 'Kaydet',
                         action: function (dialogRef) {
                             $.ajax({

@@ -227,7 +227,7 @@ namespace ik.Controllers
 
         public ActionResult Indir(string url)
         {
-            var file = System.Web.HttpContext.Current.Server.MapPath(url).Replace(this.ControllerContext.RouteData.Values["controller"].ToString() + "\\", "");//.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
+            var file = System.Web.HttpContext.Current.Server.MapPath(url).Replace(this.ControllerContext.RouteData.Values["controller"].ToString() + "\\", "").Replace(this.ControllerContext.RouteData.Values["action"].ToString() + "\\", "");//.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
             var fi = new System.IO.FileInfo(file);
           
                 using (var stream = new MemoryStream())

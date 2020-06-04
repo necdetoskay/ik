@@ -93,14 +93,9 @@
                             "Kaydet": function () {
                                 var form = $('form', this);
                                 $(form).submit();
-
                             },
                             "İptal": function () {
-
-
-
                                 $(this).dialog('close');
-
                             }
                         }
                         , open: function (event) {

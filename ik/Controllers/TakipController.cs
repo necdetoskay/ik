@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using ik.Models;
 using PagedList;
 
@@ -163,7 +164,7 @@ namespace ik.Controllers
                     }
                    
                     db.SaveChanges();
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
                 }
                 return PartialView(takip);
             }
@@ -516,6 +517,47 @@ namespace ik.Controllers
         public ActionResult TekrarliGorevEkle()
         {
             return View();
+        }
+
+        private void takipiptal(Takip takip)
+        {
+            takip.tamamlanma = null;
+            foreach (var tkp in takip.Takip1)
+            {
+                takipiptal(tkp);
+            }
+        }
+
+        /// <summary>
+        /// verilen id sahibi göreve ve ona ait tüm alt görevlerin tamamlanma tarihleri silinerek 
+        /// görev yapılmamış olarak kaydeder
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public JsonResult _TakipTamamlaIptal(int id)
+        {
+            string Message = "";
+            var takip = db.Takips.SingleOrDefault(c => c.id == id);
+            if (takip == null)
+            {
+                Message = "Görev Kaydı bulunamadı";
+            }
+            else
+            {
+                takipiptal(takip);
+                db.SaveChanges();
+                if (takip.tamamlanma != null && takip.Takip1.Any(c => c.tamamlanma != null))
+                {
+                    Message = "Tüm görevler iptal edilemedi";
+                    return Json(new {Success = false, Message = Message}, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    Message = "Tüm görevler iptal edildi";
+                }
+            }
+
+            return Json(new {Success=true,Message=Message}, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -26,6 +26,99 @@ namespace ik.Controllers
             // db.Dispose();
             base.Dispose(disposing);
         }
+        public ActionResult _IzinGirisEkle(int id,string tarih,bool tip)
+        {
+            using (var dv=new ikEntities())
+            {
+                var p = dv.Personels.FirstOrDefault(c => c.id == id);
+                using (
+              db =
+                  new MySqlConnection(
+                      "Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
+                {
+                    var info = new object();
+                    var com = new MySqlCommand("", db);
+
+                    //girişi varmı
+                    //izni varmı
+                    if (db.State != ConnectionState.Open)
+                        db.Open();
+                    com.CommandText =
+                                    String.Format("select * from personel_izin where personel_id={0} and tarih='{1}'",
+                                        p.pdksid, DateTime.Parse(tarih).ToString("yyyy-MM-dd"));
+                    var reader = com.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        return Json(new {Success=true,Mesaj="Belirtilen Tarihe Ait Giriş Kaydı Bulundu"}, JsonRequestBehavior.AllowGet);
+                    }
+                    if (!reader.IsClosed)
+                        reader.Close();
+                    com.CommandText =
+                               string.Format(
+                                   "select * from personel_giriscikis where personel_id={0} and tarih='{1}'", p.pdksid,
+                                   DateTime.Parse(tarih).ToString("yyyy-MM-dd"));
+                    if (!reader.IsClosed)
+                        reader.Close();
+                    reader = com.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        // sb.AppendLine(string.Format("{0} için  {1} tarihinde girişi mevcut", p.adsoyad, tarih));
+                        if (!reader.IsClosed)
+                            reader.Close();
+                        return Json(new { Success = true, Mesaj = "Belirtilen Tarihe Ait İzin Kaydı Bulundu" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    //buradan sonra izin veya giriş yapılacak
+                    if (tip)
+                    {
+                        com.CommandText =
+                            string.Format(
+                                "insert into personel_izin(personel_id,tatil_id,tarih,aciklama) values({0},{1},'{2}','{3}')",
+                                p.pdksid, 5, DateTime.Parse(tarih).ToString("yyyy-MM-dd"),
+                                "COVİD-19 SALGINI KAPSAMINDA ALINAN İDARİ TEDBİR");
+                        if (!reader.IsClosed)
+                            reader.Close();
+                        int result = com.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            return Json(new {Success = true, Mesaj = "Giriş Kaydı Oluşturuldu"},
+                                JsonRequestBehavior.AllowGet);
+                        }
+                        return Json(new {Success = false, Mesaj = "Hata !!!!  Giriş Kaydı Oluşturulamadı"},
+                            JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        if (!reader.IsClosed)
+                            reader.Close();
+                        com.CommandText =
+                            string.Format(
+                                "insert into personel_giriscikis(personel_id,tarih,giris_saat,cikis_saat,elle_giris,giris_kapi,cikis_kapi) " +
+                                "values({0},'{1}','{2}','{3}',{4},{5},{6})", p.pdksid, DateTime.Parse(tarih).ToString("yyyy-MM-dd"),new TimeSpan(08,30,0),new TimeSpan(17,30,0),0,3,3);
+                        int result = com.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            return Json(new { Success = true, Mesaj = "İzin Kaydı Oluşturuldu" },
+                                JsonRequestBehavior.AllowGet);
+                        }
+                        return Json(new { Success = false, Mesaj = "Hata !!!!  İzin Kaydı Oluşturulamadı" },
+                            JsonRequestBehavior.AllowGet);
+                    }
+
+                   
+                }
+            }
+
+           
+
+
+           
+        }
+
+        public ActionResult TopluEksikHareketler()
+        {
+            return View();
+        }
 
         public JsonResult PersonelBilgi(string adsoyad)
         {
@@ -206,8 +299,6 @@ namespace ik.Controllers
 
 
             }
-
-            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EksikHareketler()
@@ -1052,5 +1143,8 @@ namespace ik.Controllers
             public string aciklama { get; set; }
             public string izintip { get; set; }
         }
+
+
+       
     }
 }

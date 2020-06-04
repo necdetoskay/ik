@@ -5,5 +5,180 @@
 }
 
 <h2>Index</h2>
+<style>
+    .uploadphoto {
+        margin: 15px;
+    }
 
-@Html.ActionLink("İşe Giriş Sözleşmesi Oluştur","Sozleşme","İseGirisCikisIslemleri")
+    .nav-tabs {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+        .nav-tabs > li > a {
+            background: #DADADA;
+            border-radius: 0;
+            box-shadow: inset 0 -8px 7px -9px rgba(0,0,0,.4),-2px -2px 5px -2px rgba(0,0,0,.4);
+        }
+
+        .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:hover {
+            background: #F5F5F5;
+            box-shadow: inset 0 0 0 0 rgba(0,0,0,.4),-2px -3px 5px -2px rgba(0,0,0,.4);
+        }
+
+    /* Tab Content */
+    .tab-pane {
+        background: #F5F5F5;
+        box-shadow: 0 0 4px rgba(0,0,0,.4);
+        border-radius: 0;
+        /*text-align: center;*/
+        padding: 10px;
+    }
+</style>
+
+@*@Html.ActionLink("İşe Giriş Sözleşmesi Oluştur","Sozleşme","İseGirisCikisIslemleri")
+    @Html.ActionLink("Çalışma Belgesi","CalismaBelge","Personel",new {Area=""},null)*@
+<div style="margin: 20px" id="selectlist"></div>
+
+<div class="dosyaliste"></div>
+
+<div class="uploadphoto"></div>
+
+<div class="container">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li>
+            <a href="#genelbilgi" role="tab" data-toggle="tab">
+                <i class="fa fa-address-book"></i> Genel Bilgi
+            </a>
+        </li>
+        <li>
+            <a href="#ailefert" role="tab" data-toggle="tab">
+                <i class="fa fa-child"></i> Aile Fertleri
+            </a>
+        </li>
+        <li>
+            <a href="#isegirisevrak" role="tab" data-toggle="tab">
+                <i class="fa fa-briefcase"></i> İşe Giriş Evrakları
+            </a>
+        </li>
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div data-url='@Url.Action("Sicil","Personel",new {Area=""})' data-shown="false" class="tab-pane fade" id="genelbilgi"> </div>
+        <div data-url='@Url.Action("PersonelFertListe", "AileFertleri", new {Area = "OzlukAdmin"})' data-shown="false" class="tab-pane fade" id="ailefert"> </div>
+        <div data-url="@Url.Action("EvraklariHazirla", "IseGirisEvrak", new {Area = "OzlukAdmin"})" data-shown="false" class="tab-pane fade" id="isegirisevrak"> </div>
+
+    </div>
+
+</div>
+@section scripts{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/uploads.js"></script>
+    <script src="~/Scripts/ozlukadmin.js"></script>
+    <script type="text/javascript">
+        $('ul.nav-tabs>li>a').on('click', function () {
+            if ($("#personel option:selected").index() < 1) return;
+            var href = $(this).attr("href");
+            var content = $(href);
+            var url = content.attr("data-url");
+            var shown = content.attr("data-shown");
+            // console.log(shown);
+            if (shown === "false") {
+                content.attr("data-shown", "true");
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    cache: false,
+                    beforeSend: function () {
+                        $(content).html('<img src="/Content/giphy.gif" />');
+                    },
+                    data: { id: $("#personel option:selected").val() },
+                    success: function (result) {
+                        $(content).html(result);
+                    }
+                });
+            }
+        });
+
+        function readytablist() {
+            $('ul.nav-tabs>li').removeClass("active");
+            $('div.tab-pane').attr("data-shown", "false").html("");
+        }
+
+
+
+        function complete(uploadresult, targetimgdiv, resimdiv) {
+            @*var fertid = targetimgdiv.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("AileFertResimEkle")',
+                type: 'GET',
+                data: {
+                    url: uploadresult.DosyaAdi,
+                    fertid: fertid
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        var id = result.ID;
+                        resimdiv.attr('data-id', id);
+                    }
+                }
+            });*@
+
+        }
+        function deleted(targetimgdiv) {
+            @*var dataid = targetimgdiv.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("AileFertdosyasil")',
+                data: {
+                    id: dataid
+                },
+                type: 'GET',
+                success: function (result) {
+                    if (result.Success === true)
+                        targetimgdiv.remove();
+                }
+            });*@
+
+        }
+
+
+        function selectlistchange(result) {
+            readytablist();
+
+            var id = $("#personel option:selected").val();
+
+            $('.uploadphoto').DosyaYukle({
+                kayitklasor: '\\OzlukBilgi\\' + id,/// değişebilir
+                targetimgdiv: 'personelfoto',
+                uploadcomplete: complete,
+                deletecomplete: deleted
+            });
+        }
+
+        $(function () {
+
+
+
+
+
+            readytablist();
+
+            $('#selectlist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                change: function (result) {
+                    selectlistchange(result);
+                }
+            });
+
+        });
+    </script>
+}

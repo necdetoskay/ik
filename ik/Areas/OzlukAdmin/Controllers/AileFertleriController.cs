@@ -13,6 +13,8 @@ using ik.Models;
 
 namespace ik.Areas.OzlukAdmin.Controllers
 {
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class AileFertleriController : Controller
     {
         private ikEntities db = new ikEntities();
@@ -53,7 +55,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
         {
             ViewBag.yakinlikID = new SelectList(db.Ozluk_Enum_Detay, "id", "degerad");
             ViewBag.personelID = new SelectList(db.Personels, "id", "adsoyad");
-            return View();
+            return PartialView();
         }
 
         // POST: OzlukAdmin/AileFertleri/Create
@@ -72,7 +74,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
 
             ViewBag.yakinlikID = new SelectList(db.Ozluk_Enum_Detay, "id", "degerad", ozluk_AileFertleri.yakinlikID);
             ViewBag.personelID = new SelectList(db.Personels, "id", "adsoyad", ozluk_AileFertleri.personelID);
-            return View(ozluk_AileFertleri);
+            return PartialView(ozluk_AileFertleri);
         }
 
         // GET: OzlukAdmin/AileFertleri/Edit/5
@@ -228,7 +230,7 @@ namespace ik.Areas.OzlukAdmin.Controllers
 
         }
 
-        public ActionResult AileFertResimSil(int id)
+        public ActionResult AileFertdosyasil(int id)
         {
             var ferturl = db.Ozluk_AileFertleriUrl.FirstOrDefault(c => c.id == id);
             if (ferturl != null)
@@ -237,17 +239,42 @@ namespace ik.Areas.OzlukAdmin.Controllers
                 try
                 {
                     db.SaveChanges();
-                    return Json(new {Success = true, Message = "Kayıt Silindi."}, JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = true, Message = "Kayıt Silindi." }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception x)
                 {
-                    return Json(new {Success = false, Message = x.Message}, JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = false, Message = x.Message }, JsonRequestBehavior.AllowGet);
                 }
             }
             else
             {
                 return Json(new { Success = false, Message = "Kayıt Bulunamadı" }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        /// <summary>
+        /// id si verilen aileferdinin kaydınız siler
+        /// </summary>
+        /// <param name="id">fert id</param>
+        /// <returns></returns>
+        public ActionResult AileFertSil(int id)
+        {
+            var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == id);
+            foreach (var ferturl in fert.Ozluk_AileFertleriUrl)
+            {
+                var result = IKHelper.Sil(Request, ferturl.Thumb);
+                if (result) Console.WriteLine("thumb silindi");
+                result = IKHelper.Sil(Request, ferturl.url);
+                if (result) Console.WriteLine("url silindi");
+            }
+            db.Ozluk_AileFertleri.Remove(fert);
+            db.SaveChanges();
+            //fert sil
+            //ferte bağlı url kayıtlarını sil
+            //fert url ye bağlı dosyaları sil
+            //hepsi silindiyse tr sil
+            return Json(new {Success=true}, JsonRequestBehavior.AllowGet);
+          
         }
     }
 }

@@ -45,7 +45,7 @@ namespace ik.Controllers
         {
             var isler = new[]
             {
-               new MaasIsKontrolVM { IsAdi = "Rapor Kontrolleri",Url = @Url.Action("_RaporKontrol")},
+              // new MaasIsKontrolVM { IsAdi = "Rapor Kontrolleri",Url = @Url.Action("_RaporKontrol")},
                //new MaasIsKontrolVM { IsAdi = "Sgk Günleri"},
                new MaasIsKontrolVM { IsAdi = "Yemek Paraları",Url = @Url.Action("_SGKGunYemek")},
                new MaasIsKontrolVM { IsAdi = "Avanslar",Url = @Url.Action("_MikroIkAvans")},
@@ -115,7 +115,7 @@ namespace ik.Controllers
                         }).ToList();
 
 
-                huzurlar.ForEach(c => c.Tutar = kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod) == null ? 0 : kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm26.Value);
+                huzurlar.ForEach(c => c.Tutar = kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod) == null ? 0 : kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm30.Value+ kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm26.Value);
 
 
 
@@ -154,7 +154,7 @@ namespace ik.Controllers
             //mikro karşılığı varmı
             var mikromesai = (from pt in kent.PERSONEL_TAHAKKUKLARI
                               join p in kent.PERSONELLERs on pt.pt_pkod equals p.per_kod
-                              where pt.pt_maliyil == yıl & pt.pt_tah_ay == ay & pt.pt_ekkazanc2_tksaat.Value > 0
+                              where pt.pt_maliyil == yıl & pt.pt_tah_ay == ay & (pt.pt_ekkazanc2_tksaat.Value > 0 || pt.pt_ekkazanc1_tksaat.Value > 0)
                               select new
                               {
                                   Guid = p.per_Guid,
@@ -205,7 +205,7 @@ namespace ik.Controllers
             var now = DateTime.Now;
             //rapor tarih aralığını seç
             var start = new DateTime(now.Year, ay, 1).AddDays(-1);
-            var fin = start.AddMonths(1).AddDays(-1);
+            var fin = new DateTime(now.Year, ay, 1).AddMonths(1).AddDays(-1);
             //var fin = new DateTime(now.Year, ay + 1, 1).AddDays(-1);
 
 
@@ -282,7 +282,7 @@ namespace ik.Controllers
                     if (pt != null)
                     {
                         c.MikroIcra = (decimal) pt.pt_ozksnt3.Value;
-                        var hesap = Math.Round(((pt.pt_net - pt.pt_asgarigecimindirimi + pt.pt_ozksnt5 + pt.pt_otobes_tutari +
+                        var hesap = Math.Round(((pt.pt_net - pt.pt_asgarigecimindirimi + pt.pt_ozksnt5 + pt.pt_otobes_tutari + pt.pt_ozksnt12 +
                                                  pt.pt_ozksnt3.Value)/4).Value,2);
                         c.IcraHesaplanan = (decimal)hesap;
                     }

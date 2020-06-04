@@ -1,0 +1,380 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.Takip>
+@{
+    var sınıf = "";
+}
+<style>
+    table.treetable tbody tr td {
+        font-size: 16px;
+    }
+
+    .yesil {
+        background-color: yellowgreen;
+    }
+
+    /*.table > tr {border: 1px solid; }*/
+</style>
+<h2>@Model.FirstOrDefault().Takip2.aciklama  işlemleri</h2>
+@Html.Hidden("id", Model.FirstOrDefault().parentid)
+
+@helper islemyap(ik.Models.Takip item)
+{
+    <span>
+        <a class="sil" data-id="@item.id" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+    </span>
+    <div style="display:-webkit-inline-box;" class="ekle" data-parent-id="@item.id"> </div>
+}
+
+<h2>Index</h2>
+
+
+<p>
+
+    <div data-parent-id="@ViewBag.parentID" id="ekle"></div>
+    <button data-parent-id="@ViewBag.parentID" class="pull-right btn btn-primary" id="gorevtamamla">Tamamla</button>
+    <button data-parent-id="@ViewBag.parentID" class="pull-right btn btn-primary" id="gorevsil">Görevi Sil</button>
+</p>
+@helper AddRow(Takip item)
+{
+    <tr data-id="@item.id" class="@(item.tamamlanma!=null?"yesil":"")" data-tt-id="@item.id" data-tt-parent-id="@(item.Takip2!=null?item.Takip2.id:0)">
+        <td>@Html.DisplayFor(modelItem => item.aciklama)</td>
+        <td class="pull-right">@islemyap(item) <a class="tamamla" href="javascript:void(0);"><span class="glyphicon @(item.tamamlanma!=null?"bob glyphicon-remove":"notbob glyphicon-ok")"></span></a></td>
+    </tr>
+    if (item.Takip1.Any())
+    {
+        foreach (var sub in item.Takip1.OrderBy(c => c.sira))
+        {
+                @AddRow(sub)
+        }
+    }
+}
+
+<table id="example-basic-expandable" class="treetable table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.aciklama)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.OrderBy(c => c.id))
+    {
+        @AddRow(item)
+    }
+
+</table>
+
+@section scripts{
+    <link href="~/Content/jquery.treetable.css" rel="stylesheet" />
+    <link href="~/Content/jquery.treetable.theme.default.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.treetable.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/DialogForm.js"></script>
+    <script type="text/javascript">
+        var ID = function () {
+            return '_' + Math.random().toString(36).substr(2, 9);
+        };
+        $(function () {
+
+
+            $('#gorevtamamla').on("click", function () {
+                var btn = $(this);
+                var id = btn.attr('data-parent-id');
+                BootstrapDialog.confirm({
+                    title: 'Görevi Tamamla',
+                    message: 'Bu görev alt görevleri ile birlikte tamamlansın mı?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Tamamla', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        if (result) {
+                            //silme işlemi yap
+                            $.ajax({
+                                url: '@Url.Action("GorevTamamla")' + '/?id=' + id,
+                                type: 'GET',
+                                data: {
+                                    'parentid': id
+                                }, success: function (result) {
+                                    if (result.Success === true) {
+                                        window.location.replace('@Url.Action("Index","Home")');
+
+                                        //var node = $("#example-basic-expandable").treetable("removeNode", result.data.id);
+                                    } else {
+                                        console.log("tamamlama başarısız");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+            //tüm listeyi kontrol et
+            //parentid si
+
+            $('#gorevsil').on('click', function () {
+                var btn = $(this);
+                var id = btn.attr('data-parent-id');
+                console.log(id);
+                BootstrapDialog.confirm({
+                    title: 'Kayıt Sil',
+                    message: 'Bu kayıt ve varsa alt tüm kayıtlar silinsin mi?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Sil', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        if (result) {
+                            //silme işlemi yap
+                            $.ajax({
+                                url: '@Url.Action("GorevSil")' + '/?id=' + id,
+                                type: 'GET',
+                                data: {
+                                    'parentid': id
+                                }, success: function (result) {
+                                    if (result.Success === true) {
+                                        //var node = $("#example-basic-expandable").treetable("removeNode", result.data.id);
+                                    } else {
+                                        console.log("iptal başarısız");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+
+
+            $("tr").not(':first').hover(function () {
+                if ($(this).hasClass("yesil")) {
+
+                } else {
+                    $(this).css("background", "yellow");
+                }
+
+            }, function () {
+                $(this).css("background", "");
+            });
+
+            var tamamla = function (btn) {
+                var id = btn.closest('tr').attr("data-id");
+                btn.on('click', function () {
+                    BootstrapDialog.confirm({
+                        title: 'Tamamla',
+                        message: 'Seçilen Kayıt ve varsa Tüm alt kayıtlar tamamlansın mı?',
+                        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                        closable: true, // <-- Default value is false
+                        draggable: true, // <-- Default value is false
+                        btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                        btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
+                        btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                        callback: function (result) {
+                            // result will be true if button was click, while it will be false if users close the dialog directly.
+                            console.log(id);
+                            if (result) {
+                                $.ajax({
+                                    url: '@Url.Action("_Tamamla")',
+                                    type: 'GET',
+                                    data: {
+                                        id: id
+                                    },
+                                    success: function (sonuc) {
+                                        if (sonuc === true)
+                                            console.log(btn);
+
+                                        btn.closest('tr').addClass("yesil");
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+
+
+
+
+
+
+
+            var sil = function (btn) {
+                var id = btn.attr("data-id");
+                btn.on('click', function () {
+                    BootstrapDialog.confirm({
+                        title: 'Kayıt Sil',
+                        message: 'Bu kayıt ve varsa alt tüm kayıtlar silinsin mi?',
+                        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                        closable: true, // <-- Default value is false
+                        draggable: true, // <-- Default value is false
+                        btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                        btnOKLabel: 'Sil', // <-- Default value is 'OK',
+                        btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                        callback: function (result) {
+                            if (result) {
+                                //silme işlemi yap
+                                $.ajax({
+                                    url: '@Url.Action("GorevSil")' + '/?id=' + id,
+                                    type: 'GET',
+                                    data: {
+                                        'parentid': id
+                                    }, success: function (result) {
+                                        if (result.Success === true) {
+                                            var node = $("#example-basic-expandable").treetable("removeNode", result.data.id);
+                                        } else {
+                                            console.log("iptal başarısız");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+
+            var ekle = function (btn) {
+                var id = ID();
+                var parentid = btn.attr("data-parent-id");
+                btn.attr("id", id);
+                $('#' + id).MakeDialogForm({
+                    id: 'btnyarimekle',
+                    text: '<span class="glyphicon glyphicon-plus"></span>',
+                    url: '@Url.Action("AltCreate")' + '/?parentid=' + parentid,
+                    title: 'Görev Ekle',
+                    updateurl: '', @*'@Url.Action("Index")',*@
+                    bclass: '',
+                    targetid: 'empty',
+                    width: "500",
+                    height: "200",
+                    complete: function (data) {
+
+                        var node = $("#example-basic-expandable").treetable("node", data.parentid);
+                        var nod = $('<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '" >' +
+                                "<td> " + data.ad + '</td><td  class="pull-right"><a class="sil yenisil" data-id="' + data.id + '" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
+                            '<div style="display:-webkit-inline-box;" class="ekle yeniekle" data-parent-id="' + data.id + '"></div><a class="tamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a></td>' +
+                           '</tr>');
+                        console.log(nod);
+                        $("#example-basic-expandable").treetable("loadBranch", node, nod);
+
+
+                        var yeni = $('.yeniekle');
+                        ekle(yeni);
+                        yeni.removeClass("yeniekle");
+                        var ys = $('.yenisil');
+                        sil(ys);
+                        ys.removeClass(".yenisil");
+                        //var node = btn.closest("tr").attr("data-tt-id");
+                    }
+                });
+            }
+
+
+
+            var createrow = function (data) {
+                console.log(data);
+
+                var node = $("#example-basic-expandable").treetable("node", data.parentid);
+                var nod = $('<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '" >' +
+                        "<td> " + data.ad + '</td><td  class="pull-right"><a class="sil yenisil" data-id="' + data.id + '" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
+                    '<div style="display:-webkit-inline-box;" class="ekle yeniekle" data-parent-id="' + data.id + '"></div><a class="tamamla yenitamamla" href="javascript:void(0);"><span class="glyphicon glyphicon-ok"></span></a></td>' +
+                   '</tr>');
+
+                $("#example-basic-expandable").treetable("loadBranch", node, nod);
+
+
+                var yeni = $('.yeniekle');
+                ekle(yeni);
+                yeni.removeClass("yeniekle");
+                var ys = $('.yenisil');
+                sil(ys);
+                ys.removeClass(".yenisil");
+                var yt = $('.yenitamamla');
+                tamamla(yt);
+                yt.removeClass('.yenitamamla');
+                return;
+
+                //var node = $("#example-basic-expandable").treetable("node", data.parentid);
+                //$("#example-basic-expandable").treetable("loadBranch", node,
+                //'<tr data-tt-id="' + data.id + '" data-tt-parent-id="' + data.parentid + '"><td>' + data.ad + '</td><td class="pull-right">' +
+
+                //'<a class="sil yenisil" href="#"><span class="glyphicon glyphicon-trash"></span></a>' +
+                //'<a style="display:-webkit-inline-box;"  class="ekle yeniekle" data-parent-id="' + data.parentid + '"> </a>' +
+                //'</td></tr>');
+                //var yeni = $('.yeniekle');
+                //ekle(yeni);
+                //yeni.removeClass("yeniekle");
+                //var ys = $('.yenisil');
+                //sil(ys);
+                //ys.removeClass(".yenisil");
+            }
+
+
+            $('#ekle').MakeDialogForm({
+                id: 'btnyarimekle',
+                text: 'Yeni Görev Ekle',
+                url: '@Url.Action("AltCreate")' + '/?parentid=' + $('#id').val(),
+                title: 'Görev Ekle',
+                updateurl: '' @*'@Url.Action("Index")'*@,
+                bclass: 'btn btn-info',
+                targetid: 'empty',
+                width: "500",
+                height: "200",
+                complete: function (data) {
+                    createrow(data);
+
+
+                }
+            });
+
+            $('.ekle').each(function () {
+                var btn = $(this);
+                ekle(btn);
+            });
+
+            $('.sil').each(function () {
+                var silbtn = $(this);
+                sil(silbtn);
+            });
+
+            //$('.tamamla').each(function () {
+            //    var tamambtn = $(this);
+            //    tamamla(tamambtn);
+            //});
+
+            function goreviptal(bob) {
+                BootstrapDialog.confirm({
+                    title: 'Kayıt Sil',
+                    message: 'Bu kayıt ve varsa alt tüm kayıtlar iptal edilsin mi?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Görev İptal', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        if (result) {
+                            //silme işlemi yap
+                          
+                        }
+                    }
+                });
+            }
+            $('.bob').each(function() {
+                var bob = $(this);
+                bob.on('click', function() {
+                    goreviptal(bob);
+                });
+
+            });
+
+            $("#example-basic-expandable").treetable({ expandable: true });
+            //$("#example-basic-expandable").treetable("expandAll");
+        });
+    </script>
+}

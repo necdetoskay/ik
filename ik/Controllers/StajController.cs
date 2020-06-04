@@ -196,7 +196,7 @@ namespace ik.Controllers
 
                     success++;
                 }
-                catch (Exception x)
+                catch
                 {
 
                 }

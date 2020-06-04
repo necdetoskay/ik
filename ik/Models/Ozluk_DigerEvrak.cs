@@ -12,18 +12,14 @@ namespace ik.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EtiketTanim
+    public partial class Ozluk_DigerEvrak
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EtiketTanim()
-        {
-            this.PersonelEtikets = new HashSet<PersonelEtiket>();
-        }
-    
         public int id { get; set; }
-        public string ad { get; set; }
+        public string evrakadi { get; set; }
+        public string aciklama { get; set; }
+        public string url { get; set; }
+        public int personelid { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonelEtiket> PersonelEtikets { get; set; }
+        public virtual Personel Personel { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace ik.Models
         public int izintip { get; set; }
         public string aciklama { get; set; }
         public int gun { get; set; }
+        public string not { get; set; }
     
         public virtual IzinTip IzinTip1 { get; set; }
         public virtual Personel Personel { get; set; }

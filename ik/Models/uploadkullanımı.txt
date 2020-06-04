@@ -4,7 +4,7 @@
         function deleted(targetimgdiv) {
             var dataid = targetimgdiv.attr("data-id");
             $.ajax({
-                url: '@Url.Action("AileFertResimSil")',
+                url: '@Url.Action("AileFertdosyasil")',
                 data: {
                     id: dataid
                 },
@@ -48,7 +48,7 @@
             uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',///standart dosya uplaod işlemleri
             deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})',///standart yüklenen dosyayı silme işlemleri
             kayitklasor: '\\IseGirisEvraklar\\' + pid,/// değişebilir
-            targetimgdiv: 'imglist',
+            targetimgdiv: 'dosyaliste',
             uploadcomplete: complete,
             deletecomplete: deleted
 

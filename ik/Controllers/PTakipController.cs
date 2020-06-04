@@ -125,7 +125,7 @@ namespace ik.Controllers
 
 
 
-            return Json(eksikler.OrderByDescending(c=>c.tarih), JsonRequestBehavior.AllowGet);
+            return Json(eksikler.OrderByDescending(c=>DateTime.Parse(c.tarih)), JsonRequestBehavior.AllowGet);
         }
 
 

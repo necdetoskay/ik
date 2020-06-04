@@ -11,6 +11,8 @@ using ik.Models;
 
 namespace ik.Areas.OzlukAdmin.Controllers
 {
+    [FilterConfig.CustomActionFilter]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class IseGirisGerekEvrakTipController : Controller
     {
         private ikEntities db = new ikEntities();

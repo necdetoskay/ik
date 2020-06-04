@@ -56,8 +56,12 @@ var imzalisteKaydet = function(url) {
                 liste: select.val(),
                 ad: grupad
             },
-            success:function(result) {
-                
+            success: function (result) {
+                console.table(result);
+                if (result.redirect !== undefined && result.redirect) {
+                   
+                    window.location.href = result.redirecturl;
+                }
             }
         });
     });
