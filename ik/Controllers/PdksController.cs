@@ -26,9 +26,9 @@ namespace ik.Controllers
             // db.Dispose();
             base.Dispose(disposing);
         }
-        public ActionResult _IzinGirisEkle(int id,string tarih,bool tip)
+        public ActionResult _IzinGirisEkle(int id, string tarih, bool tip)
         {
-            using (var dv=new ikEntities())
+            using (var dv = new ikEntities())
             {
                 var p = dv.Personels.FirstOrDefault(c => c.id == id);
                 using (
@@ -49,7 +49,7 @@ namespace ik.Controllers
                     var reader = com.ExecuteReader();
                     if (reader.HasRows)
                     {
-                        return Json(new {Success=true,Mesaj="Belirtilen Tarihe Ait Giriş Kaydı Bulundu"}, JsonRequestBehavior.AllowGet);
+                        return Json(new { Success = true, Mesaj = "Belirtilen Tarihe Ait Giriş Kaydı Bulundu" }, JsonRequestBehavior.AllowGet);
                     }
                     if (!reader.IsClosed)
                         reader.Close();
@@ -81,10 +81,10 @@ namespace ik.Controllers
                         int result = com.ExecuteNonQuery();
                         if (result > 0)
                         {
-                            return Json(new {Success = true, Mesaj = "Giriş Kaydı Oluşturuldu"},
+                            return Json(new { Success = true, Mesaj = "Giriş Kaydı Oluşturuldu" },
                                 JsonRequestBehavior.AllowGet);
                         }
-                        return Json(new {Success = false, Mesaj = "Hata !!!!  Giriş Kaydı Oluşturulamadı"},
+                        return Json(new { Success = false, Mesaj = "Hata !!!!  Giriş Kaydı Oluşturulamadı" },
                             JsonRequestBehavior.AllowGet);
                     }
                     else
@@ -94,7 +94,7 @@ namespace ik.Controllers
                         com.CommandText =
                             string.Format(
                                 "insert into personel_giriscikis(personel_id,tarih,giris_saat,cikis_saat,elle_giris,giris_kapi,cikis_kapi) " +
-                                "values({0},'{1}','{2}','{3}',{4},{5},{6})", p.pdksid, DateTime.Parse(tarih).ToString("yyyy-MM-dd"),new TimeSpan(08,30,0),new TimeSpan(17,30,0),0,3,3);
+                                "values({0},'{1}','{2}','{3}',{4},{5},{6})", p.pdksid, DateTime.Parse(tarih).ToString("yyyy-MM-dd"), new TimeSpan(08, 30, 0), new TimeSpan(17, 30, 0), 0, 3, 3);
                         int result = com.ExecuteNonQuery();
                         if (result > 0)
                         {
@@ -105,14 +105,14 @@ namespace ik.Controllers
                             JsonRequestBehavior.AllowGet);
                     }
 
-                   
+
                 }
             }
 
-           
 
 
-           
+
+
         }
 
         public ActionResult TopluEksikHareketler()
@@ -179,7 +179,7 @@ namespace ik.Controllers
                             "select count(*) from personel_izin where personel_id={2} and tatil_id=6 and  tarih>='{0}' and tarih<='{1}'",
                             izin.baslangictarih.ToString("yyyy-MM-dd"), izin.bitistarihi.ToString("yyyy-MM-dd"),
                             personel.pdksid);
-                    var reader = (int) com.ExecuteScalar();
+                    var reader = (int)com.ExecuteScalar();
                     if (reader > 0)
                     {
                         izin.Mevcut = true;
@@ -221,7 +221,7 @@ namespace ik.Controllers
                         com.CommandText =
                             string.Format("select count(*) from personel_izin where personel_id={0} and tarih='{1}'",
                                 personel.pdksid, t1.ToString("yyyy-MM-dd"));
-                        int result = (int) com.ExecuteScalar();
+                        int result = (int)com.ExecuteScalar();
                         if (result > 0) continue;
                         com.CommandText =
                             string.Format(
@@ -231,18 +231,18 @@ namespace ik.Controllers
                         //izin varmı
                         //yoksa resmi tatilmi
                         //yoksa insert
-                        toplamgun += (int) com.ExecuteNonQuery();
+                        toplamgun += (int)com.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        return Json(new {Success = false}, JsonRequestBehavior.AllowGet);
+                        return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
                     }
 
                 }
                 db.Close();
             }
-            return Json(new {Success = true, izinid}, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, izinid }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -271,7 +271,7 @@ namespace ik.Controllers
                                 string.Format(
                                     "select count(*) from personel_izin where personel_id={0} and tarih='{1}'",
                                     personel.pdksid, t1.ToString("yyyy-MM-dd"));
-                            int result = (int) com.ExecuteScalar();
+                            int result = (int)com.ExecuteScalar();
                             if (result > 0) continue;
                             com.CommandText =
                                 string.Format(
@@ -284,13 +284,13 @@ namespace ik.Controllers
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
-                            return Json(new {Success = false}, JsonRequestBehavior.AllowGet);
+                            return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
                         }
 
                     }
                     db.Close();
                 }
-                return Json(new {Success = true, PersonelID = personel.id, Arac = personel.PersonelDetay.sirketarac},
+                return Json(new { Success = true, PersonelID = personel.id, Arac = personel.PersonelDetay.sirketarac },
                     JsonRequestBehavior.AllowGet);
 
 
@@ -337,7 +337,7 @@ namespace ik.Controllers
                         var res = com.ExecuteNonQuery();
                         if (res > 0)
                         {
-                            liste.Add(new {dateid});
+                            liste.Add(new { dateid });
                         }
 
 
@@ -406,7 +406,7 @@ namespace ik.Controllers
                         var res = com.ExecuteNonQuery();
                         if (res > 0)
                         {
-                            liste.Add(new {dateid});
+                            liste.Add(new { dateid });
                         }
                     }
                     catch (Exception x)
@@ -454,7 +454,7 @@ namespace ik.Controllers
                         Çıkış = c.Cikis.ToString(@"hh\:mm")
                     }).ToList();
 
-            return Json(new {Success = true, Data = liste}, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, Data = liste }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult IzinveRaporlar(int ikID)
@@ -482,12 +482,12 @@ namespace ik.Controllers
                 while (reader.Read())
                 {
 
-                    var ad = (string) reader["adsoyad"];
+                    var ad = (string)reader["adsoyad"];
                     var trh = DateTime.Parse(reader["tarih"].ToString());
-                    var gdsst = (TimeSpan) reader["gidis_saat"];
-                    var glsst = (TimeSpan) reader["gelis_saat"];
-                    var acklm = (string) reader["aciklama"];
-                    var iztp = (string) reader["izintip"];
+                    var gdsst = (TimeSpan)reader["gidis_saat"];
+                    var glsst = (TimeSpan)reader["gelis_saat"];
+                    var acklm = (string)reader["aciklama"];
+                    var iztp = (string)reader["izintip"];
 
                     izinler.Add(new pdksizinrapor
                     {
@@ -523,7 +523,7 @@ namespace ik.Controllers
                                 ? ""
                                 : c.LastOrDefault().gelis_saat.ToString())
                     });
-                    return Json(new {Success = true, Data = liste}, JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = true, Data = liste }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)
                 {
@@ -535,7 +535,7 @@ namespace ik.Controllers
             }
 
 
-            return Json(new {Success = false}, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MazeretEkle()
@@ -577,12 +577,12 @@ namespace ik.Controllers
                 while (reader.Read())
                 {
 
-                    var ad = (string) reader["adsoyad"];
+                    var ad = (string)reader["adsoyad"];
                     var trh = DateTime.Parse(reader["tarih"].ToString());
-                    var gdsst = (TimeSpan) reader["gidis_saat"];
-                    var glsst = (TimeSpan) reader["gelis_saat"];
-                    var acklm = (string) reader["aciklama"];
-                    var iztp = (string) reader["izintip"];
+                    var gdsst = (TimeSpan)reader["gidis_saat"];
+                    var glsst = (TimeSpan)reader["gelis_saat"];
+                    var acklm = (string)reader["aciklama"];
+                    var iztp = (string)reader["izintip"];
 
                     izinler.Add(new pdksizinrapor
                     {
@@ -711,7 +711,7 @@ namespace ik.Controllers
                             int fark = 0;
                             if (f.Hours > 0)
                             {
-                                fark += f.Hours*60;
+                                fark += f.Hours * 60;
                                 fark += f.Minutes;
                                 gec.Fark = fark;
                                 gecvm.Add(gec);
@@ -774,7 +774,7 @@ namespace ik.Controllers
                         {
                             pgc.Add(new PDKSGirisCikis
                             {
-                                personelID = (int) (uint) reader["personel_id"],
+                                personelID = (int)(uint)reader["personel_id"],
                                 tarih = DateTime.Parse(reader["tarih"].ToString()),
                                 giris = reader["giris_saat"],
                                 cikis = reader["cikis_saat"]
@@ -800,12 +800,12 @@ namespace ik.Controllers
                         {
                             pm.Add(new PDKSMazeret
                             {
-                                personelID = (int) (uint) reader["personel_id"],
+                                personelID = (int)(uint)reader["personel_id"],
                                 tarih = DateTime.Parse(reader["tarih"].ToString()),
                                 giris = reader["gidis_saat"],
                                 cikis = reader["gelis_saat"],
-                                saatlik = (byte) reader["saatlik"],
-                                aciklama = (string) reader["aciklama"],
+                                saatlik = (byte)reader["saatlik"],
+                                aciklama = (string)reader["aciklama"],
                                 tatilID = int.Parse(reader["tatil_id"].ToString())
 
                             });
@@ -868,7 +868,7 @@ namespace ik.Controllers
                             {
                                 foreach (var m in mzrt)
                                 {
-                                    if (((TimeSpan) m.giris) == new TimeSpan(8, 30, 0)) //sabah mazaret var
+                                    if (((TimeSpan)m.giris) == new TimeSpan(8, 30, 0)) //sabah mazaret var
                                     {
                                         gun.girisler.Add(new PDKSGirisCikis
                                         {
@@ -877,7 +877,7 @@ namespace ik.Controllers
                                             giris = new TimeSpan(8, 30, 0)
                                         });
                                     }
-                                    if (((TimeSpan) m.cikis) == new TimeSpan(17, 30, 0)) //çıkışta mazaret var
+                                    if (((TimeSpan)m.cikis) == new TimeSpan(17, 30, 0)) //çıkışta mazaret var
                                     {
                                         gun.girisler.Add(new PDKSGirisCikis
                                         {
@@ -945,9 +945,9 @@ namespace ik.Controllers
                         foreach (var mes in g.girisler)
                         {
                             if (mes.giris != System.DBNull.Value)
-                                g.hareketler.Add((TimeSpan) mes.giris);
+                                g.hareketler.Add((TimeSpan)mes.giris);
                             if (mes.cikis != System.DBNull.Value)
-                                g.hareketler.Add((TimeSpan) mes.cikis);
+                                g.hareketler.Add((TimeSpan)mes.cikis);
 
                         }
 
@@ -967,7 +967,7 @@ namespace ik.Controllers
                         try
                         {
                             if (g.Cikis != null || g.Giris != null)
-                                g.fm = (int) ((TimeSpan) g.Cikis).Subtract((TimeSpan) g.Giris).TotalMinutes;
+                                g.fm = (int)((TimeSpan)g.Cikis).Subtract((TimeSpan)g.Giris).TotalMinutes;
                         }
                         catch (Exception fm)
                         {
@@ -1066,7 +1066,7 @@ namespace ik.Controllers
                     }
                     db.Close();
                 }
-                return Json(new {Success = true, Data = sb.ToString()}, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, Data = sb.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1144,7 +1144,29 @@ namespace ik.Controllers
             public string izintip { get; set; }
         }
 
-
-       
+        [HttpPost]
+        public ActionResult IzinSil(int pdksid, string tarih1, string tarih2)
+        {
+            var date1 = DateTime.Parse(tarih1);
+            var date2 = DateTime.Parse(tarih2);
+            int record = 0;
+            using (db = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
+            {
+                var com = new MySqlCommand("", db);
+                com.CommandText =
+                    string.Format(
+                        "select * from personel_izin where personel_id={0} and tarih>='{1}' and tarih<='{2}'", pdksid, date1.ToString("yyyy-MM-dd"), date2.ToString("yyyy-MM-dd"));
+                db.Open();
+                MySqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    record++;
+                    Console.WriteLine(reader["id"]);
+                }
+                reader.Close();
+            }
+            db.Close();
+            return Json(new {Success=record>0}, JsonRequestBehavior.AllowGet);
+        }
     }
 }

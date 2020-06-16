@@ -12,7 +12,7 @@
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
-                    alert("post başarılı");
+                    console.log("post başarılı");
                     if (result.Success === true) {
                      
                         complete(result);
@@ -89,15 +89,17 @@
                 data: {},
                 buttonClass: 'btn btn-primary',
                 buttonText: 'Yeni Ekle',
-                complete: function (result) { }
+                complete: function (result) { },
+                beforeshown: function (settings) {}
                 //deleteurl: '',
                 //kayitklasor: '',
                 //targetimgdiv: '',
                 //uploadcomplete: function () { console.log('dialog tamamlandı') },
                 //deleted: function () { console.log('silindi') }
             }, options);
-
-            console.log(settings);
+            if ($.isFunction(settings.beforeshown))
+                settings.beforeshown(settings);
+            //console.log(settings);
             formyukle($(this), settings);
 
         });

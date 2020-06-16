@@ -100,7 +100,7 @@ namespace ik.Controllers
         {
             if (personelid == 2406)
             {
-                
+
             }
             var personel = db.Personels.SingleOrDefault(c => c.id == personelid);
 
@@ -108,7 +108,7 @@ namespace ik.Controllers
 
 
 
-            
+
             var kidem = new List<Kidem>();
             var kidembaslangic = personel.giristarihi.Value;
             var kidembitis = personel.giristarihi.Value;
@@ -117,7 +117,7 @@ namespace ik.Controllers
             if (personel.PersonelDevir != null)
             {
 
-                kidembaslangic=new DateTime(personel.giristarihi.Value.Year-1, personel.PersonelDevir.kidemTarih.Month,personel.PersonelDevir.kidemTarih.Day);
+                kidembaslangic = new DateTime(personel.giristarihi.Value.Year - 1, personel.PersonelDevir.kidemTarih.Month, personel.PersonelDevir.kidemTarih.Day);
                 if (kidembaslangic.AddYears(1) <= personel.giristarihi.Value)
                 {
                     kidembaslangic = kidembaslangic.AddYears(1);
@@ -125,7 +125,7 @@ namespace ik.Controllers
                 //kıdem başlangıç gün ay geçen yıl
                 //kıdem bitiş gun ay bu yil
                 kidembitis = kidembaslangic;
-                kidemyil = personel.giristarihi.Value.Year- personel.PersonelDevir.kidemTarih.Year;
+                kidemyil = personel.giristarihi.Value.Year - personel.PersonelDevir.kidemTarih.Year;
                 var hakedilen = personel.PersonelDevir.izinDevir;
                 var kullanılan = personel.Izins.Where(c => c.yil == kidembaslangic.Year).Sum(c => c.gun);
                 //kidemyil = kidembitis.Year - personel.PersonelDevir.kidemTarih.Year;
@@ -158,7 +158,7 @@ namespace ik.Controllers
                     }
                 }
 
-          
+
                 var yas = kidembitis.Year - personel.dogumtarihi.Value.Year;
                 var hakedilen = 0;
                 var kullanılan = 0;
@@ -189,7 +189,7 @@ namespace ik.Controllers
                 kidemyil++;
             }
 
-            
+
 
             var ceptel = "";
             var kıdem = "";
@@ -198,16 +198,16 @@ namespace ik.Controllers
                 try
                 {
                     var pers = kent.PERSONELLERs.SingleOrDefault(c => c.per_Guid == personel.mikroid);
-               
-                ceptel = pers.per_tel_cepno;
-                kıdem = pers.per_Kidem_Tarih.Value==new DateTime(1899,12,31)?pers.per_giris_tar.Value.ToShortDateString() : pers.per_Kidem_Tarih.Value.ToShortDateString();
+
+                    ceptel = pers.per_tel_cepno;
+                    kıdem = pers.per_Kidem_Tarih.Value == new DateTime(1899, 12, 31) ? pers.per_giris_tar.Value.ToShortDateString() : pers.per_Kidem_Tarih.Value.ToShortDateString();
                 }
                 catch (Exception XX)
                 {
                     throw;
                 }
             }
-            return Json(new { Data = kidem, Kıdem=kıdem, Sicil = personel.sicilno + '-' + ceptel }, JsonRequestBehavior.AllowGet);
+            return Json(new { Data = kidem, Kıdem = kıdem, Sicil = personel.sicilno + '-' + ceptel }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()
@@ -292,7 +292,8 @@ namespace ik.Controllers
         }
 
         public JsonResult MikrodanPdksGir(Guid mikroid, int pdksid)
-        {using (KENTEntities ke = new KENTEntities())
+        {
+            using (KENTEntities ke = new KENTEntities())
             {
 
                 var mikro = ke.PERSONEL_IZINLERI.SingleOrDefault(c => c.pz_Guid == mikroid);
@@ -386,14 +387,16 @@ namespace ik.Controllers
         /// <returns>izin detay tablosu partial view olarak</returns>
         public ActionResult _PersonelIzinYilDetay(int id, int yil)
         {
-            var izinler = db.Izins.Where(c => c.personelid == id && c.yil == yil).Select(c => new PersonelIzinYilDetayVM
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            var izinler = personel.Izins.Where(c => c.yil == yil).Select(c => new PersonelIzinYilDetayVM
             {
                 id = c.id,
                 Başlangıç = c.baslangictarih,
                 Bitiş = c.bitistarihi,
                 Gün = c.gun
             });
-
+            ViewBag.PDKSID =personel.pdksid;
+            ViewBag.ID = id;
             return PartialView(izinler.ToList());
         }
 
@@ -515,7 +518,8 @@ namespace ik.Controllers
             {
                 izin = new YarimIzinEkleVM
                 {
-                    personelID = id
+                    personelID = id,
+                    tarih = DateTime.Now
                 };
             }
             else
@@ -557,8 +561,8 @@ namespace ik.Controllers
                     db.Yizins.Add(yi);
                     db.SaveChanges();
                     YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
-                    var result = new {success = true, console = "_YarimIzinEkle"};
-                   return Json(result);
+                    var result = new { success = true, console = "_YarimIzinEkle" };
+                    return Json(result);
                 }
                 else
                 {
@@ -577,17 +581,17 @@ namespace ik.Controllers
 
                     //YarimizniPdksMazeretGir(personel.pdksid.Value,izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                     //pdks ye yarım izni mazeret izni olarak gir
-                    return Json(new { success = true,  console = "_YarimIzinEkle" });
+                    return Json(new { success = true, console = "_YarimIzinEkle" });
                 }
             }
             catch (Exception x)
             {
-                return Json(new { success = false },JsonRequestBehavior.AllowGet);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
 
         }
 
-        private void YarimizniPdksMazeretGir(int pdksid,DateTime tarih,TimeSpan gidis,TimeSpan gelis,int izinyil)
+        private void YarimizniPdksMazeretGir(int pdksid, DateTime tarih, TimeSpan gidis, TimeSpan gelis, int izinyil)
         {
             using (var db = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
             {
@@ -596,10 +600,10 @@ namespace ik.Controllers
                     db.Open();
                 com.CommandText = string.Format(
                    "insert into personel_izin (personel_id,tatil_id,tarih,gidis_saat,gelis_saat,saatlik,aciklama,otoizin)" +
-                    " values({0},{1},'{2}','{3}','{4}',{5},'{6}',{7})", pdksid,9,tarih.ToString("yyyy-M-d"),gidis,gelis,1,string.Format("{0} IZNINDEN YARIM GUN",izinyil),0);
-               var reader = com.ExecuteNonQuery();
+                    " values({0},{1},'{2}','{3}','{4}',{5},'{6}',{7})", pdksid, 9, tarih.ToString("yyyy-M-d"), gidis, gelis, 1, string.Format("{0} IZNINDEN YARIM GUN", izinyil), 0);
+                var reader = com.ExecuteNonQuery();
                 db.Close();
-               
+
             }
         }
 
@@ -636,6 +640,12 @@ namespace ik.Controllers
         public ActionResult _PersonelYarimIzinleri(int id)
         {
 
+            throw new NotImplementedException();
+        }
+
+        public ActionResult IzinSil(int id,int izinid)
+        {
+            var izin=db.Izins.FirstOrDefault(c => c.personelid == id & c.id == izinid);
             throw new NotImplementedException();
         }
     }

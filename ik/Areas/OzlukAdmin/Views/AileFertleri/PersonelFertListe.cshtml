@@ -14,13 +14,30 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
 <script src="~/Scripts/DialogForm.js"></script>
+<script src="~/Scripts/ikdialog.js"></script>
+
 <script type="text/javascript">
     $(function () {
 
         var id = $('#personel option:selected').val();
+        var url = '@Url.Action("Ekle",new {Area="OzlukAdmin"})' + '/?pid=' + id;
+        var updateurl = '@Url.Action("FertListe",new {Area="OzlukAdmin"})' + '/?pid=' + id;
 
-        $('#fertekle').MakeDialogForm({
+        $('#fertekle').ikDialog({
+            formurl: url,
+            Title: "Fert Ekle",
+            data: {
+            }, complete: function (result) {
+                console.log(result);
+                $('#fertListe').load(updateurl);
+            }
+        });
+
+
+
+        @*$('#fertekle').MakeDialogForm({
             id: 'btnfertEkle',
             text: 'Yeni Aile Ferdi Ekle',
             url: '@Url.Action("Ekle",new {Area="OzlukAdmin"})' + '/?pid=' + id,
@@ -32,7 +49,7 @@
             height: "500",
             complete: function (data) {
             }
-        });
+        });*@
 
     })
 </script>

@@ -271,6 +271,7 @@ namespace ik.Controllers
                 //BinaryReader br = new BinaryReader(fs);
                 //byte[] bytes = br.ReadBytes((Int32)fs.Length);
                 var kayitklasor = Request.Form["kayitklasor"];
+                bool encrypt= bool.Parse(Request.Form["encrypt"]);
                 // Get the complete folder path and store the file inside it.   
                 var klasör = Server.MapPath("~/Uploads");
                 klasör = klasör + kayitklasor;
@@ -309,8 +310,16 @@ namespace ik.Controllers
                         using (var stream = new MemoryStream())
                         {
                             imgfile.Save(stream, ImageFormat.Jpeg);
-                            var sifreli = Cryptography.EncryptBytes(stream.ToArray(), "ıon8>'~|*½9<8hyuasdyu", 2);
-                            System.IO.File.WriteAllBytes(fname, sifreli);
+                            if (encrypt)
+                            {
+                                var sifreli = Cryptography.EncryptBytes(stream.ToArray(), "ıon8>'~|*½9<8hyuasdyu", 2);
+                                System.IO.File.WriteAllBytes(fname, sifreli);
+                            }
+                            else
+                            {
+                                System.IO.File.WriteAllBytes(fname, stream.ToArray());
+                            }
+                          
                             
                         }
                     }
@@ -327,9 +336,20 @@ namespace ik.Controllers
                     }
                     using (var binaryreader = new BinaryReader(file.InputStream))
                     {
-                        var sifreli = Cryptography.EncryptBytes(binaryreader.ReadBytes(file.ContentLength),
-                            "ıon8>'~|*½9<8hyuasdyu", 2);
-                        System.IO.File.WriteAllBytes(fname, sifreli);
+
+                        if (encrypt)
+                        {
+                            var sifreli = Cryptography.EncryptBytes(binaryreader.ReadBytes(file.ContentLength),
+                                "ıon8>'~|*½9<8hyuasdyu", 2);
+                            System.IO.File.WriteAllBytes(fname, sifreli);
+                        }
+                        else
+                        {
+                          //  var sifreli = Cryptography.EncryptBytes(binaryreader.ReadBytes(file.ContentLength),
+                          //"ıon8>'~|*½9<8hyuasdyu", 2);
+                            System.IO.File.WriteAllBytes(fname, binaryreader.ReadBytes(file.ContentLength));
+                        }
+                      
                     }
                 }
                 else
@@ -343,55 +363,62 @@ namespace ik.Controllers
 
         public ActionResult Sil(string url)
         {
+
             //Uploads\\IseGirisEvraklar\\38167777466\\3d70c1ce-1f77-4e7c-a594-fd000e86c15b.jpg
-            var file = Request.ServerVariables["APPL_PHYSICAL_PATH"] + "\\" + url;
-            FileInfo fi = new FileInfo(file);
-            var dosya = fi.Directory + "\\" + fi.Name;
-            var thumb = fi.Directory + "\\thumb\\" + fi.Name;
-            var message = new StringBuilder();
-            var success = false;
-            //directory,name
-            if (System.IO.File.Exists(dosya))
+            try
             {
-                try
+                var file = Request.ServerVariables["APPL_PHYSICAL_PATH"] + "\\" + url;
+                FileInfo fi = new FileInfo(file);
+                var dosya = fi.Directory + "\\" + fi.Name;
+                var thumb = fi.Directory + "\\thumb\\" + fi.Name;
+                var message = new StringBuilder();
+                var success = false;
+                //directory,name
+                if (System.IO.File.Exists(dosya))
                 {
-                    System.IO.File.Delete(dosya);
-                    message.Append("Dosya Silindi");
-                    success = true;
-                    if (System.IO.File.Exists(thumb))
+                    try
                     {
-                        try
+                        System.IO.File.Delete(dosya);
+                        message.Append("Dosya Silindi");
+                        success = true;
+                        if (System.IO.File.Exists(thumb))
                         {
-                            System.IO.File.Delete(dosya);
-                            message.Append("[thumb] Dosya Silindi");
-                            success = true;
+                            try
+                            {
+                                System.IO.File.Delete(dosya);
+                                message.Append("[thumb] Dosya Silindi");
+                                success = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                message.Append("[Thumb] Dosya Silinemedi !!");
+                                success = false;
+                                //dosya silinemedi
+                            }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            message.Append("[Thumb] Dosya Silinemedi !!");
-                            success = false;
-                            //dosya silinemedi
+                            message.Append("[Thumb] Dosya Bulunamadı !!");
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        message.Append("[Thumb] Dosya Bulunamadı !!");
+                        message.Append("Dosya Silinemedi !!");
+                        success = false;
+                        //dosya silinemedi
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    message.Append("Dosya Silinemedi !!");
-                    success = false;
-                    //dosya silinemedi
+                    message.Append("Dosya Bulunamadı !!");
                 }
+                return Json(new { Success = success, Message = message.ToString(),Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception)
             {
-                message.Append("Dosya Bulunamadı !!");
+                return Json(new { Success = true, Message="Silme Sırasında Hata Oluştu",Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
             }
-
-
-            return Json(new { Success = success, Message = message }, JsonRequestBehavior.AllowGet);
+            
         }
     }
 }

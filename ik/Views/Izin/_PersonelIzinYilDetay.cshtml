@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<ik.Models.DataClasslari.PersonelIzinYilDetayVM>
-
-
+@Html.Hidden("PDKSID", (int)ViewBag.PDKSID)
 <table class="table">
     <tr>
         <th>
@@ -44,19 +43,38 @@
                 BootstrapDialog.confirm('Kayıt silinecek ona göre', function (result) {
                     if (result) {
 
-                        var pdksid = "";
-                        var tarih1 = "";
-                        var tarih2 = "";
-                        alert('Sil Gitsin');
+                        var pdksid = $('#PDKSID').val();
+                        var ID = $('#ID').val();
+                        var tarih1 = $(btn.closest('tr').find('td>span>span')[0]).text();
+                        var tarih2 = $(btn.closest('tr').find('td>span>span')[1]).text();
+                        var izinid = btn.data("id");
+                        console.log(pdksid);
+                        console.log(tarih1);
+                        console.log(tarih2);
+                        console.log(izinid);
+                        // alert('Sil Gitsin');
                         //pdks kayıtlarını sil PDKS id tarih1 tarih2
                         $.ajax({
-                            url: '',
+                            url: '@Url.Action("IzinSil","Pdks")',
                             type: 'POST',
                             data: {
-                                pdksid,tarih1,tarih2
+                                pdksid: pdksid, tarih1: tarih1, tarih2: tarih2
                             },
-                            success: function() {
-                                //silme başarılı is 
+                            success: function (result) {
+                                if (result.Succees) {
+                                    //ik kaydını sil
+                                    $.ajax({
+                                        url: '@Url.Action("IzinSil","Izin")',
+                                        type: 'GET',
+                                        data: {
+                                            id: ID,
+                                            izinid: izinid
+                                        }, success: function (res) {
+
+                                        }
+                                    });
+                                }
+                                //silme başarılı is
                                 //ik izin kaydını sil
                             }
                         });

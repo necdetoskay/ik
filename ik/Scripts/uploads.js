@@ -4,15 +4,14 @@
 
 
 
-
     uploadnamespace = {
-        uploadurl: window.location.origin + '/Upload/Yukle',
-        uploadform: window.location.origin + '/Upload/DosyaYukleDialog',
-        deleteurl: window.location.origin + '/Upload/Sil',
+        uploadurl: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/Yukle',
+        uploadform: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/DosyaYukleDialog',
+        deleteurl: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/Sil',
+        deleteicon: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Content/delete-png.png',
 
 
-
-        sil: function (sildiv, silid, dosya, deleteurl, deleted) {
+        sil: function (sildiv, dosya, deleted) {
 
             var del = sildiv.find('.dosyasil');
             //*  var id = sildiv.attr('data-id');
@@ -30,14 +29,14 @@
                         label: 'Sil',
                         action: function (dialogRef) {
                             $.ajax({
-                                url: deleteurl,
+                                url: uploadnamespace.deleteurl,
                                 type: 'GET',
                                 data: {
                                     url: dosya
                                 },
                                 success: function (result) {
-                                    //  if (result.Success === true)
-                                    deleted(sildiv);
+                                    if (result.Success === true)
+                                        deleted(sildiv);
                                 }
                             });
                             dialogRef.close();
@@ -48,18 +47,21 @@
         }
     }
     function loadProgressBar(result, dialogref) {
-        var progressbar = $(".progressbar-5");
-        var progressLabel = $(".progress-label");
+
+        var progressbar = $(".progress_bar");
+        progressbar.css("width", "0");
         progressbar.show();
         $(progressbar).progressbar({
             change: function () {
-                progressLabel.text(
-                    progressbar.progressbar("value") + "%");
+
+                var val = progressbar.progressbar("value");
+                progressbar.attr("aria_valuenow", val).html("%" + val + " Tamamlandı").css("width", val + "%");
             },
             complete: function () {
-                progressLabel.text("Loading Completed!");
+                // console.log("loadProgressBar tamamlandı");
+                //progressLabel.text("Loading Completed!");
                 progressbar.progressbar("value", 0);
-                progressLabel.text("");
+                // progressLabel.text("");
                 progressbar.hide();
                 $('#Files').val('');
                 $('#FileBrowse').find("*").prop("disabled", false);
@@ -70,6 +72,7 @@
         });
 
         function progress() {
+            // console.log("progress çağırıldı");
             var val = progressbar.progressbar("value") || 0;
             progressbar.progressbar("value", val + 1);
             if (val < 99) {
@@ -79,7 +82,7 @@
         setTimeout(progress, 100);
     }
 
-  
+
     function uploadfile(file, dialogref) {
         var fileUpload = file.get(0);
         var files = fileUpload.files;
@@ -87,7 +90,10 @@
         for (var i = 0; i < files.length; i++) {
             fileData.append(files[i].name, files[i]);
         }
-        fileData.append("kayitklasor", dialogref.getData("kayitklasor"));
+
+        var settings = dialogref.getData("settings");
+        fileData.append("kayitklasor", settings.kayitklasor);
+        fileData.append("encrypt", settings.encrypt);
 
         $.ajax({
             url: uploadnamespace.uploadurl,
@@ -111,7 +117,7 @@
         var html = $('<button title="Dosya Yükle" type="button" class="btn btn-default upload" aria-label="Left Align"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>');
         uploaddiv.html(html);
         html.on('click', function () {
-
+            //alert(uploadnamespace.uploadform);
             BootstrapDialog.show({
                 title: 'Dosya Yükle',
                 message: function (dialog) {
@@ -122,9 +128,8 @@
                 },
                 data: {
                     'dialogyukle': uploadnamespace.uploadform,
-                    'uploaddiv':uploaddiv,
-                    'settings': settings,
-                    'kayitklasor':settings.kayitklasor
+                    'uploaddiv': uploaddiv,
+                    'settings': settings
                 },
                 closable: true,
                 closeByBackdrop: false,
@@ -151,11 +156,60 @@
     $.fn.DosyaYukle = function (options) {
         $(this).each(function () {
             var settings = $.extend({
-                multi: 'false',
+                targetdiv: '',
                 kayitklasor: '',
-                uploadcomplete: function () { console.log('dialog tamamlandı') }
+                encrypt: 'true',
+                uploadcomplete: function () { console.log('dialog tamamlandı') },
+                init: function () { }
             }, options);
+            //eğer multi ise ve 1 resim varsa iptal et
+
             dosyaYukle($(this), settings);
+        });
+    }
+
+    $.fn.Deletable = function (options) {
+        $(this).each(function () {
+            var settings=$.extend({},options);
+            var dosya = $(this);
+            var dosyasil = $('<a href="javascript:void(0)" class="dosyasil"><img src="' + uploadnamespace.deleteicon + '"></a>');
+            dosya.append(dosyasil);
+            dosyasil.on('click', function () {
+                console.log("deletable çağırıldı");
+                BootstrapDialog.show({
+                    title: 'Kayıt Sil',
+                    message: 'Kayıt Silinsin mi?',
+                    buttons: [{
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }, {
+                        label: 'Sil',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: uploadnamespace.deleteurl,
+                                type: 'GET',
+                                data: {
+                                    url: settings.url
+                                },
+                                success: function (result) {
+                                    console.log("deleted");
+                                    if (result.Success === true)
+                                        settings.deleted(result);
+                                    else {
+                                        settings.deleted(result);
+                                    }
+                                }
+                            });
+                            dialogRef.close();
+                        }
+                    }]
+                });
+
+               //işlem yap fiziksel dosyayı sil
+                //settings.deleted("unknown.png");
+            });
         });
     }
 

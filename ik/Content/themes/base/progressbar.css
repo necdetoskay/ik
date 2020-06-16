@@ -11,7 +11,7 @@
 .ui-progressbar {
 	height: 2em;
 	text-align: left;
-	overflow: hidden;
+	overflow: inherit;
 }
 .ui-progressbar .ui-progressbar-value {
 	margin: -1px;

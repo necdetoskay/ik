@@ -173,7 +173,7 @@ namespace ik.Controllers
         }
 
 
-
+        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay")]
         public ActionResult PersonelDurum()
         {
             return View();

@@ -8,7 +8,8 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Foto)
-        </th><th>
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.AdSoyad)
         </th>
         <th>
@@ -23,30 +24,76 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SicilNo)
-        </td>
-        <td>
-            <img src="@Url.Content("~/" + item.Foto)"/>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AdSoyad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GorevYeri)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gorev)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EgitimDurum)
-        </td>
-        <td>
-            @Html.ActionLink("Düzenle","PersonelBilgiDuzenle","Personel",new {id=@item.ID},new {@class="btn btn-primary"})
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr data-id="@item.ID">
+            <td>
+                @Html.DisplayFor(modelItem => item.SicilNo)
+            </td>
+            <td>
+                <img src="@Url.Content("~/" + item.Foto)" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GorevYeri)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gorev)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EgitimDurum)
+            </td>
+            <td>
+                @if (new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan"}.Contains(this.User.Identity.Name))
+                {
+                    <div class="düzenle"></div>
+                }
 
+                @*@Html.ActionLink("Düzenle", "PersonelBilgiDuzenle", "Personel", new { id = @item.ID }, new { @class = "btn btn-primary" })*@
+            </td>
+        </tr>
+    }
 </table>
+
+
+@*<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/ikdialog.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('.düzenle').each(function () {
+            var duzen = $(this);
+            var tr = duzen.closest('tr');
+            var id = $(tr).data("id");
+            //console.log(id);
+         var url = '@Url.Action("PersonelBilgiDuzenle", "Personel")' + '/?id=' + id;
+                duzen.ikDialog({
+                formurl: url,
+                Title: "Kaydı Değiştir",
+                buttonText:"Düzenle",
+                data: {},
+                complete: function (result) {
+                    if (result.Success) {
+                        tr.find('td:nth-child(5)').html(result.Gorev);
+                        tr.find('td:nth-child(6)').html(result.Tahsil);
+                        tr.find('td:nth-child(4)').html(result.Lokasyon);
+                    }
+                   
+                   //console.table(result)
+                },
+                beforeshown: function (settings) {
+                    //console.table(settings);
+                }
+                });
+
+        });
+    });
+</script>

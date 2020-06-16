@@ -1027,7 +1027,7 @@ namespace ik.Controllers
             return Json(new { Data = liste }, JsonRequestBehavior.AllowGet);
         }
 
-
+        
         public ActionResult PersonelBilgiDuzenle(int id)
         {
             var personel = db.Personels.FirstOrDefault(c => c.id == id);
@@ -1067,7 +1067,7 @@ namespace ik.Controllers
             if (personel.PersonelDetay.tahsili.HasValue)
                 data.tahsil = personel.PersonelDetay.tahsili.Value;
 
-            return View(data);
+            return PartialView(data);
         }
 
         [HttpPost]
@@ -1085,7 +1085,8 @@ namespace ik.Controllers
                 personel.PersonelDetay.gorev = data.gorev;
 
                 db.SaveChanges();
-                return RedirectToAction("PersonelDurum", "Rapor");
+                return Json(new {Success=true,Lokasyon=personel.PersonelDetay.Lokasyon1.ad,Gorev= personel.PersonelDetay.Gorev1.ad, Tahsil= personel.PersonelDetay.Tahsil.ad }, JsonRequestBehavior.AllowGet);
+              
             }
             ViewBag.GorevListe = new SelectList(db.Gorevs.ToList(), "id", "ad", personel.PersonelDetay.gorev);
             ViewBag.LokasyonListe = new SelectList(db.Lokasyons.ToList(), "id", "ad", personel.PersonelDetay.lokasyon);
@@ -1096,7 +1097,7 @@ namespace ik.Controllers
               "Value",
               "Text",
               personel.PersonelDetay.cinsiyeti);
-            return View(data);
+            return PartialView(data);
         }
 
         public ActionResult PersonelGecKalma(int id)//pdksid
@@ -1501,6 +1502,67 @@ namespace ik.Controllers
            
            
             return null;
+        }
+
+        public ActionResult PersonelSayi()
+        {
+            return View();
+        }
+
+        public JsonResult _PersonelSayi(string tarih)
+        {
+            var ta = tarih.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries);
+            int yil = int.Parse(ta[0]);
+            int ay = int.Parse(ta[1]);
+            var date = new DateTime(yil, ay, 1).AddMonths(1);
+            using (var mikro = new KENTEntities())
+            {
+                var q = (from pt in mikro.PERSONEL_TAHAKKUKLARI
+                    join p in mikro.PERSONELLERs on pt.pt_pkod equals p.per_kod
+                    where
+                        pt.pt_maliyil.Value == yil & pt.pt_tah_ay.Value == ay & !p.per_kod.StartsWith("HZ") &
+                        !p.per_kod.StartsWith("Dr")
+                    orderby p.Per_TcKimlikNo ascending
+                    select new
+                    {
+                        PersonalAdSoyad = p.per_adi,
+                        TC = p.Per_TcKimlikNo,
+                        Cikis = p.per_cikis_tar.Value,
+                        CikisKod=p.per_CikisSebebiSecimli.Value
+                    }).ToList().Where(c => c.Cikis < new DateTime(yil, ay, 1) | c.Cikis >= date & c.CikisKod!=16).OrderBy(c => c.Cikis);
+                    //;
+
+                return Json(q, JsonRequestBehavior.AllowGet);
+            }
+           
+        }
+
+      
+
+        public ActionResult _PersonelResimYukle(int id)
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            if (personel != null)
+            {
+                var url = personel.PersonelDetay.thumb;
+                if(url!=null)
+                    return Json(new { Success=true,Url=url}, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = false,Url= Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new {Success=false,Url= Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult _PersonelResimGuncelle(int id,string data)
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            if (personel != null)
+            {
+                personel.PersonelDetay.thumb = string.IsNullOrEmpty(data)?null:data;
+                db.SaveChanges();
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
     }
 

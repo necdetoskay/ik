@@ -2,45 +2,45 @@
 
 (function ($) {
 
-   
 
-    uploadnamespace= {
+
+    uploadnamespace = {
         sil: function (sildiv, silid, dosya, deleteurl, deleted) {
-      
-      var del = sildiv.find('.dosyasil');
-    //*  var id = sildiv.attr('data-id');
-      del.on('click', function () {
-            //soru sor
-            BootstrapDialog.show({
-                title: 'Kayıt Sil',
-                message: 'Kayıt Silinsin mi?',
-                buttons: [{
-                    label: 'İptal',
-                    action: function (dialogRef) {
-                        dialogRef.close();
-                    }
-                }, {
-                    label: 'Sil',
-                    action: function (dialogRef) {
-                        $.ajax({
-                            url: deleteurl,
-                            type: 'GET',
-                            data: {
-                                url: dosya
-                            },
-                            success: function (result) {
-                              //  if (result.Success === true)
+
+            var del = sildiv.find('.dosyasil');
+            //*  var id = sildiv.attr('data-id');
+            del.on('click', function () {
+                //soru sor
+                BootstrapDialog.show({
+                    title: 'Kayıt Sil',
+                    message: 'Kayıt Silinsin mi?',
+                    buttons: [{
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }, {
+                        label: 'Sil',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: deleteurl,
+                                type: 'GET',
+                                data: {
+                                    url: dosya
+                                },
+                                success: function (result) {
+                                    //  if (result.Success === true)
                                     deleted(sildiv);
-                            }
-                        });
-                        dialogRef.close();
-                    }
-                }]
+                                }
+                            });
+                            dialogRef.close();
+                        }
+                    }]
+                });
             });
-        });
-}
+        }
     }
-    
+
 
     function resimekle(dosya, thumb, alt, targetimgdiv, deleteurl, deleted) {
         // console.log(targetimgdiv);
@@ -134,10 +134,12 @@
     }
     var dosyaYukle = function (upload, settings) {
 
-      
-        settings.uploadurl = 'ik/Upload/Yukle';
-        settings.uploadform =  'ik/Upload/DosyaYukleDialog';
-        settings.deleteurl = 'ik/Upload/Sil';
+
+        settings.uploadurl = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1] + '/Upload/Yukle';
+        settings.uploadform = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1] + '/Upload/DosyaYukleDialog';
+        settings.deleteurl = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1] + '/Upload/Sil';
+
+
 
 
         var yukle = upload;
@@ -150,11 +152,11 @@
             var a = $(this);
             uploadnamespace.sil(a, "", a.attr("data-url"), settings.deleteurl, settings.deletecomplete);
         });
-       
+
         //yukle.append(html);
 
         yukle.html(html);
-     
+
         //settings.targetimgdiv = upload.closest('.imgcontainer');
 
         html.on('click', function () {
@@ -196,7 +198,7 @@
     }
 
 
-    
+
 
     $.fn.TopluDosyaYukle = function (options) {
 
@@ -210,10 +212,10 @@
                 deleted: function () { console.log('silindi') }
             }, options);
 
-          
+
 
             dosyaYukle($(this), settings);
-          
+
         });
     }
 

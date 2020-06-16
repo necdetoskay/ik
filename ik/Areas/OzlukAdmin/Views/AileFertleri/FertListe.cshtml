@@ -98,10 +98,6 @@
         }
     </table>
 
-
-
-
-
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
     <script src="~/Scripts/ozlukadmin.js"></script>
@@ -121,7 +117,7 @@
                         callback: function (result) {
                             if (result) {
                                 var id = sil.closest('tr').find('.dosyaliste').attr("data-id");
-                                console.log('@Url.Action("AileFertSil")');
+                               // console.log('@Url.Action("AileFertSil")');
                                 $.ajax({
                                     url: '@Url.Action("AileFertSil")',
                                     type: 'GET',
@@ -144,23 +140,6 @@
             $('.düzenle').each(function() {
 
             });
-
-            //targetimgdiv: silinecek olan resmi içeren div(resim idsini içerir)
-            @*function deleted(targetimgdiv) {
-                var dataid = targetimgdiv.attr("data-id");
-                $.ajax({
-                    url: '@Url.Action("AileFertdosyasil")',
-                    data: {
-                        id: dataid
-                    },
-                    type: 'GET',
-                    success: function (result) {
-                        if (result.Success === true)
-                            targetimgdiv.remove();
-                    }
-                });
-
-            }*@
 
             function silbagla(sildiv) {
                 var dosya = sildiv.closest(".dosya");
@@ -191,7 +170,7 @@
                 dosyaliste.append(resim);
 
                 var fertid = dosyaliste.attr("data-id");
-                console.log(fertid);
+               // console.log(fertid);
 
                 $.ajax({
                     url: '@Url.Action("AileFertResimEkle")',

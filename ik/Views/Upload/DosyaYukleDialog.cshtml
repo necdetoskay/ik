@@ -1,16 +1,29 @@
-﻿
+﻿<style>
+      .progress {
+        overflow: inherit;
+        margin: 20px;
+    }
+
+    .progress_bar {
+        background-color: #fa0b0b;
+        height: 20px;
+        text-align: center;
+        width: 0%;
+        overflow: hidden;
+    }
+
+</style>
 
 <div class="row">
     <div class="col-sm-10 yukleislem">
         <input type="file" id="Files" />
     </div>
-  
+    <br/>
     <div class="row">
-        <div class="col-sm-12">
-            <div class="progressbar-5">
-                <div class="progress-label"> </div>
-            </div>
+        <div class="progress">
+            <div class="progress_bar" role="progressbar" width="0%"></div>
         </div>
+        <div class="progress-label"> </div>
     </div>
 </div>
 

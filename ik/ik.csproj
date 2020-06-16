@@ -28,6 +28,7 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -619,6 +620,7 @@
     </Content>
     <Content Include="Content\icons8-delete-trash-50.png" />
     <Content Include="Content\icons8-edit-64.png" />
+    <Content Include="Content\unknown.png" />
     <Content Include="Content\PDF.png" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -984,6 +986,7 @@
     <Content Include="Scripts\jquery.svg3dtagcloud.min.js" />
     <Content Include="Scripts\jquery.treetable.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
+    <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\ozlukadmin.js" />
     <Content Include="Scripts\sugar.js" />
     <Content Include="Scripts\switchery.min.js" />
@@ -1242,7 +1245,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-min.js" />
     <Content Include="Scripts\mdtimepicker.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
@@ -1464,6 +1466,7 @@
     <Content Include="Views\Personel\CalismaBelge.cshtml" />
     <Content Include="Views\Pdks\TopluEksikHareketler.cshtml" />
     <Content Include="Views\Grups\PersonelGrup - Copy.cshtml" />
+    <Content Include="Views\Personel\PersonelSayi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1541,7 +1544,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2495</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2495/ik/</IISUrl>
+          <IISUrl>http://localhost:2495/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

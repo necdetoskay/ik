@@ -69,13 +69,6 @@ namespace ik.Controllers
 
         public ActionResult Index()
         {
-
-          
-
-
-
-
-
             return View();
         }
         public struct Kesinti

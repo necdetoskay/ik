@@ -6,6 +6,33 @@
 
 <h2>Index</h2>
 <style>
+    .dosyaliste {
+        display: flex;
+    }
+
+    .dosya {
+        padding-right: 10px;
+    }
+
+
+
+        .dosya > a.dosyasil > img:hover {
+            opacity: 1;
+        }
+
+        .dosya > a.thumba > img {
+            height: 100px;
+            float: right;
+        }
+
+        .dosya > a.dosyasil > img {
+            height: 20px;
+            position: absolute;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+</style>
+<style>
     .uploadphoto {
         margin: 15px;
     }
@@ -42,8 +69,8 @@
     @Html.ActionLink("Çalışma Belgesi","CalismaBelge","Personel",new {Area=""},null)*@
 <div style="margin: 20px" id="selectlist"></div>
 
-<div class="dosyaliste"></div>
-
+<div style="margin: 20px" class="personelfoto"></div>
+<div class="clear"></div>
 <div class="uploadphoto"></div>
 
 <div class="container">
@@ -79,6 +106,7 @@
 </div>
 @section scripts{
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/bootstrap-dialog.js"></script>
     <script src="~/Scripts/uploads.js"></script>
     <script src="~/Scripts/ozlukadmin.js"></script>
@@ -114,23 +142,44 @@
 
 
 
-        function complete(uploadresult, targetimgdiv, resimdiv) {
-            @*var fertid = targetimgdiv.attr("data-id");
+        function complete(uploadresult, container) {
+            console.log(uploadresult);
+            //console.log(container);
+            var url = '@Url.Content("~/")' + uploadresult.DosyaAdi;
+            var photodiv = $(container).parent().find(".personelfoto");
+            var dosya = $('<div class="dosya"><img src="' + url + '"  width="100" height="100"></div>');
+            $(photodiv).html(dosya);
+
             $.ajax({
-                url: '@Url.Action("AileFertResimEkle")',
-                type: 'GET',
+                url: '@Url.Action("_PersonelResimGuncelle","Personel",new {area=""})',
+                type: "post",
                 data: {
-                    url: uploadresult.DosyaAdi,
-                    fertid: fertid
+                    id: $('#personel option:selected').val(),
+                    data: url
                 },
                 success: function (result) {
-                    if (result.Success === true) {
-                        var id = result.ID;
-                        resimdiv.attr('data-id', id);
+                    if (result) {
                     }
                 }
-            });*@
-
+            });
+            var dosyaresim = $(photodiv).find('.dosyaresim');
+            var dosyasil = $(photodiv).find('.dosyasil');
+            $(dosya).Deletable({
+                url: url,
+                deleted: function (result) {
+                    dosyaresim.attr("src", result.Data);
+                    dosyasil.remove();
+                    console.log(result.Message);
+                    $.ajax({
+                        url: '@Url.Action("_PersonelResimGuncelle","Personel",new {Area=""})',
+                        type: 'post',
+                        data: { id: id, data: '' },
+                        success: function (result) {
+                        }
+                    });
+                }
+            });
+            //dosya.Deletable();
         }
         function deleted(targetimgdiv) {
             @*var dataid = targetimgdiv.attr("data-id");
@@ -153,12 +202,49 @@
             readytablist();
 
             var id = $("#personel option:selected").val();
+            $.ajax({
+                url: '@Url.Action("_PersonelResimYukle","Personel",new {Area=""})',
+                type: 'get',
+                data: { id: id },
+                success: function (result) {
+                    if (result.Success) {
+                        $('.personelfoto').html('<div class="dosyaliste"><div class="dosya"><a class="thumba"><img class="dosyaresim" src="' + result.Url + '"  width="100" height="100"></a></div></div>');
+                    } else {
+                        $('.personelfoto').html('<div class="dosya"><img src="' + result.Url + '"  width="100" height="100"></div>');
+                    }
+                    var dosyaresim = $('.personelfoto').find('.dosyaresim');
+                    var dosyasil = $('.personelfoto').find('.dosyasil');
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    $('.personelfoto >.dosyaliste >.dosya').Deletable({
+                        url: result.Url,
+                        deleted: function (result) {
+                            dosyaresim.attr("src", result.Data);
+                            dosyasil.remove();
+                            console.log(result.Message);
+                            $.ajax({
+                                url:'@Url.Action("_PersonelResimGuncelle","Personel",new {Area=""})',
+                                type:'post',
+                                data: {id:id,data:''},
+                                success:function(result) {
+                                }
+                            });
+                        }
+                    });
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                }
+            });
+
+
 
             $('.uploadphoto').DosyaYukle({
                 kayitklasor: '\\OzlukBilgi\\' + id,/// değişebilir
-                targetimgdiv: 'personelfoto',
+                targetdiv: 'personelfoto',
+                encrypt: 'false',
                 uploadcomplete: complete,
-                deletecomplete: deleted
+                deletecomplete: deleted,
+                init: function () {
+                    alert("init");
+                }
             });
         }
 
@@ -176,6 +262,7 @@
                 targetdiv: 'evrakliste',
                 change: function (result) {
                     selectlistchange(result);
+                    console.log("seleclist changed " + result);
                 }
             });
 

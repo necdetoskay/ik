@@ -5,5 +5,140 @@
 
 <h2>Index</h2>
 
-@Html.ActionLink("Maaş Çalışma","MaasDeneme")
-@Html.ActionLink("İbraname Form","IbranameForm", "Personel")
+@Html.ActionLink("Maaş Çalışma", "MaasDeneme")
+@Html.ActionLink("İbraname Form", "IbranameForm", "Personel")
+<br/>
+<ul data-bind="template: { name: 'seasonTemplate', foreach: seasons, as: 'season' }"></ul>
+
+<script type="text/html" id="seasonTemplate">
+    <li>
+        <strong data-bind="text: name"></strong>
+        <ul data-bind="template: { name: 'monthTemplate', foreach: months, as: 'month' }"></ul>
+    </li>
+</script>
+
+<script type="text/html" id="monthTemplate">
+    <li>
+        <span data-bind="text: month"></span>
+        is in
+        <span data-bind="text: season.name"></span>
+    </li>
+</script>
+
+@*<div data-bind="class: profitStatus">
+    Profit Information
+</div>*@
+
+@*<table>
+    <thead>
+        <tr><th>First name</th><th>Last name</th></tr>
+    </thead>
+    <tbody data-bind="foreach: people">
+        <tr>
+            <td data-bind="text: firstName"></td>
+            <td data-bind="text: lastName"></td>
+        </tr>
+    </tbody>
+</table>*@
+
+
+
+@*<p>Current Profit<input data-bind="value: currentProfit" /></p>*@
+
+@*<div data-bind="html: details"></div>*@
+
+@*<h2>The name is <span data-bind="text: fullName"></span></h2>*@
+
+@*The item is <span data-bind="text: priceRating"></span> today.*@
+
+
+@section scripts{
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
+    @* ReSharper disable once MisuseOfOwnerFunctionThis *@
+    @* ReSharper disable once InconsistentNaming *@
+    <script type="text/javascript">
+        $(function () {
+            var viewModel = {
+                seasons: ko.observableArray([
+                    { name: 'Spring', months: ['March', 'April', 'May'] },
+                    { name: 'Summer', months: ['June', 'July', 'August'] },
+                    { name: 'Autumn', months: ['September', 'October', 'November'] },
+                    { name: 'Winter', months: ['December', 'January', 'February'] }
+                ])
+            };
+            ko.applyBindings(viewModel);
+
+
+            //var viewModel= {
+            //    people: [
+            //        { firstName: 'Bert', lastName: 'Bertington' },
+            //        { firstName: 'Charles', lastName: 'Charlesforth' },
+            //        { firstName: 'Denise', lastName: 'Dentiste' }
+            //    ]
+            //}
+
+
+            //ko.applyBindings(viewModel);
+
+
+            //var viewModel = {
+            //    currentProfit: ko.observable(150000)
+            //};
+
+            //// Evalutes to a positive value, so initially we apply the "profitPositive" class
+            //viewModel.profitStatus = ko.pureComputed(function () {
+            //    return this.currentProfit() < 0 ? "profitWarning" : "profitPositive";
+            //}, viewModel);
+
+            //// Causes the "profitPositive" class to be removed and "profitWarning" class to be added
+            //viewModel.currentProfit(-50);
+
+
+
+            //var viewModel = {
+            //    details: ko.observable() // Initially blank
+            //};
+            //viewModel.details("<em>For further details, view the report <a href='report.html'>here</a>.</em>");
+            //ko.applyBindings(viewModel);
+
+            //var viewModel = {
+            //    price: ko.observable(24.95)
+            //};
+            //viewModel.priceRating = ko.pureComputed(function () {
+            //    return this.price() > 50 ? "expensive" : "affordable";
+            //}, viewModel);
+
+            //ko.applyBindings(viewModel);
+
+            //function AppViewModel() {
+            //    this.firstName = ko.observable('Bob');
+            //    this.lastName = ko.observable('Smith');
+
+            //    this.fullName = ko.computed(function () {
+            //        return this.firstName() + " " + this.lastName();
+            //    }, this);
+            //}
+
+            //ko.applyBindings(new AppViewModel);
+
+            //        var myViewModel = {
+            //            personName: ko.observable('Bob'),
+            //            personAge: ko.observable(123)
+            //        };
+            //        ko.applyBindings(myViewModel);
+
+            //        myViewModel.personName("Necdet");
+
+
+            //        var anotherObservableArray = ko.observableArray([
+            //{ name: "Bungle", type: "Bear" },
+            //{ name: "George", type: "Hippo" },
+            //{ name: "Zippy", type: "Unknown" }
+            //        ]);
+            //        alert('The length of the array is ' + anotherObservableArray().length);
+            //        alert('The first element is ' + anotherObservableArray()[0]);
+
+
+        });
+    </script>
+}

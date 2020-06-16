@@ -111,7 +111,7 @@ namespace ik.Controllers
             //    return RedirectToAction("Index");
             ViewBag.GorevListe = new SelectList(db.Gorev_Detay.Where(c => c.parentID == null), "id", "ad");
 
-            return PartialView();
+            return PartialView(new Takip {gostermegunu = 3,sontarih = DateTime.Now});
         }
 
 
