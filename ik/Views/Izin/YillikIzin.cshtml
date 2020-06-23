@@ -111,8 +111,6 @@
                         <div class="h4">
                             <span>Toplam Kalan İzin: </span><span id="toplamkalan"></span>
                         </div>
-
-
                     </div>
 
                 </div>
@@ -126,7 +124,6 @@
                                 <th>Başlangıç Tarihi</th>
                                 <th>Bitis Tarihi</th>
                                 <th>Açıklama</th>
-                                @*// <th></th>*@
                                 <th></th>
                             </tr>
                         </thead>
@@ -140,16 +137,13 @@
 
             </div>
         </div>
+
+
+
+
         <div id="mikrosongirilen" class="tab-pane fade in">
             <div class="content">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Adı</th><th>Soyadı</th><th>İzin Başlangıç</th><th>izin Bitiş</th><th>İzin Gün</th><th>Açıklama</th>
-                    </tr></thead>
-                    <tbody id="mikroson"></tbody>
-                </table>
-
+                <div id="mikroson"></div>
             </div>
         </div>
     </div>
@@ -168,28 +162,23 @@
 
     <script src="~/Scripts/izin.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
-<script src="~/Scripts/ikdialog.js"></script>
+    <script src="~/Scripts/ikdialog.js"></script>
 
     <script type="text/javascript">
         $(function () {
 
-           
 
-
-
-
-            $.ajax({
-                url:'@Url.Action("_SonGirilenIzinler","Mikro")',
+             $.ajax({
+                url:'@Url.Action("_SonGirilenIzinlerPaged","Mikro")',
                 type: 'GET',
                 success: function (result) {
                     var mikroson = $('#mikroson');
-                    mikroson.empty();
-                    $.each(result, function(i, item) {
-                        mikroson.append('<tr><td>' + item.Ad + '</td><td>' + item.Soyad + '</td><td>' + item.Baslangic.toDDMMYYY() + '</td><td>' + item.Bitis.toDDMMYYY() + '</td><td>' + item.Gun + '</td><td>' + item.Aciklama + '</td></tr>');
-
-                    });
+                    mikroson.html(result);
                 }
             });
+
+
+
 
             var yarimizinleridus = function () {
                 $('#yarimtablo > table> tbody>tr').each(function (i) {
@@ -216,8 +205,6 @@
             };
 
             function mikrosonizinler() {
-
-
                 $.ajax({
                     url: '@Url.Action("_SonIzinler", "Mikro")',
                     type: 'GET',
@@ -225,7 +212,6 @@
                     success: function (result) {
                         var mikroizin = $('#mikroizin');
                         mikroizin.empty();
-                        //console.log(result);
                         $.each(result, function (i, izin) {
                             mikroizin.append('<tr id="' + izin.per_Guid + '"><td>' + izin.per_adi + " " + izin.per_soyadi +
                                 '</td><td>' + izin.pz_izin_aciklama.substr(0, 4) +
@@ -360,8 +346,6 @@
 
             });
 
-
-          
             $('#btnyarimizin').on('click', function () {
                 var pid = $('#PersonelListe').val();
                 if (pid.length < 1) {
@@ -389,6 +373,7 @@
                 var formurl = '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1;
 
                 //$('#yarimekle').html('<input data-toggle="modal" data-target="#myModal" type="button" data-id="' + id + '" value="Yarım İzin Ekle"/>');
+                $('#yarimekle').html("");
                 var updateurl = '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id;
                 $('#yarimekle').ikDialog({
                     formurl: formurl,
@@ -428,7 +413,7 @@
                                 url: $(this).attr("data-target"),
                                 type: 'GET',
                                 data: {
-                                  
+
                                 },
                                 success: function (result) {
                                     var content = $('#content');

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DevExpress.XtraPrinting.Native;
 using ik.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace ik.Areas.OzlukAdmin.Controllers
 {

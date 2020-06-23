@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using DevExpress.XtraScheduler.Native;
 using ik.Models;
 
 namespace ik.Areas.OzlukAdmin.Controllers

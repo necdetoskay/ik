@@ -6,7 +6,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ik.Models;
+using ik.Models.DataClasslari;
 using Microsoft.Ajax.Utilities;
+using PagedList;
+using PagedList.Mvc;
 
 namespace ik.Controllers
 {
@@ -82,30 +85,55 @@ namespace ik.Controllers
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult _SonGirilenIzinler()
-        {
-            try
-            {
-                var liste = new ArrayList();
-                using (ikEntities db = new ikEntities())
-                {
-                    var query = (from pi in ke.PERSONEL_IZINLERI
-                                 join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod
-                                 where pi.pz_izin_tipi == 0
-                                 orderby pi.pz_create_date descending
-                                 select new { Ad = i.per_adi, Soyad = i.per_soyadi,
-                                     //i.per_RECno,
-                                     pi.pz_izin_tipi, pi.pz_pers_kod, Baslangic = pi.pz_baslangictarih, Bitis = pi.pz_gerceklesen_donus_tarihi, Gun = pi.pz_gun_sayisi, Aciklama = pi.pz_izin_aciklama }).
-                    Take(250);
 
-                    return Json(query.ToList(), JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception xx)
+        public ActionResult _SonGirilenIzinlerPaged(int? SayfaNo)
+        {
+            int _sayfaNo = SayfaNo ?? 1;
+
+            var query = (from pi in ke.PERSONEL_IZINLERI
+                         join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod
+                         where pi.pz_izin_tipi == 0
+                         orderby pi.pz_create_date descending
+                         select new MikroSonGirilenIzin
+                         {                            
+                             Ad = i.per_adi,
+                             Soyad = i.per_soyadi,
+                             PersonelKod = pi.pz_pers_kod,
+                             IzinBaşlangic = pi.pz_baslangictarih.Value,
+                             IzinBitis = pi.pz_gerceklesen_donus_tarihi.Value,
+                             IzinGunu = (int)pi.pz_gun_sayisi,
+                             Aciklama = pi.pz_izin_aciklama
+                         }).ToPagedList<MikroSonGirilenIzin>(_sayfaNo, 15);
+            if (Request.IsAjaxRequest())
             {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return PartialView("~/Views/Mikro/_SonGirilenIzinlerPaged.cshtml", query);
             }
+            return View("~/Views/Mikro/_SonGirilenIzinlerPaged.cshtml",query);
         }
+        //public ActionResult _SonGirilenIzinler()
+        //{
+        //    try
+        //    {
+        //        var liste = new ArrayList();
+        //        using (ikEntities db = new ikEntities())
+        //        {
+        //            var query = (from pi in ke.PERSONEL_IZINLERI
+        //                         join i in ke.PERSONELLERs on pi.pz_pers_kod equals i.per_kod
+        //                         where pi.pz_izin_tipi == 0
+        //                         orderby pi.pz_create_date descending
+        //                         select new { Ad = i.per_adi, Soyad = i.per_soyadi,
+        //                             //i.per_RECno,
+        //                             pi.pz_izin_tipi, pi.pz_pers_kod, Baslangic = pi.pz_baslangictarih, Bitis = pi.pz_gerceklesen_donus_tarihi, Gun = pi.pz_gun_sayisi, Aciklama = pi.pz_izin_aciklama }).
+        //            Take(250);
+
+        //            return Json(query.ToList(), JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (Exception xx)
+        //    {
+        //        return Json(false, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
         public decimal NetMaas(int maliyil=2018,

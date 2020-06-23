@@ -4,14 +4,13 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using DevExpress.Data.Helpers;
 using ik.Models;
 using PtakipDAL;
 
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
+    [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class RaporController : Controller
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -22,7 +21,7 @@ namespace ik.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
-
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public ActionResult PersonelGunlukDurum()
         {
             ViewBag.PersonelListe = new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad");
@@ -155,14 +154,14 @@ namespace ik.Controllers
             {
                 return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
             }
-
-
         }
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public ActionResult DepartmanGunlukDurum()
         {
             ViewBag.BirimList = db.birims.ToList();
             return View();
         }
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public class PersonelGunlukDurumVM
         {
             public DateTime Tarih { get; set; }
@@ -179,6 +178,7 @@ namespace ik.Controllers
             return View();
         }
 
+        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public JsonResult PersonelKriterler()
         {
             var kriterler = new
@@ -290,6 +290,7 @@ namespace ik.Controllers
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public ActionResult SaglikRapor()
         {
             return View();
@@ -319,11 +320,13 @@ namespace ik.Controllers
             return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public ActionResult Raporlar()
         {
             return View();
         }
 
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
 
         public ActionResult PersonelDurumRapor(bool birim = false, bool lokasyon = false, bool tahsil = false, bool gorev = false, bool meslek = false, bool isegiris = false
             , bool kidem = false)
@@ -358,6 +361,7 @@ namespace ik.Controllers
 
             return View(data);
         }
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public Hesap MaasHesap(
             double brütmaaş,
             double yemek,
@@ -457,6 +461,7 @@ namespace ik.Controllers
             return View();
         }
 
+        [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         [HttpPost]
         public ActionResult IzinleriHesapla(string[] personeller)
         {

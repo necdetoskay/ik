@@ -1,0 +1,59 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ik.Models.DataClasslari.MikroSonGirilenIzin>
+
+<div id="songirilenizinler">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Personel Kod
+                </th>
+                <th>
+                    Personel Adı
+                </th>
+                <th>
+                    Personel Soyadı
+                </th>
+                <th>
+                    İzin Başlangıcı
+                </th>
+                <th>
+                    İzin Bitişi
+                </th>
+                <th>
+                    Açıklama
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.PersonelKod
+                    </td>
+                    <td>
+                        @item.Ad
+                    </td>
+                    <td>
+                        @item.Soyad
+                    </td>
+                    <td>
+                       @Html.DisplayFor(model =>item.IzinBaşlangic)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.IzinBitis)
+                    </td>
+                    <td>
+                        @item.Aciklama
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager(Model, _sayfaNo => Url.Action("_SonGirilenIzinlerPaged", "Mikro", new { SayfaNo = _sayfaNo }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { UpdateTargetId = "songirilenizinler" }))
+</div>

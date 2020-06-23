@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using DevExpress.XtraCharts.Native;
 using ik.Models;
 using Microsoft.Ajax.Utilities;
 using MySql.Data.MySqlClient;

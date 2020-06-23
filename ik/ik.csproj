@@ -54,40 +54,6 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Dashboard.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Dashboard.v15.2.Web, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Dashboard.v15.2.Web.Mvc5, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.SpellChecker.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Spreadsheet.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxGauges.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxPivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxRichEdit.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxScheduler.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxSpellChecker.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxThemes.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.Mvc5.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v15.2.Web, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraGauges.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraGauges.v15.2.Presets, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraReports.v15.2.Web, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraScheduler.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -189,6 +155,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\KVKK\Controllers\IndexController.cs" />
     <Compile Include="Areas\KVKK\Controllers\KVKK_SablonController.cs" />
     <Compile Include="Areas\KVKK\Controllers\KVKK_TeknikTedbirController.cs" />
@@ -299,7 +267,6 @@
     <Compile Include="Controllers\TaseronController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TestTestController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\YillikIznimController.cs" />
@@ -320,6 +287,7 @@
     </Compile>
     <Compile Include="Models\Cryptography.cs" />
     <Compile Include="Models\DataClasslari\IzinVM.cs" />
+    <Compile Include="Models\DataClasslari\MikroSonGirilenIzinVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelFirmaVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelGorevVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelIzinYilDetayVM.cs" />
@@ -608,6 +576,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Content\bootstrap.min.css" />
+    <Content Include="Areas\Admin\Content\font-awesome.min.css" />
+    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont_files\viewsource.css" />
+    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Areas\Admin\Content\fonts\MontserratLight.svg" />
+    <Content Include="Areas\Admin\Content\fonts\themify.svg" />
+    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Areas\Admin\Content\sidebar.css" />
+    <Content Include="Areas\Admin\Content\style.css" />
+    <Content Include="Areas\Admin\Content\themify-icons.css" />
+    <Content Include="Areas\Admin\Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.nanoscroller.min.js" />
+    <Content Include="Areas\Admin\Scripts\pace.min.js" />
+    <Content Include="Areas\Admin\Scripts\scripts.js" />
+    <Content Include="Areas\Admin\Scripts\sidebar.js" />
     <Content Include="Areas\KVKK\Models\KVKKModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KVKKModel.edmx</DependentUpon>
@@ -631,6 +616,7 @@
     <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\delete-png.png" />
     <Content Include="Content\switchery.min.css" />
+    <Content Include="Models\nasıl yaptım\pagedlist örnek.txt" />
     <Content Include="Models\notify.txt" />
     <Content Include="Models\uploadkullanımı.txt" />
     <Content Include="Scripts\bootstrap-toggle.min.js" />
@@ -1082,6 +1068,39 @@
     <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\IkCreate.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\Index.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\DigerEvrakListe.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\Admin Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\FontAwesome.otf" />
+    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\MontserratLight.eot" />
+    <Content Include="Areas\Admin\Content\fonts\MontserratLight.ttf" />
+    <Content Include="Areas\Admin\Content\fonts\MontserratLight.woff" />
+    <Content Include="Areas\Admin\Content\fonts\MontserratLight.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Bold.woff" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Bold.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Light.woff" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Light.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Medium.woff" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Medium.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Regular.woff" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Regular.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Thin.woff" />
+    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Thin.woff2" />
+    <Content Include="Areas\Admin\Content\fonts\themify.eot" />
+    <Content Include="Areas\Admin\Content\fonts\themify.ttf" />
+    <Content Include="Areas\Admin\Content\fonts\themify.woff" />
+    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.eot" />
+    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.woff2" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1467,10 +1486,12 @@
     <Content Include="Views\Pdks\TopluEksikHareketler.cshtml" />
     <Content Include="Views\Grups\PersonelGrup - Copy.cshtml" />
     <Content Include="Views\Personel\PersonelSayi.cshtml" />
+    <Content Include="Views\Mikro\_SonGirilenIzinlerPaged.cshtml" />
+    <Content Include="Views\Mikro\_SonGirilenIzinlerVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\nasıl yaptım\" />
+    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />
@@ -1562,7 +1583,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

@@ -1,0 +1,62 @@
+﻿controller //////////////////////////////////////////////////////////////
+using PagedList;
+using PagedList.Mvc;
+ 
+namespace PagedListExample.Controllers
+{
+    public class HomeController : Controller
+    {
+        VeriTabaniDataContext Veri = new VeriTabaniDataContext();
+        public ActionResult Index(int? SayfaNo)
+        {
+            int _sayfaNo = SayfaNo ?? 1;
+            var MusteriListesi = Veri.Musterilers.OrderByDescending(m => m.MusteriID).ToPagedList<Musteriler>(_sayfaNo, 10);
+ 
+            if (Request.IsAjaxRequest()){
+                return PartialView("~/Views/Home/_MusteriListesi.cshtml", MusteriListesi);
+            } 
+            return View(MusteriListesi);
+        }
+    }
+}
+Partialview ///////////////////////
+@using PagedList
+@using PagedList.Mvc
+@using PagedListExample.Models
+@model IPagedList<Musteriler>
+ 
+<table>
+    <thead>
+        <tr>
+            <th>Şirket Adı</th>
+            <th>Müşteri Adı</th>
+            <th>Şehir</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Musteri in Model)
+            {
+            <tr>
+                <td>@Musteri.SirketAdi</td>
+                <td>@Musteri.MusteriAdi</td>
+                <td>@Musteri.Sehir</td>
+            </tr>
+        }
+    </tbody>
+</table>
+ 
+@Html.PagedListPager(Model, _sayfaNo => Url.Action("Index", "Home", new { SayfaNo = _sayfaNo }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { UpdateTargetId = "dvMusteriListesi" }))
+
+
+
+view////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@using PagedList
+@using PagedList.Mvc
+@using PagedListExample.Models
+@model IPagedList<Musteriler>
+ 
+<h2>Müşteriler</h2>
+ 
+<div id="dvMusteriListesi">
+    @Html.Partial("~/Views/Home/_MusteriListesi.cshtml", Model)
+</div>

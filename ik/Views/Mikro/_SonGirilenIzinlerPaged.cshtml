@@ -1,0 +1,20 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ik.Models.DataClasslari.MikroSonGirilenIzin>
+
+@*@{
+        ViewBag.Title = "_SonGirilenIzinlerPaged";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+
+<div id="songirilenizinler">
+    @Html.Partial("~/Views/Mikro/_SonGirilenIzinlerVM.cshtml", Model)
+</div>
+
+@*@section scripts{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+}*@

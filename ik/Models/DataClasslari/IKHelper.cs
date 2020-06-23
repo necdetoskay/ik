@@ -6,7 +6,6 @@ using  System.IO;
 using System.Text;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using DevExpress.XtraScheduler.Compatibility;
 
 namespace ik.Models
 {
