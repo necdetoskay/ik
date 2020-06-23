@@ -22,8 +22,8 @@
             </button>
             @Html.ActionLink("I.K.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
-            @Html.ActionLink("KVKK", "Index", "Index", new { area = "KVKK" }, new { @class = "navbar-brand" })
-            @Html.ActionLink("Personel Özlük", "Index", "OzlukHome", new { area = "OzlukAdmin" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("KVKK", "Index", "Index", new { area = "KVKK" }, new { @class = "navbar-brand" }).If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")
+            @Html.ActionLink("Personel Özlük", "Index", "OzlukHome", new { area = "OzlukAdmin" }, new { @class = "navbar-brand" }).If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")
 
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -33,42 +33,42 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Arşiv Arama <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li> @Html.ActionLink("Arşiv", "Index", "Arsiv")</li>
-                        <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale")</li>
+                        <li> @Html.ActionLink("Arşiv", "Index", "Arsiv").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                        <li>@Html.ActionLink("Eski Personel Arama", "Index", "KentIhale").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                     </ul>
                 </li>
                 <li>@Html.ActionLink("PTakip", "GunlukPTakip", "PTakip", new { date = @DateTime.Now.ToShortDateString() }, null)</li>
 
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Staj İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Staj Özet", "Ozet", "Staj")</li>
-                        <li>@Html.ActionLink("Stajer Listesi", "Index", "Staj")</li>
-                        <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj")</li>
+                        <li>@Html.ActionLink("Staj Özet", "Ozet", "Staj").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                        <li>@Html.ActionLink("Stajer Listesi", "Index", "Staj").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                        <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personel İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Personel Durumu", "Durum", "Personel")</li>
+                        <li>@Html.ActionLink("Personel Durumu", "Durum", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
 
-                        <li>@Html.ActionLink("Personel Sayıları", "PersonelSayi", "Personel")</li>
+                        <li>@Html.ActionLink("Personel Sayıları", "PersonelSayi", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
 
                         @*<li><a href="#">Dropdown Link 1</a></li>
                             <li><a href="#">Dropdown Link 2</a></li>
                             <li><a href="#">Dropdown Link 3</a></li>>*@
                         @*<li>@Html.ActionLink("Grup Tanım", "Index", "Grups").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
-                        <li>@Html.ActionLink("Grup Tanımla", "YeniGrup", "Grups")</li>
+                        <li>@Html.ActionLink("Grup Tanımla", "YeniGrup", "Grups").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                         <li class="divider"></li>
-                        <li>@Html.ActionLink("PDKS Eksik Hareket ekle", "EksikHareketler", "Pdks")</li>
+                        <li>@Html.ActionLink("PDKS Eksik Hareket ekle", "EksikHareketler", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                         <li class="divider"></li>
-                        <li>@Html.ActionLink("Toplu Eksik Hareket Ekle", "TopluEksikHareketler", "Pdks")</li>
+                        <li>@Html.ActionLink("Toplu Eksik Hareket Ekle", "TopluEksikHareketler", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                         <li class="divider"></li>
                         @* <li>@Html.ActionLink("Taşeron Personel", "Index", "Taseron").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
 
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">İmza Takip</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("İmza Listesi", "Index", "ImzaTakip")</li>
+                                <li>@Html.ActionLink("İmza Listesi", "Index", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 @*<li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                             </ul>
                         </li>
@@ -77,8 +77,8 @@
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Covid-19</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("TopluPersonelDurumuGirme", "TopluEksikHareketler", "Pdks")</li>
-                                <li>@Html.ActionLink("İdari İzin Ekle", "IdariIzinEkle", "Template")</li>
+                                <li>@Html.ActionLink("TopluPersonelDurumuGirme", "TopluEksikHareketler", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("İdari İzin Ekle", "IdariIzinEkle", "Template").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 @*<li>@Html.ActionLink("Personel İmza Takip", "PersonelImza", "ImzaTakip").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                             </ul>
                         </li>
@@ -88,7 +88,7 @@
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">PDKS</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Mazeret İzni Giriş", "MazeretEkle", "Pdks")</li>
+                                <li>@Html.ActionLink("Mazeret İzni Giriş", "MazeretEkle", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
 
                             </ul>
                         </li>
@@ -96,19 +96,19 @@
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Formlar</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Avans Talep Formu", "AvansForm", "Personel")</li>
-                                <li>@Html.ActionLink("Mesai Onay Belgesi", "MesaiOnayBelge", "Personel")</li>
-                                <li>@Html.ActionLink("Taşeron İzin Formu", "IzinFormu", "Taseron")</li>
+                                <li>@Html.ActionLink("Avans Talep Formu", "AvansForm", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Mesai Onay Belgesi", "MesaiOnayBelge", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Taşeron İzin Formu", "IzinFormu", "Taseron").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                             </ul>
                         </li>
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rutin İşler</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Rutin İşler", "Index", "Takip")</li>
-                                <li>@Html.ActionLink("Rutin İşler Oluştur", "RutinEkle", "Takip")</li>
-                                <li>@Html.ActionLink("Maaş Kontrolleri", "MaasIsKontrol", "Template")</li>
-                                <li>@Html.ActionLink("Günlük Rapor", "GunlukRapor", "Template")</li>
-                                <li>@Html.ActionLink("Yıllık İzin Raporu", "Izinler", "Rapor")</li>
+                                <li>@Html.ActionLink("Rutin İşler", "Index", "Takip").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Rutin İşler Oluştur", "RutinEkle", "Takip").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Maaş Kontrolleri", "MaasIsKontrol", "Template").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Günlük Rapor", "GunlukRapor", "Template").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Yıllık İzin Raporu", "Izinler", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                             </ul>
                         </li>
                         <li class="dropdown dropdown-submenu">
@@ -120,58 +120,58 @@
 
 
                                     <ul class="dropdown-menu">
-                                        <li>@Html.ActionLink("Personel Özlük İşlemleri", "Index", "PersonelOzlukDosya")</li>
-                                        <li>@Html.ActionLink("Özlük Evrakları", "GrupEvrakEkle", "PersonelOzlukDosya")</li>
+                                        <li>@Html.ActionLink("Personel Özlük İşlemleri", "Index", "PersonelOzlukDosya").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                        <li>@Html.ActionLink("Özlük Evrakları", "GrupEvrakEkle", "PersonelOzlukDosya").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                     </ul>
                                 </li>
 
-                                <li>@Html.ActionLink("Personel Mesaileri", "Index", "PersonelMesais")</li>
+                                <li>@Html.ActionLink("Personel Mesaileri", "Index", "PersonelMesais").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 @* <li>@Html.ActionLink("Alınan Raporlar", "SaglikRapor", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
-                                <li>@Html.ActionLink("Avanslar", "Avanslar", "Personel")</li>
-                                <li>@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
+                                <li>@Html.ActionLink("Avanslar", "Avanslar", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Personel Icraları", "Index", "Icra").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li>@Html.ActionLink("IK Personel Ekle", "Create", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
-                                <li>@Html.ActionLink("Kan Grupları", "KanGrubu", "Mikro")</li>
-                                <li>@Html.ActionLink("Firma Bilgileri", "PersonelFirma", "Personel")</li>
+                                <li>@Html.ActionLink("Kan Grupları", "KanGrubu", "Mikro").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Firma Bilgileri", "PersonelFirma", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Tüm Personel Durumu", "TumPersonel", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
-                                <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel")</li>
+                                <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Personel Rapor Durumu", "RaporDurum", "Pdks")</li>
+                                <li>@Html.ActionLink("Personel Rapor Durumu", "RaporDurum", "Pdks").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Personel Eğitimleri", "Egitim", "PersonelOzlukDosya")</li>
+                                <li>@Html.ActionLink("Personel Eğitimleri", "Egitim", "PersonelOzlukDosya").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Görev Yerlerine Göre Dağılım", "_GörevYerleri", "Personel")</li>
-                                <li>@Html.ActionLink("Birimlere Göre Dağılım", "_BirimDetaylar", "Personel")</li>
-                                <li>@Html.ActionLink("Tahsil Durumuna Göre Dağılım", "_GenelTahsilDurumu", "Personel")</li>
-                                <li>@Html.ActionLink("Mesleklere Göre Dağılım", "_GenelMeslekDurumu", "Personel")</li>
-                                <li>@Html.ActionLink("Sgk Dosyalarına Göre Dağılım", "_GenelSgkDosyaDurumu", "Personel")</li>
+                                <li>@Html.ActionLink("Görev Yerlerine Göre Dağılım", "_GörevYerleri", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Birimlere Göre Dağılım", "_BirimDetaylar", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Tahsil Durumuna Göre Dağılım", "_GenelTahsilDurumu", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Mesleklere Göre Dağılım", "_GenelMeslekDurumu", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Sgk Dosyalarına Göre Dağılım", "_GenelSgkDosyaDurumu", "Personel").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                             </ul>
                         </li>
 
                         <li class="dropdown dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Raporlar</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Giriş Çıkış Raporları", "Raporlar", "Rapor")</li>
+                                <li>@Html.ActionLink("Giriş Çıkış Raporları", "Raporlar", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li>@Html.ActionLink("Personel Giriş Çıkış", "PersonelGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                                 <li>@Html.ActionLink("Departman Bazında Giriş Çıkış", "DepartmanGunlukDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
-                                <li>@Html.ActionLink("Genel Personel Durumu", "PersonelDurum", "Rapor")</li>
-                                <li>@Html.ActionLink("Genel Personel Durum Raporu", "PersonelDurumRapor", "Rapor")</li>
-                                <li>@Html.ActionLink("Günlük Gelen/Gelmeyen Personel Raporu", "GünlükRapor", "Rapor")</li>
+                                <li>@Html.ActionLink("Genel Personel Durumu", "PersonelDurum", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Genel Personel Durum Raporu", "PersonelDurumRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                                <li>@Html.ActionLink("Günlük Gelen/Gelmeyen Personel Raporu", "GünlükRapor", "Rapor").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
 
 
                             </ul>
                         </li>
 
-                        <li>@Html.ActionLink("Yönetim Denetim Kurulu", "Index", "Kuruls")</li>
-                        <li>@Html.ActionLink("Etiket Yönetimi", "Index", "Etiket")</li>
-                        <li>@Html.ActionLink("Görev Listeleri", "Index", "Gorev")</li>
+                        <li>@Html.ActionLink("Yönetim Denetim Kurulu", "Index", "Kuruls").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                        <li>@Html.ActionLink("Etiket Yönetimi", "Index", "Etiket").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
+                        <li>@Html.ActionLink("Görev Listeleri", "Index", "Gorev").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
 
 
                     </ul>
                 </li>
-                <li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin")</li>
+                <li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                 <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
-                <li>@Html.ActionLink("Toplu İşlem Takip", "Index", "Tasks")</li>
+                <li>@Html.ActionLink("Toplu İşlem Takip", "Index", "Tasks").If(User.Identity.Name == @"KENTKONUT\noskayKENTKONUT\noskay,KENTKONUT\derya.aslan")</li>
                 @*<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maaş İşlemleri <b class="caret"></b></a>
                     <ul class="dropdown-menu">

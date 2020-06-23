@@ -11,7 +11,7 @@ using PtakipDAL;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\yyazici,KENTKONUT\derya.aslan")]
+    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class RaporController : Controller
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -173,7 +173,7 @@ namespace ik.Controllers
         }
 
 
-        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay")]
+        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public ActionResult PersonelDurum()
         {
             return View();
@@ -191,7 +191,7 @@ namespace ik.Controllers
             return Json(new { Success = true, Data = kriterler }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         public ActionResult PersonelListeGetir(int[] birimlist, int[] lokasyonlist, int[] cinsiyetlist, int[] kadrolist, int[] tahsillist)
         {
             var liste = from p in db.Personels where p.cikistarihi == null select p;
