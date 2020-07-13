@@ -157,83 +157,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\KVKK\Controllers\IndexController.cs" />
-    <Compile Include="Areas\KVKK\Controllers\KVKK_SablonController.cs" />
-    <Compile Include="Areas\KVKK\Controllers\KVKK_TeknikTedbirController.cs" />
-    <Compile Include="Areas\KVKK\KVKKAreaRegistration.cs" />
-    <Compile Include="Areas\KVKK\Models\KVKKModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KVKKModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKKModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKKModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KVKKModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_1_VeriSahibi.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_2_VeriIslemeAmaci.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_3_VeriTransferAlici.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_4_VeriGuvenligiAlinanTedbirler.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_5_VeriSaklamaSuresi.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_Departman.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_Faaliyet.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_HukukiDayanak.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_IdariTedbir.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_IdariTedbirGrup.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_IdariTedbirGrupDetay.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_KisiselVeri.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_Sablon.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_TeknikTedbir.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_TeknikTedbirGrup.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_TeknikTedbirGrupListe.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\KVKK_VeriKategori.cs">
-      <DependentUpon>KVKKModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\KVKK\Models\partialClasses.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\AileFertleriController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\EnumController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\EnumDetayController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisEvrakController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisGerekEvrakTipController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\OzlukHomeController.cs" />
+    <Compile Include="Areas\OzlukAdmin\Controllers\PersonelController.cs" />
     <Compile Include="Areas\OzlukAdmin\Controllers\İseGirisCikisIslemleriController.cs" />
     <Compile Include="Areas\OzlukAdmin\Models\partials.cs" />
     <Compile Include="Areas\OzlukAdmin\OzlukAdminAreaRegistration.cs" />
@@ -242,7 +172,7 @@
     <Compile Include="Controllers\DatatablesTestController.cs" />
     <Compile Include="Controllers\GenelController.cs" />
     <Compile Include="Controllers\GirislerimController.cs" />
-    <Compile Include="Controllers\GorevController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GorevController.cs" />
     <Compile Include="Controllers\GrupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IcraController.cs" />
@@ -286,6 +216,7 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Cryptography.cs" />
+    <Compile Include="Models\DataClasslari\AvansDuzenleVM.cs" />
     <Compile Include="Models\DataClasslari\IzinVM.cs" />
     <Compile Include="Models\DataClasslari\MikroSonGirilenIzinVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelFirmaVM.cs" />
@@ -378,7 +309,7 @@
     </Compile>
     <Compile Include="Models\PerkotekDB.cs" />
     <Compile Include="Models\PERSONELLER.cs">
-      <DependentUpon>kentmakineihaleModel.tt</DependentUpon>
+      <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonelMesai.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
@@ -514,6 +445,9 @@
     <Compile Include="Models\PERSONEL_IZINLERI.cs">
       <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PERSONEL_SSK_TANIMLARI.cs">
+      <DependentUpon>kentModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PERSONEL_TAHAKKUKLARI.cs">
       <DependentUpon>kentModel.tt</DependentUpon>
     </Compile>
@@ -576,35 +510,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Admin\Content\bootstrap.min.css" />
-    <Content Include="Areas\Admin\Content\font-awesome.min.css" />
-    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.svg" />
-    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont_files\viewsource.css" />
-    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Areas\Admin\Content\fonts\MontserratLight.svg" />
-    <Content Include="Areas\Admin\Content\fonts\themify.svg" />
-    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.svg" />
-    <Content Include="Areas\Admin\Content\sidebar.css" />
-    <Content Include="Areas\Admin\Content\style.css" />
-    <Content Include="Areas\Admin\Content\themify-icons.css" />
-    <Content Include="Areas\Admin\Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Scripts\jquery.min.js" />
-    <Content Include="Areas\Admin\Scripts\jquery.nanoscroller.min.js" />
-    <Content Include="Areas\Admin\Scripts\pace.min.js" />
-    <Content Include="Areas\Admin\Scripts\scripts.js" />
-    <Content Include="Areas\Admin\Scripts\sidebar.js" />
-    <Content Include="Areas\KVKK\Models\KVKKModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KVKKModel.edmx</DependentUpon>
-      <LastGenOutput>KVKKModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\KVKK\Models\KVKKModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KVKKModel.edmx</DependentUpon>
-      <LastGenOutput>KVKKModel.cs</LastGenOutput>
-    </Content>
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont_files\viewsource.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\MontserratLight.svg" />
+    <Content Include="Content\fonts\themify.svg" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.svg" />
     <Content Include="Content\icons8-delete-trash-50.png" />
     <Content Include="Content\icons8-edit-64.png" />
+    <Content Include="Content\sidebar.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\themify-icons.css" />
     <Content Include="Content\unknown.png" />
     <Content Include="Content\PDF.png" />
     <Content Include="Content\bootstrap-datepicker.css" />
@@ -968,16 +885,42 @@
     <Content Include="Scripts\highchecktree.js" />
     <Content Include="Scripts\ikdialog.js" />
     <Content Include="Scripts\jquery.contextMenu.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
+    <Content Include="Scripts\jquery.nanoscroller.min.js" />
     <Content Include="Scripts\jquery.svg3dtagcloud.min.js" />
     <Content Include="Scripts\jquery.treetable.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\ozlukadmin.js" />
+    <Content Include="Scripts\pace.min.js" />
+    <Content Include="Scripts\scripts.js" />
+    <Content Include="Scripts\sidebar.js" />
     <Content Include="Scripts\sugar.js" />
     <Content Include="Scripts\switchery.min.js" />
     <Content Include="Scripts\uploads.js" />
     <Content Include="Scripts\uploadscripts.js" />
+    <Content Include="Uploads\OzlukBilgi\1082\06d94c8d-4b8d-4697-8f8d-bce76d9df6ac.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\5ee26407-7a5f-4aaf-9243-6d51193932cd.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\7c31adf4-3cbc-419a-b703-7d52597aca46.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\d50cf131-4893-40d0-91a1-a2ccd9875468.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\d55f5cc5-b1a3-46a8-afe2-d005d7fa7154.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\e1cb0376-3a4c-4db2-a3a4-608d021e6269.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\eadd895c-fef2-4ce5-a177-0c756626a4c0.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\06d94c8d-4b8d-4697-8f8d-bce76d9df6ac.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\3397329b-f49b-4ade-a08c-271707928d0f.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\3df34eaa-10ad-475d-869e-a7957c1ddd1e.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\5ee26407-7a5f-4aaf-9243-6d51193932cd.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\7c31adf4-3cbc-419a-b703-7d52597aca46.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\b0b44c61-daa0-4566-b05a-1deb74b4ad76.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\d50cf131-4893-40d0-91a1-a2ccd9875468.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\d55f5cc5-b1a3-46a8-afe2-d005d7fa7154.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\dbdb124e-7cc6-4643-a84d-32ade7693ed4.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\e0b2c175-e411-427d-b8aa-58fcdb3e4a26.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\e1cb0376-3a4c-4db2-a3a4-608d021e6269.jpg" />
+    <Content Include="Uploads\OzlukBilgi\1082\thumb\eadd895c-fef2-4ce5-a177-0c756626a4c0.jpg" />
+    <Content Include="Uploads\OzlukBilgi\2422\71ff285e-82dc-49ba-a596-f1dacff90f0f.jpg" />
+    <Content Include="Uploads\OzlukBilgi\2422\thumb\71ff285e-82dc-49ba-a596-f1dacff90f0f.jpg" />
     <Content Include="Views\Personel\_PersonelResimleri.cshtml" />
     <Content Include="yapılacaklar.txt" />
     <EntityDeploy Include="Models\ikModel.edmx">
@@ -1014,26 +957,6 @@
     </Content>
     <Content Include="Content\Report\Avans\merkez.xls" />
     <Content Include="Content\Report\Avans\khk.xls" />
-    <Content Include="Areas\KVKK\Views\web.config" />
-    <Content Include="Areas\KVKK\Views\Shared\_Layout.cshtml" />
-    <EntityDeploy Include="Areas\KVKK\Models\KVKKModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KVKKModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Areas\KVKK\Models\KVKKModel.edmx.diagram">
-      <DependentUpon>KVKKModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Create.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Delete.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Details.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Edit.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_TeknikTedbir\Index.cshtml" />
-    <Content Include="Areas\KVKK\Views\Index\Index.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Create.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Delete.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Details.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Edit.cshtml" />
-    <Content Include="Areas\KVKK\Views\KVKK_Sablon\Index.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\web.config" />
     <Content Include="Areas\OzlukAdmin\Views\Enum\Create.cshtml" />
     <Content Include="Areas\OzlukAdmin\Views\Enum\Delete.cshtml" />
@@ -1071,36 +994,36 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\Admin Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
-    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.eot" />
-    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.woff" />
-    <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\FontAwesome.otf" />
-    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Areas\Admin\Content\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\MontserratLight.eot" />
-    <Content Include="Areas\Admin\Content\fonts\MontserratLight.ttf" />
-    <Content Include="Areas\Admin\Content\fonts\MontserratLight.woff" />
-    <Content Include="Areas\Admin\Content\fonts\MontserratLight.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Bold.woff" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Bold.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Light.woff" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Light.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Medium.woff" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Medium.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Regular.woff" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Regular.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Thin.woff" />
-    <Content Include="Areas\Admin\Content\fonts\roboto\Roboto-Thin.woff2" />
-    <Content Include="Areas\Admin\Content\fonts\themify.eot" />
-    <Content Include="Areas\Admin\Content\fonts\themify.ttf" />
-    <Content Include="Areas\Admin\Content\fonts\themify.woff" />
-    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.eot" />
-    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.ttf" />
-    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.woff" />
-    <Content Include="Areas\Admin\Content\fonts\weathericons-regular-webfont.woff2" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\MontserratLight.eot" />
+    <Content Include="Content\fonts\MontserratLight.ttf" />
+    <Content Include="Content\fonts\MontserratLight.woff" />
+    <Content Include="Content\fonts\MontserratLight.woff2" />
+    <Content Include="Content\fonts\roboto\Roboto-Bold.woff" />
+    <Content Include="Content\fonts\roboto\Roboto-Bold.woff2" />
+    <Content Include="Content\fonts\roboto\Roboto-Light.woff" />
+    <Content Include="Content\fonts\roboto\Roboto-Light.woff2" />
+    <Content Include="Content\fonts\roboto\Roboto-Medium.woff" />
+    <Content Include="Content\fonts\roboto\Roboto-Medium.woff2" />
+    <Content Include="Content\fonts\roboto\Roboto-Regular.woff" />
+    <Content Include="Content\fonts\roboto\Roboto-Regular.woff2" />
+    <Content Include="Content\fonts\roboto\Roboto-Thin.woff" />
+    <Content Include="Content\fonts\roboto\Roboto-Thin.woff2" />
+    <Content Include="Content\fonts\themify.eot" />
+    <Content Include="Content\fonts\themify.ttf" />
+    <Content Include="Content\fonts\themify.woff" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.eot" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.woff2" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1421,10 +1344,10 @@
     <Content Include="Views\Personel\PersonelGecKalma.cshtml" />
     <Content Include="Views\Etiket\Bulut.cshtml" />
     <Content Include="Views\Takip\AltGorevler.cshtml" />
-    <Content Include="Views\Gorev\Index.cshtml" />
-    <Content Include="Views\Gorev\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Gorev\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Gorev\Create.cshtml" />
     <Content Include="Views\Takip\GorevEkle.cshtml" />
-    <Content Include="Views\Personel\Sicil.cshtml" />
+    <Content Include="Areas\OzlukAdmin\Views\Personel\Sicil.cshtml" />
     <Content Include="Views\Rapor\PersonelDurumRapor.cshtml" />
     <Content Include="Views\Personel\_BirimDetaylar.cshtml" />
     <Content Include="Views\Personel\_GörevYerleri.cshtml" />
@@ -1488,10 +1411,12 @@
     <Content Include="Views\Personel\PersonelSayi.cshtml" />
     <Content Include="Views\Mikro\_SonGirilenIzinlerPaged.cshtml" />
     <Content Include="Views\Mikro\_SonGirilenIzinlerVM.cshtml" />
+    <Content Include="Views\Personel\_AvansDuzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Uploads\IseGirisEvraklar\38167777466\thumb\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Genel\" />
     <Folder Include="Views\Takips\" />
@@ -1583,7 +1508,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

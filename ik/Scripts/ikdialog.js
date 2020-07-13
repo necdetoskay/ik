@@ -81,6 +81,62 @@
         });
 
     }
+    $.fn.ikDialog2 = function (options) {
+        var settings = $.extend({
+            formurl: '',
+            complete: function (result) { },
+            beforeshown: function (settings) { }          
+        }, options);
+        var avans = $(this);
+        var id = ID();
+        avans.attr("id", id);
+        $('#' + id).on('click', function (e) {
+            BootstrapDialog.show({
+                title: settings.title,
+                message: function (dialog) {
+                    var $message = $('<div>Bekleyiniz.......</div>');
+                    var dialogyukle = dialog.getData('dialogyukle');
+                    $message.load(dialogyukle);
+                    return $message;
+                },
+                onshown: function (dialogRef) {
+                    var form = dialogRef.getModalBody().find('form');
+                    $.validator.unobtrusive.parse(form);
+
+                    formvalidation(form, dialogRef, settings.complete);
+
+                },
+                data: {
+                    'dialogyukle': settings.formurl
+                    //,'complete': settings.complete
+                },
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                buttons: [
+                    {
+                        label: 'Kaydet',
+                        //hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+                        action: function (dialogRef) {
+                            var form = dialogRef.getModalBody().find('form');
+                            $(form).submit();
+                        }
+                    }, {
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }
+                ]
+            });
+
+
+
+
+            e.stopPropagation();
+        });
+        
+    }
 
     $.fn.ikDialog = function (options) {
         $(this).each(function () {

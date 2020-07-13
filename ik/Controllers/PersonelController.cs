@@ -21,7 +21,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ik.Controllers
 {
-   
+
     [FilterConfig.CustomActionFilter]
     [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class PersonelController : Controller
@@ -43,7 +43,7 @@ namespace ik.Controllers
         {
             return View();
         }
-      
+
 
         // GET: Personel
         public ActionResult Index()
@@ -469,7 +469,7 @@ namespace ik.Controllers
             }
         }
 
-       
+
         public ActionResult TumPersonel()
         {
             ViewBag.FirmaListe = new SelectList(db.Firmas, "id", "firmaad");
@@ -545,56 +545,57 @@ namespace ik.Controllers
             return View(liste.ToList());
         }
 
-      
-        [HttpPost]
-        public ActionResult _MeslekEkle(string ad)
-        {
-            try
-            {
-                var meslek = new Meslek()
-                {
-                    ad = ad
-                };
-                db.Mesleks.Add(meslek);
-                db.SaveChanges();
-                var liste = db.Mesleks.OrderBy(c => c.ad).Select(c => new
-                {
-                    Text = c.ad,
-                    Value = c.id
-                }).ToList();
 
-                return Json(new { Success = true, Selected = meslek.id, Data = liste }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //[HttpPost]
+        //public ActionResult _MeslekEkle(string ad)
+        //{
+        //    try
+        //    {
+        //        var meslek = new Meslek()
+        //        {
+        //            ad = ad
+        //        };
+        //        db.Mesleks.Add(meslek);
+        //        db.SaveChanges();
+        //        var liste = db.Mesleks.OrderBy(c => c.ad).Select(c => new
+        //        {
+        //            Text = c.ad,
+        //            Value = c.id
+        //        }).ToList();
+
+        //        return Json(new { Success = true, Selected = meslek.id, Data = liste }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
-        [HttpPost]
-        public JsonResult _GorevEkle(string ad)
-        {
-            try
-            {
-                var gorev = new Gorev()
-                {
-                    ad = ad
-                };
-                db.Gorevs.Add(gorev);
-                db.SaveChanges();
-                var liste = db.Gorevs.OrderBy(c => c.ad).Select(c => new
-                {
-                    Text = c.ad,
-                    Value = c.id
-                }).ToList();
+        //[HttpPost]
+        //public JsonResult _GorevEkle(string ad)
+        //{
+        //    try
+        //    {
+        //        var gorev = new Gorev()
+        //        {
+        //            ad = ad
+        //        };
+        //        db.Gorevs.Add(gorev);
+        //        db.SaveChanges();
+        //        var liste = db.Gorevs.OrderBy(c => c.ad).Select(c => new
+        //        {
+        //            Text = c.ad,
+        //            Value = c.id
+        //        }).ToList();
 
-                return Json(new { Success = true, Selected = gorev.id, Data = liste }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { Success = true, Selected = gorev.id, Data = liste }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         [HttpPost]
         public JsonResult _TumPersonelFiltre(int birim, int kadro, int firma, int lokasyon, int gorev, int cinsiyet)
@@ -689,14 +690,14 @@ namespace ik.Controllers
 
         public ActionResult _PersonelListesi()
         {
-            var pers = db.Personels.Where(c => c.cikistarihi==null)
+            var pers = db.Personels.Where(c => c.cikistarihi == null)
                 .Select(d => new
                 {
                     Text = d.adsoyad,
                     Value = d.id
                 });
 
-            return Json(new { Success = true, Data = pers.OrderBy(c=>c.Text) }, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, Data = pers.OrderBy(c => c.Text) }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -739,13 +740,13 @@ namespace ik.Controllers
 
         public JsonResult _PersonelWithThums()
         {
-            var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro<3 ).OrderBy(c => c.adsoyad).Select(c => new
+            var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
             {
                 value = c.id,
                 text = c.adsoyad,
                 imageSrc = c.PersonelDetay.thumb
             }).ToList();
-          
+
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
@@ -755,7 +756,7 @@ namespace ik.Controllers
 
         }
 
-        
+
 
         //public ActionResult _SelectList()
         //{
@@ -845,6 +846,24 @@ namespace ik.Controllers
             }
         }
 
+        public ActionResult _AvansDuzenle(int id,int tutar)
+        {
+            var vm = new AvansDuzenleVM { ID = id, Tutar = tutar };
+            return PartialView(vm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _AvansDuzenle(int id, int tutar,AvansDuzenleVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Avanslars.FirstOrDefault(c => c.id == id).tutar = model.Tutar;
+                db.SaveChanges();
+                return Json(new { Success = true,Data=tutar }, JsonRequestBehavior.AllowGet);
+            }
+            return PartialView(model);
+        }
+
         public JsonResult _AvansKontrol()
         {
             var p = db.Personels.FirstOrDefault();
@@ -864,7 +883,7 @@ namespace ik.Controllers
                 var tutar2 = 0;
                 foreach (var av in avans)
                 {
-                    if (av.tarih.Value< new DateTime(bugun.Year,bugun.Month,1))
+                    if (av.tarih.Value < new DateTime(bugun.Year, bugun.Month, 1))
                     {
                         tutar1 = av.tutar;
                     }
@@ -875,6 +894,8 @@ namespace ik.Controllers
                 }
                 liste.Add(new
                 {
+                    
+                   ID=avans.First().id,
                     AdSoyad = avans.Key,
                     GeçenAyTutar = tutar1,
                     BuAyTutar = tutar2
@@ -1027,7 +1048,7 @@ namespace ik.Controllers
             return Json(new { Data = liste }, JsonRequestBehavior.AllowGet);
         }
 
-        
+
         public ActionResult PersonelBilgiDuzenle(int id)
         {
             var personel = db.Personels.FirstOrDefault(c => c.id == id);
@@ -1085,8 +1106,8 @@ namespace ik.Controllers
                 personel.PersonelDetay.gorev = data.gorev;
 
                 db.SaveChanges();
-                return Json(new {Success=true,Lokasyon=personel.PersonelDetay.Lokasyon1.ad,Gorev= personel.PersonelDetay.Gorev1.ad, Tahsil= personel.PersonelDetay.Tahsil.ad }, JsonRequestBehavior.AllowGet);
-              
+                return Json(new { Success = true, Lokasyon = personel.PersonelDetay.Lokasyon1.ad, Gorev = personel.PersonelDetay.Gorev1.ad, Tahsil = personel.PersonelDetay.Tahsil.ad }, JsonRequestBehavior.AllowGet);
+
             }
             ViewBag.GorevListe = new SelectList(db.Gorevs.ToList(), "id", "ad", personel.PersonelDetay.gorev);
             ViewBag.LokasyonListe = new SelectList(db.Lokasyons.ToList(), "id", "ad", personel.PersonelDetay.lokasyon);
@@ -1140,7 +1161,7 @@ namespace ik.Controllers
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(DosyaYolu, 0, true, 5, "", "", true,
                     Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-                Excel._Worksheet worksheet = (Excel.Worksheet) xlWorkbook.Worksheets.get_Item(1);
+                Excel._Worksheet worksheet = (Excel.Worksheet)xlWorkbook.Worksheets.get_Item(1);
                 Excel.Range xlRange = worksheet.UsedRange;
                 int rowCount = xlRange.Rows.Count;
                 int colCount = xlRange.Columns.Count;
@@ -1162,7 +1183,7 @@ namespace ik.Controllers
                 var filename =
                     Server.MapPath(@Url.Content(string.Format("~/Content/Report/Avans/__{0}.xls", Guid.NewGuid())));
 
-               
+
                 xlWorkbook.SaveAs(filename); xlWorkbook.Close(true, null, null);
                 xlApp.Quit();
 
@@ -1188,7 +1209,7 @@ namespace ik.Controllers
             }
             catch (Exception hata)
             {
-               logger.Error(hata.Message);
+                logger.Error(hata.Message);
             }
 
 
@@ -1196,75 +1217,79 @@ namespace ik.Controllers
 
         }
 
-        public ActionResult Sicil(int id)
-        {
-            ViewBag.gorevListe = new SelectList(db.Gorevs.OrderBy(c=>c.ad), "id", "ad");
-            ViewBag.birimListe= new SelectList(db.birims.OrderBy(c => c.fullad), "id", "fullad");
-            ViewBag.tahsilListe = new SelectList(db.Tahsils.OrderBy(c => c.ad), "id", "ad");
-            ViewBag.lokasyonListe = new SelectList(db.Lokasyons.OrderBy(c => c.ad), "id", "ad");
-            ViewBag.meslekListe = new SelectList(db.Mesleks.OrderBy(c => c.ad), "id", "ad");
-            ViewBag.sgkdosyaListe = new SelectList(db.SgkDosyas, "id", "ad");
-            var personel = db.Personels.SingleOrDefault(c => c.id == id);
-            if (personel == null)
-                return new EmptyResult();
-            var sicil=new SicilVM();
-            if (personel.PersonelDetay != null) {
-                sicil.gorevID = personel.PersonelDetay.gorev;
-                sicil.tahsilID = personel.PersonelDetay.tahsili;
-                sicil.lokasyonID = personel.PersonelDetay.lokasyon;
-                sicil.meslekID = personel.PersonelDetay.meslek;
-                sicil.sgkDosya = personel.PersonelDetay.sgkdosya;
-            }
-            sicil.birimID = personel.birimid;
-            sicil.ikID = personel.id;
-            
-            return PartialView(sicil);
-        }
+        //public ActionResult Sicil(int id)
+        //{
+        //    ViewBag.gorevListe = new SelectList(db.Gorevs.OrderBy(c => c.ad), "id", "ad");
+        //    ViewBag.birimListe = new SelectList(db.birims.OrderBy(c => c.fullad), "id", "fullad");
+        //    ViewBag.tahsilListe = new SelectList(db.Tahsils.OrderBy(c => c.ad), "id", "ad");
+        //    ViewBag.lokasyonListe = new SelectList(db.Lokasyons.OrderBy(c => c.ad), "id", "ad");
+        //    ViewBag.meslekListe = new SelectList(db.Mesleks.OrderBy(c => c.ad), "id", "ad");
+        //    ViewBag.sgkdosyaListe = new SelectList(db.SgkDosyas, "id", "ad");
+        //    var personel = db.Personels.SingleOrDefault(c => c.id == id);
+        //    if (personel == null)
+        //        return new EmptyResult();
+        //    var sicil = new SicilVM();
+        //    if (personel.PersonelDetay != null)
+        //    {
+        //        sicil.gorevID = personel.PersonelDetay.gorev;
+        //        sicil.tahsilID = personel.PersonelDetay.tahsili;
+        //        sicil.lokasyonID = personel.PersonelDetay.lokasyon;
+        //        sicil.meslekID = personel.PersonelDetay.meslek;
+        //        sicil.sgkDosya = personel.PersonelDetay.sgkdosya;
+        //    }
+        //    sicil.birimID = personel.birimid;
+        //    sicil.ikID = personel.id;
+
+        //    return PartialView(sicil);
+        //}
 
 
-   
-        public JsonResult _PersonelDetayKaydet(int id,int gorev=0,int birim=0,int tahsil=0,int lokasyon=0,int meslek=0,int sgkdosya=0)
-        {
-            try
-            {var personel = db.Personels.SingleOrDefault(c => c.id == id);
-                if (personel.PersonelDetay == null) {
-                    personel.PersonelDetay = new PersonelDetay();
-                }
-                if (gorev > 0)
-                {
-                    personel.PersonelDetay.gorev = gorev;
-                }
-                if (tahsil > 0)
-                {
-                    personel.PersonelDetay.tahsili = tahsil;
-                }
-                if (lokasyon > 0)
-                {
-                    personel.PersonelDetay.lokasyon = lokasyon;
-                }
-                if (birim > 0)
-                {
-                    personel.birimid = birim;
-                }
 
-                if (meslek > 0)
-                {
-                        personel.PersonelDetay.meslek = meslek;
-                }
-                if (sgkdosya > 0)
-                {
-                    personel.PersonelDetay.sgkdosya = sgkdosya;
-                }
-            
-              
-                db.SaveChanges();
+        //public JsonResult _PersonelDetayKaydet(int id, int gorev = 0, int birim = 0, int tahsil = 0, int lokasyon = 0, int meslek = 0, int sgkdosya = 0)
+        //{
+        //    try
+        //    {
+        //        var personel = db.Personels.SingleOrDefault(c => c.id == id);
+        //        if (personel.PersonelDetay == null)
+        //        {
+        //            personel.PersonelDetay = new PersonelDetay();
+        //        }
+        //        if (gorev > 0)
+        //        {
+        //            personel.PersonelDetay.gorev = gorev;
+        //        }
+        //        if (tahsil > 0)
+        //        {
+        //            personel.PersonelDetay.tahsili = tahsil;
+        //        }
+        //        if (lokasyon > 0)
+        //        {
+        //            personel.PersonelDetay.lokasyon = lokasyon;
+        //        }
+        //        if (birim > 0)
+        //        {
+        //            personel.birimid = birim;
+        //        }
 
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }catch (Exception ex)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        if (meslek > 0)
+        //        {
+        //            personel.PersonelDetay.meslek = meslek;
+        //        }
+        //        if (sgkdosya > 0)
+        //        {
+        //            personel.PersonelDetay.sgkdosya = sgkdosya;
+        //        }
+
+
+        //        db.SaveChanges();
+
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(false, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public ActionResult _BirimDetaylar()
         {
             var liste = db.birims;
@@ -1272,7 +1297,7 @@ namespace ik.Controllers
         }
         public ActionResult _GörevYerleri()
         {
-            var liste = db.Lokasyons.Where(c=>c.PersonelDetays.Any(d=>d.Personel.cikistarihi==null));
+            var liste = db.Lokasyons.Where(c => c.PersonelDetays.Any(d => d.Personel.cikistarihi == null));
             return View(liste);
         }
         public ActionResult _GenelTahsilDurumu()
@@ -1316,7 +1341,7 @@ namespace ik.Controllers
         public ActionResult _PersonelMeslekleri(string ad)
         {
             var pers = db.Personels.Where(c => c.PersonelDetay.Meslek1.ad == ad & c.cikistarihi == null & c.kadro < 3);
-            return PartialView("_PersonelGrup",pers);
+            return PartialView("_PersonelGrup", pers);
         }
 
 
@@ -1335,24 +1360,24 @@ namespace ik.Controllers
 
         public ActionResult GorevlendirmeEkle(int id)
         {
-            var görevlendirme = new OzlukGorevlendirme {personelID = id,tarih = DateTime.Now};
+            var görevlendirme = new OzlukGorevlendirme { personelID = id, tarih = DateTime.Now };
             return PartialView(görevlendirme);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GorevlendirmeEkle(int id,OzlukGorevlendirme gorev)
+        public ActionResult GorevlendirmeEkle(int id, OzlukGorevlendirme gorev)
         {
             if (ModelState.IsValid)
             {
                 db.OzlukGorevlendirmes.Add(gorev);
                 db.SaveChanges();
-                return Json(new {success = true}, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             return PartialView();
         }
 
-        public ActionResult PersonelDosyaYukle(int id,int kayitid=0)
+        public ActionResult PersonelDosyaYukle(int id, int kayitid = 0)
         {
             ViewBag.EvrakListe = new SelectList(db.EvrakListes, "id", "ad");
             ViewBag.PersonelID = id;
@@ -1370,17 +1395,17 @@ namespace ik.Controllers
         {
             var pers = db.Personels.FirstOrDefault(c => c.id == id);
             var mikro = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == pers.mikroid);
-           
+
             var bilgi = new
             {
                 AdSoyad = mikro.per_adi + ' ' + mikro.per_soyadi,
-                SGKSicilno=mikro.Per_TcKimlikNo,
-                İşeGirişTarihi=mikro.per_giris_tar,
-                KıdemTarihi=mikro.per_Kidem_Tarih,
-                İştenÇıkışTarihi=mikro.per_cikis_tar,
-                PersonelÇıkışDetay=mikro.per_cikis_neden,
-                PersonelÇıkışKod=mikro.per_CikisSebebiSecimli,
-                PersonelFirma=mikro.per_kim_SGK_kod
+                SGKSicilno = mikro.Per_TcKimlikNo,
+                İşeGirişTarihi = mikro.per_giris_tar,
+                KıdemTarihi = mikro.per_Kidem_Tarih,
+                İştenÇıkışTarihi = mikro.per_cikis_tar,
+                PersonelÇıkışDetay = mikro.per_cikis_neden,
+                PersonelÇıkışKod = mikro.per_CikisSebebiSecimli,
+                PersonelFirma = mikro.per_kim_SGK_kod
 
 
             };
@@ -1398,12 +1423,12 @@ namespace ik.Controllers
 
         public ActionResult EkleGirisEvrak(int id)
         {
-            var mevcut = db.Ozluk_IseGirisEvrak.Where(c => c.personelid == id).Select(d=>d.Ozluk_IseGirisGerekEvrakTip).ToList();
+            var mevcut = db.Ozluk_IseGirisEvrak.Where(c => c.personelid == id).Select(d => d.Ozluk_IseGirisGerekEvrakTip).ToList();
             var list = db.Ozluk_IseGirisGerekEvrakTip.ToList();
             var fark = list.Except(mevcut);
 
             ViewBag.evrakListe = new SelectList(fark, "id", "ad");
-           
+
 
             var evr = new Ozluk_IseGirisEvrak()
             {
@@ -1436,7 +1461,7 @@ namespace ik.Controllers
                 db.Ozluk_IseGirisEvrak.Add(evrak);
                 try
                 {
-                    evrak.tarih=DateTime.Now;
+                    evrak.tarih = DateTime.Now;
                     db.SaveChanges();
                 }
                 catch (DbEntityValidationException e)
@@ -1474,7 +1499,7 @@ namespace ik.Controllers
             using (var db = new ikEntities())
             {
                 var personel = db.Personels.FirstOrDefault(c => c.id == id);
-                using (var mikro=new KENTEntities() )
+                using (var mikro = new KENTEntities())
                 {
                     var mikroper = mikro.PERSONELLERs.FirstOrDefault(c => c.per_Guid == personel.mikroid);
                     var adsoyad = mikroper.per_adi + " " + mikroper.per_soyadi;
@@ -1490,17 +1515,23 @@ namespace ik.Controllers
                     var sicil = personel.PersonelDetay.SgkDosya1.SgkNo;
                     return Json(new
                     {
-                        adsoyad,dogumyeryil,tcno,unvan,adres,
+                        adsoyad,
+                        dogumyeryil,
+                        tcno,
+                        unvan,
+                        adres,
                         yapılanis,
                         meslekkod,
                         gorev,
-                        baslamatarih,sicil
+                        baslamatarih,
+                        sicil
 
-                    },JsonRequestBehavior.AllowGet)
-;                }
+                    }, JsonRequestBehavior.AllowGet)
+;
+                }
             }
-           
-           
+
+
             return null;
         }
 
@@ -1511,58 +1542,76 @@ namespace ik.Controllers
 
         public JsonResult _PersonelSayi(string tarih)
         {
-            var ta = tarih.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries);
+            var ta = tarih.Split(new[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
             int yil = int.Parse(ta[0]);
             int ay = int.Parse(ta[1]);
             var date = new DateTime(yil, ay, 1).AddMonths(1);
             using (var mikro = new KENTEntities())
             {
                 var q = (from pt in mikro.PERSONEL_TAHAKKUKLARI
-                    join p in mikro.PERSONELLERs on pt.pt_pkod equals p.per_kod
-                    where
-                        pt.pt_maliyil.Value == yil & pt.pt_tah_ay.Value == ay & !p.per_kod.StartsWith("HZ") &
-                        !p.per_kod.StartsWith("Dr")
-                    orderby p.Per_TcKimlikNo ascending
-                    select new
-                    {
-                        PersonalAdSoyad = p.per_adi,
-                        TC = p.Per_TcKimlikNo,
-                        Cikis = p.per_cikis_tar.Value,
-                        CikisKod=p.per_CikisSebebiSecimli.Value
-                    }).ToList().Where(c => c.Cikis < new DateTime(yil, ay, 1) | c.Cikis >= date & c.CikisKod!=16).OrderBy(c => c.Cikis);
-                    //;
+                         join p in mikro.PERSONELLERs on pt.pt_pkod equals p.per_kod
+                         where
+                             pt.pt_maliyil.Value == yil & pt.pt_tah_ay.Value == ay & !p.per_kod.StartsWith("HZ") &
+                             !p.per_kod.StartsWith("Dr")
+                         orderby p.Per_TcKimlikNo ascending
+                         select new
+                         {
+                             PersonalAdSoyad = p.per_adi,
+                             TC = p.Per_TcKimlikNo,
+                             Cikis = p.per_cikis_tar.Value,
+                             CikisKod = p.per_CikisSebebiSecimli.Value
+                         }).ToList().Where(c => c.Cikis < new DateTime(yil, ay, 1) | c.Cikis >= date & c.CikisKod != 16).OrderBy(c => c.Cikis);
+                //;
 
                 return Json(q, JsonRequestBehavior.AllowGet);
             }
-           
+
         }
 
-      
 
-        public ActionResult _PersonelResimYukle(int id)
-        {
-            var personel = db.Personels.FirstOrDefault(c => c.id == id);
-            if (personel != null)
-            {
-                var url = personel.PersonelDetay.thumb;
-                if(url!=null)
-                    return Json(new { Success=true,Url=url}, JsonRequestBehavior.AllowGet);
-                return Json(new { Success = false,Url= Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new {Success=false,Url= Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
-        }
 
-        [HttpPost]
-        public ActionResult _PersonelResimGuncelle(int id,string data)
+        //public ActionResult _PersonelResimYukle(int id)
+        //{
+        //    var personel = db.Personels.FirstOrDefault(c => c.id == id);
+        //    if (personel != null)
+        //    {
+        //        var url = personel.PersonelDetay.thumb;
+        //        if (url != null)
+        //            return Json(new { Success = true, Url = url }, JsonRequestBehavior.AllowGet);
+        //        return Json(new { Success = false, Url = Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    return Json(new { Success = false, Url = Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+        //}
+
+        //[HttpPost]
+        //public ActionResult _PersonelResimGuncelle(int id, string data)
+        //{
+        //    var personel = db.Personels.FirstOrDefault(c => c.id == id);
+        //    if (personel != null)
+        //    {
+        //        personel.PersonelDetay.thumb = string.IsNullOrEmpty(data) ? null : data;
+        //        db.SaveChanges();
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    return Json(false, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult _SgkMikroKontrolet(string sgkno)
         {
-            var personel = db.Personels.FirstOrDefault(c => c.id == id);
-            if (personel != null)
+            var adet = 0;
+            using (var mikro = new KENTEntities())
             {
-                personel.PersonelDetay.thumb = string.IsNullOrEmpty(data)?null:data;
-                db.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
+                var sgklar = mikro.PERSONEL_SSK_TANIMLARI.Where(c => sgkno.Contains(c.ssk_sskno_SiraNo));
+                //.ssk_Sira_No;
+               
+                var cikistarih = new DateTime(1899, 12, 31);
+                foreach (var sgk in sgklar)
+                {
+                    adet += mikro.PERSONELLERs.Count(c => c.per_ucr_PSSK_sube == sgk.ssk_Sira_No & c.per_cikis_tar.Value== cikistarih & c.per_bolge_kodu!="HZR");
+                }                
+
             }
-            return Json(false, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true ,Data=adet}, JsonRequestBehavior.AllowGet);
         }
     }
 

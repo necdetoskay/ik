@@ -306,5 +306,16 @@ namespace ik.Models
         public string per_sosyal_pinterest { get; set; }
         public string per_sosyal_instagram { get; set; }
         public string per_sosyal_snapchat { get; set; }
+        public string per_calismaizni_no { get; set; }
+        public Nullable<System.DateTime> per_calismaizni_alindigi_tar { get; set; }
+        public Nullable<System.DateTime> per_calismaizni_gec_tar { get; set; }
+        public Nullable<double> per_vergiden_muhaf_odenek1 { get; set; }
+        public Nullable<double> per_vergiden_muhaf_odenek2 { get; set; }
+        public Nullable<double> per_sabit_gelirversi_orani { get; set; }
+        public Nullable<byte> per_spor_dali { get; set; }
+        public Nullable<bool> per_kisacalisma_fl { get; set; }
+        public Nullable<System.DateTime> per_kisacalisma_baslangic { get; set; }
+        public Nullable<System.DateTime> per_kisacalisma_bitis { get; set; }
+        public Nullable<double> per_kisacalisma_haftaliksaat { get; set; }
     }
 }

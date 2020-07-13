@@ -17,7 +17,7 @@ namespace ik.Areas.OzlukAdmin
             context.MapRoute(
                 "OzlukAdmin_default",
                 "OzlukAdmin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", controller="OzlukHome", id = UrlParameter.Optional }
             );
         }
     }

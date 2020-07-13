@@ -94,6 +94,103 @@
           <Property Name="pz_saat" Type="float" />
           <Property Name="pz_BaslamaSaati" Type="datetime" />
         </EntityType>
+        <EntityType Name="PERSONEL_SSK_TANIMLARI">
+          <Key>
+            <PropertyRef Name="ssk_Guid" />
+          </Key>
+          <Property Name="ssk_Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ssk_DBCno" Type="smallint" Nullable="false" />
+          <Property Name="ssk_SpecRECno" Type="int" />
+          <Property Name="ssk_iptal" Type="bit" />
+          <Property Name="ssk_fileid" Type="smallint" />
+          <Property Name="ssk_hidden" Type="bit" />
+          <Property Name="ssk_kilitli" Type="bit" />
+          <Property Name="ssk_degisti" Type="bit" />
+          <Property Name="ssk_checksum" Type="int" />
+          <Property Name="ssk_create_user" Type="smallint" />
+          <Property Name="ssk_create_date" Type="datetime" Nullable="false" />
+          <Property Name="ssk_lastup_user" Type="smallint" />
+          <Property Name="ssk_lastup_date" Type="datetime" />
+          <Property Name="ssk_special1" Type="nvarchar" MaxLength="4" />
+          <Property Name="ssk_special2" Type="nvarchar" MaxLength="4" />
+          <Property Name="ssk_special3" Type="nvarchar" MaxLength="4" />
+          <Property Name="ssk_Sira_No" Type="int" />
+          <Property Name="ssk_ismi" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_TehlikeDerecesi" Type="tinyint" />
+          <Property Name="ssk_KazaYuzdesi" Type="float" />
+          <Property Name="ssk_subekodu" Type="nvarchar" MaxLength="2" />
+          <Property Name="ssk_BolCalDosNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="ssk_cadde" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_mahalle" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_sokak" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_Adr_Semt" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_Apt_No" Type="nvarchar" MaxLength="10" />
+          <Property Name="ssk_Daire_No" Type="nvarchar" MaxLength="10" />
+          <Property Name="ssk_posta_kodu" Type="nvarchar" MaxLength="8" />
+          <Property Name="ssk_ilce" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_il" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_ulke" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_adres_kodu" Type="nvarchar" MaxLength="10" />
+          <Property Name="ssk_iysinifi" Type="tinyint" />
+          <Property Name="ssk_iykapino" Type="nvarchar" MaxLength="5" />
+          <Property Name="ssk_maasbankakodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_sskno_Mahiyet" Type="nvarchar" MaxLength="1" />
+          <Property Name="ssk_sskno_Iskolu" Type="nvarchar" MaxLength="4" />
+          <Property Name="ssk_sskno_SubeKodu" Type="nvarchar" MaxLength="2" />
+          <Property Name="ssk_sskno_TehlikeKodu" Type="nvarchar" MaxLength="2" />
+          <Property Name="ssk_sskno_SiraNo" Type="nvarchar" MaxLength="7" />
+          <Property Name="ssk_sskno_IlKodu" Type="nvarchar" MaxLength="3" />
+          <Property Name="ssk_sskno_Ilce" Type="nvarchar" MaxLength="2" />
+          <Property Name="ssk_sskno_Kontrol_No" Type="nvarchar" MaxLength="2" />
+          <Property Name="ssk_AraciKodu" Type="nvarchar" MaxLength="3" />
+          <Property Name="ssk_BolgeMudurlukNo" Type="nvarchar" MaxLength="3" />
+          <Property Name="ssk_Iskur_uid" Type="uniqueidentifier" />
+          <Property Name="ssk_Semt" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_N_SSK_Yuzde" Type="float" />
+          <Property Name="ssk_E_SSK_Yuzde" Type="float" />
+          <Property Name="ssk_C_SSK_Yuzde" Type="float" />
+          <Property Name="ssk_Y_SSK_Yuzde" Type="float" />
+          <Property Name="ssk_Ana_Sig" Type="float" />
+          <Property Name="ssk_N_Hast_Sig" Type="float" />
+          <Property Name="ssk_C_Hast_Sig" Type="float" />
+          <Property Name="ssk_Yas_Ol_Sig" Type="float" />
+          <Property Name="ssk_SGDP_Orani" Type="float" />
+          <Property Name="ssk_Calisma_Kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_FirmaUnvani" Type="nvarchar" MaxLength="127" />
+          <Property Name="ssk_FirmaUnvani2" Type="nvarchar" MaxLength="127" />
+          <Property Name="ssk_ebildirge_username" Type="nvarchar" MaxLength="11" />
+          <Property Name="ssk_ebildirge_isyerikod" Type="nvarchar" MaxLength="4" />
+          <Property Name="ssk_ebildirge_password" Type="nvarchar" MaxLength="127" />
+          <Property Name="ssk_ebildirge_isyerisifre" Type="nvarchar" MaxLength="127" />
+          <Property Name="ssk_yasolum_itibarihizmet" Type="float" />
+          <Property Name="ssk_isverentipi" Type="tinyint" />
+          <Property Name="ssk_genel_saglik_sigortasi" Type="float" />
+          <Property Name="ssk_malulluk_muafiyet" Type="float" />
+          <Property Name="ssk_5225BelgeTuru" Type="tinyint" />
+          <Property Name="ssk_5225BelgeTarihi" Type="datetime" />
+          <Property Name="ssk_5225BelgeSayisi" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_GVK80BelgeTarih" Type="datetime" />
+          <Property Name="ssk_GVK80BelgeNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="ssk_iskolukodu" Type="tinyint" />
+          <Property Name="ssk_iskolukodu_new" Type="tinyint" />
+          <Property Name="ssk_Pasif_fl" Type="bit" />
+          <Property Name="ssk_AcilisTarihi" Type="datetime" />
+          <Property Name="ssk_KapanisTarihi" Type="datetime" />
+          <Property Name="ssk_muhtasarisyeri_adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="ssk_muhtasarisyeri_turu" Type="tinyint" />
+          <Property Name="ssk_muhtasarisyeri_kodu" Type="nvarchar" MaxLength="10" />
+          <Property Name="ssk_muhtasarisyeri_mulkiyet" Type="tinyint" />
+          <Property Name="ssk_Ticaret_Sicil_No" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_Ticaret_Sicil_Mudurlugu" Type="nvarchar" MaxLength="4" />
+          <Property Name="ssk_Nace_Kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="ssk_FirmaNo" Type="int" />
+          <Property Name="ssk_SubeNo" Type="int" />
+          <Property Name="ssk_gecici_madde_17_gunluk_destek" Type="float" />
+          <Property Name="ssk_muhsgk_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="ssk_KbsTesiskodu" Type="int" />
+          <Property Name="ssk_dulke_iscipayi_ustdilimi" Type="float" />
+          <Property Name="ssk_dulke_iscipayi_ustorani" Type="float" />
+        </EntityType>
         <EntityType Name="PERSONEL_TAHAKKUKLARI">
           <Key>
             <PropertyRef Name="pt_Guid" />
@@ -152,6 +249,11 @@
           <Property Name="pt_kazanc6_tkyarim_isgunu" Type="smallint" />
           <Property Name="pt_kazanc6_tkyarim_isgun_saat" Type="float" />
           <Property Name="pt_kazanc6_tktutar" Type="float" />
+          <Property Name="pt_kazanc7_tkgun" Type="smallint" />
+          <Property Name="pt_kazanc7_tksaat" Type="float" />
+          <Property Name="pt_kazanc7_tkyarim_isgunu" Type="smallint" />
+          <Property Name="pt_kazanc7_tkyarim_isgun_saat" Type="float" />
+          <Property Name="pt_kazanc7_tktutar" Type="float" />
           <Property Name="pt_KazancBNCarpan" Type="float" />
           <Property Name="pt_ekkazanc1_tkgun" Type="smallint" />
           <Property Name="pt_ekkazanc1_tksaat" Type="float" />
@@ -471,6 +573,19 @@
           <Property Name="pt_saatlik_izin_tutari" Type="float" />
           <Property Name="pt_otobes_tutari" Type="float" />
           <Property Name="pt_hazinekanunudvindirimi" Type="float" />
+          <Property Name="pt_digersigorta_isveren_escocuk" Type="float" />
+          <Property Name="pt_meslekgvmatrahindirimi" Type="float" />
+          <Property Name="pt_sosyrdmgun23" Type="smallint" />
+          <Property Name="pt_sosyrdmgun24" Type="smallint" />
+          <Property Name="pt_sosyrdmgun25" Type="smallint" />
+          <Property Name="pt_sosyrdmgun26" Type="smallint" />
+          <Property Name="pt_sosyrdmgun27" Type="smallint" />
+          <Property Name="pt_sosyrdmgun28" Type="smallint" />
+          <Property Name="pt_sosyrdmgun29" Type="smallint" />
+          <Property Name="pt_sosyrdmgun30" Type="smallint" />
+          <Property Name="pt_sosyrdmgun31" Type="smallint" />
+          <Property Name="pt_sosyrdmgun32" Type="smallint" />
+          <Property Name="pt_vergidenmuafodenek" Type="float" />
         </EntityType>
         <EntityType Name="PERSONELLER">
           <Key>
@@ -702,6 +817,9 @@
           <Property Name="per_nuf_asker_bittarih" Type="datetime" />
           <Property Name="per_nuf_asker_durum" Type="tinyint" />
           <Property Name="per_Isy_KimlikNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_calismaizni_no" Type="nvarchar" MaxLength="20" />
+          <Property Name="per_calismaizni_alindigi_tar" Type="datetime" />
+          <Property Name="per_calismaizni_gec_tar" Type="datetime" />
           <Property Name="per_boyu" Type="float" />
           <Property Name="per_kilo" Type="float" />
           <Property Name="per_gomlek_bed" Type="nvarchar" MaxLength="10" />
@@ -768,10 +886,19 @@
           <Property Name="per_sosyal_pinterest" Type="nvarchar" MaxLength="50" />
           <Property Name="per_sosyal_instagram" Type="nvarchar" MaxLength="50" />
           <Property Name="per_sosyal_snapchat" Type="nvarchar" MaxLength="50" />
+          <Property Name="per_vergiden_muhaf_odenek1" Type="float" />
+          <Property Name="per_vergiden_muhaf_odenek2" Type="float" />
+          <Property Name="per_sabit_gelirversi_orani" Type="float" />
+          <Property Name="per_spor_dali" Type="tinyint" />
+          <Property Name="per_kisacalisma_fl" Type="bit" />
+          <Property Name="per_kisacalisma_baslangic" Type="datetime" />
+          <Property Name="per_kisacalisma_bitis" Type="datetime" />
+          <Property Name="per_kisacalisma_haftaliksaat" Type="float" />
         </EntityType>
         <EntityContainer Name="MikroDB_V15_KENTModelStoreContainer">
           <EntitySet Name="PERSONEL_AILE_TANIMLARI" EntityType="Self.PERSONEL_AILE_TANIMLARI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONEL_IZINLERI" EntityType="Self.PERSONEL_IZINLERI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONEL_SSK_TANIMLARI" EntityType="Self.PERSONEL_SSK_TANIMLARI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONEL_TAHAKKUKLARI" EntityType="Self.PERSONEL_TAHAKKUKLARI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONELLER" EntityType="Self.PERSONELLER" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -784,6 +911,7 @@
           <EntitySet Name="PERSONEL_IZINLERI" EntityType="MikroDB_V15_KENTModel.PERSONEL_IZINLERI" />
           <EntitySet Name="PERSONEL_TAHAKKUKLARI" EntityType="MikroDB_V15_KENTModel.PERSONEL_TAHAKKUKLARI" />
           <EntitySet Name="PERSONELLERs" EntityType="MikroDB_V15_KENTModel.PERSONELLER" />
+          <EntitySet Name="PERSONEL_SSK_TANIMLARI" EntityType="MikroDB_V15_KENTModel.PERSONEL_SSK_TANIMLARI" />
         </EntityContainer>
         <EntityType Name="PERSONEL_AILE_TANIMLARI">
           <Key>
@@ -1251,6 +1379,24 @@
           <Property Name="pt_saatlik_izin_tutari" Type="Double" />
           <Property Name="pt_otobes_tutari" Type="Double" />
           <Property Name="pt_hazinekanunudvindirimi" Type="Double" />
+          <Property Name="pt_kazanc7_tkgun" Type="Int16" />
+          <Property Name="pt_kazanc7_tksaat" Type="Double" />
+          <Property Name="pt_kazanc7_tkyarim_isgunu" Type="Int16" />
+          <Property Name="pt_kazanc7_tkyarim_isgun_saat" Type="Double" />
+          <Property Name="pt_kazanc7_tktutar" Type="Double" />
+          <Property Name="pt_digersigorta_isveren_escocuk" Type="Double" />
+          <Property Name="pt_meslekgvmatrahindirimi" Type="Double" />
+          <Property Name="pt_sosyrdmgun23" Type="Int16" />
+          <Property Name="pt_sosyrdmgun24" Type="Int16" />
+          <Property Name="pt_sosyrdmgun25" Type="Int16" />
+          <Property Name="pt_sosyrdmgun26" Type="Int16" />
+          <Property Name="pt_sosyrdmgun27" Type="Int16" />
+          <Property Name="pt_sosyrdmgun28" Type="Int16" />
+          <Property Name="pt_sosyrdmgun29" Type="Int16" />
+          <Property Name="pt_sosyrdmgun30" Type="Int16" />
+          <Property Name="pt_sosyrdmgun31" Type="Int16" />
+          <Property Name="pt_sosyrdmgun32" Type="Int16" />
+          <Property Name="pt_vergidenmuafodenek" Type="Double" />
         </EntityType>
         <EntityType Name="PERSONELLER">
           <Key>
@@ -1548,6 +1694,114 @@
           <Property Name="per_sosyal_pinterest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="per_sosyal_instagram" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="per_sosyal_snapchat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="per_calismaizni_no" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="per_calismaizni_alindigi_tar" Type="DateTime" Precision="3" />
+          <Property Name="per_calismaizni_gec_tar" Type="DateTime" Precision="3" />
+          <Property Name="per_vergiden_muhaf_odenek1" Type="Double" />
+          <Property Name="per_vergiden_muhaf_odenek2" Type="Double" />
+          <Property Name="per_sabit_gelirversi_orani" Type="Double" />
+          <Property Name="per_spor_dali" Type="Byte" />
+          <Property Name="per_kisacalisma_fl" Type="Boolean" />
+          <Property Name="per_kisacalisma_baslangic" Type="DateTime" Precision="3" />
+          <Property Name="per_kisacalisma_bitis" Type="DateTime" Precision="3" />
+          <Property Name="per_kisacalisma_haftaliksaat" Type="Double" />
+        </EntityType>
+        <EntityType Name="PERSONEL_SSK_TANIMLARI">
+          <Key>
+            <PropertyRef Name="ssk_Guid" />
+          </Key>
+          <Property Name="ssk_Guid" Type="Guid" Nullable="false" />
+          <Property Name="ssk_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="ssk_SpecRECno" Type="Int32" />
+          <Property Name="ssk_iptal" Type="Boolean" />
+          <Property Name="ssk_fileid" Type="Int16" />
+          <Property Name="ssk_hidden" Type="Boolean" />
+          <Property Name="ssk_kilitli" Type="Boolean" />
+          <Property Name="ssk_degisti" Type="Boolean" />
+          <Property Name="ssk_checksum" Type="Int32" />
+          <Property Name="ssk_create_user" Type="Int16" />
+          <Property Name="ssk_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ssk_lastup_user" Type="Int16" />
+          <Property Name="ssk_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="ssk_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Sira_No" Type="Int32" />
+          <Property Name="ssk_ismi" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_TehlikeDerecesi" Type="Byte" />
+          <Property Name="ssk_KazaYuzdesi" Type="Double" />
+          <Property Name="ssk_subekodu" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_BolCalDosNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_cadde" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_mahalle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sokak" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Adr_Semt" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Apt_No" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Daire_No" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_posta_kodu" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_ilce" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_il" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_ulke" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_adres_kodu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_iysinifi" Type="Byte" />
+          <Property Name="ssk_iykapino" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_maasbankakodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_Mahiyet" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_Iskolu" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_SubeKodu" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_TehlikeKodu" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_SiraNo" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_IlKodu" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_Ilce" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_sskno_Kontrol_No" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_AraciKodu" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_BolgeMudurlukNo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Iskur_uid" Type="Guid" />
+          <Property Name="ssk_Semt" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_N_SSK_Yuzde" Type="Double" />
+          <Property Name="ssk_E_SSK_Yuzde" Type="Double" />
+          <Property Name="ssk_C_SSK_Yuzde" Type="Double" />
+          <Property Name="ssk_Y_SSK_Yuzde" Type="Double" />
+          <Property Name="ssk_Ana_Sig" Type="Double" />
+          <Property Name="ssk_N_Hast_Sig" Type="Double" />
+          <Property Name="ssk_C_Hast_Sig" Type="Double" />
+          <Property Name="ssk_Yas_Ol_Sig" Type="Double" />
+          <Property Name="ssk_SGDP_Orani" Type="Double" />
+          <Property Name="ssk_Calisma_Kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_FirmaUnvani" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_FirmaUnvani2" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_ebildirge_username" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_ebildirge_isyerikod" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_ebildirge_password" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_ebildirge_isyerisifre" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_yasolum_itibarihizmet" Type="Double" />
+          <Property Name="ssk_isverentipi" Type="Byte" />
+          <Property Name="ssk_genel_saglik_sigortasi" Type="Double" />
+          <Property Name="ssk_malulluk_muafiyet" Type="Double" />
+          <Property Name="ssk_5225BelgeTuru" Type="Byte" />
+          <Property Name="ssk_5225BelgeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="ssk_5225BelgeSayisi" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_GVK80BelgeTarih" Type="DateTime" Precision="3" />
+          <Property Name="ssk_GVK80BelgeNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_iskolukodu" Type="Byte" />
+          <Property Name="ssk_iskolukodu_new" Type="Byte" />
+          <Property Name="ssk_Pasif_fl" Type="Boolean" />
+          <Property Name="ssk_AcilisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="ssk_KapanisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="ssk_muhtasarisyeri_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_muhtasarisyeri_turu" Type="Byte" />
+          <Property Name="ssk_muhtasarisyeri_kodu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_muhtasarisyeri_mulkiyet" Type="Byte" />
+          <Property Name="ssk_Ticaret_Sicil_No" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Ticaret_Sicil_Mudurlugu" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_Nace_Kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ssk_FirmaNo" Type="Int32" />
+          <Property Name="ssk_SubeNo" Type="Int32" />
+          <Property Name="ssk_gecici_madde_17_gunluk_destek" Type="Double" />
+          <Property Name="ssk_muhsgk_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="ssk_KbsTesiskodu" Type="Int32" />
+          <Property Name="ssk_dulke_iscipayi_ustdilimi" Type="Double" />
+          <Property Name="ssk_dulke_iscipayi_ustorani" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1649,6 +1903,24 @@
           <EntitySetMapping Name="PERSONEL_TAHAKKUKLARI">
             <EntityTypeMapping TypeName="MikroDB_V15_KENTModel.PERSONEL_TAHAKKUKLARI">
               <MappingFragment StoreEntitySet="PERSONEL_TAHAKKUKLARI">
+                <ScalarProperty Name="pt_vergidenmuafodenek" ColumnName="pt_vergidenmuafodenek" />
+                <ScalarProperty Name="pt_sosyrdmgun32" ColumnName="pt_sosyrdmgun32" />
+                <ScalarProperty Name="pt_sosyrdmgun31" ColumnName="pt_sosyrdmgun31" />
+                <ScalarProperty Name="pt_sosyrdmgun30" ColumnName="pt_sosyrdmgun30" />
+                <ScalarProperty Name="pt_sosyrdmgun29" ColumnName="pt_sosyrdmgun29" />
+                <ScalarProperty Name="pt_sosyrdmgun28" ColumnName="pt_sosyrdmgun28" />
+                <ScalarProperty Name="pt_sosyrdmgun27" ColumnName="pt_sosyrdmgun27" />
+                <ScalarProperty Name="pt_sosyrdmgun26" ColumnName="pt_sosyrdmgun26" />
+                <ScalarProperty Name="pt_sosyrdmgun25" ColumnName="pt_sosyrdmgun25" />
+                <ScalarProperty Name="pt_sosyrdmgun24" ColumnName="pt_sosyrdmgun24" />
+                <ScalarProperty Name="pt_sosyrdmgun23" ColumnName="pt_sosyrdmgun23" />
+                <ScalarProperty Name="pt_meslekgvmatrahindirimi" ColumnName="pt_meslekgvmatrahindirimi" />
+                <ScalarProperty Name="pt_digersigorta_isveren_escocuk" ColumnName="pt_digersigorta_isveren_escocuk" />
+                <ScalarProperty Name="pt_kazanc7_tktutar" ColumnName="pt_kazanc7_tktutar" />
+                <ScalarProperty Name="pt_kazanc7_tkyarim_isgun_saat" ColumnName="pt_kazanc7_tkyarim_isgun_saat" />
+                <ScalarProperty Name="pt_kazanc7_tkyarim_isgunu" ColumnName="pt_kazanc7_tkyarim_isgunu" />
+                <ScalarProperty Name="pt_kazanc7_tksaat" ColumnName="pt_kazanc7_tksaat" />
+                <ScalarProperty Name="pt_kazanc7_tkgun" ColumnName="pt_kazanc7_tkgun" />
                 <ScalarProperty Name="pt_hazinekanunudvindirimi" ColumnName="pt_hazinekanunudvindirimi" />
                 <ScalarProperty Name="pt_otobes_tutari" ColumnName="pt_otobes_tutari" />
                 <ScalarProperty Name="pt_saatlik_izin_tutari" ColumnName="pt_saatlik_izin_tutari" />
@@ -2028,6 +2300,17 @@
           <EntitySetMapping Name="PERSONELLERs">
             <EntityTypeMapping TypeName="MikroDB_V15_KENTModel.PERSONELLER">
               <MappingFragment StoreEntitySet="PERSONELLER">
+                <ScalarProperty Name="per_kisacalisma_haftaliksaat" ColumnName="per_kisacalisma_haftaliksaat" />
+                <ScalarProperty Name="per_kisacalisma_bitis" ColumnName="per_kisacalisma_bitis" />
+                <ScalarProperty Name="per_kisacalisma_baslangic" ColumnName="per_kisacalisma_baslangic" />
+                <ScalarProperty Name="per_kisacalisma_fl" ColumnName="per_kisacalisma_fl" />
+                <ScalarProperty Name="per_spor_dali" ColumnName="per_spor_dali" />
+                <ScalarProperty Name="per_sabit_gelirversi_orani" ColumnName="per_sabit_gelirversi_orani" />
+                <ScalarProperty Name="per_vergiden_muhaf_odenek2" ColumnName="per_vergiden_muhaf_odenek2" />
+                <ScalarProperty Name="per_vergiden_muhaf_odenek1" ColumnName="per_vergiden_muhaf_odenek1" />
+                <ScalarProperty Name="per_calismaizni_gec_tar" ColumnName="per_calismaizni_gec_tar" />
+                <ScalarProperty Name="per_calismaizni_alindigi_tar" ColumnName="per_calismaizni_alindigi_tar" />
+                <ScalarProperty Name="per_calismaizni_no" ColumnName="per_calismaizni_no" />
                 <ScalarProperty Name="per_sosyal_snapchat" ColumnName="per_sosyal_snapchat" />
                 <ScalarProperty Name="per_sosyal_instagram" ColumnName="per_sosyal_instagram" />
                 <ScalarProperty Name="per_sosyal_pinterest" ColumnName="per_sosyal_pinterest" />
@@ -2320,6 +2603,104 @@
                 <ScalarProperty Name="per_SpecRECno" ColumnName="per_SpecRECno" />
                 <ScalarProperty Name="per_DBCno" ColumnName="per_DBCno" />
                 <ScalarProperty Name="per_Guid" ColumnName="per_Guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONEL_SSK_TANIMLARI">
+            <EntityTypeMapping TypeName="MikroDB_V15_KENTModel.PERSONEL_SSK_TANIMLARI">
+              <MappingFragment StoreEntitySet="PERSONEL_SSK_TANIMLARI">
+                <ScalarProperty Name="ssk_dulke_iscipayi_ustorani" ColumnName="ssk_dulke_iscipayi_ustorani" />
+                <ScalarProperty Name="ssk_dulke_iscipayi_ustdilimi" ColumnName="ssk_dulke_iscipayi_ustdilimi" />
+                <ScalarProperty Name="ssk_KbsTesiskodu" ColumnName="ssk_KbsTesiskodu" />
+                <ScalarProperty Name="ssk_muhsgk_degerlendirilmesin_fl" ColumnName="ssk_muhsgk_degerlendirilmesin_fl" />
+                <ScalarProperty Name="ssk_gecici_madde_17_gunluk_destek" ColumnName="ssk_gecici_madde_17_gunluk_destek" />
+                <ScalarProperty Name="ssk_SubeNo" ColumnName="ssk_SubeNo" />
+                <ScalarProperty Name="ssk_FirmaNo" ColumnName="ssk_FirmaNo" />
+                <ScalarProperty Name="ssk_Nace_Kodu" ColumnName="ssk_Nace_Kodu" />
+                <ScalarProperty Name="ssk_Ticaret_Sicil_Mudurlugu" ColumnName="ssk_Ticaret_Sicil_Mudurlugu" />
+                <ScalarProperty Name="ssk_Ticaret_Sicil_No" ColumnName="ssk_Ticaret_Sicil_No" />
+                <ScalarProperty Name="ssk_muhtasarisyeri_mulkiyet" ColumnName="ssk_muhtasarisyeri_mulkiyet" />
+                <ScalarProperty Name="ssk_muhtasarisyeri_kodu" ColumnName="ssk_muhtasarisyeri_kodu" />
+                <ScalarProperty Name="ssk_muhtasarisyeri_turu" ColumnName="ssk_muhtasarisyeri_turu" />
+                <ScalarProperty Name="ssk_muhtasarisyeri_adi" ColumnName="ssk_muhtasarisyeri_adi" />
+                <ScalarProperty Name="ssk_KapanisTarihi" ColumnName="ssk_KapanisTarihi" />
+                <ScalarProperty Name="ssk_AcilisTarihi" ColumnName="ssk_AcilisTarihi" />
+                <ScalarProperty Name="ssk_Pasif_fl" ColumnName="ssk_Pasif_fl" />
+                <ScalarProperty Name="ssk_iskolukodu_new" ColumnName="ssk_iskolukodu_new" />
+                <ScalarProperty Name="ssk_iskolukodu" ColumnName="ssk_iskolukodu" />
+                <ScalarProperty Name="ssk_GVK80BelgeNo" ColumnName="ssk_GVK80BelgeNo" />
+                <ScalarProperty Name="ssk_GVK80BelgeTarih" ColumnName="ssk_GVK80BelgeTarih" />
+                <ScalarProperty Name="ssk_5225BelgeSayisi" ColumnName="ssk_5225BelgeSayisi" />
+                <ScalarProperty Name="ssk_5225BelgeTarihi" ColumnName="ssk_5225BelgeTarihi" />
+                <ScalarProperty Name="ssk_5225BelgeTuru" ColumnName="ssk_5225BelgeTuru" />
+                <ScalarProperty Name="ssk_malulluk_muafiyet" ColumnName="ssk_malulluk_muafiyet" />
+                <ScalarProperty Name="ssk_genel_saglik_sigortasi" ColumnName="ssk_genel_saglik_sigortasi" />
+                <ScalarProperty Name="ssk_isverentipi" ColumnName="ssk_isverentipi" />
+                <ScalarProperty Name="ssk_yasolum_itibarihizmet" ColumnName="ssk_yasolum_itibarihizmet" />
+                <ScalarProperty Name="ssk_ebildirge_isyerisifre" ColumnName="ssk_ebildirge_isyerisifre" />
+                <ScalarProperty Name="ssk_ebildirge_password" ColumnName="ssk_ebildirge_password" />
+                <ScalarProperty Name="ssk_ebildirge_isyerikod" ColumnName="ssk_ebildirge_isyerikod" />
+                <ScalarProperty Name="ssk_ebildirge_username" ColumnName="ssk_ebildirge_username" />
+                <ScalarProperty Name="ssk_FirmaUnvani2" ColumnName="ssk_FirmaUnvani2" />
+                <ScalarProperty Name="ssk_FirmaUnvani" ColumnName="ssk_FirmaUnvani" />
+                <ScalarProperty Name="ssk_Calisma_Kodu" ColumnName="ssk_Calisma_Kodu" />
+                <ScalarProperty Name="ssk_SGDP_Orani" ColumnName="ssk_SGDP_Orani" />
+                <ScalarProperty Name="ssk_Yas_Ol_Sig" ColumnName="ssk_Yas_Ol_Sig" />
+                <ScalarProperty Name="ssk_C_Hast_Sig" ColumnName="ssk_C_Hast_Sig" />
+                <ScalarProperty Name="ssk_N_Hast_Sig" ColumnName="ssk_N_Hast_Sig" />
+                <ScalarProperty Name="ssk_Ana_Sig" ColumnName="ssk_Ana_Sig" />
+                <ScalarProperty Name="ssk_Y_SSK_Yuzde" ColumnName="ssk_Y_SSK_Yuzde" />
+                <ScalarProperty Name="ssk_C_SSK_Yuzde" ColumnName="ssk_C_SSK_Yuzde" />
+                <ScalarProperty Name="ssk_E_SSK_Yuzde" ColumnName="ssk_E_SSK_Yuzde" />
+                <ScalarProperty Name="ssk_N_SSK_Yuzde" ColumnName="ssk_N_SSK_Yuzde" />
+                <ScalarProperty Name="ssk_Semt" ColumnName="ssk_Semt" />
+                <ScalarProperty Name="ssk_Iskur_uid" ColumnName="ssk_Iskur_uid" />
+                <ScalarProperty Name="ssk_BolgeMudurlukNo" ColumnName="ssk_BolgeMudurlukNo" />
+                <ScalarProperty Name="ssk_AraciKodu" ColumnName="ssk_AraciKodu" />
+                <ScalarProperty Name="ssk_sskno_Kontrol_No" ColumnName="ssk_sskno_Kontrol_No" />
+                <ScalarProperty Name="ssk_sskno_Ilce" ColumnName="ssk_sskno_Ilce" />
+                <ScalarProperty Name="ssk_sskno_IlKodu" ColumnName="ssk_sskno_IlKodu" />
+                <ScalarProperty Name="ssk_sskno_SiraNo" ColumnName="ssk_sskno_SiraNo" />
+                <ScalarProperty Name="ssk_sskno_TehlikeKodu" ColumnName="ssk_sskno_TehlikeKodu" />
+                <ScalarProperty Name="ssk_sskno_SubeKodu" ColumnName="ssk_sskno_SubeKodu" />
+                <ScalarProperty Name="ssk_sskno_Iskolu" ColumnName="ssk_sskno_Iskolu" />
+                <ScalarProperty Name="ssk_sskno_Mahiyet" ColumnName="ssk_sskno_Mahiyet" />
+                <ScalarProperty Name="ssk_maasbankakodu" ColumnName="ssk_maasbankakodu" />
+                <ScalarProperty Name="ssk_iykapino" ColumnName="ssk_iykapino" />
+                <ScalarProperty Name="ssk_iysinifi" ColumnName="ssk_iysinifi" />
+                <ScalarProperty Name="ssk_adres_kodu" ColumnName="ssk_adres_kodu" />
+                <ScalarProperty Name="ssk_ulke" ColumnName="ssk_ulke" />
+                <ScalarProperty Name="ssk_il" ColumnName="ssk_il" />
+                <ScalarProperty Name="ssk_ilce" ColumnName="ssk_ilce" />
+                <ScalarProperty Name="ssk_posta_kodu" ColumnName="ssk_posta_kodu" />
+                <ScalarProperty Name="ssk_Daire_No" ColumnName="ssk_Daire_No" />
+                <ScalarProperty Name="ssk_Apt_No" ColumnName="ssk_Apt_No" />
+                <ScalarProperty Name="ssk_Adr_Semt" ColumnName="ssk_Adr_Semt" />
+                <ScalarProperty Name="ssk_sokak" ColumnName="ssk_sokak" />
+                <ScalarProperty Name="ssk_mahalle" ColumnName="ssk_mahalle" />
+                <ScalarProperty Name="ssk_cadde" ColumnName="ssk_cadde" />
+                <ScalarProperty Name="ssk_BolCalDosNo" ColumnName="ssk_BolCalDosNo" />
+                <ScalarProperty Name="ssk_subekodu" ColumnName="ssk_subekodu" />
+                <ScalarProperty Name="ssk_KazaYuzdesi" ColumnName="ssk_KazaYuzdesi" />
+                <ScalarProperty Name="ssk_TehlikeDerecesi" ColumnName="ssk_TehlikeDerecesi" />
+                <ScalarProperty Name="ssk_ismi" ColumnName="ssk_ismi" />
+                <ScalarProperty Name="ssk_Sira_No" ColumnName="ssk_Sira_No" />
+                <ScalarProperty Name="ssk_special3" ColumnName="ssk_special3" />
+                <ScalarProperty Name="ssk_special2" ColumnName="ssk_special2" />
+                <ScalarProperty Name="ssk_special1" ColumnName="ssk_special1" />
+                <ScalarProperty Name="ssk_lastup_date" ColumnName="ssk_lastup_date" />
+                <ScalarProperty Name="ssk_lastup_user" ColumnName="ssk_lastup_user" />
+                <ScalarProperty Name="ssk_create_date" ColumnName="ssk_create_date" />
+                <ScalarProperty Name="ssk_create_user" ColumnName="ssk_create_user" />
+                <ScalarProperty Name="ssk_checksum" ColumnName="ssk_checksum" />
+                <ScalarProperty Name="ssk_degisti" ColumnName="ssk_degisti" />
+                <ScalarProperty Name="ssk_kilitli" ColumnName="ssk_kilitli" />
+                <ScalarProperty Name="ssk_hidden" ColumnName="ssk_hidden" />
+                <ScalarProperty Name="ssk_fileid" ColumnName="ssk_fileid" />
+                <ScalarProperty Name="ssk_iptal" ColumnName="ssk_iptal" />
+                <ScalarProperty Name="ssk_SpecRECno" ColumnName="ssk_SpecRECno" />
+                <ScalarProperty Name="ssk_DBCno" ColumnName="ssk_DBCno" />
+                <ScalarProperty Name="ssk_Guid" ColumnName="ssk_Guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

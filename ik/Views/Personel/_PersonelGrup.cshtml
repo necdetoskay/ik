@@ -1,24 +1,45 @@
 ﻿@model IEnumerable<ik.Models.Personel>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.adsoyad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.sicilno)
-        </th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.adsoyad)
-            </td>
+<a id="kontrolet" href="javascript:void(0);"><span class="glyphicon glyphicon-refresh"></span></a><span id="message"></span>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.sicilno)
-            </td>
+<table id="liste" class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.adsoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sicilno)
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.adsoyad)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.sicilno)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script type="text/javascript">
+    $(function () {
+        $('#kontrolet').on('click', function () {
+            $('#message').html("Kontrol Ediliyor.........")
+            var liste = []
+            $('#liste > tbody >tr').each(function () {
+                var tr = $(this);
+                liste.push(tr.data("id"));
+            });
+            console.table(liste);
+        });
+    });
+</script>

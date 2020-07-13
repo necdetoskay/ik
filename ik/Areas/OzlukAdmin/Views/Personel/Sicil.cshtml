@@ -1,0 +1,197 @@
+﻿@model ik.Controllers.SicilVM
+<style>
+    #kaydet, .row {
+        margin: 20px;
+    }
+    label>a{
+        float:right;
+    }
+    .kontrol > span{
+        margin:4px;
+    }
+</style>
+
+<div class="row">
+
+    @Html.HiddenFor(item => Model.ikID)
+    <div class="form-group">
+        <label class="col-md-4" for="gorevID">Görevi</label>
+        @Html.DropDownListFor(item => Model.gorevID, (SelectList) ViewBag.gorevListe)<input id="gorevekle" type="button" class="btn btn-info" value="Ekle" />
+    </div>
+    <div class="form-group">
+
+        <label class="col-md-4" for="birimID">Birimi <a href="@Url.Action("_BirimDetaylar", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.birimID, (SelectList) ViewBag.birimListe, "Birim Seçimiz")
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-4" for="lokasyonID">Görev Yaptığı Yer <a href="@Url.Action("_GörevYerleri", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.lokasyonID, (SelectList) ViewBag.lokasyonListe, "Lokasyon Seçiniz")
+    </div>
+    <div class="form-group">
+        <label class="col-md-4" for="tahsilID">Tahsili <a href="@Url.Action("_GenelTahsilDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.tahsilID, (SelectList) ViewBag.tahsilListe, "Tahsil Seçiniz")
+    </div>
+    <div class="form-group">
+        <label class="col-md-4" for="meslekID">Mesleği (Mezuniyet) <a href="@Url.Action("_GenelMeslekDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.meslekID, (SelectList) ViewBag.meslekListe, "Meslek Seçiniz")<input id="meslekekle" type="button" class="btn btn-info" value="Ekle" />
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-4" for="sgkDosya">SGK Dosya <a href="@Url.Action("_GenelSgkDosyaDurumu", "Personel")"><span class="glyphicon glyphicon-th-list"></span></a></label>
+        @Html.DropDownListFor(item => Model.sgkDosya, (SelectList) ViewBag.sgkdosyaListe, "SGK Dosyası Seçiniz......")<a href="javascript:void(0);" class="kontrol"><span class="glyphicon glyphicon-check"></span></a>
+    </div>
+
+    <input type="button" id="kaydet" class="btn btn-primary btn-rounded" value="Kaydet" />
+</div>
+
+
+ 
+
+
+
+
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/bootstrap-notify.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+        $('.kontrol').on('click', function () {
+            var id = $('#ikID').val();
+            console.log(id);
+            var idler = [];
+            idler.push(id);
+            $.ajax({
+                url: '@Url.Action("PersonelSgkDosyaKontrolEt",new {area="OzlukAdmin" })',
+                type: 'get',
+                data: { id: id},
+                success: function (result) {
+                   
+                        $.notify({// options
+                            message: result.Data
+                        }, {// settings
+                                type: result.Success?'success':'danger'
+                        });                       
+                  
+                }
+            })
+        });
+
+
+        $('#kaydet').on('click', function () {
+            var ikID = $('#ikID').val();
+
+            var gorev = $('#gorevID').val();
+            var birim = $('#birimID').val();
+
+            var tahsil = $('#tahsilID').val();
+            var lokasyon = $('#lokasyonID').val();
+            var meslek = $('#meslekID').val();
+            var dosya = $('#sgkDosya').val();
+            console.log(ikID);
+            console.log(gorev);
+            console.log(lokasyon);
+            console.log(meslek);
+            $.ajax({
+                url: '@Url.Action("_PersonelDetayKaydet")',
+                type: 'GET',
+                data: {
+                    id: ikID,
+                    gorev: gorev,
+                    birim: birim,
+                    tahsil: tahsil,
+                    lokasyon: lokasyon,
+                    meslek: meslek,
+                    sgkdosya: dosya
+                },
+                success: function (result) {
+                    if (result === true)
+                        console.log("kayıt başarılı");
+                    $.notify({
+                        title: '',
+                        message: 'Kayıt başarılı'
+                    }, {
+                        type: 'success'
+                    });
+
+                }
+            });
+        });
+
+
+
+        $('#gorevekle').on('click', function () {
+            BootstrapDialog.show({
+                title: 'Yeni Görev Ekle',
+                message: 'Görev Adı Giriniz: <input id="ad" type="text" class="form-control">',
+                buttons: [
+                    {
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }, {
+                        label: 'Kaydet',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: '@Url.Action("_GorevEkle")',
+                                type: 'POST',
+                                data: {
+                                    ad: $('#ad').val()
+                                },
+                                success: function (result) {
+                                    if (result.Success === false) return;
+                                    var gorevler = $('#gorevID');
+                                    gorevler.empty();
+                                    $.each(result.Data, function (i, item) {
+                                        gorevler.append('<option Value="' + item.Value + '" >' + item.Text + '</option>');
+                                    });
+                                    gorevler.val(result.Selected);
+                                    dialogRef.close();
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        });
+
+        $('#meslekekle').on('click', function () {
+            BootstrapDialog.show({
+                title: 'Yeni Meslek Ekle',
+                message: 'Meslek Adı Giriniz: <input id="ad" type="text" class="form-control">',
+                buttons: [
+                    {
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }, {
+                        label: 'Kaydet',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: '@Url.Action("_MeslekEkle")',
+                                type: 'POST',
+                                data: {
+                                    ad: $('#ad').val()
+                                },
+                                success: function (result) {
+                                    if (result.Success === false) return;
+                                    var meslekler = $('#meslekID');
+                                    meslekler.empty();
+                                    $.each(result.Data, function (i, item) {
+                                        meslekler.append('<option Value="' + item.Value + '" >' + item.Text + '</option>');
+                                    });
+                                    meslekler.val(result.Selected);
+                                    dialogRef.close();
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        });
+    })
+</script>

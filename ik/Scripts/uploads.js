@@ -2,13 +2,13 @@
 
 (function ($) {
 
-
+    
 
     uploadnamespace = {
         uploadurl: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/Yukle',
         uploadform: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/DosyaYukleDialog',
         deleteurl: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/Sil',
-        deleteicon: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Content/delete-png.png',
+        //deleteicon: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Content/delete-png.png',
 
 
         sil: function (sildiv, dosya, deleted) {
@@ -172,7 +172,7 @@
         $(this).each(function () {
             var settings=$.extend({},options);
             var dosya = $(this);
-            var dosyasil = $('<a href="javascript:void(0)" class="dosyasil"><img src="' + uploadnamespace.deleteicon + '"></a>');
+            var dosyasil = $('<a href="javascript:void(0)" class="dosyasil"><img src="' + globalnamespace.deleteicon + '"></a>');
             dosya.append(dosyasil);
             dosyasil.on('click', function () {
                 console.log("deletable çağırıldı");

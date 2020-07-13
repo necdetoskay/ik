@@ -17,6 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Ad)
         </th>
+        <th>Kontrole</th>
         <th>Sıra No</th>
         <th>SGK Dosya No</th>
         <th>Aktif</th>
@@ -34,6 +35,9 @@
             <td>
                 <a class="dosyalar" href="javascript:void(0)">@Html.DisplayFor(modelItem => item.Key)</a>
 
+            </td>
+            <td>
+                <input class="sync" type="button" value="Sync" />
             </td>
             <td>
                 @item.FirstOrDefault().SiraNo
@@ -55,6 +59,7 @@
             </th>
             <th></th>
             <th></th>
+            <th></th>
             <th>@aktiftop</th>
             @*<th>@pasiftop</th>*@
         </tr>
@@ -69,6 +74,26 @@
     <script src="~/Scripts/clipboard.min.js"></script>
     <script type="text/javascript">
         $(function () {
+
+            $('.sync').each(function () {
+                var btn = $(this);
+                btn.on('click', function () {
+                    var sgkno = $(btn.closest('tr')).find('.sifre').html();                   
+                    $.ajax({
+                        url: '@Url.Action("_SgkMikroKontrolet")',
+                        type: 'GET',
+                        data: { sgkno: sgkno },
+                        success: function (result) {
+                            console.table(result);
+                        }
+                    });
+
+                });
+            });
+
+
+
+
             var clipboard = new ClipboardJS('.sifre');
 
 

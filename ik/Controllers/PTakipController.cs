@@ -180,10 +180,10 @@ namespace ik.Controllers
 
                 con.Close();
 
-                foreach (var p in dset.personel_kartlari)
-                {
-                    Console.WriteLine(p.birim);
-                }
+                //foreach (var p in dset.personel_kartlari)
+                //{
+                //    Console.WriteLine(p.birim);
+                //}
 
                 foreach (var personel in dset.personel_kartlari)
                 {
@@ -192,7 +192,8 @@ namespace ik.Controllers
                         
                        
                         var personelIzinRow = dset.personel_izin.Where(c=>c.tarih==tarih1.Date).FirstOrDefault(c => c.personel_id == personel.id);
-                        if (personelIzinRow != null) { 
+                        if (personelIzinRow != null) {
+                            Console.WriteLine(personelIzinRow.ItemArray);
                             if(personelIzinRow.tatil_id==9 && personelIzinRow.gidis_saat>new TimeSpan(8,30,0)) continue;
                             personel.Takip = personelIzinRow.IzinTur;
                             var id = personelIzinRow.id;
@@ -214,6 +215,7 @@ namespace ik.Controllers
                                 {
                                     //if (tarih.DayOfWeek == DayOfWeek.Friday)
                                     //    tarih = tarih.AddDays(3);
+                                    //if (tarih == null) tarih = DateTime.Now;
                                     personel.isbasi = tarih.ToShortDateString();
                                     break;
                                     
@@ -233,6 +235,7 @@ namespace ik.Controllers
                                 {
                                     //if (tarih.DayOfWeek == DayOfWeek.Friday)
                                     //    tarih = tarih.AddDays(3);
+                                    //if (tarih == null) tarih = DateTime.Now;
                                     personel.baslama = tarih.ToShortDateString();
                                     break;
 
@@ -253,7 +256,11 @@ namespace ik.Controllers
             }
             var data =
                 dset.personel_kartlari.Where(c => c.Takip != null)
-                    .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip,isbasi=c.isbasi,baslama=c.baslama,birimad=c.birim});
+                    .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip, isbasi = c.isbasi, baslama = c.baslama, birimad = c.birim });
+
+            //var data =
+            //  dset.personel_kartlari.Where(c => c.Takip != null)
+            //      .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip, isbasi = "", baslama = "", birimad = c.birim });
             return Json(data.OrderBy(c=>c.adsoyad), JsonRequestBehavior.AllowGet);
         }
         public JsonResult MazeretsizGelmeyenler(DateTime tarih1)

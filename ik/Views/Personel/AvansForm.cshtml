@@ -81,8 +81,8 @@
         </div>
         <div id="avanskontrol" class="tab-pane fade">
             <button class="btn btn-primary" onclick="avanskarsılastir()">Karşılaştır</button>
-            @Html.ActionLink("Merkez", "_MerkezAvansları", new {kadro = 1}, new {@class = "btn btn-primary"})
-            @Html.ActionLink("Khk", "_MerkezAvansları", new {kadro = 2}, new {@class = "btn btn-primary"})
+            @Html.ActionLink("Merkez", "_MerkezAvansları", new { kadro = 1 }, new { @class = "btn btn-primary" })
+            @*@Html.ActionLink("Khk", "_MerkezAvansları", new {kadro = 2}, new {@class = "btn btn-primary"})*@
             @*<input type="button" class="btn btn-primary" id="merkez" value="MERKEZ"/>*@
             @*<input type="button" class="btn btn-primary" id="khk" value="KHK" />*@
             <div id="avanslar">
@@ -101,13 +101,19 @@
 
 
 
-    @section scripts{
+@section scripts{
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-        <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-        <script src="~/Scripts/jquery.PrintArea.js"></script>
-        <script src="~/Scripts/bootstrap-notify.min.js"></script>
-        <script type="text/javascript">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.PrintArea.js"></script>
+    <script src="~/Scripts/bootstrap-notify.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/ikdialog.js"></script>
+    <script type="text/javascript">
+
 
             function avanskaydet() {
                 var pid = $("#adsoyad").attr("data-id");
@@ -147,15 +153,14 @@
                         if (result.Success === true) {
 
                             $.each(result.Data, function (di, ditem) {
-                                row = $('<tr></tr>');
-                                row.append('<td>' + ditem.AdSoyad + '</td><td>' + ditem.GeçenAyTutar + '</td><td>' + ditem.BuAyTutar + '</td>');
+                                row = $('<tr data-id="'+ditem.ID+'"></tr>');
+                                row.append('<td>' + ditem.AdSoyad + '</td><td>' + ditem.GeçenAyTutar + '</td><td><a class="avanstutar" href="javascript:void(0)">' + ditem.BuAyTutar + '</a></td>');
 
 
                                 table.append(row);
                             });
-
-
                         }
+
                         avanslar.append(table);
                         $("#avanslar>tr").each(function () {
                             var tr = $(this);
@@ -169,9 +174,39 @@
 
                             });
                         });
+                        $('.avanstutar').each(function () {
+                            var avans = $(this);
+                            var pid = avans.closest('tr').data("id");
+                            var tutar = avans.html();
+                            var url = '@Url.Action("_AvansDuzenle")' + '/?id=' + pid + '&tutar=' + tutar;
+
+                            $(avans).ikDialog2({
+                                formurl: url,
+                                title:'Avans Düzenle',
+                                complete: function (result) {
+                                    //console.table(result);
+                                    avans.html(result.Data);
+                                }
+                            })
+                        });
+
+                         @*$('.avanstutar').ikDialog({
+                             formurl: '@Url.Action("AvansDuzenle")',
+                             buttonText:'<span class="glyphicon glyphicon-pencil"></span>',
+                            data: {
+                                id: '',
+                                tutar:''
+                            }, complete: function (result) {
+
+                            }, beforeshown(settings) {
+                                console.table(settings);
+                            }
+                        });*@
                     }
                 });
             };
+
+
 
 
 
@@ -327,8 +362,8 @@
                     }
                 });
             });
-        </script>
-    }
+    </script>
+}
 
 
 

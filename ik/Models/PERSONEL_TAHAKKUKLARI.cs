@@ -387,5 +387,23 @@ namespace ik.Models
         public Nullable<double> pt_saatlik_izin_tutari { get; set; }
         public Nullable<double> pt_otobes_tutari { get; set; }
         public Nullable<double> pt_hazinekanunudvindirimi { get; set; }
+        public Nullable<short> pt_kazanc7_tkgun { get; set; }
+        public Nullable<double> pt_kazanc7_tksaat { get; set; }
+        public Nullable<short> pt_kazanc7_tkyarim_isgunu { get; set; }
+        public Nullable<double> pt_kazanc7_tkyarim_isgun_saat { get; set; }
+        public Nullable<double> pt_kazanc7_tktutar { get; set; }
+        public Nullable<double> pt_digersigorta_isveren_escocuk { get; set; }
+        public Nullable<double> pt_meslekgvmatrahindirimi { get; set; }
+        public Nullable<short> pt_sosyrdmgun23 { get; set; }
+        public Nullable<short> pt_sosyrdmgun24 { get; set; }
+        public Nullable<short> pt_sosyrdmgun25 { get; set; }
+        public Nullable<short> pt_sosyrdmgun26 { get; set; }
+        public Nullable<short> pt_sosyrdmgun27 { get; set; }
+        public Nullable<short> pt_sosyrdmgun28 { get; set; }
+        public Nullable<short> pt_sosyrdmgun29 { get; set; }
+        public Nullable<short> pt_sosyrdmgun30 { get; set; }
+        public Nullable<short> pt_sosyrdmgun31 { get; set; }
+        public Nullable<short> pt_sosyrdmgun32 { get; set; }
+        public Nullable<double> pt_vergidenmuafodenek { get; set; }
     }
 }
