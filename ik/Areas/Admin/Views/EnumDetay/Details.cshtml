@@ -1,0 +1,35 @@
+﻿@model ik.Models.Ozluk_Enum_Detay
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ozluk_Enum_Detay</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.degerad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.degerad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ozluk_Enum.EnumAd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ozluk_Enum.EnumAd)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

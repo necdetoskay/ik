@@ -846,18 +846,27 @@ namespace ik.Controllers
             }
         }
 
-        public ActionResult _AvansDuzenle(int id,int tutar)
+        public ActionResult _AvansDuzenle(int id,int tutar,int pid)
         {
             var vm = new AvansDuzenleVM { ID = id, Tutar = tutar };
             return PartialView(vm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _AvansDuzenle(int id, int tutar,AvansDuzenleVM model)
+        public ActionResult _AvansDuzenle(int id, int tutar,int pid,AvansDuzenleVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Avanslars.FirstOrDefault(c => c.id == id).tutar = model.Tutar;
+                if (id == 0)
+                {
+                    db.Avanslars.Add(new Models.Avanslar { personelId = pid, tutar = tutar, tarih = DateTime.Now });
+                    //yeni kayıt
+                }
+                else
+                {
+                    db.Avanslars.FirstOrDefault(c => c.id == id).tutar = model.Tutar;
+                }
+               
                 db.SaveChanges();
                 return Json(new { Success = true,Data=tutar }, JsonRequestBehavior.AllowGet);
             }
@@ -881,21 +890,24 @@ namespace ik.Controllers
             {
                 var tutar1 = 0;
                 var tutar2 = 0;
+                var id = 0;
                 foreach (var av in avans)
                 {
                     if (av.tarih.Value < new DateTime(bugun.Year, bugun.Month, 1))
                     {
                         tutar1 = av.tutar;
+                        
                     }
                     else
                     {
                         tutar2 = av.tutar;
+                        id = av.id;
                     }
                 }
                 liste.Add(new
                 {
-                    
-                   ID=avans.First().id,
+                    PID=avans.First().personelId,
+                    ID=id,
                     AdSoyad = avans.Key,
                     GeçenAyTutar = tutar1,
                     BuAyTutar = tutar2

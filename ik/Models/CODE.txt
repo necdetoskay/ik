@@ -1,5 +1,5 @@
 ﻿selectlist personel kullanımı
-<script src="~/Scripts/ozlukadmin.js"></script>
+<script src="~/Scripts/Admin.js"></script>
  function sonuc(result) {
             $('#evrakliste').html(result);
         }

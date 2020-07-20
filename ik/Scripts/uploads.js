@@ -12,7 +12,7 @@
 
 
         sil: function (sildiv, dosya, deleted) {
-
+      
             var del = sildiv.find('.dosyasil');
             //*  var id = sildiv.attr('data-id');
             del.on('click', function () {

@@ -25,7 +25,7 @@
         $(function () {
             var personelid = 2243;
             $('.yeniekle').ikDialog({
-                formurl: '@Url.Action("ikCreate","OzlukDigerEvrak",new {Area="OzlukAdmin",personelid=2248},null)',
+                formurl: '@Url.Action("ikCreate","OzlukDigerEvrak",new {Area="Admin",personelid=2248},null)',
                 data: {
                 }, complete: function (result) {
                     alert(result);

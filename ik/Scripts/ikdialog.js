@@ -14,7 +14,7 @@
                 success: function (result) {
                     console.log("post başarılı");
                     if (result.Success === true) {
-                     
+
                         complete(result);
                         dialogRef.close();
 
@@ -85,12 +85,20 @@
         var settings = $.extend({
             formurl: '',
             complete: function (result) { },
-            beforeshown: function (settings) { }          
+            beforeshown: function (settings) { },
+            clicked: function (settings) {
+                return true;
+            }
         }, options);
+        //if ($.isFunction(settings.beforeshown))
+        //    settings.beforeshown(settings);
         var avans = $(this);
         var id = ID();
         avans.attr("id", id);
         $('#' + id).on('click', function (e) {
+            //if ($.isFunction(settings.clicked))
+            //    settings.clicked(settings);
+
             BootstrapDialog.show({
                 title: settings.title,
                 message: function (dialog) {
@@ -135,7 +143,7 @@
 
             e.stopPropagation();
         });
-        
+
     }
 
     $.fn.ikDialog = function (options) {
@@ -146,7 +154,7 @@
                 buttonClass: 'btn btn-primary',
                 buttonText: 'Yeni Ekle',
                 complete: function (result) { },
-                beforeshown: function (settings) {}
+                beforeshown: function (settings) { }
                 //deleteurl: '',
                 //kayitklasor: '',
                 //targetimgdiv: '',

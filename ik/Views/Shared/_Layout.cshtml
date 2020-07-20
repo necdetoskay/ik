@@ -21,9 +21,10 @@
                 <span class="icon-bar"></span>
             </button>
             @Html.ActionLink("I.K.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("I.K. Admin", "Index", "Dashboard", new { area = "Admin" }, new { @class = "navbar-brand" }).If(new string[] { @"KENTKONUT\noskay" }.Contains(User.Identity.Name))
 
             @*@Html.ActionLink("KVKK", "Index", "Index", new { area = "KVKK" }, new { @class = "navbar-brand" }).If(new string[] {@"KENTKONUT\noskay",@"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))*@
-            @*@Html.ActionLink("Personel Özlük", "Index", "OzlukHome", new { area = "OzlukAdmin" }, new { @class = "navbar-brand" }).If(new string[] {@"KENTKONUT\noskay",@"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))*@
+            @*@Html.ActionLink("Personel Özlük", "Index", "OzlukHome", new { area = "Admin" }, new { @class = "navbar-brand" }).If(new string[] {@"KENTKONUT\noskay",@"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))*@
 
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">

@@ -156,17 +156,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AileFertleriController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\AileFertleriController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\EnumController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\EnumDetayController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisEvrakController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\IseGirisGerekEvrakTipController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\OzlukHomeController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\PersonelController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\İseGirisCikisIslemleriController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Models\partials.cs" />
-    <Compile Include="Areas\OzlukAdmin\OzlukAdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\EnumController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EnumDetayController.cs" />
+    <Compile Include="Areas\Admin\Controllers\IseGirisEvrakController.cs" />
+    <Compile Include="Areas\Admin\Controllers\IseGirisGerekEvrakTipController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OzlukDigerEvrakController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OzlukHomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PersonelBilgiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PersonelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\İseGirisCikisIslemleriController.cs" />
+    <Compile Include="Areas\Admin\Data\partials.cs" />
+    <Compile Include="Areas\Admin\Data\PersonelMikroBilgi.cs" />
+    <Compile Include="Areas\Admin\Data\PersonelIKBilgi.cs" />
     <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\DatatablesTestController.cs" />
@@ -183,7 +186,6 @@
     <Compile Include="Controllers\KurulsController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\MikroController.cs" />
-    <Compile Include="Areas\OzlukAdmin\Controllers\OzlukDigerEvrakController.cs" />
     <Compile Include="Controllers\PdksController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\PersonelMesaisController.cs" />
@@ -957,42 +959,8 @@
     </Content>
     <Content Include="Content\Report\Avans\merkez.xls" />
     <Content Include="Content\Report\Avans\khk.xls" />
-    <Content Include="Areas\OzlukAdmin\Views\web.config" />
-    <Content Include="Areas\OzlukAdmin\Views\Enum\Create.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\Enum\Delete.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\Enum\Details.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\Enum\Edit.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\Enum\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\OzlukHome\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Create.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Delete.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Details.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Edit.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\EnumDetay\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Create.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Delete.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Details.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Edit.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisGerekEvrakTip\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\İseGirisCikisIslemleri\Sozleşme.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Delete.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Details.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Edit.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\AileFertleri.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Ekle.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\FertListe.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\PersonelFertListe.cshtml" />
     <Content Include="Views\Upload\DosyaYukleDialog.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\AileFertleri\Create.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\IkCreate.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\Index.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\OzlukDigerEvrak\DigerEvrakListe.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Shared\Admin Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
@@ -1024,6 +992,42 @@
     <Content Include="Content\fonts\weathericons-regular-webfont.ttf" />
     <Content Include="Content\fonts\weathericons-regular-webfont.woff" />
     <Content Include="Content\fonts\weathericons-regular-webfont.woff2" />
+    <Content Include="Areas\Admin\Views\Shared\AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\PersonelBilgi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PersonelBilgi\PersonelIKBilgi.cshtml" />
+    <Content Include="Areas\Admin\Views\PersonelBilgi\PersonelMikroBilgi.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\AileFertleri.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\Ekle.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\FertListe.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\PersonelFertListe.cshtml" />
+    <Content Include="Areas\Admin\Views\Enum\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Enum\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Enum\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Enum\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Enum\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EnumDetay\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EnumDetay\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\EnumDetay\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\EnumDetay\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EnumDetay\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\İseGirisCikisIslemleri\Sozleşme.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisEvrak\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\OzlukDigerEvrak\DigerEvrakListe.cshtml" />
+    <Content Include="Areas\Admin\Views\OzlukDigerEvrak\IkCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\OzlukDigerEvrak\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\OzlukHome\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Personel\Sicil.cshtml" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1347,7 +1351,6 @@
     <Content Include="Areas\Admin\Views\Gorev\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Gorev\Create.cshtml" />
     <Content Include="Views\Takip\GorevEkle.cshtml" />
-    <Content Include="Areas\OzlukAdmin\Views\Personel\Sicil.cshtml" />
     <Content Include="Views\Rapor\PersonelDurumRapor.cshtml" />
     <Content Include="Views\Personel\_BirimDetaylar.cshtml" />
     <Content Include="Views\Personel\_GörevYerleri.cshtml" />
@@ -1415,7 +1418,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Uploads\IseGirisEvraklar\38167777466\thumb\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Genel\" />
@@ -1508,7 +1510,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

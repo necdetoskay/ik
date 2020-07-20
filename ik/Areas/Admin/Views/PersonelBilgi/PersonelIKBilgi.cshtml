@@ -1,0 +1,63 @@
+﻿@model ik.Areas.Admin.Data.PersonelIKBilgi
+
+
+
+<div class="">
+    <div class="md-col-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ID)
+            @Html.DisplayFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div class="md-col-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.MikroID)
+            <span id="MikroID">@Html.DisplayFor(model => model.MikroID, new { htmlAttributes = new { @class = "form-control" } })</span> <button id="mikroidkontrol" title="Kontrol Et"><span class="glyphicon glyphicon-refresh"></span></button>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div class="md-col-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.PdksID)
+            @Html.DisplayFor(model => model.PdksID,  new { htmlAttributes = new { @class = "form-control",@id="PdksID" } })
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#mikroidkontrol").on("click", function () {
+            var btn = $(this);
+            var id = $('#personel option:selected').val();
+            var guid = btn.closest('div').find('span').first();
+            $.ajax({
+                url: '@Url.Action("_ikmikroidkontrol")',
+                data: {
+                    id: id,
+                    guid: guid.html()
+                },
+                type: 'GET',
+                success: function (result) {
+                    if (result.Success) {                     
+                      
+                        if (result.Data === guid.html()) {
+                            $.notify({message: 'Sorun Bulunamadı'},{type: 'success'});                           
+                        } else {
+                            $.notify({message: 'Guid Değeri Güncellendi'},{type: 'warning'});
+                            guid.html(result.Data)
+                        }
+                    }
+                }
+            });
+        })
+    });
+
+
+</script>

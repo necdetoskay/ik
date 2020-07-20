@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "AileFertleri";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<div id="selectlist"></div>
+
+<div id="evrakliste"></div>
+
+
+@section scripts{
+  
+<script src="~/Scripts/ozlukadmin.js"></script>
+    <script type="text/javascript">
+        function sonuc(result) {
+            $('#evrakliste').html(result);
+        }
+
+        $(function() {
+            $('#selectlist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                callafterchange: '@Url.Action("PersonelFertListe", new {Area="Admin"})',
+                change: function(result) {
+                    sonuc(result);
+                }
+            });
+        });
+    </script>
+}

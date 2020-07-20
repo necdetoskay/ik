@@ -412,7 +412,7 @@ namespace ik.Controllers
                 {
                     message.Append("Dosya Bulunamadı !!");
                 }
-                return Json(new { Success = success, Message = message.ToString(),Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, Message = message.ToString(),Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

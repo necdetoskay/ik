@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace ik.Models
+namespace ik.Areas.Admin.Data
 {
     [MetadataType(typeof(OzlukDigerEvrakMetaData))]
     public partial class Ozluk_DigerEvrak

@@ -2,9 +2,10 @@
 @{
     ViewBag.Title = "Personel Avans Formu";
 }
+
 <style>
     .s {
-        background-color: green;
+        background-color: #8aab1c;
     }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
@@ -153,7 +154,7 @@
                         if (result.Success === true) {
 
                             $.each(result.Data, function (di, ditem) {
-                                row = $('<tr data-id="'+ditem.ID+'"></tr>');
+                                row = $('<tr data-pid="' + ditem.PID + '" data-id="' + ditem.ID + '"></tr>');
                                 row.append('<td>' + ditem.AdSoyad + '</td><td>' + ditem.GeçenAyTutar + '</td><td><a class="avanstutar" href="javascript:void(0)">' + ditem.BuAyTutar + '</a></td>');
 
 
@@ -176,9 +177,16 @@
                         });
                         $('.avanstutar').each(function () {
                             var avans = $(this);
-                            var pid = avans.closest('tr').data("id");
+                            var id = avans.closest('tr').data("id");
+                            var pid = avans.closest('tr').data("pid");
                             var tutar = avans.html();
-                            var url = '@Url.Action("_AvansDuzenle")' + '/?id=' + pid + '&tutar=' + tutar;
+                            var url = '@Url.Action("_AvansDuzenle")' + '/?id=' + id + '&tutar=' + tutar + '&pid=' + pid;
+
+                            var message = id > 0 ? 'Avans tutarı değiştirilsin mi?' : 'Yeni avans girilsin mi?';
+                            
+
+
+
 
                             $(avans).ikDialog2({
                                 formurl: url,
@@ -186,22 +194,28 @@
                                 complete: function (result) {
                                     //console.table(result);
                                     avans.html(result.Data);
+                                    avanskarsılastir();
                                 }
+                                //, clicked: function (result) {
+                                //    BootstrapDialog.confirm({
+                                //        title: 'Avans İşlemleri',
+                                //        message: message,
+                                //        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                                //        closable: true, // <-- Default value is false
+                                //        draggable: true, // <-- Default value is false
+                                //        btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                                //        btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
+                                //        btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                                //        callback: function (result) {
+                                //            // result will be true if button was click, while it will be false if users close the dialog directly.
+                                //            if (result) {
+                                //                avanskaydet();
+                                //            }
+                                //        }
+                                //    });
+                                //}
                             })
                         });
-
-                         @*$('.avanstutar').ikDialog({
-                             formurl: '@Url.Action("AvansDuzenle")',
-                             buttonText:'<span class="glyphicon glyphicon-pencil"></span>',
-                            data: {
-                                id: '',
-                                tutar:''
-                            }, complete: function (result) {
-
-                            }, beforeshown(settings) {
-                                console.table(settings);
-                            }
-                        });*@
                     }
                 });
             };

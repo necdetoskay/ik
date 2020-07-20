@@ -3,7 +3,7 @@
 @{
     var sınıf = "";
 
-    Layout = "~/Areas/Admin/Views/Shared/Admin Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 
 }
 <style>
@@ -14,8 +14,9 @@
     .table > tr {
         border: 1px solid;
     }
-    table.treetable {      
-        font-size: 16px;      
+
+    table.treetable {
+        font-size: 16px;
     }
 </style>
 
@@ -61,17 +62,19 @@
 </table>
 
 @section scripts{
-    <link href="~/Content/jquery.treetable.css" rel="stylesheet" />
-    <link href="~/Content/jquery.treetable.theme.default.css" rel="stylesheet" />
-    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/jquery.treetable.js"></script>
-    <script src="~/Scripts/bootstrap-dialog.js"></script>
-    <script src="~/Scripts/DialogForm.js"></script>
-    <script type="text/javascript">
+<link href="~/Content/jquery.treetable.css" rel="stylesheet" />
+<link href="~/Content/jquery.treetable.theme.default.css" rel="stylesheet" />
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.treetable.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/DialogForm.js"></script>
+<script type="text/javascript">
         var ID = function () {
             return '_' + Math.random().toString(36).substr(2, 9);
         };
@@ -196,5 +199,6 @@
             $("#example-basic-expandable").treetable({ expandable: true });
             //$("#example-basic-expandable").treetable("expandAll");
         });
-    </script>
-}
+</script>
+
+    }
