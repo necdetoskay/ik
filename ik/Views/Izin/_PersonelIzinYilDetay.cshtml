@@ -15,19 +15,19 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Başlangıç.Date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Bitiş.Date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Gün)
-    </td>
-    <td><input type="button" data-id="@item.id" class="btnsil btn btn-danger btn-sm" value="Sil" /></td>
-    <td><input type="button" data-id="@item.id" class="btnedit btn btn-warning btn-sm" value="Düzenle" /></td>
-</tr>
+        <tr data-id="@item.id">
+            <td>
+                @Html.DisplayFor(modelItem => item.Başlangıç.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bitiş.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gün)
+            </td>
+            <td><input type="button" data-id="@item.id" class="btnsil btn btn-danger btn-sm" value="Sil" /></td>
+            <td><div data-id="@item.id" class="btnedit"></div> </td>
+        </tr>
     }
     <tr bgcolor="#FF0000">
         <td colspan="2">TOPLAM</td>
@@ -35,12 +35,28 @@
     </tr>
 </table>
 
-
 <script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/ikdialog.js"></script>
 <script type="text/javascript">
     $(function () {
+
+        var url = '@Url.Action("IkIzinDüzenle")';
+
         $('.btnedit').each(function () {
             var btn = $(this);
+            var izinid = btn.data("id");
+
+            btn.ikDialog({
+                formurl: url + '/?id=' + izinid,
+                Title: "Düzenle",
+                buttonText: 'Düzenle',
+                data: {
+
+                }, complete: function (result) {
+                    console.log(result);
+                   // $('#fertListe').load(updateurl);
+                }
+            });
 
         });
 

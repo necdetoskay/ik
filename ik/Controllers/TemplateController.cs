@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ik.Models;
+using ik.Models.DataClasslari;
 using Microsoft.Ajax.Utilities;
 using PtakipDAL;
+using MaasHesap = ik.Models.DataClasslari.MaasHesap;
 
 namespace ik.Controllers
 {
@@ -38,6 +40,34 @@ namespace ik.Controllers
         }
         #endregion
 
+
+        [HttpPost]
+        public ActionResult _MaasHesapla(string brutucret, string devkumgvm, string agi, string istisna,string istisnatutar)
+        {
+            var brut = decimal.Parse(brutucret.Replace(".",","));
+            var devredenkumulatifgvm = decimal.Parse(devkumgvm.Replace(".", ","));
+            var agitutar = decimal.Parse(agi.Replace(".", ","));
+            var istisnamı = istisna=="on"?true:false;
+            var istisnatutarı = decimal.Parse(istisnatutar.Replace(".", ","));
+
+           
+            var maashesap = new MaasHesap()
+            {              
+                //Ucret = 5478.29m,
+                YemekUcret = 571.85m,
+                AGI = 264.87m,
+                IstisnaVarmi = true,
+                YemekIstisnaTutar = 129m,
+                VergiDilim = db.vergi_dilim.SingleOrDefault(c => c.yil == 2020),
+                DevredenGelirVergiMatrah = 20527.7m// 20527.70m
+            };
+            var hesap=maashesap.Hesapla();
+           
+
+
+            
+            return PartialView(hesap);
+        }
 
         #region MaaşİşKontrol
 

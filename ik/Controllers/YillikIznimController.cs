@@ -26,6 +26,36 @@ namespace ik.Controllers
             var id = int.Parse(user.Pager);
             var personel = db.Personels.SingleOrDefault(c => c.id == id);
             ViewBag.personelAd = personel.adsoyad;
+          
+
+            var list=new List<SelectListItem>
+                {
+                    new SelectListItem()
+                    {
+                        Value = personel.id.ToString(),
+                        Text = personel.adsoyad
+                    }
+                }
+            ;
+
+            if (personel.IzinBakmaYetkiUst.Any())
+            {
+                foreach (var alt in personel.IzinBakmaYetkiUst)
+                {
+                    list.Add(new SelectListItem
+                    {
+                        Value =alt.PersonelAlt.id.ToString(),
+                        Text = alt.PersonelAlt.adsoyad
+                    });
+                }
+               
+            }
+
+            ViewBag.Liste = new SelectList(list, "Value", "Text");
+
+            return PartialView("_YillikIzinler");
+
+
             if (personel.Izins.Count == 0)
                 return Json("", JsonRequestBehavior.AllowGet);
             var kidem = new List<Kidem>();

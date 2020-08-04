@@ -97,6 +97,10 @@ namespace ik.Controllers
             int tip = 0;
             foreach (var pers in query.GroupBy(c => c.sicilno))
             {
+                if (pers.Key == "1370")
+                {
+
+                }
                 tip = 0;
                 if (pers.Key == "1375")
                 {

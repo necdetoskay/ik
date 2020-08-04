@@ -32,54 +32,6 @@
 
                 <h2>YillikIzin</h2>
 
-
-                @*<div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-                    <div class="modal-dialog">
-
-                      
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close">&times;</button>
-                                <h4 class="modal-title">Personel Adı</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form id="yarimform" method="post" action="@Url.Action("_yarimizinkaydet")">
-                                    <div class="form-group">
-                                        <label>İzin Yılı</label>
-                                        <input type="number" id="izinyil" name="izinyil" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Belge No</label>
-                                        <input type="text" name="belgeno" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Tarih</label>
-                                        <input type="date" name="tarih" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Başlangıç Saati</label>
-                                        <input type="time" name="baslangic" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Bitiş Saati</label>
-                                        <input type="time" name="bitis" class="form-control" />
-                                    </div>
-
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" id="yarimkaydet" class="btn btn-default">Kaydet</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>*@
-
-
-
-
-
                 <div id="yazdır">
 
                     <div class="form-group">
@@ -386,19 +338,6 @@
                 });
 
 
-
-
-                @*$('#yarimekle').MakeDialogForm({
-                    id: 'btnyarimekle',
-                    text: 'Yarım İzin Ekle',
-                    url: formurl,
-                    title: 'yarım izin Title',
-                    updateurl: '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id,
-                    bclass: 'btn btn-info',
-                    targetid: 'yarimtablo',
-                    width: "500",
-                    height: "400"
-                });*@
 
                 var url = '@Url.Action("_PersonelYarimIzinleri")' + '/?id=' + id;
                // $('#yarim').html('<a class="btn btn-primary" href="javascript:void(0)"  data-target="' + url + '" id="yarimizinler">Yarım İzin Listesi</a>');

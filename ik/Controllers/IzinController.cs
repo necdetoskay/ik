@@ -169,9 +169,13 @@ namespace ik.Controllers
                     if (yas > 49)
                         hakedilen = 20;
                 }
-                else
+                else if(kidemyil<=14)
                 {
                     hakedilen = 20;
+                }
+                else
+                {
+                    hakedilen = 26;
                 }
                 kullanılan = personel.Izins.Where(c => c.yil == yil & c.izintip == 1).Sum(c => c.gun);
                 var kanuni = personel.Izins.Where(c => c.yil == yil & c.izintip == 1).Any(c => c.gun >= 10);
@@ -207,7 +211,12 @@ namespace ik.Controllers
                     throw;
                 }
             }
-            return Json(new { Data = kidem, Kıdem = kıdem, Sicil = personel.sicilno + '-' + ceptel }, JsonRequestBehavior.AllowGet);
+
+            var yarimlist = db.Yizins.Where(c => c.mikrokayit == false && c.personelid== personelid).Select(c => new {Yıl = c.yil}).ToList();
+            
+
+
+            return Json(new { Data = kidem, Kıdem = kıdem, Sicil = personel.sicilno + '-' + ceptel,Yarim= yarimlist }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()
@@ -393,9 +402,11 @@ namespace ik.Controllers
                 id = c.id,
                 Başlangıç = c.baslangictarih,
                 Bitiş = c.bitistarihi,
-                Gün = c.gun
+                Gün = c.gun,
+                Yil = c.yil,
+                Aciklama = c.aciklama
             });
-            ViewBag.PDKSID =personel.pdksid;
+            ViewBag.PDKSID = personel.pdksid;
             ViewBag.ID = id;
             return PartialView(izinler.ToList());
         }
@@ -562,7 +573,7 @@ namespace ik.Controllers
                     db.SaveChanges();
                     //YarimizniPdksMazeretGir(personel.pdksid.Value, izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                     var result = new { Success = true, console = "_YarimIzinEkle" };
-                    return Json(result,JsonRequestBehavior.AllowGet);
+                    return Json(result, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -581,7 +592,7 @@ namespace ik.Controllers
 
                     //YarimizniPdksMazeretGir(personel.pdksid.Value,izin.tarih, izin.baslangic, izin.bitiş, izin.yil);
                     //pdks ye yarım izni mazeret izni olarak gir
-                    return Json(new { Success = true, console = "_YarimIzinEkle" },JsonRequestBehavior.AllowGet);
+                    return Json(new { Success = true, console = "_YarimIzinEkle" }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception x)
@@ -643,10 +654,40 @@ namespace ik.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult IzinSil(int id,int izinid)
+        public ActionResult IzinSil(int id, int izinid)
         {
-            var izin=db.Izins.FirstOrDefault(c => c.personelid == id & c.id == izinid);
+            var izin = db.Izins.FirstOrDefault(c => c.personelid == id & c.id == izinid);
             throw new NotImplementedException();
+        }
+
+        public ActionResult IkIzinDüzenle(int id)
+        {
+            var izin = db.Izins.FirstOrDefault(c => c.id == id);
+            var idvm = new PersonelIzinYilDetayVM
+            {
+                id = izin.id,
+                Başlangıç = izin.baslangictarih,
+                Bitiş = izin.bitistarihi,
+                Gün = izin.gun,
+                Yil = izin.yil
+            };
+            return PartialView(idvm);
+        }
+
+        [HttpPost]
+        public ActionResult IkIzinDüzenle(int id, PersonelIzinYilDetayVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var izin = db.Izins.FirstOrDefault(c => c.id == id);
+                izin.baslangictarih = model.Başlangıç;
+                izin.bitistarihi = model.Bitiş;
+                izin.aciklama = izin.aciklama.Replace(izin.yil.ToString(), model.Yil.ToString());
+                izin.yil = model.Yil;
+                db.SaveChanges();
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -35,14 +35,14 @@
                 <li>@Html.ActionLink("Özlük ", "Index", "OzlukHome", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
                 @* <li>@Html.ActionLink("PTakip", "GunlukPTakip", "PTakip", new { date = @DateTime.Now.ToShortDateString() }, null)</li>*@
 
-                @*<li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Staj İşlemleri <b class="caret"></b></a>
+                <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Raporlar <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Staj Özet", "Ozet", "Staj").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
-                <li>@Html.ActionLink("Stajer Listesi", "Index", "Staj").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
-                <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
+                <li>@Html.ActionLink("Çalışan Personel Sayısı", "CalisanSayi", "DashBoard",null,new { area="Admin"}).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
+                @*<li>@Html.ActionLink("Stajer Listesi", "Index", "Staj").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
+                <li>@Html.ActionLink("Stajer Evrak", "EvrakAta", "Staj").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>*@
             </ul>
-        </li>*@
+        </li>
                 @*<li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personel İşlemleri <b class="caret"></b></a>
             <ul class="dropdown-menu">

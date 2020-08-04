@@ -11,5 +11,7 @@ namespace ik.Models.DataClasslari
         public DateTime Başlangıç { get; set; }
         public DateTime Bitiş { get; set; }
         public int Gün { get; set; }
+        public int  Yil { get; set; }
+        public string Aciklama { get; set; }
     }
 }

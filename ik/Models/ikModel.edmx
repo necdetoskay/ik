@@ -170,6 +170,14 @@
           <Property Name="gun" Type="int" Nullable="false" />
           <Property Name="not" Type="text" />
         </EntityType>
+        <EntityType Name="IzinBakmaYetki">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ust" Type="int" Nullable="false" />
+          <Property Name="alt" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="IzinTip">
           <Key>
             <PropertyRef Name="id" />
@@ -822,6 +830,32 @@
             </Principal>
             <Dependent Role="Izin">
               <PropertyRef Name="personelid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IzinBakmaYe__alt__1FF8A574">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1" />
+          <End Role="IzinBakmaYetki" Type="Self.IzinBakmaYetki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="IzinBakmaYetki">
+              <PropertyRef Name="alt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IzinBakmaYe__ust__1F04813B">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IzinBakmaYetki" Type="Self.IzinBakmaYetki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="IzinBakmaYetki">
+              <PropertyRef Name="ust" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1497,6 +1531,7 @@
           <EntitySet Name="ImzaTakip" EntityType="Self.ImzaTakip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImzaTakipDetay" EntityType="Self.ImzaTakipDetay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Izin" EntityType="Self.Izin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IzinBakmaYetki" EntityType="Self.IzinBakmaYetki" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IzinTip" EntityType="Self.IzinTip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ihale" EntityType="Self.ihale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kadro" EntityType="Self.Kadro" Schema="dbo" store:Type="Tables" />
@@ -1595,6 +1630,14 @@
           <AssociationSet Name="FK__Izin__personelid__656C112C" Association="Self.FK__Izin__personelid__656C112C">
             <End Role="Personel" EntitySet="Personel" />
             <End Role="Izin" EntitySet="Izin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IzinBakmaYe__alt__1FF8A574" Association="Self.FK__IzinBakmaYe__alt__1FF8A574">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="IzinBakmaYetki" EntitySet="IzinBakmaYetki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IzinBakmaYe__ust__1F04813B" Association="Self.FK__IzinBakmaYe__ust__1F04813B">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="IzinBakmaYetki" EntitySet="IzinBakmaYetki" />
           </AssociationSet>
           <AssociationSet Name="FK__Kurul__gorevtip__147C05D0" Association="Self.FK__Kurul__gorevtip__147C05D0">
             <End Role="KurulGorevTip" EntitySet="KurulGorevTip" />
@@ -2096,6 +2139,15 @@
           <AssociationSet Name="FK__Ozluk_Dig__perso__0BF1ACC7" Association="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7">
             <End Role="Personel" EntitySet="Personels" />
             <End Role="Ozluk_DigerEvrak" EntitySet="Ozluk_DigerEvrak" />
+          </AssociationSet>
+          <EntitySet Name="IzinBakmaYetkis" EntityType="ikModel.IzinBakmaYetki" />
+          <AssociationSet Name="FK__IzinBakmaYe__alt__1FF8A574" Association="ikModel.FK__IzinBakmaYe__alt__1FF8A574">
+            <End Role="Personel" EntitySet="Personels" />
+            <End Role="IzinBakmaYetki" EntitySet="IzinBakmaYetkis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IzinBakmaYe__ust__1F04813B" Association="ikModel.FK__IzinBakmaYe__ust__1F04813B">
+            <End Role="Personel" EntitySet="Personels" />
+            <End Role="IzinBakmaYetki" EntitySet="IzinBakmaYetkis" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="birim">
@@ -3020,6 +3072,8 @@
           <NavigationProperty Name="Ozluk_IseGirisEvrak" Relationship="ikModel.FK__Ozluk_Ise__perso__066DDD9B" FromRole="Personel" ToRole="Ozluk_IseGirisEvrak" />
           <NavigationProperty Name="Ozluk_AileFertleri" Relationship="ikModel.FK__OzlukAile__perso__5540965B1" FromRole="Personel" ToRole="Ozluk_AileFertleri" />
           <NavigationProperty Name="Ozluk_DigerEvrak" Relationship="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7" FromRole="Personel" ToRole="Ozluk_DigerEvrak" />
+          <NavigationProperty Name="IzinBakmaYetkiAlt" Relationship="ikModel.FK__IzinBakmaYe__alt__1FF8A574" FromRole="Personel" ToRole="IzinBakmaYetki" />
+          <NavigationProperty Name="IzinBakmaYetkiUst" Relationship="ikModel.FK__IzinBakmaYe__ust__1F04813B" FromRole="Personel" ToRole="IzinBakmaYetki" />
         </EntityType>
         <Association Name="FK__Avanslar__person__03F0984C">
           <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
@@ -3690,6 +3744,42 @@
             </Principal>
             <Dependent Role="Ozluk_DigerEvrak">
               <PropertyRef Name="personelid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="IzinBakmaYetki">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ust" Type="Int32" Nullable="false" />
+          <Property Name="alt" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PersonelAlt" Relationship="ikModel.FK__IzinBakmaYe__alt__1FF8A574" FromRole="IzinBakmaYetki" ToRole="Personel" />
+          <NavigationProperty Name="PersonelUst" Relationship="ikModel.FK__IzinBakmaYe__ust__1F04813B" FromRole="IzinBakmaYetki" ToRole="Personel" />
+        </EntityType>
+        <Association Name="FK__IzinBakmaYe__alt__1FF8A574">
+          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1" />
+          <End Type="ikModel.IzinBakmaYetki" Role="IzinBakmaYetki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="IzinBakmaYetki">
+              <PropertyRef Name="alt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IzinBakmaYe__ust__1F04813B">
+          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.IzinBakmaYetki" Role="IzinBakmaYetki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="IzinBakmaYetki">
+              <PropertyRef Name="ust" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4417,6 +4507,15 @@
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="aciklama" ColumnName="aciklama" />
                 <ScalarProperty Name="evrakadi" ColumnName="evrakadi" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IzinBakmaYetkis">
+            <EntityTypeMapping TypeName="ikModel.IzinBakmaYetki">
+              <MappingFragment StoreEntitySet="IzinBakmaYetki">
+                <ScalarProperty Name="alt" ColumnName="alt" />
+                <ScalarProperty Name="ust" ColumnName="ust" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

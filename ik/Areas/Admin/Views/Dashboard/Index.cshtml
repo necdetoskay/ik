@@ -3,5 +3,28 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
-   
 
+<h1>Personel Sayısı: <span id="persayi"></span></h1>
+
+
+@section scripts{
+    <script src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                    url: '@Url.Action("_CalisanSayi")',
+                    type: 'GET',
+                    data: { tarih: moment().format('L')},
+                    success: function (result) {
+                        $('#persayi').html(result.Data);
+                    },
+                    beforeSend: function (xhr) {
+                        $('#persayi').html('<img src="@Url.Content("~/Content/giphy.gif")"/>');
+                    }
+                });
+
+        });
+    </script>
+
+
+}

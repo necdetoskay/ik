@@ -170,7 +170,7 @@
                     </ul>
                 </li>
                 <li>@Html.ActionLink("Personel İzin Durum", "YillikIzin", "izin").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
-                <li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>
+                @*<li>@Html.ActionLink("Personel Detay Bilgi", "PersonelDetay", "Personel").If(User.Identity.Name == @"KENTKONUT\noskay")</li>*@
                 <li>@Html.ActionLink("Toplu İşlem Takip", "Index", "Tasks").If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
                 @*<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maaş İşlemleri <b class="caret"></b></a>

@@ -100,61 +100,13 @@
 
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
-    <script src="~/Scripts/Admin.js"></script>
+    <script src="~/Scripts/ozlukadmin.js"></script>
     <script src="~/Scripts/bootstrap-dialog.js"></script>
     <script src="~/Scripts/uploads.js"></script>
     <script type="text/javascript">
         $(function () {
             ///tüm fert i siliyor alt resimleri ile beraber
-            $('.sil').each(function () {
-                $(this).on('click', function () {
-                    var sil = $(this);
-                    BootstrapDialog.confirm({
-                        title: 'DİKKAT',
-                        message: 'Aile ferdi silinsin mi?',
-                        btnCancelLabel: 'İptal',
-                        btnOKLabel: 'Sil',
-                        callback: function (result) {
-                            if (result) {
-                                var id = sil.closest('tr').find('.dosyaliste').attr("data-id");
-                               // console.log('@Url.Action("AileFertSil")');
-                                $.ajax({
-                                    url: '@Url.Action("AileFertSil")',
-                                    type: 'GET',
-                                    data: {
-                                        id: id
-                                    },
-                                    success: function(res) {
-                                        if (res.Success) {
-                                            sil.closest('tr').remove();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-
-                });
-            });
-            $('.düzenle').each(function() {
-
-            });
-
-            function silbagla(sildiv) {
-                var dosya = sildiv.closest(".dosya");
-                var url = dosya.data("url");
-                sildiv.on('click', function () {
-                   
-                });
-            }
-
-            $('.dosyasil').each(function() {
-                var sil = $(this);
-
-                silbagla(sil);
-            });
-
+           
 
 
             function complete(uploadresult, uploaddiv) {

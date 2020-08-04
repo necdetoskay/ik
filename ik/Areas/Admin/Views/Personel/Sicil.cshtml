@@ -90,10 +90,7 @@
             var lokasyon = $('#lokasyonID').val();
             var meslek = $('#meslekID').val();
             var dosya = $('#sgkDosya').val();
-            console.log(ikID);
-            console.log(gorev);
-            console.log(lokasyon);
-            console.log(meslek);
+         
             $.ajax({
                 url: '@Url.Action("_PersonelDetayKaydet")',
                 type: 'GET',

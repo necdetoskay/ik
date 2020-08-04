@@ -271,7 +271,7 @@ namespace ik.Controllers
                 //BinaryReader br = new BinaryReader(fs);
                 //byte[] bytes = br.ReadBytes((Int32)fs.Length);
                 var kayitklasor = Request.Form["kayitklasor"];
-                bool encrypt= bool.Parse(Request.Form["encrypt"]);
+                bool encrypt = true;// bool.Parse(Request.Form["encrypt"]);
                 // Get the complete folder path and store the file inside it.   
                 var klasör = Server.MapPath("~/Uploads");
                 klasör = klasör + kayitklasor;

@@ -93,5 +93,6 @@ namespace ik.Models
         public virtual DbSet<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
         public virtual DbSet<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
         public virtual DbSet<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
+        public virtual DbSet<IzinBakmaYetki> IzinBakmaYetkis { get; set; }
     }
 }

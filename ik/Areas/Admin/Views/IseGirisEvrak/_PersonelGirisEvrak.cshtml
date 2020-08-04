@@ -61,11 +61,11 @@
                     @foreach (var it in item.Ozluk_IseGirisEvrakUrl)
                     {
                         <div class="dosya" data-id="@it.id">
-                            <a class="thumba" target="_blank" href="/@it.url">
-                                <img src="/@it.Thumb" class="dosyaresim">
+                            <a class="thumba" target="_blank" href="@Url.Action("Indir", "Upload", new {Area="" ,url=@it.url})">
+                                <img src='@Url.Content("~/"+@it.Thumb)' class="dosyaresim">
                             </a>
                             <a href="javascript:void(0)" class="dosyasil">
-                                <img src="/Content/delete-png.png" />
+                                <img src="@Url.Content("~/Content/delete-png.png")" />
                             </a>
                         </div>
                     }
@@ -108,7 +108,16 @@
     }
 
     $(function () {
+        var root = "@(new Uri(Request.Url, Url.Content("~")))";
+        uploadnamespace.uploadform = root + '/Upload/Yukle';
+        uploadnamespace.uploadform = root + '/Upload/DosyaYukleDialog';
+        uploadnamespace.deleteurl = root + '/Upload/Sil';
 
+         var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
+
+
+
+       // console.log(root);
         function deleted(targetimgdiv) {
            alert(targetimgdiv);
           console.log(targetimgdiv);
@@ -138,8 +147,8 @@
 
 
         function resimekle(targetdiv, id, url, thumb) {
-            var dosya = $('<div class="dosya" data-id="' + id + '"><a class="thumba" target="_blank" href="/' + url + '"><img src="/' + thumb + '" ' +
-                'class="dosyaresim"></a><a href = "javascript:void(0)" class= "dosyasil" ><img src="/Content/delete-png.png" /></a></div>');
+            var dosya = $('<div class="dosya" data-id="' + id + '"><a class="thumba" target="_blank" href=' + indirurl + '/?url='+ url + '><img src="'+root+'/' + thumb + '" ' +
+                'class="dosyaresim"></a><a href = "javascript:void(0)" class= "dosyasil" ><img src="' + root + '/Content/delete-png.png" /></a></div>');
             targetdiv.append(dosya);
             dosyasil(dosya);
         }
@@ -158,7 +167,7 @@
                     if (result.Success === true) {
                         console.log(result.ID);
                         resimekle(dosyaliste, result.ID, uploadresult.DosyaAdi, uploadresult.Thumb)
-                        var check = $(targetimgdiv.closest("tr")).find("input:checkbox");
+                        var check = $(uploaddiv.closest("tr")).find("input:checkbox");
                         if (!check.attr("checked"))
                             check.trigger('click');
                     }
@@ -173,6 +182,7 @@
         });
 
         var pid = $('#tcno').val();
+
 
         $('.uploadgoster').DosyaYukle({
             uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view

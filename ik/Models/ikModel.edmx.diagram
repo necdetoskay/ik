@@ -145,6 +145,9 @@
         <AssociationConnector Association="ikModel.FK__Ozluk_Ail__ailef__52B92F6B" />
         <EntityTypeShape EntityType="ikModel.Ozluk_DigerEvrak" Width="1.5" PointX="4.375" PointY="3.75" />
       </Diagram>
+      <Diagram DiagramId="15682e6bd03043edbce07d210f2142db" Name="izinbakmayetki" >
+        <EntityTypeShape EntityType="ikModel.IzinBakmaYetki" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

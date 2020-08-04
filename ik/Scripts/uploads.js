@@ -94,9 +94,9 @@
         var settings = dialogref.getData("settings");
         fileData.append("kayitklasor", settings.kayitklasor);
         fileData.append("encrypt", settings.encrypt);
-
+        //console.table("upload file :" + settings.uploadurl);
         $.ajax({
-            url: uploadnamespace.uploadurl,
+            url: settings.uploadurl,
             type: "POST",
             contentType: false,
             processData: false,
@@ -108,8 +108,9 @@
                     loadProgressBar(result, dialogref);
                 }
             },
-            error: function (err) {
-                alert(err.statusText);
+            error: function (xhr, status, error) {
+               // var err = eval("(" + xhr.responseText + ")");
+                alert(xhr.responseText);
             }
         });
     }

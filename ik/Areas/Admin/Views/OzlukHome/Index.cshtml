@@ -80,14 +80,15 @@
                 <i class="fa fa-address-book"></i> Genel Bilgi
             </a>
         </li>
-        <li>
-            <a href="#ailefert" role="tab" data-toggle="tab">
-                <i class="fa fa-child"></i> Aile Fertleri
-            </a>
-        </li>
+
         <li>
             <a href="#isegirisevrak" role="tab" data-toggle="tab">
                 <i class="fa fa-briefcase"></i> İşe Giriş Evrakları
+            </a>
+        </li>
+        <li>
+            <a href="#ailefert" role="tab" data-toggle="tab">
+                <i class="fa fa-child"></i> Aile Fertleri
             </a>
         </li>
 
@@ -148,7 +149,7 @@
             //console.log(container);
 
             var root = "@(new Uri(Request.Url, Url.Content("~")))";
-            console.log(root);
+            //console.log(root);
             var url = root + uploadresult.DosyaAdi;
             var photodiv = $(container).parent().find(".personelfoto");
             var dosya = $('<div class="dosya"><img src="' + url + '"  width="100" height="100"></div>');
@@ -212,7 +213,7 @@
                 data: { id: id },
                 success: function (result) {
 
-                       var root = "@(new Uri(Request.Url, Url.Content("~")))";
+                    var root = "@(new Uri(Request.Url, Url.Content("~")))";
                     var url = root + result.Url;
                     console.log(result.Url);
                     if (result.Success) {
@@ -271,7 +272,7 @@
                 targetdiv: 'evrakliste',
                 change: function (result) {
                     selectlistchange(result);
-                    console.log("seleclist changed " + result);
+                    //console.log("seleclist changed " + result);
                 }
             });
 

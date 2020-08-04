@@ -1,0 +1,89 @@
+﻿
+<div class="form-group">
+    @Html.Label("Personel Adı", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("Personel", (SelectList)ViewBag.Liste, "Personel Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+
+<table id="izinler" class="table table-bordered">
+    <tr>
+        <th>İzin Yılı</th>
+        <th>Hakedilen</th>
+        <th>Kullanılan</th>
+        <th>Kalan</th>
+    </tr>
+    <tbody id="result">
+    </tbody>
+</table>
+<div class="h4">
+    <span>Toplam Kalan İzin: </span><span id="toplamkalan"></span>
+</div>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+        function izinlerigetir(id) {
+            var result = $('#result');
+            result.empty();
+            $.ajax({
+                url: '@Url.Action("PersonelYillikIzinDurum", "Izin")',
+                data: { personelid: id },
+                type: 'GET',
+                success: function (data) {
+                    console.table(data);
+                    var toplamkalan = 0;
+                    $.each(data.Data, function (i, item) {
+                        toplamkalan = toplamkalan + item.kalan;
+                        result.append('<tr><td>' + item.yil +'</td><td>'+item.hakedilenizin+'</td><td>'+item.kullanilan+'</td><td>'+item.kalan+'</td></tr>');
+                    });
+                    $('#toplamkalan').text(toplamkalan);
+                    $.each(data.Yarim, function(i, item) {
+                        var yil = item;
+                        $('#result>tr').each(function(i) {
+                            var trr = $(this);
+                          
+                            if (trr.find("td:nth(0)").html() == yil.Yıl) {
+                                var kalan = trr.find("td:nth(3)");
+                                console.log(kalan);
+                                var izin = parseFloat(kalan.html());
+                                kalan.html(izin - 0.5);
+                                var tkalan = $('#toplamkalan');
+                                tkalan.html(parseFloat(tkalan.html()) - 0.5);
+                            }
+                        });
+
+                    });
+
+                }
+            });
+        }
+
+        var length = $('#Personel > option').length;
+        if (length < 3) {
+
+            var id = $('#Personel option:nth-child(2)').val();
+            console.log(id);
+            $('#Personel').closest('.form-group').remove();
+
+            izinlerigetir(id);
+        }
+
+
+
+        $('#Personel').on('change', function() {
+             
+                var id = $(this).val();
+
+                izinlerigetir(id);
+
+              
+        });
+    });
+</script>
