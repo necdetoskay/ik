@@ -1,0 +1,4 @@
+﻿  $.notify({
+     title: '<strong>' + result.AdSoyad + ':</strong>',
+     message: '' + result.EvrakAd + ' Evrak Kaydı Güncellendi.'
+     }, {type: 'success'});

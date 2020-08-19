@@ -1,0 +1,51 @@
+﻿(function($) {
+
+    $.fn.helloWorld = function( options ) {
+
+        // Establish our default settings
+        var settings = $.extend({
+            text         : 'Hello, World!',
+            color        : null,
+            fontStyle    : null
+        }, options);
+
+		return this.each( function() {
+			$(this).text( settings.text );
+
+			if ( settings.color ) {
+				$(this).css( 'color', settings.color );
+			}
+
+			if ( settings.fontStyle ) {
+				$(this).css( 'font-style', settings.fontStyle );
+			}
+		});
+
+    }
+
+}(jQuery));
+
+
+SETTİNG olarak fonksiyon atama
+var settings = $.extend({
+    text         : 'Hello, World!',
+    color        : null,
+    fontStyle    : null,
+    complete     : null
+}, options);
+
+return this.each( function() {
+    // Our plugin so far
+
+    if ( $.isFunction( settings.complete ) ) {
+        settings.complete.call( this );
+    }
+});
+
+
+$('h2').helloWorld({
+    text        : 'Salut, le monde!',
+    color       : '#005dff',
+    fontStyle   : 'italic',
+    complete    : function() { alert( 'Done!' ) }
+});

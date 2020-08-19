@@ -83,9 +83,8 @@
         <div id="avanskontrol" class="tab-pane fade">
             <button class="btn btn-primary" onclick="avanskarsılastir()">Karşılaştır</button>
             @Html.ActionLink("Merkez", "_MerkezAvansları", new { kadro = 1 }, new { @class = "btn btn-primary" })
-            @*@Html.ActionLink("Khk", "_MerkezAvansları", new {kadro = 2}, new {@class = "btn btn-primary"})*@
-            @*<input type="button" class="btn btn-primary" id="merkez" value="MERKEZ"/>*@
-            @*<input type="button" class="btn btn-primary" id="khk" value="KHK" />*@
+            <h3 style="float: right">Toplam: <span id="toplam"></span></h3>
+         
             <div id="avanslar">
             </div>
 
@@ -140,7 +139,8 @@
                     }
                 });
             }
-            var avanskarsılastir = function () {
+        var avanskarsılastir = function () {
+            var toplam = 0;
                 $.ajax({
                     url: '@Url.Action("_AvansKontrol","Personel")',
                     type: 'GET',
@@ -156,10 +156,11 @@
                             $.each(result.Data, function (di, ditem) {
                                 row = $('<tr data-pid="' + ditem.PID + '" data-id="' + ditem.ID + '"></tr>');
                                 row.append('<td>' + ditem.AdSoyad + '</td><td>' + ditem.GeçenAyTutar + '</td><td><a class="avanstutar" href="javascript:void(0)">' + ditem.BuAyTutar + '</a></td>');
-
+                                toplam += ditem.BuAyTutar;
 
                                 table.append(row);
                             });
+                            $('#toplam').html(toplam);
                         }
 
                         avanslar.append(table);

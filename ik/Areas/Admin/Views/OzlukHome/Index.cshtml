@@ -91,6 +91,11 @@
                 <i class="fa fa-child"></i> Aile Fertleri
             </a>
         </li>
+        <li>
+            <a href="#yillikizin" role="tab" data-toggle="tab">
+                <i class="fa fa-address-card"></i> İzin Defteri
+            </a>
+        </li>
 
     </ul>
 
@@ -99,6 +104,7 @@
         <div data-url='@Url.Action("Sicil","Personel",new {Area="Admin"})' data-shown="false" class="tab-pane fade" id="genelbilgi"> </div>
         <div data-url='@Url.Action("PersonelFertListe", "AileFertleri", new {Area = "Admin"})' data-shown="false" class="tab-pane fade" id="ailefert"> </div>
         <div data-url="@Url.Action("EvraklariHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="isegirisevrak"> </div>
+        <div data-url="@Url.Action("YillikIzinler", "PersonelBilgi", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="yillikizin"> </div>
 
     </div>
 

@@ -19,7 +19,7 @@ var durum = (kalan == 0 || icra.Durum ? "TAMAMLANMIŞ" : (kalan == icra.tutar ? 
     <span>@durum</span>
 }
 <p>
-    @Html.ActionLink("Yeni İcra Dosyası Ekle", "Create", null, new { @class = "btn btn-primary" })
+    <div id="ekle"></div>
 </p><table class="table">
     <tr>
         <th>
@@ -83,11 +83,29 @@ var durum = (kalan == 0 || icra.Durum ? "TAMAMLANMIŞ" : (kalan == icra.tutar ? 
             @Durum(item)
         </td>
         <td>
-            @*@Html.ActionLink("Edit", "Edit", new {id = item.id}) |
-            @Html.ActionLink("Details", "Details", new {id = item.id}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.id})*@
+          
         </td>
     </tr>
 }
-
+    
 </table>
+@section scripts{
+    @Scripts.Render("~/bundles/ikdialog")
+    <script type="text/javascript">
+        $(function() {
+            function eklecomplete(result) {
+                location.reload();
+            }
+
+            $('#ekle').ikDialog({
+                formurl: '@Url.Action("DegistirEkle")',
+                title: 'Yeni Ekle',
+                data: { id: 0 },
+                buttonClass: 'btn btn-primary',
+                buttonText: 'Yeni Ekle',
+                complete: eklecomplete,
+                beforeshown: function(settings) {}
+            });
+        })
+    </script>
+}

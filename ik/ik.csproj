@@ -163,8 +163,10 @@
     <Compile Include="Areas\Admin\Controllers\OzlukHomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PersonelBilgiController.cs" />
     <Compile Include="Areas\Admin\Controllers\PersonelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\YillikIzniYetkiController.cs" />
     <Compile Include="Areas\Admin\Controllers\İseGirisCikisIslemleriController.cs" />
     <Compile Include="Areas\Admin\Data\partials.cs" />
+    <Compile Include="Areas\Admin\Data\PersonelIseGirisEvrakDurumVM.cs" />
     <Compile Include="Areas\Admin\Data\PersonelMikroBilgi.cs" />
     <Compile Include="Areas\Admin\Data\PersonelIKBilgi.cs" />
     <Compile Include="Controllers\ArsivController.cs" />
@@ -513,6 +515,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\PersonelBilgi\YillikIzinler.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\LayoutAdmin.cshtml" />
+    <Content Include="Content\adminstyle.css" />
+    <Content Include="Content\Admin\Article-Clean.css" />
+    <Content Include="Content\Admin\bootstrap.min.css" />
+    <Content Include="Content\Admin\fonts\fa-brands-400.svg" />
+    <Content Include="Content\Admin\fonts\fa-regular-400.svg" />
+    <Content Include="Content\Admin\fonts\fa-solid-900.svg" />
+    <Content Include="Content\Admin\fonts\font-awesome.min.css" />
+    <Content Include="Content\Admin\fonts\fontawesome-all.min.css" />
+    <Content Include="Content\Admin\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Admin\fonts\fontawesome5-overrides.min.css" />
+    <Content Include="Content\Admin\sidebar.css" />
+    <Content Include="Content\glyphicon.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
@@ -538,9 +554,24 @@
     <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\delete-png.png" />
     <Content Include="Content\switchery.min.css" />
+    <Content Include="Models\nasıl yaptım\bootstrap confirm.txt" />
+    <Content Include="Models\nasıl yaptım\bootstrap dialog.txt" />
+    <Content Include="Models\nasıl yaptım\datetime ddMMyyyy validation.txt" />
+    <Content Include="Models\nasıl yaptım\encrypt decrypt.txt" />
+    <Content Include="Models\nasıl yaptım\ikdialog.txt" />
+    <Content Include="Models\nasıl yaptım\jquery prototype.txt" />
+    <Content Include="Models\nasıl yaptım\nokta virgül decimal hatası çözüm.txt" />
+    <Content Include="Models\nasıl yaptım\notify.txt" />
     <Content Include="Models\nasıl yaptım\pagedlist örnek.txt" />
+    <Content Include="Models\nasıl yaptım\random id.txt" />
+    <Content Include="Models\nasıl yaptım\selectlist with target.txt" />
+    <Content Include="Models\nasıl yaptım\tab panel.txt" />
+    <Content Include="Models\nasıl yaptım\yes no dropdown.txt" />
     <Content Include="Models\notify.txt" />
+    <Content Include="Models\remote validation.txt" />
     <Content Include="Models\uploadkullanımı.txt" />
+    <Content Include="Scripts\Admin\bootstrap.min.js" />
+    <Content Include="Scripts\Admin\sidebar.js" />
     <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -1030,6 +1061,31 @@
     <Content Include="Areas\Admin\Views\OzlukHome\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Personel\Sicil.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\CalisanSayi.cshtml" />
+    <Content Include="Areas\Admin\Views\YillikIzinYetki\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\YillikIzinYetki\YeniEkle.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\PersonelSec.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\PersonelSecChecked.cshtml" />
+    <Content Include="Areas\Admin\Views\OzlukHome\Durum.cshtml" />
+    <Content Include="Areas\Admin\Views\OzlukHome\YillikIzinDefter.cshtml" />
+    <Content Include="Models\nasıl yaptım\sidebar.bsdesign" />
+    <Content Include="Areas\Admin\Views\Shared\LayoutAdminold.cshtml" />
+    <Content Include="Content\Admin\fonts\fa-brands-400.eot" />
+    <Content Include="Content\Admin\fonts\fa-brands-400.ttf" />
+    <Content Include="Content\Admin\fonts\fa-brands-400.woff" />
+    <Content Include="Content\Admin\fonts\fa-brands-400.woff2" />
+    <Content Include="Content\Admin\fonts\fa-regular-400.eot" />
+    <Content Include="Content\Admin\fonts\fa-regular-400.ttf" />
+    <Content Include="Content\Admin\fonts\fa-regular-400.woff" />
+    <Content Include="Content\Admin\fonts\fa-regular-400.woff2" />
+    <Content Include="Content\Admin\fonts\fa-solid-900.eot" />
+    <Content Include="Content\Admin\fonts\fa-solid-900.ttf" />
+    <Content Include="Content\Admin\fonts\fa-solid-900.woff" />
+    <Content Include="Content\Admin\fonts\fa-solid-900.woff2" />
+    <Content Include="Content\Admin\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Admin\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Admin\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Admin\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Admin\fonts\FontAwesome.otf" />
     <None Include="Models\PersonelRapor.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1265,7 +1321,6 @@
     <Content Include="Views\PersonelOzlukDosya\GrupEvrakEkle.cshtml" />
     <Content Include="Views\PersonelOzlukDosya\Index.cshtml" />
     <Content Include="Views\Pdks\IzinEkle.cshtml" />
-    <Content Include="Views\DatatablesTest\Index.cshtml" />
     <Content Include="Views\Arsiv\Index.cshtml" />
     <Content Include="Views\PTakip\GunlukPTakip.cshtml" />
     <Content Include="Views\Personel\PersonelGorev.cshtml" />
@@ -1312,11 +1367,6 @@
     <Content Include="Views\ImzaTakip\TakipImzala.cshtml" />
     <Content Include="Views\Takip\RutinEkle.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
-    <Content Include="Views\TestTest\Create.cshtml" />
-    <Content Include="Views\TestTest\Delete.cshtml" />
-    <Content Include="Views\TestTest\Details.cshtml" />
-    <Content Include="Views\TestTest\Edit.cshtml" />
-    <Content Include="Views\TestTest\Index.cshtml" />
     <Content Include="Views\Personel\Index.cshtml" />
     <Content Include="Views\Personel\Edit.cshtml" />
     <Content Include="Views\Izin\PersonelYarimİzinListe.cshtml" />
@@ -1414,6 +1464,8 @@
     <Content Include="Views\Template\_MaasHesapla.cshtml" />
     <Content Include="Views\Izin\IkIzinDüzenle.cshtml" />
     <Content Include="Views\YillikIznim\_YillikIzinler.cshtml" />
+    <Content Include="Views\Template\_MesaiDuzenle.cshtml" />
+    <Content Include="Views\Icra\DegistirEkle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1502,7 +1554,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

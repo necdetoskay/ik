@@ -1,0 +1,29 @@
+﻿@model string
+@{
+    var func = @Model + "Change($(this))";
+}
+<div>
+    <select name="@Model" class="form-control col-md-10" id="@Model" onChange="@func"> </select><span class="sayi badge badge-success col-md-2"></span>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var select = $('#' + model);
+        $.ajax({
+            url: '@Url.Action("_PersonelSelectList","Personel",new{area=""})',
+            type: 'GET',
+            data: {},
+            success: function (result) {
+                var personelsayi = 0;
+                select.append('<option value="-1">Personel Seçiniz</option>');
+                $.each(result.Data, function(i, item) {
+                    select.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                    personelsayi++;
+                });
+                select.closest("div").find('.sayi').html(personelsayi);
+            }
+        });
+    });
+</script>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
+using System.Drawing;
 using System.Linq;
 using System.Web.Mvc;
 using ik.Models;
@@ -26,7 +27,13 @@ namespace ik.Controllers
             var id = int.Parse(user.Pager);
             var personel = db.Personels.SingleOrDefault(c => c.id == id);
             ViewBag.personelAd = personel.adsoyad;
-          
+            ViewBag.PDKSID = personel.pdksid;
+            ViewBag.id = id;
+            var bitis = DateTime.Now;
+            ViewBag.baslangic = new DateTime(bitis.Year,bitis.Month,1);
+            ViewBag.bitis = bitis;
+
+
 
             var list=new List<SelectListItem>
                 {

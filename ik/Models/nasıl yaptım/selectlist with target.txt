@@ -1,0 +1,15 @@
+﻿<script src="~/Scripts/Admin.js"></script>
+ function sonuc(result) {
+            $('#evrakliste').html(result);
+        }
+
+
+ $('#selectlist').MakeSelectList({
+                loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+                listurl: '@Url.Action("_SelectList", "Personel", new {Area = ""})',
+                targetdiv: 'evrakliste',
+                callafterchange: '@Url.Action("EvraklariHazirla")',
+                change: function(result) {
+                    sonuc(result);
+                }
+            });

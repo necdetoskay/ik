@@ -1,0 +1,13 @@
+﻿function eklecomplete(result) {
+                location.reload();
+            }
+
+            $('#ekle').ikDialog({
+                formurl: ',
+                title: 'Yeni Ekle',
+                data: {},
+                buttonClass: 'btn btn-primary',
+                buttonText: '',
+                complete: eklecomplete,
+                beforeshown: function(settings) {}
+            });

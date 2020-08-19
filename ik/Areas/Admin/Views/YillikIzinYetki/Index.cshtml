@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ik.Models.IzinBakmaYetki>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div id="yeniekle"></div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonelUst.adsoyad)
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.GroupBy(c => c.PersonelUst))
+    {
+        <tr data-id="@item.Key.id">
+            <td>
+                @Html.DisplayFor(modelItem => item.Key.adsoyad)
+            </td>
+            <td>
+                <a>@item.Key.IzinBakmaYetkiUst.Count()</a>
+            </td>
+            <td>
+                <input type="button" class="delete" value="Sil"/>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/ikdialog.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#yeniekle').ikDialog({
+                title: 'Yetkilendirme Formu',
+                formurl: '@Url.Action("YeniEkle")',
+                buttonText: 'Yeni Kişi Ekle',
+                complete: function(result) {
+                    //console.table(result.Url);
+                    location.reload();
+                }
+            });
+
+            $('.delete').each(function() {
+                var del = $(this);
+                var id = del.closest('tr').data("id");
+                var url = '@Url.Action("PersonelYetkiSil")' + '/?id=' + id;
+
+                del.on('click',
+                    function() {
+                        BootstrapDialog.confirm({
+                            message: 'Yetkiyi Silmek İstediğinie Eminmisiniz?',
+                            title: 'Yetkili Sil',
+                            type: BootstrapDialog.TYPE_WARNING,
+                            callback: function(result) {
+                                if (result) {
+                                    $.ajax({
+                                        url: url,
+                                        type: 'GET',
+                                        success: function(result) {
+                                            if (result.Success) {
+                                                location.reload();
+                                            }
+                                        }
+                                    });
+                                } else {
+
+                                }
+                            }
+                        });
+                    });
+            });
+        });
+    </script>
+}

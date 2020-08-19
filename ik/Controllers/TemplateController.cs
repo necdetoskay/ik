@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -169,11 +170,14 @@ namespace ik.Controllers
 
         }
 
-        public ActionResult _IkMikroMesai(int ay)
+        public ActionResult _IkMikroMesai(int ay,int yil)
         {   //ik mesaileri oku
-            var yıl = DateTime.Now.Year;
+            ViewBag.ay = ay;
+            ViewBag.yil = yil;
+            var yıl = yil;
             var ikmesai = db.PersonelMesais.Where(c => c.ay == ay & c.yil == yıl).Select(c => new
             {
+                ID=c.id,
                 AdSoyad = c.Personel.adsoyad,
                 IkMesai1 = c.mesai1,
                 IkMesai2 = c.mesai2,
@@ -198,6 +202,7 @@ namespace ik.Controllers
             {
                 list.Add(new MesaiKontrolVM
                 {
+                    ID = ikm.ID,
                     AdSoyad = ikm.AdSoyad,
                     IkMesai1 = ikm.IkMesai1,
                     IkMesai2 = ikm.IkMesai2,
@@ -333,6 +338,40 @@ namespace ik.Controllers
         {
             return View();
         }
+
+        public ActionResult _MesaiDuzenle(int ay, int yil,int id=-1)
+        {
+            ViewBag.personelListe =
+                new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad");
+            var mesai =id>1? db.PersonelMesais.FirstOrDefault(c => c.id == id):new PersonelMesai(){ay = ay,yil = yil,personelID = id};
+            return PartialView(mesai);
+        }
+        [HttpPost]
+        public ActionResult _MesaiDuzenle(int id,PersonelMesai model)
+        {
+            if (ModelState.IsValid)
+            {
+               if(model.id>10)
+                   db.Entry(model).State =EntityState.Modified;
+               else
+               {
+                   db.PersonelMesais.Add(model);
+               }
+               
+               db.SaveChanges();
+                return Json(new {Success=true,Data=model,AdSoyad=model.Personel.adsoyad }, JsonRequestBehavior.AllowGet);
+            }
+            
+            return PartialView(model);
+        }
+
+        public ActionResult _MesaiSil(int id)
+        {
+            var mesai =  db.PersonelMesais.FirstOrDefault(c => c.id == id);
+            db.PersonelMesais.Remove(mesai);
+            db.SaveChanges();
+            return Json(new {Success = true}, JsonRequestBehavior.AllowGet);
+        }
     }
 
     public class IcraKontrolVM
@@ -363,6 +402,7 @@ namespace ik.Controllers
     }
     public class MesaiKontrolVM
     {
+        public int ID { get; set; }
         public string AdSoyad { get; set; }
         public int IkMesai1 { get; set; }
         public int IkMesai2 { get; set; }

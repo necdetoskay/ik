@@ -267,12 +267,9 @@ namespace ik.Controllers
 
                 }
 
-                //Stream fs = file.InputStream;
-                //BinaryReader br = new BinaryReader(fs);
-                //byte[] bytes = br.ReadBytes((Int32)fs.Length);
+            
                 var kayitklasor = Request.Form["kayitklasor"];
                 bool encrypt = true;// bool.Parse(Request.Form["encrypt"]);
-                // Get the complete folder path and store the file inside it.   
                 var klasör = Server.MapPath("~/Uploads");
                 klasör = klasör + kayitklasor;
                 FileInfo fi = new FileInfo(fname);
@@ -281,14 +278,15 @@ namespace ik.Controllers
                 fname = Path.Combine(klasör, fname + fi.Extension);
 
                 var thumbp = "";//thumbpath.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
-
+               
                 if (!System.IO.File.Exists(klasör))
                 {
                     Directory.CreateDirectory(klasör);
                 }
-
+            
                 if (System.Web.MimeMapping.GetMimeMapping(file.FileName).StartsWith("image/"))
                 {
+
                     using (var imgfile = Image.FromStream(file.InputStream))
                     {
                         if (!imgfile.Size.IsEmpty) //yüklenen dosya resim
@@ -301,8 +299,16 @@ namespace ik.Controllers
 
                             if (!Directory.Exists(thumbpath))
                                 Directory.CreateDirectory(thumbpath);
+
                             thumbpath += name + fi.Extension;
-                            thumbimage.Save(thumbpath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            try
+                            {
+                                thumbimage.Save(thumbpath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.Info("jpeg thumb kayıt hatası "+ex.Message);
+                            }
                             dosyaresmi = thumbpath.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
 
                             #endregion
@@ -313,7 +319,17 @@ namespace ik.Controllers
                             if (encrypt)
                             {
                                 var sifreli = Cryptography.EncryptBytes(stream.ToArray(), "ıon8>'~|*½9<8hyuasdyu", 2);
-                                System.IO.File.WriteAllBytes(fname, sifreli);
+
+                                try
+                                {
+                                    System.IO.File.WriteAllBytes(fname, sifreli);
+                                }
+                                catch (Exception ex)
+                                {
+                                    logger.Info("jpeg kayıt hatası " + ex.Message);
+                                   
+                                }
+
                             }
                             else
                             {
@@ -326,14 +342,41 @@ namespace ik.Controllers
                 }
                 else if (System.Web.MimeMapping.GetMimeMapping(file.FileName).Contains("application/pdf"))
                 {
+                    logger.Info("dosya pdf dosyası");
                     var thumbpath = klasör + "//thumb//";
-                    var p = Request.ServerVariables["APPL_PHYSICAL_PATH"]+Url.Content("~//Content//PDF.png");
-                    thumbpath += name + ".png";
-                    using (var img =Image.FromFile(p))
+                    var p = Request.ServerVariables["APPL_PHYSICAL_PATH"]+"/Content/PDF.png";
+                    logger.Info("APPL_PHYSICAL_PATH " + Request.ServerVariables["APPL_PHYSICAL_PATH"]);
+                    logger.Info("content path " + Url.Content("~/Content/PDF.png"));
+                    FileInfo finf=new FileInfo(p);
+                    logger.Info("pdf.png " + finf.FullName);
+                    if (!Directory.Exists(thumbpath))
+                        Directory.CreateDirectory(thumbpath);
+
+                    thumbpath += name + ".JPG";
+
+
+                    logger.Info("dosya adı "+ thumbpath);
+                    try
                     {
-                        
-                        img.Save(thumbpath);
+                        using (var img = Image.FromFile(finf.FullName))
+                        {
+                            try
+                            {
+                                img.Save(thumbpath, ImageFormat.Jpeg);
+                                logger.Info("png thumb kaydedildi ");
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.Info("thumb png kayıt hatası " + ex.Message);
+                            }
+
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        logger.Info("thumb png bakma hatası " + ex.Message);
+                    }
+                    dosyaresmi = thumbpath.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
                     using (var binaryreader = new BinaryReader(file.InputStream))
                     {
 
@@ -341,7 +384,16 @@ namespace ik.Controllers
                         {
                             var sifreli = Cryptography.EncryptBytes(binaryreader.ReadBytes(file.ContentLength),
                                 "ıon8>'~|*½9<8hyuasdyu", 2);
-                            System.IO.File.WriteAllBytes(fname, sifreli);
+                            try
+                            {
+                                System.IO.File.WriteAllBytes(fname, sifreli);
+                                logger.Info("png kaydedildi ");
+                            }
+                            catch (Exception ex)
+                            {
+
+                                logger.Info("png kayıt hatası " + ex.Message);
+                            }
                         }
                         else
                         {

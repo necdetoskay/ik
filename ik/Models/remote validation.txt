@@ -1,0 +1,14 @@
+﻿metadata
+     [Remote("AdSoyadKontrol", "Personel")]
+
+	 controller
+	  public JsonResult AdSoyadKontrol(string adsoyad)
+        {
+
+            if (db.Personels.SingleOrDefault(c => c.adsoyad == adsoyad) == null)
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+            string suggestedUID = String.Format(CultureInfo.InvariantCulture,
+               "{0} Kullanıcısı zaten kayıtlı.", adsoyad);
+            return Json(suggestedUID, JsonRequestBehavior.AllowGet);
+        }

@@ -1,0 +1,26 @@
+﻿BootstrapDialog.confirm({
+                    title: 'Avans Kayıt',
+                    message: 'Avans Kaydedilsin mi?',
+                    type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function (result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if (result) {
+                            avanskaydet();
+                        } 
+                    }
+                });
+
+
+                 BootstrapDialog.confirm('Hi Apple, are you sure?', function(result){
+            if(result) {
+                alert('Yup.');
+            }else {
+                alert('Nope.');
+            }
+        });
+

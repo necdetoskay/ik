@@ -7,12 +7,16 @@
     .red {
         background-color: red;
     }
+    a {
+        color: #4a5a67
+    }
+
    
 </style>
 @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>*@
-@Html.TextBox("yil", null, new { Title="Yıl", @type = "number" }) @Html.TextBox("ay",null,new {Title="Ay",@type="number"})
+@Html.TextBox("yil", null, new { Title="Yıl", @type = "number" }) @Html.TextBox("ay",null,new {Title="Ay",@type="number", @min="1",@max="12"})
 <input type="button" class="btn btn-info" id="kontrol" value="Kontrol Et"/><span class="pull-right"><a href="#" id="maaskontrol" class="btn btn-primary" >Maaş Kontrol</a></span>
 <br />
 <table id="isler" class="table">
@@ -54,10 +58,10 @@
             });
             $('#kontrol').on("click", function () {
                 var ay = $('#ay').val();
-
-                if (ay == "") {
-                    alert("değer girilmemiş");
-                    return;
+                var yil = $('#yil').val();
+                if (ay<1 & ay>12) {
+                    alert(" yanlış değer girilmemiş");
+                    return false;
                 }
 
                 var tr = $('#isler>tbody>tr').not(":first");
@@ -68,7 +72,7 @@
 
                         var ur = t.attr("data-url");
                         $.ajax({
-                            url: ur + "/?ay=" + ay,
+                            url: ur + "/?ay=" + ay+'&yil='+yil,
                             type: "GET",
                             data: {
                             },
@@ -87,7 +91,17 @@
                                 $(t.find("td:eq(1) > a")).on("click", function () {
                                     BootstrapDialog.show({
                                         message: son,
-                                        title:"Bilgi"
+                                        title:"Bilgi",
+                                        onhidden: function (dialogRef) {
+                                            Success = son.find('#Success').val();
+                                            if (Success == "true") {
+                                                t.removeClass("red");
+                                                t.addClass("yesil");
+                                            } else {
+                                                t.removeClass("yesil");
+                                                t.addClass("red");
+                                            }
+                                        }
                                     });
                                 });
                             }

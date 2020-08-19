@@ -130,9 +130,7 @@
             });
 
 
-
-
-            var yarimizinleridus = function () {
+             var yarimizinleridus = function () {
                 $('#yarimtablo > table> tbody>tr').each(function (i) {
                     if (i > 0) {
                         var tr = $(this);
@@ -270,33 +268,7 @@
                 });
             };
 
-            $("#myModal").on('show.bs.modal', function (e) {
-                $('#myModal  input').val('');
-            });
-
-
-            $("#myModal").on('shown.bs.modal', function (e) {
-
-                var form = $(e.relatedTarget);
-                var yil = form.data("yil");
-                if (typeof yil === "undefined" || yil === false || yil === null)
-                    yil = -1;
-                var id = form.data("id");
-                var yid = form.data("yid");
-
-                var yilinput = $('#myModal #izinyil');
-                if (yil > 0) {
-                    yilinput.val(yil);
-                    yilinput.attr("disabled", true);
-                } else {
-                    yilinput.attr("disabled", false);
-                }
-                $('#myModal').attr("data-id", id);
-                $('#myModal').attr("data-yil", yil);
-                $('#myModal').attr("data-yid", yid);
-                $('.modal-title').html(id);
-
-            });
+          
 
             $('#btnyarimizin').on('click', function () {
                 var pid = $('#PersonelListe').val();
@@ -321,10 +293,8 @@
             $('#PersonelListe').on('change', function () {
                 var id = $(this).val();
                 $('#tree').remove();
-
                 var formurl = '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1;
 
-                //$('#yarimekle').html('<input data-toggle="modal" data-target="#myModal" type="button" data-id="' + id + '" value="Yarım İzin Ekle"/>');
                 $('#yarimekle').html("");
                 var updateurl = '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id;
                 $('#yarimekle').ikDialog({
@@ -340,7 +310,6 @@
 
 
                 var url = '@Url.Action("_PersonelYarimIzinleri")' + '/?id=' + id;
-               // $('#yarim').html('<a class="btn btn-primary" href="javascript:void(0)"  data-target="' + url + '" id="yarimizinler">Yarım İzin Listesi</a>');
 
                 $('#yarimizinler').on('click', function () {
                     console.log($(this).attr("data-target"));
@@ -352,7 +321,6 @@
                                 url: $(this).attr("data-target"),
                                 type: 'GET',
                                 data: {
-
                                 },
                                 success: function (result) {
                                     var content = $('#content');

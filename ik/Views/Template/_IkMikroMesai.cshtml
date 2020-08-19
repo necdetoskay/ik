@@ -3,25 +3,34 @@
 @{
     ViewBag.Title = "_IkMikroMesai";
 
-    var durum = true;
-    foreach (var item in Model)
-    {
-        if (!(item.IkMesai1 == item.MikroMesai1 && item.IkMesai2 == item.MikroMesai2))
-        {
-            durum = false;
-            break;
-        }
-    }
-
-
-
+    //var durum = true;
+    //foreach (var item in Model)
+    //{
+    //    if (!(item.IkMesai1 == item.MikroMesai1 && item.IkMesai2 == item.MikroMesai2))
+    //    {
+    //        durum = false;
+    //        break;
+    //    }
+    //}
 }
-@Html.Hidden("Success",durum)
+<style>
+    .bootstrap-dialog .modal-header.bootstrap-dialog-draggable {
+        cursor: move;
+    }
+    .green {
+        background-color: lightgreen
+    }
+    .red {
+        background-color: red
+    }
+</style>
+@Html.Hidden("Success", true)
 <h2>Mesai Durumu</h2>
 
 @*//@Html.Hidden("Success", (Model.Sum(c=>c.IkMesai1)==Model.Sum(c=>c.MikroMesai1))& Model.Sum(c => c.IkMesai2) == Model.Sum(c => c.MikroMesai2))*@
-@Html.ActionLink("Mesailer","Index","PersonelMesais")
-<table class="table">
+@*<input id="mesaiekle" type="button" class="btn btn-primary" value="Yeni Mesai Ekle" />*@
+<div id="yeniekle"></div>
+<table id="mesaitablo" class="table" data-ay="@ViewBag.ay", data-yil="@ViewBag.yil">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.AdSoyad)
@@ -29,37 +38,157 @@
         <th>
             @Html.DisplayNameFor(model => model.IkMesai1)
         </th>
-      
+
         <th>
             @Html.DisplayNameFor(model => model.MikroMesai1)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IkMesai2)
         </th>
-     
+
         <th>
             @Html.DisplayNameFor(model => model.MikroMesai2)
         </th>
+        <th>
+
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr style="background-color: @((item.IkMesai1==item.MikroMesai1)&&(item.IkMesai2==item.MikroMesai2) ?"green":"red")">
-        <td>
-            @Html.DisplayFor(modelItem => item.AdSoyad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IkMesai1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MikroMesai1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IkMesai2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MikroMesai2)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr class="mesai" data-id="@item.ID" >
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IkMesai1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MikroMesai1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IkMesai2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MikroMesai2)
+            </td>
+            <td style="display: flex;">
+                <div class="personelmesai d-content"></div><input type="button" value="Sil" class="mesaisil btn btn-primary" />
+            </td>
+        </tr>
+    }
 
 </table>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/ikdialog")
+<script type="text/javascript">
+    $(function () {
+        function mesailerikontrolet() {
+            var durum = true;
+            $.each($('tr.mesai'), function (indexInArray, valueOfElement) {
+                var td = $(valueOfElement).find('td');
+
+                var ik1 = parseInt($(td[1]).html());
+                var mikro1 = parseInt($(td[2]).html());
+                var ik2 = parseInt($(td[3]).html());
+                var mikro2 = parseInt($(td[4]).html());
+
+                if (ik1 === mikro1 && ik2=== mikro2) {
+                    $(this).removeClass("red");
+                    $(this).addClass("green");
+                } else {
+
+                    $(this).removeClass("green");
+                    $(this).addClass("red");
+                    durum = false;
+
+                }
+            });
+          // console.log(durum);
+            $('#Success').val(durum);
+        }
+
+        var tablo = $('#mesaitablo');
+        $('#yeniekle').empty();
+        $('#yeniekle').ikDialog({
+            formurl: '@Url.Action("_MesaiDuzenle")' + '/?id=-1&ay='+tablo.data("ay")+'&yil='+tablo.data("yil"),
+            Title: "Mesai Ekle",
+            buttonText: 'Ekle',
+            buttonClass: 'btn btn-primary',
+            data: {
+                ay: '@ViewBag.ay',
+                yil:'@ViewBag.yil'
+            },
+            complete: function (result) {
+                //console.log(result);
+                mesailerikontrolet();
+                location.reload();
+                
+            }
+        });
+
+        function mesaiekleduzenle(mesai)
+        {
+            var tablo = $('#mesaitablo');
+
+            mesai.html("");
+            var ID = mesai.closest('tr').data('id');
+            var url = '@Url.Action("_MesaiDuzenle")' + "/?id=" + ID + '&ay=' + tablo.data("ay") + '&yil=' + tablo.data("yil");
+            mesai.ikDialog({
+                formurl: url,
+                Title: "Mesai Düzenle",
+                buttonText: 'Düzenle',
+                buttonClass: 'btn btn-primary',
+                data: {
+                    ay: '@ViewBag.ay',
+                    yil: '@ViewBag.yil'
+                },
+                complete: function (result) {
+                    mesai.closest('tr').find('td:nth-child(2)').html(result.Data.mesai1);
+                    mesailerikontrolet();
+                }
+            });
+        }
+        $(".personelmesai").each(function() {
+            var mesai = $(this);
+            mesaiekleduzenle(mesai);
+        });
+
+        function mesaisil(mesai) {
+            $(mesai).on('click', function () {
+                mesai.html("");
+                var ID = mesai.closest('tr').data('id');
+                var url = '@Url.Action("_MesaiSil")' + "/?id=" + ID;
+                BootstrapDialog.confirm('Mesai Kaydı silinsin mi?',
+                    function(result) {
+                        if (result) {
+                            $.ajax({
+                                async:true,
+                                type: "get",
+                                url: url,
+                                data:{},
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.Success === true) {
+                                        $(this).closest('tr').remove();
+                                        mesailerikontrolet();
+                                        location.reload();
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+            });
+        }
+
+        $(".mesaisil").each(function () {
+            var mesai = $(this);
+            mesaisil(mesai);
+        });
+
+
+
+        mesailerikontrolet();
+    });
+</script>

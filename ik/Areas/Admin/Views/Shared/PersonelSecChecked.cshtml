@@ -1,0 +1,48 @@
+﻿@model string
+@{
+    var func = @Model + "Change($(this))";
+}
+<div>
+    <select multiple="multiple" class="form-control col-md-10" id="@Model" name="@Model" onChange="@func"> </select>@*<span class="sayi badge badge-success col-md-2"></span>*@
+</div>
+
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<script src="~/Scripts/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var select = $('#' + model);
+       var url='@Url.Action("_imzatakippersonelliste", "Personel",new{area=""})';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {},
+            success: function (result) {
+                var toplam = 0;
+                if (result.Success === true) {//d.adsoyad,d.id,d.mikroid,d.birim.birimad
+                    $.each(result.Data, function (ig, itemg) {
+                        var group = $('<optgroup class="'+ig+'" label="' + itemg.Birim + '"></optgroup>');
+                        $.each(itemg.Personeller, function(i, item) {
+                            group.append('<option value="' + item.id + '">' + item.adsoyad + '</option>');
+                            toplam++;
+                        });
+                        select.append(group);
+                    });
+                    select.multiselect({
+                        maxHeight: 500,
+                        includeSelectAllOption: true,
+                        selectAllText: 'Tümünü Seç',
+                        nonSelectedText: 'Personel Seçiniz',
+                        allSelectedText: 'Tümü Seçildi',
+                        enableClickableOptGroups: true,
+                        enableFiltering: true
+                    });
+                }
+
+                //select.closest("div").find('.sayi').html(toplam);
+            }
+
+        });
+    });
+</script>

@@ -1,32 +1,160 @@
 ﻿
-<div class="form-group">
-    @Html.Label("Personel Adı", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownList("Personel", (SelectList)ViewBag.Liste, "Personel Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+<style>
+    .hakedilmemis {
+        background-color: lightcoral
+    }
+</style>
+<ul  class="nav nav-pills">
+    <li class="active">
+        <a href="#izindurum" class="nav-link active" id="izindurum-tab" data-toggle="tab" role="tab" aria-controls="izindurum" aria-selected="true">
+            <i class="fa fa-address-book"></i> İzin Durumu
+        </a>
+    </li>
 
+    <li class="nav-item">
+        <a href="#giriscikis" class="nav-link" id="giriscikis-tab" data-toggle="tab" role="tab" aria-controls="giriscikis" aria-selected="false" >
+            <i class="fa fa-briefcase"></i> Aylık Giriş Çıkış Saatleri
+        </a>
+    </li>
+   
+</ul>
+
+<div class="tab-content clearfix">
+    <div class="tab-pane active" id="izindurum">
+        <div class="form-group">
+            @Html.Label("Personel Adı", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Personel", (SelectList)ViewBag.Liste, "Personel Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <table id="izinler" class="table table-bordered">
+            <tr>
+                <th>İzin Yılı</th>
+                <th>Hakedilen Tarih</th>
+                <th>Hakedilen</th>
+                <th>Kullanılan</th>
+                <th>Kalan</th>
+            </tr>
+            <tbody id="result">
+            </tbody>
+        </table>
+        <div class="h4">
+            <span>Toplam Kalan İzin: </span><span id="toplamkalan"></span>
+        </div>
+        <div>
+            <span id="message"></span>
+        </div>
     </div>
+    <div class="tab-pane" id="giriscikis">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Giriş Saat</th>
+                <th>Geç Kalma</th>
+            </tr>
+            </thead>
+            <tbody id="girisler"></tbody>
+        </table>
+    </div>
+   
 </div>
 
-<table id="izinler" class="table table-bordered">
-    <tr>
-        <th>İzin Yılı</th>
-        <th>Hakedilen</th>
-        <th>Kullanılan</th>
-        <th>Kalan</th>
-    </tr>
-    <tbody id="result">
-    </tbody>
-</table>
-<div class="h4">
-    <span>Toplam Kalan İzin: </span><span id="toplamkalan"></span>
-</div>
+
+
 
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
 <script type="text/javascript">
+
+    var enumerateDaysBetweenDates = function(startDate, endDate) {
+        var now = startDate.clone(), dates = [];
+
+        while (now.isSameOrBefore(endDate)) {
+            dates.push(now.format('M/D/YYYY'));
+            now.add(1, 'days');
+        }
+        return dates;
+    };
+
     $(function () {
+        function pad(d) {
+            return (d < 10) ? '0' + d.toString() : d.toString();
+        }
+
+
+
+        var baslangic ='@ViewBag.baslangic.ToString("yyyy-MM-dd")';
+        var bitis = '@ViewBag.bitis.ToString("yyyy-MM-dd")';
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("TarihlerArasiGirisCikisDurum","PDKS")',
+            data: {
+                id:'@ViewBag.PDKSID',
+                baslangic: moment(baslangic).format(),
+                bitis: moment(bitis).format()
+            },
+            dataType: "json",
+            success: function (response) {
+               console.table(response.Data);
+                var basla = moment(baslangic);
+                var bit = moment(bitis);
+                var giris = $('#girisler');
+                var exist = false;
+               giris.empty();
+
+
+                $.each(enumerateDaysBetweenDates(basla, bit),
+                    function(i, item) {
+                        $.each(response.Data.GirisCikis, function (i, it) {
+
+                            if (moment(it.tarih).format('DD/MM/YYYY') === moment(item).format('DD/MM/YYYY')) {
+                                exist = true;
+                                var time = moment(it.giris);
+                                var hour = time.get('hour');
+                                var minute = time.get('minute');
+                                var gec1 = moment.utc(hour + ':' + minute + ':00', 'HH:mm:ss');
+                                var gec2 = moment.utc('08:30:00', 'HH:mm:ss');
+
+                                var dif = gec1.diff(gec2, 'minutes');
+                             
+                                var tr = $('<tr></tr>');
+                                tr.append('<td>' + moment(item).format('DD/MM/YYYY') + '</td><td>' + pad(hour) + ':' + pad(minute)+ '</td><td>' +  (dif > 6 ? dif : 0) + '</td>');
+                                giris.append(tr);
+                            }
+
+                        });
+                        if (exist === false) {
+                            var gun = moment(item);
+                            if (gun.day() === 6 | gun.day() === 0) {
+                            } else {
+                                $.each(response.Data.Izin, function (i, it) {
+                                    var tr = $('<tr></tr>');
+                                    if (moment(it.tarih).format('DD/MM/YYYY') === moment(item).format('DD/MM/YYYY')) {
+                                      
+                                        tr.append('<td>' + moment(item).format('DD/MM/YYYY') + '</td><td>' + it.aciklama + '</td><td></td>');
+                                        giris.append(tr);
+                                    } else {
+                                        //tr.append('<td>' + moment(item).format('DD/MM/YYYY') + '</td><td>Giriş Yapılmamış</td><td></td>');
+                                        //giris.append(tr);
+                                    }
+
+                                });
+                            }
+
+
+                        }
+            });
+
+
+            }
+        });
 
 
         function izinlerigetir(id) {
@@ -37,20 +165,24 @@
                 data: { personelid: id },
                 type: 'GET',
                 success: function (data) {
-                    console.table(data);
+                    //console.table(data);
                     var toplamkalan = 0;
                     $.each(data.Data, function (i, item) {
                         toplamkalan = toplamkalan + item.kalan;
-                        result.append('<tr><td>' + item.yil +'</td><td>'+item.hakedilenizin+'</td><td>'+item.kullanilan+'</td><td>'+item.kalan+'</td></tr>');
+                        var tr = $('<tr><td>' + item.yil + '</td><td>' + moment(item.bitis).format('DD/MM/YYYY') + '</td><td>' + item.hakedilenizin + '</td><td>' + item.kullanilan + '</td><td>' + item.kalan + '</td></tr>');
+                        if (moment(item.bitis)>moment(new Date())) {
+                            tr.addClass("hakedilmemis");
+                        }
+                        result.append(tr);
                     });
                     $('#toplamkalan').text(toplamkalan);
                     $.each(data.Yarim, function(i, item) {
                         var yil = item;
                         $('#result>tr').each(function(i) {
                             var trr = $(this);
-                          
+
                             if (trr.find("td:nth(0)").html() == yil.Yıl) {
-                                var kalan = trr.find("td:nth(3)");
+                                var kalan = trr.find("td:nth(4)");
                                 console.log(kalan);
                                 var izin = parseFloat(kalan.html());
                                 kalan.html(izin - 0.5);
@@ -61,6 +193,7 @@
 
                     });
 
+                    $('#message').html("İzin yazmadan önce son yazdığınız izinden kalan izninizi kontrol ediniz. Bir uyumsuzluk varsa İnsan Kaynakları Departmanı ile iletişime geçiniz ");
                 }
             });
         }
@@ -71,19 +204,18 @@
             var id = $('#Personel option:nth-child(2)').val();
             console.log(id);
             $('#Personel').closest('.form-group').remove();
-
-            izinlerigetir(id);
-        }
+        } 
 
 
 
         $('#Personel').on('change', function() {
-             
-                var id = $(this).val();
 
-                izinlerigetir(id);
+            var id = $(this).val();
+            izinlerigetir(id);
 
-              
+
         });
+        var id = '@ViewBag.id';
+        izinlerigetir(id);
     });
 </script>

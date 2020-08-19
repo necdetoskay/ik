@@ -96,6 +96,7 @@ namespace ik.Controllers
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         public JsonResult PersonelYillikIzinDurum(int personelid)
         {
             if (personelid == 2406)
@@ -103,12 +104,6 @@ namespace ik.Controllers
 
             }
             var personel = db.Personels.SingleOrDefault(c => c.id == personelid);
-
-
-
-
-
-
             var kidem = new List<Kidem>();
             var kidembaslangic = personel.giristarihi.Value;
             var kidembitis = personel.giristarihi.Value;
@@ -192,9 +187,6 @@ namespace ik.Controllers
                 kidembaslangic = kidembitis;
                 kidemyil++;
             }
-
-
-
             var ceptel = "";
             var kıdem = "";
             using (var kent = new KENTEntities())
@@ -211,11 +203,7 @@ namespace ik.Controllers
                     throw;
                 }
             }
-
             var yarimlist = db.Yizins.Where(c => c.mikrokayit == false && c.personelid== personelid).Select(c => new {Yıl = c.yil}).ToList();
-            
-
-
             return Json(new { Data = kidem, Kıdem = kıdem, Sicil = personel.sicilno + '-' + ceptel,Yarim= yarimlist }, JsonRequestBehavior.AllowGet);
         }
 

@@ -6,7 +6,7 @@
 }
 @Html.Hidden("tcno", (string)ViewBag.tcNo)
 
-@helper  dosyaicon(string url)
+@*@helper  dosyaicon(string url)
 {
     var fizikselyol = new FileInfo(Server.MapPath(url));
     var icon = "";
@@ -24,7 +24,7 @@
             }
     }
     @icon
-}
+}*@
 
 
 
@@ -166,7 +166,7 @@
                 success: function (result) {
                     if (result.Success === true) {
                         console.log(result.ID);
-                        resimekle(dosyaliste, result.ID, uploadresult.DosyaAdi, uploadresult.Thumb)
+                        resimekle(dosyaliste, result.ID, uploadresult.DosyaAdi, uploadresult.Thumb);
                         var check = $(uploaddiv.closest("tr")).find("input:checkbox");
                         if (!check.attr("checked"))
                             check.trigger('click');

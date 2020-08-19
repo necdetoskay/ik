@@ -532,9 +532,13 @@ namespace ik.Controllers
                         if (yas > 49)
                             hakedilen = 20;
                     }
-                    else
+                    else if(kidemyil>=6 & kidemyil<15)
                     {
                         hakedilen = 20;
+                    }
+                    else
+                    {
+                        hakedilen = 26;
                     }
                     kullanılan = personel.Izins.Where(c => c.yil == yil & c.izintip == 1).Sum(c => c.gun);
                     var kanuni = personel.Izins.Where(c => c.yil == yil & c.izintip == 1).Any(c => c.gun >= 10);

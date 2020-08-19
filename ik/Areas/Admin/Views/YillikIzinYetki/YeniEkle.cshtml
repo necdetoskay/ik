@@ -1,0 +1,47 @@
+﻿@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="yetkili" class="control-label col-md-4">Yetki Verilecek Personel</label>
+        <div class="col-md-8">
+            @Html.Partial("PersonelSec", "Yetkili")
+        </div>
+    </div>
+    <div class="row"></div>
+
+    <div class="form-group">
+        <label for="personel" class="control-label col-md-4">Personel Listesi</label>
+        <div class="col-md-8">
+            @Html.Partial("PersonelSecChecked", "Personel")
+        </div>
+    </div>
+  
+
+    <div class="row">
+
+    </div>
+}
+
+<script type="text/javascript">
+    function YetkiliChange(select) {
+        var selected = select.val();
+        if (selected < 1) return;
+        $('#Personel').multiselect('deselectAll', false);
+        $('#Personel').multiselect('updateButtonText');
+        $('#Personel').multiselect('refresh');
+
+        $.ajax({
+            url: '@Url.Action("_PersonelIzinYetkileri")',
+            type: 'GET',
+            data: {id:selected},
+            success:function(result) {
+                console.table(result.Data);
+                $('#Personel').multiselect('select', result.Data);
+
+            }
+        });
+    }
+
+    function PersonelChange(select) {
+        //console.log(select);
+    }
+</script>

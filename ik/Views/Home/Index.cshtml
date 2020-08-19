@@ -169,7 +169,7 @@
                 </thead>
                 <tbody id="izinligelmeyenler"></tbody>
             </table>
-            <div id="izinligelmeyenler">
+            <div>
                 <img class="loading" src="~/Content/Loading_icon.gif" />
             </div>
         </p>
@@ -199,7 +199,7 @@
                         </thead>
                         <tbody id="geckalanlartable"></tbody>
                     </table>
-                    <div id="geckalanlar">
+                    <div>
                         <img class="loading" src="~/Content/Loading_icon.gif" />
                     </div>
                 </p>
@@ -216,7 +216,7 @@
 
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -236,15 +236,12 @@
 
         </div>
     </div>
-</div>
+</div>*@
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery.PrintArea.js"></script>
-    <script src="~/Scripts/bootstrap-dialog.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+   @* <script src="~/Scripts/bootstrap-dialog.js"></script>*@
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script src="~/Scripts/bootstrap-notify.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
@@ -392,13 +389,15 @@
                     'tarih1': now.toISOString()
                 },
                 success: function (response) {
-                    target.append('<ul class="list-group">');
+                    var ul = $('<ul class= "list-group"></ul>');
+                    //target.append();
                     for (var i = 0; i < response.length; i++) {
-                        target.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
+                        ul.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
                     }
-                    target.append('</ul>');
-                    $('.loading').remove();
+                  
+                    target.html(ul);
                     $('#girisyapmayan').html(response.length);
+                    target.find('.loading').remove();
                 }
             });
         }
@@ -420,6 +419,7 @@
                             + product.aciklama + "</td><td>" + product.baslama + "</td><td>" + product.isbasi + "</td></tr>");
                     }
                     $('#gelmeyentoplam').html("[" + tplm + "]");
+                    izinli.closest('div').find('.loading').remove();
                 }
             });
         }
@@ -450,6 +450,7 @@
                             message: $('<div><img hright="50" src="' + img + '"/></div>').load(url)
                         });
                     });
+                    geckalan.closest("div").find(".loading").remove();
                 }
             });
         }
@@ -459,35 +460,18 @@
                 return this.optional(element) || moment(value, "DD/MM/YYYY").isValid();
             }, "Please enter a valid date in the format DD/MM/YYYY");
 
-            @*$('#rutinekle').MakeDialogForm({
-                id: 'btnyarimekle',
-                text: 'Görev Ekle',
-                url: '@Url.Action("Create","Takip")',
-                title: 'Görev Ekle',
-                updateurl: '@Url.Action("RutinOzet","Takip")' + '/?limit=20',
-                bclass: 'btn btn-info',
-                targetid: 'rutindiv',
-                width: "400",
-                height: "250",
-                complete: function () {
-                    $.notify({
-                        title: 'Kayıt Durumu',
-                        message: 'Kaydedildi'
-                    }, { type: 'success' });
-                }
-            });*@
+          
 
 
             var url = '@Url.Action("Create","Takip")';
             var update = '@Url.Action("RutinOzet","Takip")' + '/?limit=20';
             $('#rutinekle').ikDialog({
                 formurl: url,
-                Title: "title 1",
+                title: "Görev Hatırlatıcı",
                 data: {
                 }, complete: function (result) {
                     console.log(result);
                     // buraya tüm tabloyu tekrar yüklemek yerinde tablonun altına yeni satır ekleme kodu yazılacak
-
 
                     $('#evrakliste').load(update);
                 }
@@ -604,22 +588,7 @@
 
 
 
-            //$.ajax({
-            //    method:'get',
-            //    url: 'http://api.openweathermap.org/data/2.5/forecast/city',
-            //    data: {
-            //        id:'745028',
-            //        APPID:'8f7a341898fa36cb468cf9ddd7f1ada7'
-            //    },
-            //    success: function (data) {
-            //        //console.log(data.list[0].main.temp-273,15);
-
-            //        //jQuery.each(data.list, function (index, item) {
-            //        //    console.log(new Date(item.dt*1000));
-            //        //});
-            //        console.log(data);
-            //    }
-            //});
+           
         });
     </script>
 }

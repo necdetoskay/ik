@@ -1,0 +1,34 @@
+﻿BootstrapDialog.show({
+                title: 'Yeni Görev Ekle',
+                message: 'Görev Adı Giriniz: <input id="ad" type="text" class="form-control">',
+                buttons: [
+                    {
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    },
+                    {
+                        label: 'Kaydet',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: '@Url.Action("_GorevEkle")',
+                                type: 'POST',
+                                data: {
+                                    ad: $('#ad').val()
+                                },
+                                success: function (result) {
+                                    if (result.Success === false) return;
+                                    var gorevler = $('#gorevID');
+                                    gorevler.empty();
+                                    $.each(result.Data, function (i, item) {
+                                        gorevler.append('<option Value="' + item.Value + '" >' + item.Text + '</option>');
+                                    });
+                                    gorevler.val(result.Selected);
+                                    dialogRef.close();
+                                }
+                            });
+                        }
+                    }
+                ]
+            });

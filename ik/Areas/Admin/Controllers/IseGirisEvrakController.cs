@@ -42,7 +42,7 @@ namespace ik.Areas.Admin.Controllers
             db.SaveChanges();
             ViewBag.tcNO = personel.tcno;
 
-            return PartialView("_PersonelGirisEvrak", personel.Ozluk_IseGirisEvrak.ToList());
+            return PartialView("_PersonelGirisEvrak", personel.Ozluk_IseGirisEvrak.OrderBy(c=>c.Ozluk_IseGirisGerekEvrakTip.adet>0).ToList());
 
 
         }

@@ -1,0 +1,79 @@
+﻿@using ik.Areas.Admin.Data
+@using ik.Models
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>sidebar</title>
+    <link rel="stylesheet" href="/Content/Admin/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="/Content/Admin/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Content/Admin/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/Admin/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="/Content/Admin/Article-Clean.css">
+    <link rel="stylesheet" href="/Content/Admin/sidebar.css">
+
+    @RenderSection("styles", false)
+
+</head>
+
+<body>
+   
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="text-white float-right" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active text-left text-white py-1 px-0" href="@Url.Action("Index","Home",new{area = "" })">
+                <i class="fas fa-tachometer-alt mx-3"></i>
+                <span class="text-nowrap mx-2">I.K.</span>
+            </a>
+        </li>
+        @*<li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="#"><i class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Statistics</span></a></li>*@
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#">
+                <i class="fas fa-sliders-h mx-3"></i>
+                <span class="text-nowrap mx-2">Görev İşlemleri</span>
+                <i class="fas fa-caret-down float-none float-lg-right fa-sm"></i>
+            </a>
+            <div class="dropdown-menu border-0 animated fadeIn" role="menu">
+                @Html.ActionLink("@Html.Raw("/"<span>Görev Tanımları</span>"/")", "Index", "Gorev", null, new { area = "Admin",@class= "dropdown-item text-white" }).If(new string[] { @"KENTKONUT\noskay" }.Contains(User.Identity.Name))
+                @*<a class="dropdown-item text-white" role="presentation" href="#">
+                    <span>Change email</span>
+                </a>
+                <a class="dropdown-item text-white" role="presentation" href="#">
+                    <span>More</span>
+                </a>*@
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-binoculars mx-3"></i><span class="text-nowrap mx-2">Bla Bla</span><i class="fas fa-caret-down float-none float-lg-right fa-sm"></i></a>
+            <div class="dropdown-menu border-0 animated fadeIn" role="menu">
+                <a class="dropdown-item text-white" role="presentation" target="_blank"><span>Change password</span></a><a class="dropdown-item text-white" role="presentation" href="#"><span>Change email</span></a><a class="dropdown-item text-white" role="presentation"
+                                                                                                                                                                                                                         href="#"><span>More</span></a>
+            </div>
+        </li>
+    </ul>
+    <div class="container article-clean">
+        @RenderBody()
+    </div>
+    @*<script src="assets/js/jquery.min.js"></script>*@
+    @*<script src="assets/bootstrap/js/bootstrap.min.js"></script>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/Admin/bootstrap.min.js"></script>
+    <script src="~/Scripts/ptakip.js"></script>
+
+    @Html.PageScripts()
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+
+    @RenderSection("scripts", false)
+</body>
+
+</html>

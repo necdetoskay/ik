@@ -12,8 +12,9 @@
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
-                    console.log("post başarılı");
+                    // console.log("post başarılı");
                     if (result.Success === true) {
+                        console.log("Dialog Form return true");
 
                         complete(result);
                         dialogRef.close();
@@ -41,6 +42,7 @@
         $('#' + id).on('click', function () {
 
             BootstrapDialog.show({
+                draggable: true,
                 title: settings.Title,
                 message: function (dialog) {
                     var $message = $('<div>Bekleyiniz.......</div>');
@@ -50,6 +52,8 @@
                 },
                 onshown: function (dialogRef) {
                     var form = dialogRef.getModalBody().find('form');
+                    //console.log(settings.data);
+                    //form.append("data", settings.data);
                     $.validator.unobtrusive.parse(form);
 
                     formvalidation(form, dialogRef, settings.complete);
@@ -100,6 +104,8 @@
             //    settings.clicked(settings);
 
             BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_WARNING,
+                draggable: true,
                 title: settings.title,
                 message: function (dialog) {
                     var $message = $('<div>Bekleyiniz.......</div>');
@@ -115,7 +121,8 @@
 
                 },
                 data: {
-                    'dialogyukle': settings.formurl
+                    'dialogyukle': settings.formurl,
+                    'data': settings.data
                     //,'complete': settings.complete
                 },
                 closable: true,
@@ -150,6 +157,7 @@
         $(this).each(function () {
             var settings = $.extend({
                 formurl: '',
+                title: '',
                 data: {},
                 buttonClass: 'btn btn-primary',
                 buttonText: 'Yeni Ekle',

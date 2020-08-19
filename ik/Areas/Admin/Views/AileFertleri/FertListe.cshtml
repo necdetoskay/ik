@@ -106,7 +106,11 @@
     <script type="text/javascript">
         $(function () {
             ///tüm fert i siliyor alt resimleri ile beraber
-           
+            var root = "@(new Uri(Request.Url, Url.Content("~")))";
+            uploadnamespace.uploadform = root + '/Upload/Yukle';
+            uploadnamespace.uploadform = root + '/Upload/DosyaYukleDialog';
+            uploadnamespace.deleteurl = root + '/Upload/Sil';
+
 
 
             function complete(uploadresult, uploaddiv) {
@@ -144,6 +148,9 @@
             /////////////////////////////////////////////////////
             var pid = $('#tcno').val();
             $('.uploadgoster').DosyaYukle({
+                uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view
+                uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
+                deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})', ///standart yüklenen dosyayı silme işlemleri
                 multi: 'true',
                 kayitklasor: '\\IseGirisEvraklar\\' + pid,
                 uploadcomplete: complete

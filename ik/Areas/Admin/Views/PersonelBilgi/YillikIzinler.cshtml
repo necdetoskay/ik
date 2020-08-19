@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ik.Areas.Admin.Data.YillikIzinVM>
+
+
+<table class="table table-bordered table-fit">
+    <thead>
+        <tr>
+            <th colspan="5"> Adı Soyadı : ..............................................................</th>
+            <th colspan="3"> Sicil No:..........................................</th>
+            <th colspan="7">İşe Giriş Tarihi : ....................................................................................</th>
+        </tr>
+    <tr>
+        <th rowspan="2">
+            Yılı
+        </th>
+        <th rowspan="2">
+            Bir Yil Önceki İzin Hakkını Kazandığı Tarih
+        </th>
+
+        <th colspan="6">
+            Bir Yıllık Çalışma Süresi İçinde Çalışılmayan Gün Sayısı ve Nedeni
+        </th>
+        <th rowspan="2">
+            İzne Hak Kazandığı Tarih
+        </th>
+
+        <th rowspan="2">
+            İzin Süresi
+        </th>
+        <th rowspan="2">
+            Yol İzni
+        </th>
+        <th rowspan="2">
+            İzne Başlangıç Tarihi
+        </th>
+        <th rowspan="2">
+            İzinden Dönüş Tarihi
+        </th>
+        <th rowspan="2">
+            İşçinin İmzası
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Hastalık
+        </th>
+        <th>
+            Askerlik
+        </th>
+        <th>
+            Zorunluluk Hali
+        </th>
+        <th>
+            Devamsızlık
+        </th>
+        <th>
+            Hizmete Ara Verme
+        </th>
+        <th>
+            Diğer Nedenler
+        </th>
+    </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.yil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.öncekihaketmetarihi)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.haketmetarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.kidem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.izinsuresi)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.baslangic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bitis)
+            </td>
+            <td></td>
+        </tr>
+    }
+
+</table>

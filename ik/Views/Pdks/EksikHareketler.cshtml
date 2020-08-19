@@ -24,7 +24,7 @@
 <div class="form-group" style="position: relative">
     <label class="col-md-4" for="tarih">Tarih</label>
     <input style="display: initial" autocomplete="off" id="tarih" type="text" class="datetime form-control" />
-   
+
 </div>
 <input type="button" id="sorgula" value="Ekle" />
 
@@ -56,72 +56,92 @@
     <script src="~/Scripts/mdtimepicker.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script type="text/javascript">
-        $(function () {
-            $('.cleardates').on('click', function() {
+        $(function() {
+            $('.cleardates').on('click',
+                function() {
 
-            });
+                });
 
-            $('.aktar').on('click', function () {
-                //eğer tabloda kayıt varsa diğer seçili personel için tekrar kayıt oluştur
-                var personel = $('#personel option:selected').val();
-                var targetpersonels = $('#targetpersonel').val();
-                var tr = $('tr[data-id="' + personel + '"]');
-                var body = $('#body');
-                var id = body.find('tr').length+1;
-                $.each(tr, function (pi,pivalue) {
-                    var piv = $(pivalue)
-                    var giris = $(tr.find("td:eq(2)").find('.timepicker')).attr("value");
-                    var cikis = $(tr.find("td:eq(3)").find('.timepicker')).attr("value");
-                    var tarih = piv.find("td:eq(0)").html();
-                    $.each(targetpersonels, function (p, value) {
-                        var ttr = $('tr[data-id="' + value + '"]');
-                        if (ttr.find("td:contains('"+tarih+"')").length > 0) return;
-                        var t = $('<tr id="'+id+'" data-id="' + value + '"></tr>');
-                        t.append('<td>' + tarih + '</td>');
-                        t.append('<td>' + $("#targetpersonel option[value='" + value+"']").text() + '</td>');
-                        t.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text" value="'+giris+'" ><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
-                        t.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text" value="'+cikis+'"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
-                        t.append('<td><input class="btn btn-sm sil" type="button" value="Sil"/></td>');
-                        body.append(t);
-                        id++;
+            $('.aktar').on('click',
+                function() {
+                    //eğer tabloda kayıt varsa diğer seçili personel için tekrar kayıt oluştur
+                    var personel = $('#personel option:selected').val();
+                    var targetpersonels = $('#targetpersonel').val();
+                    var tr = $('tr[data-id="' + personel + '"]');
+                    var body = $('#body');
+                    var id = body.find('tr').length + 1;
+                    $.each(tr,
+                        function(pi, pivalue) {
+                            var piv = $(pivalue);
+                            var giris = $(tr.find("td:eq(2)").find('.timepicker')).attr("value");
+                            var cikis = $(tr.find("td:eq(3)").find('.timepicker')).attr("value");
+                            var tarih = piv.find("td:eq(0)").html();
+                            $.each(targetpersonels,
+                                function(p, value) {
+                                    var ttr = $('tr[data-id="' + value + '"]');
+                                    if (ttr.find("td:contains('" + tarih + "')").length > 0) return;
+                                    var t = $('<tr id="' + id + '" data-id="' + value + '"></tr>');
+                                    t.append('<td>' + tarih + '</td>');
+                                    t.append('<td>' + $("#targetpersonel option[value='" + value + "']").text() + '</td>');
+                                    t.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text" value="' + giris + '" ><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                                    t.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text" value="' + cikis + '"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                                    t.append('<td><input class="btn btn-sm sil" type="button" value="Sil"/></td>');
+                                    body.append(t);
+                                    id++;
+                                    t.find('.cpy').on('click', function() {
+                                        var cpy = $(this);
+                                                var time = cpy.parent().find('.timepicker').attr("value");
+                                                sessionStorage.setItem("time", time);
+                                    });
+                                    t.find('.pst').on('click', function() {
+                                        var pst = $(this);
+                                        pst.parent().find('.timepicker').attr("value", sessionStorage.getItem("time"));
+                                    });
+                                    t.find('.sil').on('click', function() {
+                                        $(this).closest('tr').remove();
+                                    });
+
+                                
+                                });
+
+                        });
+
+                });
+
+            $('#kaydet').on('click',
+                function() {
+                    var data = [];
+                    $('#body tr').each(function() {
+                        var td = [];
+                        var tr = $(this);
+                        td.push(tr.attr("data-id"));
+                        td.push(tr.find("td:eq(0)").html());
+                        td.push(tr.find("td:eq(1)").html());
+                        var giris = $(tr.find("td:eq(2)").find('.timepicker')).attr("value");
+                        td.push(typeof giris !== typeof undefined && giris !== false ? giris : "");
+                        var cikis = $(tr.find("td:eq(3)").find('.timepicker')).attr("value");
+                        td.push(typeof cikis !== typeof undefined && cikis !== false ? cikis : "");
+                        td.push(tr.attr("id"));
+                        data.push(td);
+
+                    });
+                    console.log(data);
+                    $.ajax({
+                        url: '@Url.Action("_EksikHareketEkle", "Pdks")',
+                        type: 'POST',
+                        data: { data },
+                        success: function(result) {
+                            console.log(result);
+                            $.each(result,
+                                function(i, item) {
+                                    $("[id='" + item.dateid + "']").remove();
+                                });
+                        }
                     });
                 });
-             
-            });
-
-            $('#kaydet').on('click', function () {
-                var data = [];
-                $('#body tr').each(function () {
-                    var td = [];
-                    var tr = $(this);
-                    td.push(tr.attr("data-id"));
-                    td.push(tr.find("td:eq(0)").html());
-                    td.push(tr.find("td:eq(1)").html());
-                    var giris = $(tr.find("td:eq(2)").find('.timepicker')).attr("value");
-                    td.push(typeof giris !== typeof undefined && giris !== false ? giris : "");
-                    var cikis = $(tr.find("td:eq(3)").find('.timepicker')).attr("value");
-                    td.push(typeof cikis !== typeof undefined && cikis !== false ? cikis : "");
-                    td.push(tr.attr("id"));
-                    data.push(td);
-
-                });
-                console.log(data);
-                $.ajax({
-                    url: '@Url.Action("_EksikHareketEkle","Pdks")',
-                    type: 'POST',
-                    data: { data },
-                    success: function (result) {
-                        console.log(result);
-                        $.each(result, function (i, item) {
-                            $("[id='" + item.dateid + "']").remove();
-                        });
-                    }
-                });
-            });
 
 
-
-            jQuery.validator.methods.date = function (value, element) {
+            jQuery.validator.methods.date = function(value, element) {
                 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
                 if (isChrome) {
                     var d = new Date();
@@ -132,81 +152,84 @@
             };
 
 
-
             $('.datetime').datepicker({
-                language:'tr',
+                language: 'tr',
                 multidate: true,
-                clearBtn: true});
-
-
-
-
-
-            $('#sorgula').on('click', function () {
-
-                var tarihler = $('.datetime').datepicker().val().split(',');
-
-                var selected = $("#personel option:selected");
-                var liste = $('#liste');
-                var tarih = $('#tarih');
-                var body = $('#body');
-                selected.each(function () {
-                    var p = $(this);
-                    $.each(tarihler,function(i,item) {
-                        var tr = $('<tr id="'+(i+1)+'" data-id="' + p.val() + '">');
-                        tr.append('<td>' + item+ '</td>');
-                        tr.append('<td>' + p.text() + '</td>');
-                        tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
-                        tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
-                        tr.append('<td><input class="btn btn-sm sil" type="button" value="Sil"/></td>');
-                        body.append(tr);
-                    });
-
-                    $('.cpy').each(function () {
-                        $(this).on('click', function () {
-                            var cpy = $(this);
-                            var time = cpy.parent().find('.timepicker').attr("value");
-                            sessionStorage.setItem("time", time);
-                        });
-                    });
-
-                    $('.pst').each(function () {
-                        $(this).on('click', function () {
-                            var cpy = $(this);
-                            cpy.parent().find('.timepicker').attr("value",sessionStorage.getItem("time"));
-
-                        });
-                    });
-
-
-
-                });
-                $('.sil').each(function () {
-                    $(this).on('click', function () {
-                        $(this).closest('tr').remove();
-                    });
-                });
-
-
-                $('.timepicker').mdtimepicker({ format: 'hh:mm' });
-                $('.timepicker').mdtimepicker().each(function () {
-                    $(this).on('timechanged', function (e) {
-                        $(this).attr("value", e.value);
-                        $(this).attr("time", e.time);
-                    });
-                });
+                clearBtn: true
             });
-            function secimkontrolet(selectlist,target) {
-               // console.log(selectlist);             
-                
+
+
+            $('#sorgula').on('click',
+                function() {
+
+                    var tarihler = $('.datetime').datepicker().val().split(',');
+
+                    var selected = $("#personel option:selected");
+                    var liste = $('#liste');
+                    var tarih = $('#tarih');
+                    var body = $('#body');
+                    selected.each(function() {
+                        var p = $(this);
+                        $.each(tarihler,
+                            function(i, item) {
+                                var tr = $('<tr id="' + (i + 1) + '" data-id="' + p.val() + '">');
+                                tr.append('<td>' + item + '</td>');
+                                tr.append('<td>' + p.text() + '</td>');
+                                tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                                tr.append('<td><a class="cpy" href="#"><span class="glyphicon glyphicon-copy"></span></a><input  class="timepicker" type="text"><a class="pst" href="#"><span class="glyphicon glyphicon-paste"></span></a></td>');
+                                tr.append('<td><input class="btn btn-sm sil" type="button" value="Sil"/></td>');
+                                body.append(tr);
+                            });
+
+                        $('.cpy').each(function() {
+                            $(this).on('click',
+                                function() {
+                                    var cpy = $(this);
+                                    var time = cpy.parent().find('.timepicker').attr("value");
+                                    sessionStorage.setItem("time", time);
+                                });
+                        });
+
+                        $('.pst').each(function() {
+                            $(this).on('click',
+                                function() {
+                                    var cpy = $(this);
+                                    cpy.parent().find('.timepicker').attr("value", sessionStorage.getItem("time"));
+
+                                });
+                        });
+
+
+                    });
+                    $('.sil').each(function() {
+                        $(this).on('click',
+                            function() {
+                                $(this).closest('tr').remove();
+                            });
+                    });
+
+
+                    $('.timepicker').mdtimepicker({ format: 'hh:mm' });
+                    $('.timepicker').mdtimepicker().each(function() {
+                        $(this).on('timechanged',
+                            function(e) {
+                                $(this).attr("value", e.value);
+                                $(this).attr("time", e.time);
+                            });
+                    });
+                });
+
+            function secimkontrolet(selectlist, target) {
+                // console.log(selectlist);
+
                 if (selectlist.val().length > 0) {
                     target.removeClass('hidden');
                 } else {
-                    target.addClass("hidden")
-                  
+                    target.addClass("hidden");
+
                 }
             }
-         
+
 
             var departman = $('#departman');
             var personel = $('#personel');
@@ -215,19 +238,15 @@
                 selectAllText: 'Tümünü Seç',
                 nonSelectedText: 'Personel Seçiniz',
                 allSelectedText: 'Tümü Seçildi',
-                onChange: function (option, checked, select) {
-                    secimkontrolet(personel, $('.targetpersonel'));                   
-                    //if (personel.val().length ==0) {                      
-                       
+                onChange: function(option, checked, select) {
+                    secimkontrolet(personel, $('.targetpersonel'));
+                    //if (personel.val().length ==0) {
+
                     //}
 
-                    
-                  
+
                 }
             });
-
-           
-
 
 
             var targetpersonel = $('#targetpersonel');
@@ -236,29 +255,29 @@
                 selectAllText: 'Tümünü Seç',
                 nonSelectedText: 'Personel Seçiniz',
                 allSelectedText: 'Tümü Seçildi',
-                onChange: function (option, checked, select) {
-                    secimkontrolet(targetpersonel,$('.aktar'));
+                onChange: function(option, checked, select) {
+                    secimkontrolet(targetpersonel, $('.aktar'));
                 }
             });
 
 
-
-            departman.change(function () {
+            departman.change(function() {
                 var value = $(this).val();
                 $.ajax({
-                    url: '@Url.Action("_PersonelByDepartman","Personel")',
+                    url: '@Url.Action("_PersonelByDepartman", "Personel")',
                     type: 'GET',
                     data: {
                         id: value
                     },
-                    success: function (result) {
+                    success: function(result) {
                         if (result.Success === true) {
                             personel.empty();
                             targetpersonel.empty();
-                            $.each(result.Data, function (i, item) {
-                                personel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
-                                targetpersonel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
-                            });
+                            $.each(result.Data,
+                                function(i, item) {
+                                    personel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
+                                    targetpersonel.append('<option pdksid="' + item.PdksID + '" value="' + item.Value + '">' + item.Text + '</option>');
+                                });
                             personel.multiselect('rebuild');
                             targetpersonel.multiselect('rebuild');
                         }
@@ -267,17 +286,17 @@
             });
 
 
-
             $.ajax({
-                url: '@Url.Action("_Departmanlar","Personel")',
+                url: '@Url.Action("_Departmanlar", "Personel")',
                 type: 'GET',
                 data: {},
-                success: function (result) {
+                success: function(result) {
                     var departman = $('#departman');
 
-                    $.each(result.Data, function (i, item) {
-                        departman.append('<option value="' + item.Value + '">' + item.Text + '</option>');
-                    });
+                    $.each(result.Data,
+                        function(i, item) {
+                            departman.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        });
                     departman.prop("selectedIndex", '-1');
 
                     //

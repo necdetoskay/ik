@@ -1165,7 +1165,69 @@ namespace ik.Controllers
                 reader.Close();
             }
             db.Close();
-            return Json(new {Success=record>0}, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = record > 0 }, JsonRequestBehavior.AllowGet);
+        }
+        
+        [AllowAnonymous]
+        private void _TarihlerArasiGirisCikisDurum(int id, DateTime baslangic, DateTime bitis, List<PDKSGirisCikis> giriscikis, List<PDKSMazeret> izinler)
+        {
+         
+            //tüm giriş çıkışları al
+            //tüm izinleri al
+            //tarihin başından sonuna kadar tarih sorgula
+            //giriş çıkış varsa yaz yoksa izin kontrol et  o da yoksa  gelmemiş demektir
+            using (db = new MySqlConnection("Server=172.41.40.85;Database=perkotek;Uid=root;Pwd=max;AllowZeroDateTime=True;Charset=latin5"))
+            {
+
+                var com = new MySqlCommand("", db);
+                com.CommandText = string.Format("select *from personel_giriscikis where personel_id={0} and tarih>='{1}' and tarih<='{2}'", id, baslangic.ToString("yyyy-MM-dd"), bitis.ToString("yyyy-MM-dd"));
+                db.Open();
+                MySqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    giriscikis.Add(new PDKSGirisCikis()
+                    {
+                        personelID = int.Parse(reader["personel_id"].ToString()),
+                        giris = reader["giris_saat"],
+                        cikis = reader["cikis_saat"],
+                        tarih = DateTime.Parse(reader["tarih"].ToString())
+                    });
+                    //Console.WriteLine(reader["id"]);
+                }
+                reader.Close();
+                com.CommandText = string.Format(
+                   "select * from personel_izin where personel_id={0} and tarih>='{1}' and tarih<='{2}'", id, baslangic.ToString("yyyy-MM-dd"), bitis.ToString("yyyy-MM-dd"));
+
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    izinler.Add(new PDKSMazeret
+                    {
+                        aciklama = (string)reader["aciklama"],
+                        personelID = int.Parse(reader["personel_id"].ToString()),
+                        tarih = DateTime.Parse(reader["tarih"].ToString()),
+                        giris = reader["gelis_saat"],
+                        cikis = reader["gidis_saat"],
+                        saatlik = (byte)reader["saatlik"],
+                        tatilID = (int)reader["tatil_id"]
+                    });
+
+                }
+                reader.Close();
+            }
+            db.Close();
+
+        }
+         
+
+        [AllowAnonymous]
+        public ActionResult TarihlerArasiGirisCikisDurum(int id, DateTime baslangic, DateTime bitis)
+        {
+            var giriscikis=new List<PDKSGirisCikis>();
+            var izinler=new List<PDKSMazeret>();
+
+            _TarihlerArasiGirisCikisDurum(id, baslangic,bitis,giriscikis,izinler);
+            return Json(new {Success=true,Data=new{GirisCikis=giriscikis,Izin=izinler} }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,0 +1,19 @@
+﻿private void DropDownReBind()
+{
+    List<SelectListItem> SelYN = new List<SelectListItem>();
+
+    SelYN.Add(new SelectListItem
+    {
+        Text = "Yes",
+        Value = "1"
+    });
+    SelYN.Add(new SelectListItem
+    {
+        Text = "No",
+        Value = "0"
+    });
+
+    ViewData["selYN"] = SelYN;
+}
+
+ @Html.DropDownListFor(model => model.Annonymous, (IEnumerable<SelectListItem>)ViewData["selYN"], "-- Please Select --")

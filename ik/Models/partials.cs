@@ -219,7 +219,7 @@ namespace ik.Models
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {//string message = "Hata Oluştu";
-            bool hata = DateTime.Now > new DateTime(2020, 08, 05);
+            bool hata = DateTime.Now > new DateTime(2020, 09, 05);
             if (hata)
             {
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
