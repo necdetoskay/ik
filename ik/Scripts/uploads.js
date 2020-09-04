@@ -2,7 +2,7 @@
 
 (function ($) {
 
-    
+
 
     uploadnamespace = {
         uploadurl: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Upload/Yukle',
@@ -11,9 +11,9 @@
         //deleteicon: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[0] + '/Content/delete-png.png',
 
 
-        sil: function (sildiv, dosya, deleted) {
-      
-            var del = sildiv.find('.dosyasil');
+        sil: function (dosya, deleted) {
+
+            var del = dosya.find('.dosyasil');
             //*  var id = sildiv.attr('data-id');
             del.on('click', function () {
                 //soru sor
@@ -28,15 +28,20 @@
                     }, {
                         label: 'Sil',
                         action: function (dialogRef) {
+                            var url = dosya.find('.thumba').attr("href").split("url=")[1];
+
+
                             $.ajax({
                                 url: uploadnamespace.deleteurl,
                                 type: 'GET',
                                 data: {
-                                    url: dosya
+                                    url: decodeURI(url)
                                 },
                                 success: function (result) {
-                                    if (result.Success === true)
-                                        deleted(sildiv);
+                                    if (result.Success === true) {
+                                        console.log(result.Message);
+                                        deleted(dosya);
+                                    }
                                 }
                             });
                             dialogRef.close();
@@ -109,7 +114,7 @@
                 }
             },
             error: function (xhr, status, error) {
-               // var err = eval("(" + xhr.responseText + ")");
+                // var err = eval("(" + xhr.responseText + ")");
                 alert(xhr.responseText);
             }
         });
@@ -164,14 +169,14 @@
                 init: function () { }
             }, options);
             //eğer multi ise ve 1 resim varsa iptal et
-
+           //console.log(options);
             dosyaYukle($(this), settings);
         });
     }
 
     $.fn.Deletable = function (options) {
         $(this).each(function () {
-            var settings=$.extend({},options);
+            var settings = $.extend({}, options);
             var dosya = $(this);
             var dosyasil = $('<a href="javascript:void(0)" class="dosyasil"><img src="' + globalnamespace.deleteicon + '"></a>');
             dosya.append(dosyasil);
@@ -208,7 +213,7 @@
                     }]
                 });
 
-               //işlem yap fiziksel dosyayı sil
+                //işlem yap fiziksel dosyayı sil
                 //settings.deleted("unknown.png");
             });
         });

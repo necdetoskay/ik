@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using ik.Models;
 
@@ -181,8 +183,40 @@ namespace ik.Controllers
 
         public ActionResult About()
         {
-          
             return View();
+        }
+
+        [HttpPost]
+        [ActionName("About")]
+        public ActionResult AboutPost()
+        {
+            string FileName = "";
+            if (Request.Files.Count > 0)
+            {
+                var files = Request.Files;
+
+                //iterating through multiple file collection   
+                foreach (string str in files)
+                {
+                    HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
+                    //Checking file is available to save.  
+                    if (file != null)
+                    {
+                        FileName = file.FileName;
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/Uploads/") + InputFileName);
+                        //Save file to server folder  
+                        file.SaveAs(ServerSavePath);
+
+                    }
+
+                }
+                return Json(FileName);
+            }
+            else
+            {
+                return Json("No files to upload");
+            }
         }
 
         public ActionResult Contact()

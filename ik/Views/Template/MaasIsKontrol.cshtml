@@ -10,7 +10,9 @@
     a {
         color: #4a5a67
     }
-
+    .modal-dialog{
+        width: fit-content;
+    }
    
 </style>
 @*<p>
@@ -94,7 +96,8 @@
                                         title:"Bilgi",
                                         onhidden: function (dialogRef) {
                                             Success = son.find('#Success').val();
-                                            if (Success == "true") {
+                                            console.log(Success);
+                                            if (Success == "true" | Success=="True") {
                                                 t.removeClass("red");
                                                 t.addClass("yesil");
                                             } else {

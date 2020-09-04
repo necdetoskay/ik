@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<ik.Controllers.IkMikroAvansDurumVM>
 
-
-@Html.Hidden("Success",Model.Sum(c=>c.İkTutar)==Model.Sum(c=>c.MkroTutar))
+@{
+    ViewBag.Title = Model.Sum(c => c.İkTutar) == Model.Sum(c => c.MkroTutar);
+}
+@Html.Hidden("Success",Model.Sum(c=>c.İkTutar) == Model.Sum(c=>c.MkroTutar))
 <table class="table">
     <tr>
         <th>

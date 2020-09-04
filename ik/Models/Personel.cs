@@ -20,7 +20,6 @@ namespace ik.Models
             this.Avanslars = new HashSet<Avanslar>();
             this.birims = new HashSet<birim>();
             this.GeciciMazerets = new HashSet<GeciciMazeret>();
-            this.Icralars = new HashSet<Icralar>();
             this.ImzaTakipDetays = new HashSet<ImzaTakipDetay>();
             this.Izins = new HashSet<Izin>();
             this.PersonelFirmas = new HashSet<PersonelFirma>();
@@ -35,10 +34,11 @@ namespace ik.Models
             this.OzlukEgitimDetays = new HashSet<OzlukEgitimDetay>();
             this.PersonelMesais = new HashSet<PersonelMesai>();
             this.Ozluk_IseGirisEvrak = new HashSet<Ozluk_IseGirisEvrak>();
-            this.Ozluk_AileFertleri = new HashSet<Ozluk_AileFertleri>();
             this.Ozluk_DigerEvrak = new HashSet<Ozluk_DigerEvrak>();
             this.IzinBakmaYetkiAlt = new HashSet<IzinBakmaYetki>();
             this.IzinBakmaYetkiUst = new HashSet<IzinBakmaYetki>();
+            this.Ozluk_AileFertleri = new HashSet<Ozluk_AileFertleri>();
+            this.Icralars = new HashSet<Icralar>();
         }
     
         public int id { get; set; }
@@ -65,8 +65,6 @@ namespace ik.Models
         public virtual birim birim { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GeciciMazeret> GeciciMazerets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Icralar> Icralars { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImzaTakipDetay> ImzaTakipDetays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -99,12 +97,14 @@ namespace ik.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IzinBakmaYetki> IzinBakmaYetkiAlt { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IzinBakmaYetki> IzinBakmaYetkiUst { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Icralar> Icralars { get; set; }
     }
 }

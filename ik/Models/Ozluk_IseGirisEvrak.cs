@@ -28,9 +28,9 @@ namespace ik.Models
         public string detay { get; set; }
         public string not { get; set; }
     
-        public virtual Ozluk_IseGirisGerekEvrakTip Ozluk_IseGirisGerekEvrakTip { get; set; }
         public virtual Personel Personel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_IseGirisEvrakUrl> Ozluk_IseGirisEvrakUrl { get; set; }
+        public virtual Ozluk_IseGirisGerekEvrakTip Ozluk_IseGirisGerekEvrakTip { get; set; }
     }
 }

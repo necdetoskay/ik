@@ -72,7 +72,7 @@ namespace ik.Controllers
 
             var query = (from p in ke.PERSONELLERs
                          join pt in ke.PERSONEL_TAHAKKUKLARI on p.per_kod equals pt.pt_pkod
-                         where p.per_cikis_tar == new DateTime(1899, 12, 31) & (pt.pt_maliyil == yil1 & pt.pt_tah_ay == ay1) || (pt.pt_maliyil == yil2 & pt.pt_tah_ay == ay2)
+                         where p.per_cikis_tar == new DateTime(1899, 12, 31) & (pt.pt_maliyil == yil1 & pt.pt_tah_ay == ay1) || (pt.pt_maliyil == yil2 & pt.pt_tah_ay == ay2) & p.per_bolge_kodu!="HZR" & p.per_bolge_kodu!="DR"
                          select new MassKontrolVM
                          {
                              sicilno = p.per_kod,
@@ -95,11 +95,13 @@ namespace ik.Controllers
                          });
             var liste = new List<MaasVM>();
             int tip = 0;
+            double vergiindirim = 0;
             foreach (var pers in query.GroupBy(c => c.sicilno))
             {
-                if (pers.Key == "1370")
+                vergiindirim = 0;
+                if (pers.Key == "0450")
                 {
-
+                    vergiindirim = 350;
                 }
                 tip = 0;
                 if (pers.Key == "1375")
@@ -114,7 +116,7 @@ namespace ik.Controllers
                     var ayson = pers.FirstOrDefault(f => f.ay == ay1);
 
                     var hesap = MaasHesap(ayson.brüt, ayson.yemek, ayson.avans, ayson.bes, ayson.devgelvermatrah,
-                    ayson.agi, ayson.sgkgun, ayson.fm1, ayson.fm2,tip);
+                    ayson.agi, ayson.sgkgun, ayson.fm1, ayson.fm2,tip,vergiindirim);
                     hesap.Avans = ayson.avans;
                     var maasvm = new MaasVM
                     {
@@ -182,7 +184,7 @@ namespace ik.Controllers
             double devgelvermatrah = 0,
             double agi = 0,
             int sgkgun = 30,
-            double mesai = 0, double mesai2 = 0, int tip = 0)
+            double mesai = 0, double mesai2 = 0, int tip = 0,double vergiindirim=0)
         {
 
             if (sgkgun == 0)
@@ -205,7 +207,7 @@ namespace ik.Controllers
 
 
 
-            var yemekistisnatutar =Math.Round(yemekistisna * 22,2);
+            var yemekistisnatutar = 129;//Math.Round(yemekistisna * 22,2);
             var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar + mesai + mesai2, 2);
             sgkmatrah = sgkmatrah > 22072.5 ? 22072.5 : sgkmatrah;
             double işsizlikprim = 0;
@@ -222,7 +224,8 @@ namespace ik.Controllers
             }
 
             var damga = Math.Round((brütmaaş + brütyemek + mesai + mesai2) * 0.00759, 2);
-            var gelirvergimatrah = Math.Round(brütmaaş + brütyemek + mesai + mesai2 - sgkprim - işsizlikprim, 2);
+            var gelirvergimatrah = Math.Round(brütmaaş + brütyemek + mesai + mesai2 - sgkprim - işsizlikprim, 2)-vergiindirim;
+            
             var kümülatif = Math.Round((decimal)(devgelvermatrah + gelirvergimatrah), 2);
             var gelirvergisi = 0m;
 

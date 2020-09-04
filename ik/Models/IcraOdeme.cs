@@ -19,6 +19,8 @@ namespace ik.Models
         public System.DateTime tarih { get; set; }
         public decimal tutar { get; set; }
         public string aciklama { get; set; }
+        public string dosya { get; set; }
+        public string thumb { get; set; }
     
         public virtual Icralar Icralar { get; set; }
     }

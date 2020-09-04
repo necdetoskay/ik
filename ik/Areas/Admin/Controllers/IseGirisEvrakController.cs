@@ -27,8 +27,8 @@ namespace ik.Areas.Admin.Controllers
         public ActionResult EvraklariHazirla(int id)
         {
             var personel = db.Personels.FirstOrDefault(c => c.id == id);
-            var mevcut = db.Ozluk_IseGirisEvrak.Where(c => c.personelid == id).Select(d => d.Ozluk_IseGirisGerekEvrakTip).ToList();
-            var list = db.Ozluk_IseGirisGerekEvrakTip.ToList();
+            var mevcut = db.Ozluk_IseGirisEvrak.Where(c => c.personelid == id).Select(d => d.Ozluk_IseGirisGerekEvrakTip).Where(c=>c.evrakkategori==1).ToList();
+            var list = db.Ozluk_IseGirisGerekEvrakTip.Where(c=>c.evrakkategori==1).ToList();
             var fark = list.Except(mevcut);
             fark.ForEach(d =>
             {
@@ -42,7 +42,7 @@ namespace ik.Areas.Admin.Controllers
             db.SaveChanges();
             ViewBag.tcNO = personel.tcno;
 
-            return PartialView("_PersonelGirisEvrak", personel.Ozluk_IseGirisEvrak.OrderBy(c=>c.Ozluk_IseGirisGerekEvrakTip.adet>0).ToList());
+            return PartialView("_PersonelGirisEvrak", personel.Ozluk_IseGirisEvrak.Where(c=>c.Ozluk_IseGirisGerekEvrakTip.evrakkategori==1).OrderBy(c=>c.Ozluk_IseGirisGerekEvrakTip.adet>0).ToList());
 
 
         }

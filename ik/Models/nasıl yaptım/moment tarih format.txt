@@ -1,0 +1,1 @@
+﻿ moment(value).format("DD/MM/YYYY")

@@ -1,0 +1,257 @@
+﻿@using ik.Models
+@model IEnumerable<ik.Models.IcralarVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@*@helper Kalan(IcralarVM icra)*@
+@*{
+    var kalan = icra.tutar - icra.Odenen;
+    <span>@kalan</span>
+}
+@helper Durum(IcralarVM icra)
+{
+    var kalan = icra.tutar - icra.Odenen;
+    var durum = ((kalan == 0 || icra.Durum) ? "TAMAMLANMIŞ" : (kalan == icra.tutar ? "SIRADA" : "DEVAM EDİYOR"));
+    //var durum = ( icra.Durum == false ? "SIRADA" : (icra.Durum ?"TAMAMLANMIŞ":"DEVAM EDİYOR"));*@
+
+    @*<span>@durum</span>
+}*@
+<p>
+    <div id="ekle"></div>
+</p>
+
+
+<div class="col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#devameden">DEVAM EDEN İCRALAR</a></li>
+        <li><a data-toggle="tab" href="#tamamlanan">TAMAMLANAN İCRALAR</a></li>
+    </ul>
+</div>
+
+<div class="col-lg-12">
+    <div class="tab-content">
+        <div id="devameden" class="tab-pane fade in active">
+            <div class="content">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.adsoyad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.dosyano)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.tebligtarih)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.alacaklı)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.icradaire)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.tutar)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Odenen)
+                        </th>
+                        <th>
+                            Kalan
+                        </th>
+                        <th>
+                            Durum
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+                    <tbody data-bind="foreach:DevamEdenler">
+                    <tr>
+                        <td data-bind="text:adsoyad"></td>
+                        <td>
+                            <a data-bind="attr:{'href':'@Url.Action("Liste","IcraOdeme")?icraid='+id}" ><span data-bind="text:dosyano"></span></a>
+                        </td>
+                        <td data-bind="text:moment(tebligtarih).format('DD/MM/YYYY')"></td>
+                        <td data-bind="text:alacakli"></td>
+                        <td data-bind="text:icradaire"></td>
+                        <td data-bind="text:tutar"></td>
+                        <td data-bind="text:Odenen"></td>
+                        <td data-bind="text:DosyaDurum"></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <div id="tamamlanan" class="tab-pane fade in">
+            <div class="content">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.adsoyad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.dosyano)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.tebligtarih)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.alacaklı)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.icradaire)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.tutar)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Odenen)
+                        </th>
+                        <th>
+                            Kalan
+                        </th>
+                        <th>
+                            Durum
+                        </th>
+
+                        <th></th>
+                    </tr>
+                    <tbody data-bind="foreach:$root.Tamamlananlar">
+                        <tr>
+                            <td data-bind="text:adsoyad"></td>
+                            <td>
+                                <a data-bind="attr:{'href':'@Url.Action("Liste","IcraOdeme")?icraid='+id}" ><span data-bind="text:dosyano"></span></a>
+                            </td>
+                            <td data-bind="text:moment(tebligtarih).format('DD/MM/YYYY')"></td>
+                            <td data-bind="text:alacakli"></td>
+                            <td data-bind="text:icradaire"></td>
+                            <td data-bind="text:tutar"></td>
+                            <td data-bind="text:Odenen"></td>
+                            <td data-bind="text:DosyaDurum"></td>
+                        </tr>
+                    </tbody>
+                  
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    @Scripts.Render("~/bundles/ikdialog")
+    <script type="text/javascript">
+        $(function () {
+            var icra = function(item) {
+                var self = this;
+                self.id = item.id;
+                self.adsoyad = item.adsoyad;
+                self.dosyano = item.dosyano;
+                self.tutar = item.tutar;
+                self.Odenen = item.Odenen;
+                self.tebligtarih = item.tebligtarih;
+                self.alacakli = item.alacakli;
+                self.icradaire = item.icradaire;
+                self.Durum = item.Durum;
+                self.filter = ko.observable('');
+                self.DosyaDurum = ko.computed(function() {
+                    var kalan = self.tutar - self.Odenen;
+                    //console.log(kalan + '-' + self.Durum);
+                    return ((kalan === 0 || self.Durum) ? "TAMAMLANMIŞ" : (kalan === self.tutar ? "SIRADA" : "DEVAM EDİYOR"));
+                });
+                self.kalan = ko.computed(function() {
+                    return self.tutar - self.Odenen;
+                });
+               
+            }
+            function vm() {
+                var self = this;
+                //  self.filter = ko.observable('');
+              
+                self.icralar = ko.observableArray();
+                var icraurl = '@Url.Action("_Icralar")';
+                $.getJSON(icraurl,
+                    function() {
+
+                    }).done(function(data) {
+                    self.icralar($.map(data,
+                        function(item) {
+                            return new icra(item);
+                        }));
+
+                });
+                self.Tamamlananlar = ko.computed(function() {
+                    return ko.utils.arrayFilter(self.icralar(), function(i) {
+                        return ((i.tutar - i.Odenen === 0 || i.Durum));
+                    });
+                    
+                });
+                self.DevamEdenler= ko.computed(function() {
+                    // var filter = self.filter();
+                  
+                    return ko.utils.arrayFilter(self.icralar(), function(i) {
+                        return !((i.tutar - i.Odenen === 0 || i.Durum));
+                    });
+                    
+                });
+
+
+            }
+
+            ko.applyBindings(new vm());
+
+
+            function eklecomplete(result) {
+               // console.table(result);
+                vm.icralar.push(new icra(result.Data));
+                //2 görev oluştur
+                //1 bugüne personel haber verme maili
+                //2 ay sonuna icra kesmeyi unutma maili
+                return false;
+                $.ajax({
+                    async: true,
+                    type: "get",
+                    url: '@Url.Action("IcraGorevler")',
+                    data: { id: result.Data },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.Success === true) {
+
+                        }
+                    }
+                });
+
+                location.reload();
+            }
+
+            $('#ekle').ikDialog({
+                formurl: '@Url.Action("DegistirEkle")',
+                title: 'Yeni Ekle',
+                data: { id: 0 },
+                buttonClass: 'btn btn-primary',
+                buttonText: 'Yeni Ekle',
+                complete: eklecomplete,
+                beforeshown: function(settings) {}
+            });
+
+           
+
+
+            
+
+
+        })
+    </script>
+}

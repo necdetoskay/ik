@@ -3,35 +3,87 @@
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
-<p>Hata Oluştu</p>
+<div id="FileUploadDiv">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="file" id="files" name="files" multiple />
+        </div>
+        <div class="col-md-4">
+            <input type="button" id="Upload" class="btn btn-primary" value="Upload" />
+        </div>
+    </div>
+</div>
 
-<div class="yeniekle"></div>
+<br />
+<!--Bootstrap progress bar-->
+<progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+<h3 id="status"></h3>
 
+<br />
+<br />
 
 @section scripts{
 
-    @*<script src="~/Scripts/bootstrap-dialog.js"></script>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/ikdialog.js"></script>*@
-    @Scripts.Render("~/bundles/ikdialog")
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+            crossorigin="anonymous"></script>
+    <script src="~/Scripts/jquery-progress-upload.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
+        $(document).ready(function () {
+            var counter = 0;
+            function progressHandler(event) {
+                console.log(counter);
+               // $("#loaded_n_total").html("Uploaded " + event.loaded + " bytes of " + event.total);
+                var percent = (event.loaded / event.total) * 100;
+                $("#progressBar").val(Math.round(percent));
+                $("#status").html(Math.round(percent) + "% uploaded... please wait");
+            }
+           
+            function completeHandler(event) {
+                counter++;
+                console.table(event);
+                $("#status").html("Yükleme Tamamlandı");
+            }
+
+            function errorHandler(event) {
+                $("#status").html("Upload Failed");
+            }
+
+            function abortHandler(event) {
+                $("#status").html("Upload Aborted");
+            }
+            $('#Upload').click(function() {
+                var files = $("#files").get(0).files;
+                counter = 0;
+                // Loop through files
+                for (var i = 0; i < files.length ; i++) {
+                    var file = files[i];
+                    var formdata = new FormData();
+                    formdata.append("file1", file);
+                    var ajax = new XMLHttpRequest();
+
+                    ajax.onreadystatechange = function(e) {
+                        if (e.readyState === 4) {
+                            callback(e.response);
+                        }
+                    }
 
 
-
-        $(function () {
-            var personelid = 2243;
-            $('.yeniekle').ikDialog({
-                formurl: '@Url.Action("ikCreate","OzlukDigerEvrak",new {Area="Admin",personelid=2248},null)',
-                data: {
-                }, complete: function (result) {
-                    alert(result);
+                    ajax.upload.addEventListener("progress", progressHandler, false);
+                    ajax.addEventListener("load", completeHandler, false);
+                    ajax.addEventListener("error", errorHandler, false);
+                    ajax.addEventListener("abort", abortHandler, false);
+                    ajax.open("POST", '@Url.Action("About")');
+                    ajax.send(formdata);
                 }
-            });
 
+
+            });
         });
+
     </script>
 }

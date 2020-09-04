@@ -24,12 +24,13 @@ namespace ik.Models
         public int personelID { get; set; }
         public int yakinlikID { get; set; }
         public string adsoyad { get; set; }
-        public string dogumYeri { get; set; }
+        public string tcNo { get; set; }
         public System.DateTime dogumTarihi { get; set; }
+        public string url { get; set; }
     
-        public virtual Ozluk_Enum_Detay Ozluk_Enum_Detay { get; set; }
-        public virtual Personel Personel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
+        public virtual Ozluk_Enum_Detay Ozluk_Enum_Detay { get; set; }
+        public virtual Personel Personel { get; set; }
     }
 }

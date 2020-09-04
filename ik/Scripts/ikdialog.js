@@ -15,7 +15,6 @@
                     // console.log("post başarılı");
                     if (result.Success === true) {
                         console.log("Dialog Form return true");
-
                         complete(result);
                         dialogRef.close();
 
@@ -36,17 +35,30 @@
     }
 
     function formyukle(dialogdiv, settings) {
+       
         var id = ID();
-        $('<input type="button" id="' + id + '" class="' + settings.buttonClass + '" value="' + settings.buttonText + '"/>').appendTo(dialogdiv);
+        $('<button id="' + id + '" class="' + settings.buttonClass + '">' + settings.buttonText+'</button>').appendTo(dialogdiv);
 
         $('#' + id).on('click', function () {
 
+            //console.table(settings);
+           // console.table(settings.data);
+
+
             BootstrapDialog.show({
                 draggable: true,
-                title: settings.Title,
+                title: settings.title,
                 message: function (dialog) {
                     var $message = $('<div>Bekleyiniz.......</div>');
                     var dialogyukle = dialog.getData('dialogyukle');
+                    var param = dialog.getData('data');
+                    dialogyukle += "?";
+                    var par = "";
+                    $.each(param,
+                        function (key, value) {
+                            par = par + key + "=" + value+"&";
+                        });
+                    dialogyukle += par;
                     $message.load(dialogyukle);
                     return $message;
                 },
@@ -60,7 +72,8 @@
 
                 },
                 data: {
-                    'dialogyukle': settings.formurl
+                    'dialogyukle': settings.formurl,
+                    'data': settings.data
                     //,'complete': settings.complete
                 },
                 closable: true,
@@ -72,6 +85,7 @@
                         //hotkey: 65, // Keycode of keyup event of key 'A' is 65.
                         action: function (dialogRef) {
                             var form = dialogRef.getModalBody().find('form');
+                            //console.log(dialogRef.getData('data'));
                             $(form).submit();
                         }
                     }, {
@@ -99,11 +113,8 @@
         var avans = $(this);
         var id = ID();
         avans.attr("id", id);
-        $('#' + id).on('click', function (e) {
-            //if ($.isFunction(settings.clicked))
-            //    settings.clicked(settings);
-
-            BootstrapDialog.show({
+        alert("");
+        BootstrapDialog.show({
                 type: BootstrapDialog.TYPE_WARNING,
                 draggable: true,
                 title: settings.title,
@@ -116,13 +127,11 @@
                 onshown: function (dialogRef) {
                     var form = dialogRef.getModalBody().find('form');
                     $.validator.unobtrusive.parse(form);
-
                     formvalidation(form, dialogRef, settings.complete);
-
                 },
                 data: {
-                    'dialogyukle': settings.formurl,
-                    'data': settings.data
+                    'dialogyukle': settings.formurl
+                 
                     //,'complete': settings.complete
                 },
                 closable: true,
@@ -134,6 +143,7 @@
                         //hotkey: 65, // Keycode of keyup event of key 'A' is 65.
                         action: function (dialogRef) {
                             var form = dialogRef.getModalBody().find('form');
+                         
                             $(form).submit();
                         }
                     }, {
@@ -144,16 +154,13 @@
                     }
                 ]
             });
-
-
-
-
-            e.stopPropagation();
-        });
+        e.stopPropagation();
+        
 
     }
 
     $.fn.ikDialog = function (options) {
+      
         $(this).each(function () {
             var settings = $.extend({
                 formurl: '',
@@ -172,6 +179,7 @@
             if ($.isFunction(settings.beforeshown))
                 settings.beforeshown(settings);
             //console.log(settings);
+           
             formyukle($(this), settings);
 
         });

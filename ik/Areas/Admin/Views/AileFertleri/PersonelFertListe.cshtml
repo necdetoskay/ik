@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ik.Models.Ozluk_AileFertleri>
+﻿
+@model IEnumerable<ik.Models.Ozluk_AileFertleri>
 
 @Html.Hidden("tcno",(string)ViewBag.tc)
 
@@ -8,21 +9,15 @@
     @Html.Partial("FertListe", Model)
 </div>
 
-<link href="~/Content/themes/base/all.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
-<script src="~/Scripts/DialogForm.js"></script>
-<script src="~/Scripts/ikdialog.js"></script>
+
 
 <script type="text/javascript">
     $(function () {
 
         var id = $('#personel option:selected').val();
         var url = '@Url.Action("Ekle",new {Area="Admin"})' + '/?pid=' + id;
+
         var updateurl = '@Url.Action("FertListe",new {Area="Admin"})' + '/?pid=' + id;
 
         $('#fertekle').ikDialog({

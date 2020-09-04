@@ -23,7 +23,9 @@ namespace ik.Models
         public int id { get; set; }
         public string ad { get; set; }
         public int adet { get; set; }
+        public int evrakkategori { get; set; }
     
+        public virtual Ozluk_EvrakKategori Ozluk_EvrakKategori { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
     }

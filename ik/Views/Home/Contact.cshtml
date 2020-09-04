@@ -4,36 +4,99 @@
 @{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
+@*My first KnockoutJS uses text binding: <span data-bind="text:myVariable"></span>
+    <hr>
+    <div data-bind="html:myHtml"></div>
+    <hr>
+    <div data-bind="css:myLeft">knockout css ile sola yasla</div>
+    sağa yaslama denemesi
+    <hr>
+    Balance =
+    <span data-bind="style: { color: myBalance() < 0 ? 'red': 'black' }">
+        <span data-bind="text:myBalance"></span>
+    </span>
+    <hr>
+    My fifth KO uses visible binding:
+    <div data-bind="visible: isVisible">Warning, the visible property is set to true.</div>*@
+<hr>
+@*<table>
+        <tr>
+            <th style="width:20%;">Item</th>
+            <th style="width:40%;">Qty</th>
+            <th>
+                Price
+            </th>
+            <th>
+                Tally
+            </th>
+        </tr>
+        <tr>
+            <td style="width:20%;">
+                <em data-bind="text:item_1">Item</em>
+            </td>
+            <td style="width:40%;">
+                <input type="text" data-bind="value:qty_1" />
+            </td>
+            <td>
+                <span data-bind="text:price_1"></span>
+            </td>
+            <td>
+                <span data-bind="text:tally_1"></span>
+            </td>
+        </tr>
+    </table>*@
 
-<table class="table table-responsive">
-    <thead>
-    <tr>
-        <th>Adı Soyadı</th>
-        <th>Birim</th>
-        <th>Başlama Tarihi</th>
-        <th>Bitiş Tarihi</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Where(c => c.Durum == PEnumDurum.izinliler))
-    {
-        var list = item.personel.Izins.Where(c => c.baslangictarih <= DateTime.Now.Date && c.bitistarihi >= DateTime.Now);
-    }
-    </tbody>
-</table>
-
-
-
+<hr>
+<ul data-bind="foreach: employee">
+    <li>Employee: <strong data-bind="text:name"></strong>
+        <div data-bind="if: spouse">( Spouse: <strong data-bind="text:spouse.name"></strong> )</div>
+        <div data-bind="ifnot: spouse">( AVAILABLE )</div>
+    </li>
+</ul>
 
 
 @section scripts{
 
-    <script src="~/Scripts/bootstrap-dialog.js"></script>
+
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
     <script type="text/javascript">
+
+        //var calcModel = function () {
+        //    var self = this;
+        //    self.item_1 = ko.observable('Cell Phone');
+        //    self.qty_1 = ko.observable(0);
+        //    self.price_1 = ko.observable(149.95);
+        //    self.tally_1 = ko.computed(function () {
+        //        var rslt = (+self.qty_1() * self.price_1()).toFixed(2);
+        //        return rslt;
+        //    }, self);
+        //}
         $(function () {
+
+            //var vm = new calcModel();
+            //ko.applyBindings(vm);
+
+
+
+            //var viewModel = {
+            //    myVariable: ko.observable("ilk knockout bind denemesi"),
+            //    myHtml: ko.observable('<strong> html </strong> deneme'),
+            //    myLeft: ko.observable("pushRight"),
+            //    myBalance: ko.observable(-47.25),
+            //    isVisible: ko.observable(true)
+            //};
+            //ko.applyBindings(viewModel);
+            myVM = {
+                showDetails: ko.observable(false),
+                employee: [
+                    { name: "John Jones", spouse: { name: "Mary Jones" } },
+                    { name: "Bill Williams", spouse: null },
+                    { name: "Sandy Rivers", spouse: { name: "Mark Rivers" } },
+                ]
+            };
+            ko.applyBindings(myVM);
+           // myVM.showDetails(true);
 
         })
     </script>

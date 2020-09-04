@@ -1,0 +1,197 @@
+﻿@model IEnumerable<ik.Models.IcraOdeme>
+<style>
+    .img-wrap {
+        position: relative;
+        display: inline-block;
+        border: 1px red solid;
+        font-size: 0;
+    }
+
+        .img-wrap .close {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            z-index: 100;
+            background-color: #FFF;
+            padding: 5px 2px 2px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: .2;
+            text-align: center;
+            font-size: 22px;
+            line-height: 10px;
+            border-radius: 50%;
+        }
+
+        .img-wrap:hover .close {
+            opacity: 1;
+        }
+</style>
+
+@Html.Hidden("tc", (string)ViewBag.tc)
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Icralar.dosyano)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tutar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aciklama)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.dosya)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.thumb)
+            </th>
+
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody id="odemeliste">
+        @foreach (var item in Model)
+        {
+
+            <tr data-id="@item.id" data-icraid="@item.icraid">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Icralar.dosyano)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tarih)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tutar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.aciklama)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.dosya)
+                    </td>*@
+                <td class="thumb" data-id="@item.id" data-url="@item.dosya" data-thumb="@item.thumb">
+                </td>
+
+                <td class="upload upload-div">
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+@* <script src="~/Scripts/bootstrap-notify.js"></script>*@
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/uploads.js"></script>
+<script type="text/javascript">
+    var root = "@(new Uri(Request.Url, Url.Content("~")))";
+    var indirurl = '@Url.Action("Indir", "Upload", new {Area=""})';
+
+
+
+    $(function () {
+
+       
+
+        function RenderThumb(tr, url, thumb, id) {
+            var td = tr.find('.thumb');
+            if (url === '' ) return false;
+            var div = $('<div class="img-wrap">');
+            div.append('<a href="' + indirurl + '/?url=' + url + '"  target="_blank"><span class="close">&times;</span> <img src = "' + root + thumb + '" data-id="' + id + '"></a>').appendTo(td);
+            tr.find('.upload').removeClass('upload');
+
+            div.find('.close').on('click', function (e) {
+            BootstrapDialog.confirm({
+                message: 'Dosya Silinsin mi?',
+                title: 'Dosya Sil',
+                callback:function(result) {
+                    if (result) {
+                        var id = td.data('id');
+                        console.log(id);
+                        $.ajax({
+                            async: true,
+                            url: '@Url.Action("_OdemeDekontSil")',
+                            type: 'GET',
+                            data: {
+                                id:id
+                            },
+                            success: function (response) {
+                                if (response.Success === true) {
+                                    console.log("dosya silindi");
+                                    div.remove();
+                                    tr.find('.upload-div').addClass('upload');
+                                }
+                            }
+                        });
+                    } else {}
+                }
+
+            });
+            e.preventDefault();
+        });
+         
+            return true;
+        }
+
+        function RenderRow(tr) {
+            var td = tr.find('.thumb');
+            var url = td.data("url");
+            var thumb = td.data("thumb");
+            var id = td.data("id");
+            RenderThumb(tr,url,thumb,id);
+        }
+        function complete(result,uploaddiv) {
+            console.table(result);
+            console.table(uploaddiv);
+            var tr=uploaddiv.closest('tr');
+            RenderThumb(tr, result.DosyaAdi, result.Thumb);
+            //database kaydı ne olacak
+            var id = tr.find('.thumb').data("id");
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: '@Url.Action("_IcraOdemeDekontEkle")',
+                data: {
+                    id: id,
+                    url: result.DosyaAdi,
+                    thumb: result.Thumb
+                },
+                success:function(response) {
+
+                }
+            });
+        }
+
+        function deleted(parameters) {
+
+        }
+        function UploadFile(tr) {
+           tr.find('.upload').DosyaYukle({
+                uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', 
+                uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', 
+                kayitklasor: '\\Icralar\\' + $('#tc').val(), 
+                targetimgdiv: 'dosyaliste',
+                uploadcomplete: complete,
+                deletecomplete: deleted
+            });
+        }
+
+        $('.thumb').each(function () {
+            var td = $(this);
+            var tr = td.closest('tr');
+            UploadFile(tr);
+            RenderRow(tr);
+           
+        });
+
+    });
+</script>

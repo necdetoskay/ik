@@ -63,8 +63,7 @@
     }
 </style>
 
-@*@Html.ActionLink("İşe Giriş Sözleşmesi Oluştur","Sozleşme","İseGirisCikisIslemleri")
-    @Html.ActionLink("Çalışma Belgesi","CalismaBelge","Personel",new {Area=""},null)*@
+
 <div style="margin: 20px" id="selectlist"></div>
 
 <div style="margin: 20px" class="personelfoto"></div>
@@ -87,6 +86,11 @@
             </a>
         </li>
         <li>
+            <a href="#digerevraklar" role="tab" data-toggle="tab">
+                <i class="fa fa-briefcase"></i> Diğer Evraklar
+            </a>
+        </li>
+        <li>
             <a href="#ailefert" role="tab" data-toggle="tab">
                 <i class="fa fa-child"></i> Aile Fertleri
             </a>
@@ -104,8 +108,8 @@
         <div data-url='@Url.Action("Sicil","Personel",new {Area="Admin"})' data-shown="false" class="tab-pane fade" id="genelbilgi"> </div>
         <div data-url='@Url.Action("PersonelFertListe", "AileFertleri", new {Area = "Admin"})' data-shown="false" class="tab-pane fade" id="ailefert"> </div>
         <div data-url="@Url.Action("EvraklariHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="isegirisevrak"> </div>
+        <div data-url="@Url.Action("DigerEvrakHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="digerevraklar"> </div>
         <div data-url="@Url.Action("YillikIzinler", "PersonelBilgi", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="yillikizin"> </div>
-
     </div>
 
 </div>

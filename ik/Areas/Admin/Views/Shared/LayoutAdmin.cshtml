@@ -14,49 +14,112 @@
     <link rel="stylesheet" href="/Content/Admin/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="/Content/Admin/Article-Clean.css">
     <link rel="stylesheet" href="/Content/Admin/sidebar.css">
-
     @RenderSection("styles", false)
+    <style>
+      
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        /* Fixed sidenav, full height */
+        .sidenav {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        /* Style the sidenav links and the dropdown button */
+        .sidenav a, .dropdown-btn {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* On mouse-over */
+        .sidenav a:hover, .dropdown-btn:hover {
+            color: #f1f1f1;
+        }
+
+        /* Main content */
+        .main {
+            margin-left: 200px; /* Same as the width of the sidenav */
+            font-size: 20px; /* Increased text to enable scrolling */
+            padding: 0px 10px;
+        }
+
+        /* Add an active class to the active dropdown button */
+      
+
+        /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+        .dropdown-container {
+            display: none;
+            background-color: #262626;
+            padding-left: 8px;
+        }
+
+        /* Optional: Style the caret down icon */
+        .fa-caret-down {
+            float: right;
+            padding-right: 8px;
+        }
+
+        /* Some media queries for responsiveness */
+        @@media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 18px;}
+        }
+        .active {
+            background-color: green;
+            color: white;
+        }
+    </style>
+   
 
 </head>
 
 <body>
-   
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
-        <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="text-white float-right" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active text-left text-white py-1 px-0" href="@Url.Action("Index","Home",new{area = "" })">
-                <i class="fas fa-tachometer-alt mx-3"></i>
-                <span class="text-nowrap mx-2">I.K.</span>
-            </a>
-        </li>
-        @*<li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="#"><i class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Statistics</span></a></li>*@
-        <li class="nav-item dropdown">
-            <a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#">
-                <i class="fas fa-sliders-h mx-3"></i>
-                <span class="text-nowrap mx-2">Görev İşlemleri</span>
-                <i class="fas fa-caret-down float-none float-lg-right fa-sm"></i>
-            </a>
-            <div class="dropdown-menu border-0 animated fadeIn" role="menu">
-                @Html.ActionLink("@Html.Raw("/"<span>Görev Tanımları</span>"/")", "Index", "Gorev", null, new { area = "Admin",@class= "dropdown-item text-white" }).If(new string[] { @"KENTKONUT\noskay" }.Contains(User.Identity.Name))
-                @*<a class="dropdown-item text-white" role="presentation" href="#">
-                    <span>Change email</span>
-                </a>
-                <a class="dropdown-item text-white" role="presentation" href="#">
-                    <span>More</span>
-                </a>*@
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-binoculars mx-3"></i><span class="text-nowrap mx-2">Bla Bla</span><i class="fas fa-caret-down float-none float-lg-right fa-sm"></i></a>
-            <div class="dropdown-menu border-0 animated fadeIn" role="menu">
-                <a class="dropdown-item text-white" role="presentation" target="_blank"><span>Change password</span></a><a class="dropdown-item text-white" role="presentation" href="#"><span>Change email</span></a><a class="dropdown-item text-white" role="presentation"
-                                                                                                                                                                                                                         href="#"><span>More</span></a>
-            </div>
-        </li>
-    </ul>
-    <div class="container article-clean">
+
+    <div class="sidenav">
+        @Html.ActionLink("I.K. Admin", "Index", "Dashboard", new { area = "Admin" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("I.K.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+        <button class="dropdown-btn">
+            Görev İşlemleri
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            @Html.ActionLink("Görev Tanımları", "Index", "Gorev", null, new { area = "Admin", @class="active"}).If(new string[] { @"KENTKONUT\noskay" }.Contains(User.Identity.Name))
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+        @Html.ActionLink("Personel Bilgi", "Index", "PersonelBilgi", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+        @Html.ActionLink("Özlük ", "Index", "OzlukHome", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+        <button class="dropdown-btn">
+            Raporlar
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            @Html.ActionLink("Çalışan Personel Sayısı", "CalisanSayi", "DashBoard", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+        </div>
+        @Html.ActionLink("Yıllık İzin Görme Yetkileri", "Index", "YillikIzinYetki", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+        @Html.ActionLink("Personel Özlük Durumu", "Durum", "OzlukHome", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+        @Html.ActionLink("Yıllık İzin Defter Hazırla", "YillikIzinDefter", "OzlukHome", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+    </div>
+    <div class="main container article-clean">
         @RenderBody()
     </div>
     @*<script src="assets/js/jquery.min.js"></script>*@
@@ -68,8 +131,22 @@
 
     @Html.PageScripts()
     <script type="text/javascript">
-        $(document).ready(function () {
 
+        $(document).ready(function () {
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
         });
     </script>
 

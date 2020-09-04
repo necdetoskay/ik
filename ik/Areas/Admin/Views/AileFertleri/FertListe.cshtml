@@ -1,5 +1,44 @@
 ﻿@model IEnumerable<ik.Models.Ozluk_AileFertleri>
+@using System.Globalization
+@using ik.Models.DataClasslari
+@using PerpetuumSoft.Knockout
+
+@{
+    var ko = Html.CreateKnockoutContext();
+}
 <style>
+    .img-wrap {
+        position: relative;
+        display: inline-block;
+        border: 1px red solid;
+        font-size: 0;
+    }
+
+        .img-wrap .close {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            z-index: 100;
+            background-color: #FFF;
+            padding: 5px 2px 2px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: .2;
+            text-align: center;
+            font-size: 22px;
+            line-height: 10px;
+            border-radius: 50%;
+        }
+
+        .img-wrap:hover .close {
+            opacity: 1;
+        }
+
+    #fertListe {
+        overflow: scroll;
+    }
+
     .dosyaliste {
         display: flex;
     }
@@ -18,7 +57,7 @@
         }
 
         .dosya > a.thumba > img {
-            height: 100px;
+            width: 80px;
             float: right;
         }
 
@@ -35,18 +74,11 @@
         <th>
             Yakınlık Derecesi
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.adsoyad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dogumYeri)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dogumTarihi)
-        </th>
-        <th>
-
-        </th>
+        <th> @Html.DisplayNameFor(model => model.adsoyad) </th>
+        <th>T.C. No</th>
+        <th> @Html.DisplayNameFor(model => model.tcNo) </th>
+        <th> @Html.DisplayNameFor(model => model.dogumTarihi) </th>
+        <th></th>
         <th></th>
         <th></th>
 
@@ -54,7 +86,7 @@
         {
 
 
-        <tr>
+        <tr data-id="@item.id">
             <td>
                 @Html.DisplayFor(modelItem => item.Ozluk_Enum_Detay.degerad)
             </td>
@@ -62,8 +94,9 @@
                 @Html.DisplayFor(modelItem => item.adsoyad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dogumYeri)
+                @Html.DisplayFor(modelItem => item.tcNo)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.dogumTarihi)
             </td>
@@ -71,14 +104,26 @@
                 <div data-id="@item.id" class="dosyaliste">
                     @foreach (var resim in item.Ozluk_AileFertleriUrl)
                     {
-                        <div class="dosya" data-url="@resim.url" data-id="@resim.id">
-                            <a class="thumba" target="_blank" href="@Url.Action("Indir", "Upload", new {Area="",resim.url})">
-                                <img src="/@resim.Thumb" class="dosyaresim">
-                            </a>
-                            <a href="javascript:void(0)" class="dosyasil">
-                                <img src="/Content/delete-png.png" />
-                            </a>
-                        </div>
+                        @HtmlHelperExtensions.RenderUploadFile(resim.id.ToString(),
+                            Url.Action("Indir", "Upload", new { Area = "", resim.url }),
+                            Url.Content("~/") + resim.Thumb,
+                            "",
+                            Url.Content("~/Content/delete-png.png"))
+
+
+
+                        @*<div class="dosya" data-url="@resim.url" data-id="@resim.id">
+                                <a class="thumba" target="_blank" href="@Url.Action("Indir", "Upload", new {Area="",resim.url})">
+                                    <img src="@Url.Content("~/")@resim.Thumb" class="dosyaresim">
+                                </a>
+                                <a href="javascript:void(0)" class="dosyasil">
+                                    <img src="@Url.Content("~/Content/delete-png.png")" />
+                                </a>
+                            </div>*@
+
+
+
+
                     }
                 </div>
             </td>
@@ -87,73 +132,210 @@
                 </div>
             </td>
             <td>
-                <a class="sil" href="javascript:void(0)">
-                    <img width="50" src="/Content/icons8-delete-trash-50.png" />
-                </a>
-                <a class="duzenle" href="javascript:void(0)">
-                    <img width="50" src="/Content/icons8-edit-64.png" />
-                </a>
+                <button class="sil btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Sil</button>
+                <div style="display: contents" class="duzenle"></div>
+                @*<a class="duzenle" href="javascript:void(0)">
+                        <img width="50" src="@Url.Content("~/Content/icons8-edit-64.png")" />
+                    </a>*@
             </td>
         </tr>
-        }
+    }
     </table>
 
+
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script src="~/Scripts/DialogForm.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/ozlukadmin.js"></script>
     <script src="~/Scripts/bootstrap-dialog.js"></script>
     <script src="~/Scripts/uploads.js"></script>
+    <script src="~/Scripts/ikdialog.js"></script>
+
     <script type="text/javascript">
-        $(function () {
-            ///tüm fert i siliyor alt resimleri ile beraber
-            var root = "@(new Uri(Request.Url, Url.Content("~")))";
-            uploadnamespace.uploadform = root + '/Upload/Yukle';
-            uploadnamespace.uploadform = root + '/Upload/DosyaYukleDialog';
-            uploadnamespace.deleteurl = root + '/Upload/Sil';
+        function dosyaeklehtml(indirurl, dosyaadi, thumb, alt) {
+
+        var html = '<div class="dosya img-wrap" data-url="' +
+            dosyaadi +'" ><a class="thumba"  target="_blank" href=' + indirurl + '/?url=' + dosyaadi + ' ><img  src="' +
+            thumb + '" class="dosyaresim" title="' + alt + '" alt="' + alt + '"></a><a  href="javascript:void(0)" class="dosyasil">' +
+            '<img  src="@Url.Content("~/Content/delete-png.png")" />' + '</a></div>';
+        return html;
+    }
+    $(function () {
+
+        var root = "@(new Uri(Request.Url, Url.Content("~")))";
+        uploadnamespace.uploadform = root + '/Upload/Yukle';
+        uploadnamespace.uploadform = root + '/Upload/DosyaYukleDialog';
+        uploadnamespace.deleteurl = root + '/Upload/Sil';
 
 
 
-            function complete(uploadresult, uploaddiv) {
-                var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
-               // console.log(uploadresult.DosyaAdi);
-                var dosyaliste = uploaddiv.closest('tr').find('.dosyaliste');
 
-                var resim = $('<div class="dosya" data-url="' + uploadresult.DosyaAdi + '" ><a class="thumba"  target="_blank" href=' + indirurl + '/?url=' + uploadresult.DosyaAdi + ' >' +
-                '<img  src="/' + uploadresult.Thumb + '" class="dosyaresim" title="' + uploadresult.Alt + '" alt="' + uploadresult.Alt + '"></a>' +
-                '<a  href="javascript:void(0)" class="dosyasil">' +
-                '<img  src="/Content/delete-png.png" />' +
-                '</a></div>');
-                dosyaliste.append(resim);
 
-                var fertid = dosyaliste.attr("data-id");
-               // console.log(fertid);
+        ///tüm fert i siliyor alt resimleri ile beraber
 
-                $.ajax({
-                    url: '@Url.Action("AileFertResimEkle")',
-                    type: 'GET',
-                    data: {
-                        url: uploadresult.DosyaAdi,
-                        fertid: fertid
-                    },
-                    success: function (result) {
-                        if (result.Success === true) {
-                            var id = result.ID;
-                            resim.attr('data-id', id);
-                            silbagla(resim.find(".dosyasil"));
-                        }
+
+
+        function eklecomplete(result) {
+            location.reload();
+        }
+
+        function kaydiduzenle(duzenle) {
+            var id = duzenle.closest("tr").data("id");
+            duzenle.ikDialog2({
+                formurl: '@Url.Action("Ekle")',
+                title: 'Düzenle',
+                data: {id:id},
+                buttonClass: 'btn btn-primary',
+                buttonText: 'Düzenle',
+                complete: eklecomplete,
+                beforeshown: function (settings) { }
+            });
+
+
+        }
+
+
+
+        function kaydisil(sil) {
+            var updateurl = '@Url.Action("FertListe",new {Area="Admin"})' + '/?pid=' + id;
+            var id=sil.closest("tr").data("id");
+            BootstrapDialog.confirm({
+                message: 'Aile Fert Kaydı Silinsin mi?',
+                title: 'Fert Sil',
+                btnCancelLabel: 'İptal',
+                callback:function(result) {
+                    if (result) {
+                        $.ajax({
+                            type: "GET",
+                            url: '@Url.Action("AileFertSil")',
+                            data: {id:id},
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.Success === true) {
+                                    $('#fertListe').load(updateurl);
+                                    console.log("silme başarılı " + response.Data);
+                                } else { console.log("silme başarısız"); }
+                            }
+                        });
+                    } else {
+                        console.log("silme iptal");
                     }
-                });
+                }
+            });
+        }
 
-            }
-            /////////////////////////////////////////////////////
-            var pid = $('#tcno').val();
-            $('.uploadgoster').DosyaYukle({
-                uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view
-                uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
-                deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})', ///standart yüklenen dosyayı silme işlemleri
-                multi: 'true',
-                kayitklasor: '\\IseGirisEvraklar\\' + pid,
-                uploadcomplete: complete
+        $('.sil').each(function () {
+            var sil = $(this);
+            sil.on('click', function() {
+                kaydisil(sil);
             });
         });
+
+
+
+        $('.duzenle').each(function () {
+            var pid = $("#personel option:selected").val();
+            var id = $(this).closest("tr").data("id");
+            var duzenle = '@Url.Action("Duzenle",new {Area="Admin"})' + '/?fertid=' + id;
+            var updateurl = '@Url.Action("FertListe",new {Area="Admin"})' + '/?pid=' + pid;
+
+            $(this).ikDialog({
+                formurl: duzenle,
+                title: 'Düzenle',
+                data: {},
+                buttonClass: 'btn btn-primary',
+                buttonText: '<i class="fa fa-pencil fa-lg"></i> Düzenle',
+                complete: function (result) {
+                    console.log(result);
+                    $('#fertListe').load(updateurl);
+                }
+            });
+        });
+
+
+
+
+
+
+        /**
+         * Fert dosyası ilindikten sonra kaydın databaseten silinmesi için kullanır
+         * @@param dosya
+         */
+        function ferturlsilcompleted(dosya) {
+            console.log(dosya);
+            var id = dosya.data("id");
+            $.ajax({
+                url: '@Url.Action("AileFertdosyasil")',
+                type: 'GET',
+                data: {id:id},
+                success:function(result) {
+                    if (result.Success) {
+                        $(dosya).remove();
+                    }
+                }
+            });
+        }
+
+
+
+
+        /** Fert için dosya yüklendikten sonra yüklenen dosya sayfaya eklenir ve database kaydı oluşturulur.
+         * @@param uploadresult
+         * @@param uploaddiv
+         */
+        function complete(uploadresult, uploaddiv) {
+            var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
+            var dosyaliste = uploaddiv.closest('tr').find('.dosyaliste');
+
+            var dosya = dosyaeklehtml(indirurl,root + uploadresult.DosyaAdi, root + uploadresult.Thumb, uploadresult.Alt);
+
+
+            @*var dosya = $(
+                '<div class="dosya img-wrap" data-url="' +root+ uploadresult.DosyaAdi + '" >' +
+                    '<a class="thumba"  target="_blank" href=' + indirurl + '/?url=' +root+ uploadresult.DosyaAdi + ' >' +
+                        '<img  src="'+root+ uploadresult.Thumb + '" class="dosyaresim" title="' + uploadresult.Alt + '" alt="' + uploadresult.Alt + '">' +
+                    '</a>' +
+                    '<a  href="javascript:void(0)" class="dosyasil">' +
+                        '<img  src="@Url.Content("~/Content/delete-png.png")" />' +
+                    '</a>' +
+                '</div>');*@
+
+            dosyaliste.append(dosya);
+            var fertid = dosyaliste.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("AileFertResimEkle")',
+                type: 'GET',
+                data: {
+                    url: uploadresult.DosyaAdi,
+                    fertid: fertid
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        var id = result.ID;
+                        dosya.attr('data-id', id);
+                        uploadnamespace.sil(dosya, ferturlsilcompleted);
+                    }
+                }
+            });
+
+        }
+        /**fert için yeni bir dosya yükleme formu hazırlar */
+        var pid = $('#tcno').val();
+        $('.uploadgoster').DosyaYukle({
+            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view
+            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
+            deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})', ///standart yüklenen dosyayı silme işlemleri
+            multi: 'true',
+            kayitklasor: '\\IseGirisEvraklar\\' + pid,
+            uploadcomplete: complete
+        });
+
+        /**Sayfa Yüklendiğinde Hazırlanan Fert resimlerinin silinmesi için hazırlar*/
+        $('.dosya').each(function () {
+            var dosya = $(this);
+            uploadnamespace.sil(dosya, ferturlsilcompleted);
+        });
+    });
     </script>
+

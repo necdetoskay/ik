@@ -96,6 +96,7 @@ namespace ik.Controllers
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         [AllowAnonymous]
         public JsonResult PersonelYillikIzinDurum(int personelid)
         {
@@ -510,7 +511,7 @@ namespace ik.Controllers
 
         }
 
-        public ActionResult _YarimIzinEkle(int id, int izinid = 0)
+        public ActionResult _YarimIzinEkle(int id,int yil, int izinid = 0)
         {
             YarimIzinEkleVM izin;
             if (izinid < 1)
@@ -528,14 +529,15 @@ namespace ik.Controllers
                 {
                     personelID = id,
                     izinID = izinid,
-                    yil = yizin.yil
+                    yil = yizin.yil,
+                    tarih = DateTime.Now.Date
                 };
             }
 
             return PartialView(izin);
         }
         [HttpPost]
-        public JsonResult _YarimIzinEkle(int id, YarimIzinEkleVM izin, int izinid = 0)
+        public JsonResult _YarimIzinEkle(int id,int yil, YarimIzinEkleVM izin, int izinid = 0)
         {
 
             StringBuilder cons = new StringBuilder();
@@ -585,7 +587,7 @@ namespace ik.Controllers
             }
             catch (Exception x)
             {
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -636,10 +638,16 @@ namespace ik.Controllers
             return View(liste);
         }
 
+        /// <summary>
+        /// personelin yarım gün yıllık izin detaylarını listeler
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult _PersonelYarimIzinleri(int id)
         {
-
-            throw new NotImplementedException();
+            var pers = db.Personels.SingleOrDefault(c => c.id == id);
+            var liste = db.YizinDetays.Where(c => c.Yizin.personelid == id);
+            return PartialView(liste);
         }
 
         public ActionResult IzinSil(int id, int izinid)

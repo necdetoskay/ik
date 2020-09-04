@@ -2,6 +2,65 @@
 @{
     ViewBag.Title = "Index";
 }
+<style>
+    .img-wrap {
+        position: relative;
+        display: inline-block;
+        border: 1px red solid;
+        font-size: 0;
+    }
+
+        .img-wrap .close {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            z-index: 100;
+            background-color: #FFF;
+            padding: 5px 2px 2px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: .2;
+            text-align: center;
+            font-size: 22px;
+            line-height: 10px;
+            border-radius: 50%;
+        }
+
+        .img-wrap:hover .close {
+            opacity: 1;
+        }
+
+    .dosyaliste {
+        display: flex;
+    }
+
+    .dosya {
+        padding-right: 10px;
+    }
+
+        .dosya:hover {
+            border-style: solid;
+            border-color: black;
+        }
+
+        .dosya > a.dosyasil > img:hover {
+            opacity: 1;
+        }
+
+        .dosya > a.thumba > img {
+            width: 80px;
+            float: right;
+        }
+
+        .dosya > a.dosyasil > img {
+            height: 20px;
+            position: absolute;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+</style>
+
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item">@Html.ActionLink("Personel Icraları", "Index", "Icra")</li>
@@ -9,27 +68,30 @@
 
 <h2><span id="adsoyad"></span> - <span id="dosyano"></span> Nolu Dosya</h2>
 @Html.Hidden("icraid", (int)ViewBag.icraid)
+@Html.Hidden("tc", (string)ViewBag.tc)
 
-<div id="odemeform" class="form-horizontal col-md-6">
-    <div class="form-group">
-        @Html.Label("Tarih", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBox("Tarih", "", null, new { @class = "form-control datetime" })
+@*<div id="odemeform" class="form-horizontal col-md-6">
+        <div class="form-group">
+            @Html.Label("Tarih", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Tarih", "", null, new { @class = "form-control datetime" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.Label("Tutar", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBox("Tutar", "", null, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.Label("Tutar", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Tutar", "", null, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-2"></div>
-        <input type="button" value="Kaydet" id="icraKaydet" />
-    </div>
-</div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <input type="button" value="Kaydet" id="icraKaydet" />
+        </div>
+    </div>*@
+
+
 <div class="col-md-6">
     <div>İcra Tutarı :<span id="icratutar"></span></div>
     <div>Ödenen :<span id="icraodenen"></span></div>
@@ -44,6 +106,7 @@
                 <th>Tutar</th>
                 <th>Açıklama</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="icratable"></tbody>
@@ -55,62 +118,128 @@
 
 @section scripts{
 
-    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet"/>
     <script src="~/Scripts/moment-with-locales.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/uploads.js"></script>
+    @Scripts.Render("~/bundles/ikdialog")
 
     <script type="text/javascript">
 
-        $(function () {
-
+        $(function() {
+            var root = "@(new Uri(Request.Url, Url.Content("~")))";
+            var indirurl = "@Url.Action("Indir", "Upload", new {Area = ""})";
+            var pid = $("#tc").val();
             var icraid = @ViewBag.icraid;
             var icratutar = 0;
             var icrakalan = 0;
             var odenen = 0;
 
-           
-
-
-
-            function Authanticated() {
-                return true;
-                var name='@HttpContext.Current.User.Identity.Name';
-                 if(name.search('oskay')>-1)
-                     return true;
-                return false;
+            //icra ödeme kaydı için dekont yükleme dialog hazırlar
+            function dekontyukle(dekontdiv, complete, deleted) {
+                dekontdiv.DosyaYukle({
+                    uploadform: '@Url.Action("DosyaYukleDialog", "Upload", new {Area = ""})', ///standart view
+                    uploadurl: '@Url.Action("Yukle", "Upload", new {Area = ""})', ///standart dosya uplaod işlemleri
+                    deleteurl: '@Url.Action("Sil", "Upload", new {Area = ""})', ///standart yüklenen dosyayı silme işlemleri
+                    kayitklasor: '\\Icralar\\' + pid, /// değişebilir
+                    targetimgdiv: 'dekont',
+                    uploadcomplete: complete,
+                    deletecomplete: deleted
+                });
             }
-            if (!Authanticated()) {
-                $('#odemeform').html('');
-            }
-         
 
-            function drawRow(rowData,body) {
-                var row = $("<tr/>");
+            function dosyaeklehtml(indirurl, dosyaadi, thumb, alt) {
+                var html = '<div class="dosya img-wrap" data-url="' +
+                    dosyaadi +
+                    '" ><a class="thumba"  target="_blank" href=' +
+                    indirurl +
+                    '/?url=' +
+                    dosyaadi +
+                    ' ><img  src="' +
+                    thumb +
+                    '" class="dosyaresim" title="' +
+                    alt +
+                    '" alt="' +
+                    alt +
+                    '"></a><a  href="javascript:void(0)" class="dosyasil">' +
+                    '<img  src="@Url.Content("~/Content/delete-png.png")" />' +
+                    '</a></div>';
+                return html;
+            }
+            ///// DOSYA YÜKLEME TAMAMLANDI DOSYA YOLU GERİ DÖNER /////
+
+            function complete(result, uploaddiv) {
+                ///<summary>servera dosya yükleme tamamlandıktan sonra yükleme bilgilerini verir</summary>
+                ///<param name="result">server a yüklenen dosya ve thumb yolu bilgileri</param>
+                ///<param name="uploaddiv"> upload işlemi başlatan html element</param>
+                var resultdiv = uploaddiv.closest('tr').find(".dekont");
+                var resim = dosyaeklehtml(indirurl, result.DosyaAdi, result.Thumb, "");
+                var id = resultdiv.closest('tr').data("id");
+                resultdiv.append(resim);
+                /////resmi url olarak db ye kaydet ////////////
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("_IcraUrlEkle")',
+                    data: {
+                        id: id,
+                        dosya: result.DosyaAdi,
+                        thumb: result.Thumb
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.Success === true) {
+                            console.log("icra ödemesine dekont resmi eklendi");
+                        } else {
+                            console.log("icra ödemesine dekont resmi eklenemedi");
+                        }
+                    }
+                });
+
+                //sil bağla
+                //resme sile basınca databaseten url verilerini sil null olarak ata geriye dönüşte ise yeni upload butonu göster
+
+
+                uploaddiv.remove();
+            }
+
+            function deleted(result) {
+            }
+
+
+            function drawRow(rowData, body) {
+                var html = '';
+                if (rowData.dosya == null) {
+                    html='<td><div class="dekont"></div></td>';
+                } else {
+                    html='<td><div>' + dosyaeklehtml(indirurl, rowData.dosya, rowData.thumb, "") + '</div></td>';
+                }
+            
+              
+                var row = $('<tr data-id="' + rowData.id + '"/>');
                 body.append(row);
                 row.append($("<td>" + rowData.tarih.toDDMMYYY() + "</td>"));
                 row.append($("<td>" + rowData.tutar + "</td>"));
-                row.append($("<td>" + (rowData.aciklama === null ? " ":rowData.aciklama) + "</td>"));
-                if (Authanticated()) {
-                    row.append($("<td><a class='icraodemesil' data-id=" + rowData.id + " href=#>Sil</a></td>"));
-                } else {
-                    row.append($("<td></td>"));
-                }
-                
+                row.append($("<td>" + (rowData.aciklama === null ? " " : rowData.aciklama) + "</td>"));
+                row.append($('<td></td>').append(html));
+                row.append($('<td><a class="icraodemesil" href=#>Sil</a><div class="dekontyukle" style="display:contents;"></div></td>'));
+
                 odenen = odenen + rowData.tutar;
 
+            
 
                 $('.icraodemesil').each(function() {
                     var link = $(this);
                     link.click(function(event) {
-                        var id = link.attr("data-id");
+                        var id = link.closest('tr').data("id");
                         console.log(id);
                         $.ajax({
-                            url:'@Url.Action("_IcraOdemeSil")',
-                            method:'get',
+                            url: '@Url.Action("_IcraOdemeSil")',
+                            method: 'get',
                             data: {
-                                odemeid:id
+                                odemeid: id
                             },
-                            success:function(result) {
+                            success: function(result) {
                                 odemeTablosuHazirla(result);
                             }
                         });
@@ -118,6 +247,29 @@
                     });
 
                 });
+
+
+                //var yukle = row;
+                //var id = yukle.find('.icraodemesil').data("id");
+
+                // console.log(params);
+                var pid = $("#tc").val();
+
+
+                dekontyukle(row.find('.dekontyukle'), complete, deleted);
+
+                @*row.find('.dekontyukle').ikDialog({
+                        formurl: '@Url.Action("test")',
+                        title: 'Dekont Yükle',
+                        data: {
+                            id: id,
+                            str:"test"
+                        },
+                        buttonClass: 'btn btn-primary',
+                        buttonText: 'Yükle',
+                        complete: yuklecomplete,
+                        beforeshown: function(settings) {}
+                    });*@
             }
 
             function drawTable(data) {
@@ -125,13 +277,15 @@
                 body.empty();
                 odenen = 0;
                 for (var i = 0; i < data.length; i++) {
-                    drawRow(data[i],body);
+                    drawRow(data[i], body);
                 }
             }
 
+            ///// icra ödeme listesinden tabloyu oluştur /////
             function odemeTablosuHazirla(result) {
-                var data=result.Data;
-                drawTable(data);icratutar = result.Message.tutar;
+                var data = result.Data;
+                drawTable(data);
+                icratutar = result.Message.tutar;
                 icrakalan = icratutar - odenen;
                 $('#icraodenen').text(odenen.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 $('#icratutar').text(icratutar.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
@@ -142,40 +296,40 @@
             }
 
 
-
             $.ajax({
-                url:'@Url.Action("_IcraListe")',
+                url: '@Url.Action("_IcraListe")',
                 data: {
-                    icraid:icraid
+                    icraid: icraid
                 },
-                method:'get',
-                success:odemeTablosuHazirla
+                method: 'get',
+                success: odemeTablosuHazirla
 
             });
 
-            $('#icraKaydet').on('click', function() {
-                var tarih = $('#Tarih');
-                var tutar = $('#Tutar');
+            $('#icraKaydet').on('click',
+                function() {
+                    var tarih = $('#Tarih');
+                    var tutar = $('#Tutar');
 
-                if (tarih.val() && tutar.val() ) {
-                    $.ajax({
-                        url: '@Url.Action("_IcraOdemeEkle")',
-                        method: 'post',
-                        data: {
-                            'icraid':icraid,
-                            'tarih':tarih.val(),
-                            'tutar':tutar.val()
-                        },
-                        success: function (result) {
-                            tarih.val('');
-                            tutar.val('');
-                            odemeTablosuHazirla(result);
+                    if (tarih.val() && tutar.val()) {
+                        $.ajax({
+                            url: '@Url.Action("_IcraOdemeEkle")',
+                            method: 'post',
+                            data: {
+                                'icraid': icraid,
+                                'tarih': tarih.val(),
+                                'tutar': tutar.val()
+                            },
+                            success: function(result) {
+                                tarih.val('');
+                                tutar.val('');
+                                odemeTablosuHazirla(result);
 
-                        }
-                    });
-                }
+                            }
+                        });
+                    }
 
-            });
+                });
 
 
             $('#Tutar').ForceNumericOnly();

@@ -28,6 +28,29 @@ namespace ik.Models
         public int ID { get; set; }
     }
 
+    public class Ozluk_AileFertleriMetaData
+    {
+        [DisplayName("Yakınlık Derecesi")]
+        [Required(ErrorMessage = "Yakınlık Derecesi  Giriniz")]
+        public int yakinlikID { get; set; }
+
+        [DisplayName("Fert Adı Soyadı")]
+        [Required(ErrorMessage = "Ad Soyad Giriniz")]
+        public string adsoyad { get; set; }
+
+        [DisplayName("T.C.No")]
+        [Required(ErrorMessage = "T.C. No Giriniz")]
+        public string tcNo { get; set; }
+
+        [Required(ErrorMessage = "Tarih Giriniz")]
+        [DataType(DataType.Date, ErrorMessage = "Tarih Giriniz")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public System.DateTime dogumTarihi { get; set; }
+    }
+
+    [MetadataType(typeof(Ozluk_AileFertleriMetaData))]
+    public partial class Ozluk_AileFertleri
+    { }
 
     public class OzlukGorevlendirmeMetaData
     {
@@ -219,7 +242,7 @@ namespace ik.Models
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {//string message = "Hata Oluştu";
-            bool hata = DateTime.Now > new DateTime(2020, 09, 05);
+            bool hata = DateTime.Now > new DateTime(2020, 10, 05);
             if (hata)
             {
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();

@@ -24,7 +24,7 @@
     {
        
             <tr data-izinID="@item.izinID">
-                <td>
+                <td class="yil">
                     @Html.DisplayFor(modelItem => item.yil)
                 </td>
                 <td>
@@ -49,6 +49,17 @@
 
 </table>
 
+
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="~/Scripts/izin.js"></script>
+@*<script src="~/Scripts/DialogForm.js"></script>*@
+<script src="~/Scripts/ikdialog.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#yarimtablo > table> tbody>tr').each(function (i) {
@@ -69,7 +80,7 @@
                         var tkalan = $('#toplamkalan');
                         tkalan.html(parseFloat(tkalan.html()) - 0.5);
                     }
-                  
+
                 });
             }
         });
@@ -77,11 +88,32 @@
 
         var id = $('#item_personelID').val();
         //var izinid = $('#item_izinID').val();
-
+      
         $('.yarimtamamla').each(function () {
             var row = $(this);
-            var izinid = row.closest('tr').attr('data-izinid');
-            row.MakeDialogForm({
+            var tr = row.closest('tr');
+            var izinid = tr.data('izinid');
+            var yil = tr.find('.yil').html().trim();
+
+            console.log(izinid + ' ' + id+' '+yil);
+            var updateurl = '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id;
+            var formurl ='@Url.Action("_YarimIzinEkle")';
+            row.ikDialog({
+                formurl: formurl,
+                title: "Yarım İzin Ekle",
+                data: {
+                    izinid: izinid,
+                    id: id,
+                    yil: yil
+                },
+                complete: function(result) {
+                   
+                    $('#yarimtablo').load(updateurl);
+                }
+            });
+
+
+            @*row.MakeDialogForm({
                 id: 'btnyarimekle',
                 text: 'Yarım İzin Ekle',
                 url: '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + izinid,
@@ -94,7 +126,7 @@
                 complete: function () {
                     alert("sonunda tamamlandı on yarimtamamla");
                 }
-            });
+            });*@
         });
     });
 </script>

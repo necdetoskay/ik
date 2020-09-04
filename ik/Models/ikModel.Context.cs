@@ -34,8 +34,6 @@ namespace ik.Models
         public virtual DbSet<Takip> Takips { get; set; }
         public virtual DbSet<PersonelDevir> PersonelDevirs { get; set; }
         public virtual DbSet<Avanslar> Avanslars { get; set; }
-        public virtual DbSet<Icralar> Icralars { get; set; }
-        public virtual DbSet<IcraOdeme> IcraOdemes { get; set; }
         public virtual DbSet<EvrakListe> EvrakListes { get; set; }
         public virtual DbSet<PersonelOzlukEvrak> PersonelOzlukEvraks { get; set; }
         public virtual DbSet<ResmiTatil> ResmiTatils { get; set; }
@@ -88,11 +86,14 @@ namespace ik.Models
         public virtual DbSet<Ozluk_Enum> Ozluk_Enum { get; set; }
         public virtual DbSet<Ozluk_Enum_Detay> Ozluk_Enum_Detay { get; set; }
         public virtual DbSet<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
-        public virtual DbSet<Ozluk_IseGirisGerekEvrakTip> Ozluk_IseGirisGerekEvrakTip { get; set; }
         public virtual DbSet<Ozluk_IseGirisEvrakUrl> Ozluk_IseGirisEvrakUrl { get; set; }
-        public virtual DbSet<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
         public virtual DbSet<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
         public virtual DbSet<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
         public virtual DbSet<IzinBakmaYetki> IzinBakmaYetkis { get; set; }
+        public virtual DbSet<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
+        public virtual DbSet<Ozluk_EvrakKategori> Ozluk_EvrakKategori { get; set; }
+        public virtual DbSet<Ozluk_IseGirisGerekEvrakTip> Ozluk_IseGirisGerekEvrakTip { get; set; }
+        public virtual DbSet<Icralar> Icralars { get; set; }
+        public virtual DbSet<IcraOdeme> IcraOdemes { get; set; }
     }
 }

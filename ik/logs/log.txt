@@ -62,3 +62,11 @@ ERROR 2020-02-21 13:11:14,955 238154ms seGirisEvrakController GirisEvrakResmiSil
 ERROR 2020-02-21 13:12:53,801 337000ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\5b46ba24-b45c-43c1-a018-22db03ce6132.pdf
 ERROR 2020-02-21 13:14:03,336 406535ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\ededa5fd-17c6-49a1-b780-67972934d468.pdf
 ERROR 2020-02-21 14:19:36,909 701326ms seGirisEvrakController GirisEvrakResmiSil - Z:\Source\Repos\proje\ik\ik\\Uploads\IseGirisEvraklar\38167777466\8f4fabca-1460-442e-b9c4-03f0897869aa.pdf
+INFO  2020-09-02 15:52:13,636 301744ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 15:57:26,496 50626ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 16:03:05,309 16784ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 16:05:59,162 190636ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 16:08:51,591 363066ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 16:09:32,181 403656ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 16:10:09,901 441375ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-02 16:13:01,656 23673ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.

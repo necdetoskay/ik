@@ -12,7 +12,7 @@ namespace ik
         {
             bundles.Add(new ScriptBundle("~/bundles/ikdialog").Include(
               "~/Scripts/bootstrap-dialog.js",
-               "~/Scripts/jquery.unobtrusive-ajax.js",
+              "~/Scripts/jquery.unobtrusive-ajax.js",
               "~/Scripts/jquery.validate.min.js",
               "~/Scripts/jquery.validate.unobtrusive.min.js",
               "~/Scripts/ikdialog.js"

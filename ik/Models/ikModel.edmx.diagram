@@ -16,9 +16,6 @@
         <AssociationConnector Association="ikModel.FK__Izin__izintip__66603565" />
         <EntityTypeShape EntityType="ikModel.PersonelDevir" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="ikModel.Avanslar" Width="1.5" PointX="4.875" PointY="8.75" />
-        <EntityTypeShape EntityType="ikModel.Icralar" Width="1.5" PointX="0.625" PointY="5.875" />
-        <EntityTypeShape EntityType="ikModel.IcraOdeme" Width="1.5" PointX="0.5" PointY="9.25" />
-        <AssociationConnector Association="ikModel.FK__IcraOdeme__icrai__1AD3FDA4" />
         <EntityTypeShape EntityType="ikModel.EvrakListe" Width="1.5" PointX="5.75" PointY="10.125" />
         <EntityTypeShape EntityType="ikModel.PersonelOzlukEvrak" Width="1.5" PointX="7.625" PointY="8.375" />
         <AssociationConnector Association="ikModel.FK__PersonelO__evrak__367C1819" />
@@ -54,7 +51,6 @@
         <AssociationConnector Association="ikModel.FK__birim__birimAmir__208CD6FA" />
         <AssociationConnector Association="ikModel.FK__personel__birimi__4CA06362" />
         <AssociationConnector Association="ikModel.FK__GeciciMaz__perso__662B2B3B" />
-        <AssociationConnector Association="ikModel.FK__Icralar__persone__17036CC0" />
         <AssociationConnector Association="ikModel.FK__Izin__personelid__656C112C" />
         <AssociationConnector Association="ikModel.FK__Personel__kadro__0A688BB1" />
         <AssociationConnector Association="ikModel.FK__PersonelD__perso__69C6B1F5" />
@@ -134,19 +130,26 @@
         <EntityTypeShape EntityType="ikModel.Ozluk_Enum" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="ikModel.Ozluk_Enum_Detay" Width="1.5" PointX="3.125" PointY="0.625" />
         <AssociationConnector Association="ikModel.FK__Ozluk_Enu__enumi__28F7FFC9" />
-        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrak" Width="1.5" PointX="7.375" PointY="0.5" />
-        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisGerekEvrakTip" Width="1.5" PointX="5.125" PointY="1" />
-        <AssociationConnector Association="ikModel.FK__Ozluk_Ise__evrak__0A3E6E7F" />
-        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrakUrl" Width="1.5" PointX="9.625" PointY="1" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrak" Width="1.5" PointX="9.125" PointY="0.5" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisEvrakUrl" Width="1.5" PointX="11.375" PointY="1" />
         <AssociationConnector Association="ikModel.FK__Ozluk_Ise__isegi__2C938683" />
-        <EntityTypeShape EntityType="ikModel.Ozluk_AileFertleri" Width="1.5" PointX="0.5" PointY="3" />
-        <AssociationConnector Association="ikModel.FK__Ozluk_Ail__yakin__3DBE1285" />
         <EntityTypeShape EntityType="ikModel.Ozluk_AileFertleriUrl" Width="1.5" PointX="2.375" PointY="3" />
-        <AssociationConnector Association="ikModel.FK__Ozluk_Ail__ailef__52B92F6B" />
         <EntityTypeShape EntityType="ikModel.Ozluk_DigerEvrak" Width="1.5" PointX="4.375" PointY="3.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="ikModel.Ozluk_AileFertleri" Width="1.5" PointX="0.5" PointY="2.875" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ail__ailef__52B92F6B" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ail__yakin__3DBE1285" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_EvrakKategori" Width="1.5" PointX="5.125" PointY="0.75" />
+        <EntityTypeShape EntityType="ikModel.Ozluk_IseGirisGerekEvrakTip" Width="1.5" PointX="7.25" PointY="0.75" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ise__evrak__321755AF" />
+        <AssociationConnector Association="ikModel.FK__Ozluk_Ise__evrak__0A3E6E7F" />
+        </Diagram>
       <Diagram DiagramId="15682e6bd03043edbce07d210f2142db" Name="izinbakmayetki" >
         <EntityTypeShape EntityType="ikModel.IzinBakmaYetki" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
+      <Diagram DiagramId="00f657b7b28745c781e074b46d6b6cd7" Name="icra" >
+        <EntityTypeShape EntityType="ikModel.Icralar" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="ikModel.IcraOdeme" Width="1.5" PointX="3" PointY="1.375" />
+        <AssociationConnector Association="ikModel.FK__IcraOdeme__icrai__1AD3FDA4" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

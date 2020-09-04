@@ -229,21 +229,25 @@ namespace ik.Controllers
         {
             var file = System.Web.HttpContext.Current.Server.MapPath(url).Replace(this.ControllerContext.RouteData.Values["controller"].ToString() + "\\", "").Replace(this.ControllerContext.RouteData.Values["action"].ToString() + "\\", "");//.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
             var fi = new System.IO.FileInfo(file);
-          
-                using (var stream = new MemoryStream())
+            if (!fi.Exists)
+            {
+                return  HttpNotFound("Dosya Bulunamadı");
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                using (FileStream fle = new FileStream(file, FileMode.Open, FileAccess.Read))
                 {
-                    using (FileStream fle = new FileStream(file, FileMode.Open, FileAccess.Read))
-                    {
-                        byte[] bytes = new byte[fle.Length];
-                        fle.Read(bytes, 0, (int)fle.Length);
-                        stream.Write(bytes, 0, (int)fle.Length);
-                    }
-                    var sifreli = Cryptography.DecryptBytes(stream.ToArray(), "ıon8>'~|*½9<8hyuasdyu", 2);
-                    return File(sifreli, System.Web.MimeMapping.GetMimeMapping(fi.Name));
+                    byte[] bytes = new byte[fle.Length];
+                    fle.Read(bytes, 0, (int)fle.Length);
+                    stream.Write(bytes, 0, (int)fle.Length);
                 }
+                var sifreli = Cryptography.DecryptBytes(stream.ToArray(), "ıon8>'~|*½9<8hyuasdyu", 2);
+                return File(sifreli, System.Web.MimeMapping.GetMimeMapping(fi.Name));
+            }
         }
 
-        public ActionResult Yukle(string folder)
+        public ActionResult Yukle()
         {
             string FileName = "";
             string dosyaresmi = "";
@@ -262,56 +266,63 @@ namespace ik.Controllers
                 else
                 {
                     fname = file.FileName;
-                    FileName = file.FileName;
+                   // FileName = file.FileName;
                     dosyaad = file.FileName;
 
                 }
 
-            
+
                 var kayitklasor = Request.Form["kayitklasor"];
                 bool encrypt = true;// bool.Parse(Request.Form["encrypt"]);
                 var klasör = Server.MapPath("~/Uploads");
                 klasör = klasör + kayitklasor;
                 FileInfo fi = new FileInfo(fname);
                 var name = Guid.NewGuid().ToString();
-                fname = fname.Replace(fi.Name, name);
+
+                //dosya adını guid dosya adı ile değiştir
+                fname = fname.Replace(fi.Name, name); 
+                //full dosya adını oluştur
                 fname = Path.Combine(klasör, fname + fi.Extension);
 
                 var thumbp = "";//thumbpath.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
-               
-                if (!System.IO.File.Exists(klasör))
+
+                if (!System.IO.File.Exists(klasör))//klasör yoksa klasör oluştur.
                 {
                     Directory.CreateDirectory(klasör);
                 }
-            
+
                 if (System.Web.MimeMapping.GetMimeMapping(file.FileName).StartsWith("image/"))
                 {
-
                     using (var imgfile = Image.FromStream(file.InputStream))
                     {
+
+                        var thumbpath = klasör + "//thumb//";
+                        if (!Directory.Exists(thumbpath))
+                            Directory.CreateDirectory(thumbpath);
+                        thumbpath += name + ".jpg";//fi.Extension;
+
+
                         if (!imgfile.Size.IsEmpty) //yüklenen dosya resim
                         {
                             #region thumbnail oluştur
 
                             var width = (100 * imgfile.Width) / imgfile.Height;
                             var thumbimage = imgfile.GetThumbnailImage(width, 100, null, IntPtr.Zero);
-                            var thumbpath = klasör + "//thumb//";
-
-                            if (!Directory.Exists(thumbpath))
-                                Directory.CreateDirectory(thumbpath);
-
-                            thumbpath += name + fi.Extension;
                             try
                             {
-                                thumbimage.Save(thumbpath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                thumbimage.Save(thumbpath);
                             }
                             catch (Exception ex)
                             {
-                                logger.Info("jpeg thumb kayıt hatası "+ex.Message);
+                                logger.Info("jpeg thumb kayıt hatası " + ex.Message);
                             }
                             dosyaresmi = thumbpath.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
 
                             #endregion
+                        }
+                        else //dosyas bilinen resimlerden değil default bir thumbnail olarak işle
+                        {
+
                         }
                         using (var stream = new MemoryStream())
                         {
@@ -327,7 +338,7 @@ namespace ik.Controllers
                                 catch (Exception ex)
                                 {
                                     logger.Info("jpeg kayıt hatası " + ex.Message);
-                                   
+
                                 }
 
                             }
@@ -335,27 +346,27 @@ namespace ik.Controllers
                             {
                                 System.IO.File.WriteAllBytes(fname, stream.ToArray());
                             }
-                          
-                            
+
+
                         }
                     }
                 }
                 else if (System.Web.MimeMapping.GetMimeMapping(file.FileName).Contains("application/pdf"))
                 {
-                    logger.Info("dosya pdf dosyası");
+                    //logger.Info("dosya pdf dosyası");
                     var thumbpath = klasör + "//thumb//";
-                    var p = Request.ServerVariables["APPL_PHYSICAL_PATH"]+"/Content/PDF.png";
-                    logger.Info("APPL_PHYSICAL_PATH " + Request.ServerVariables["APPL_PHYSICAL_PATH"]);
-                    logger.Info("content path " + Url.Content("~/Content/PDF.png"));
-                    FileInfo finf=new FileInfo(p);
-                    logger.Info("pdf.png " + finf.FullName);
+                    var p = Request.ServerVariables["APPL_PHYSICAL_PATH"] + "/Content/PDF.png";
+                    //logger.Info("APPL_PHYSICAL_PATH " + Request.ServerVariables["APPL_PHYSICAL_PATH"]);
+                    //logger.Info("content path " + Url.Content("~/Content/PDF.png"));
+                    FileInfo finf = new FileInfo(p);
+                    //logger.Info("pdf.png " + finf.FullName);
                     if (!Directory.Exists(thumbpath))
                         Directory.CreateDirectory(thumbpath);
 
                     thumbpath += name + ".JPG";
 
 
-                    logger.Info("dosya adı "+ thumbpath);
+                    logger.Info("dosya adı " + thumbpath);
                     try
                     {
                         using (var img = Image.FromFile(finf.FullName))
@@ -397,16 +408,15 @@ namespace ik.Controllers
                         }
                         else
                         {
-                          //  var sifreli = Cryptography.EncryptBytes(binaryreader.ReadBytes(file.ContentLength),
-                          //"ıon8>'~|*½9<8hyuasdyu", 2);
+                            //  var sifreli = Cryptography.EncryptBytes(binaryreader.ReadBytes(file.ContentLength),"ıon8>'~|*½9<8hyuasdyu", 2);
                             System.IO.File.WriteAllBytes(fname, binaryreader.ReadBytes(file.ContentLength));
                         }
-                      
+
                     }
                 }
                 else
                 {
-                    
+
                 }
                 FileName = fname.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
             }
@@ -424,7 +434,7 @@ namespace ik.Controllers
                 var dosya = fi.Directory + "\\" + fi.Name;
                 var thumb = fi.Directory + "\\thumb\\" + fi.Name;
                 var message = new StringBuilder();
-                var success = false;
+                var success = true;
                 //directory,name
                 if (System.IO.File.Exists(dosya))
                 {
@@ -433,44 +443,41 @@ namespace ik.Controllers
                         System.IO.File.Delete(dosya);
                         message.Append("Dosya Silindi");
                         success = true;
-                        if (System.IO.File.Exists(thumb))
-                        {
-                            try
-                            {
-                                System.IO.File.Delete(dosya);
-                                message.Append("[thumb] Dosya Silindi");
-                                success = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                message.Append("[Thumb] Dosya Silinemedi !!");
-                                success = false;
-                                //dosya silinemedi
-                            }
-                        }
-                        else
-                        {
-                            message.Append("[Thumb] Dosya Bulunamadı !!");
-                        }
+
                     }
                     catch (Exception ex)
                     {
-                        message.Append("Dosya Silinemedi !!");
+                        message.AppendLine("Dosya Silinemedi !!");
+                        message.AppendLine(ex.Message);
                         success = false;
-                        //dosya silinemedi
+                    }
+                }
+                if (System.IO.File.Exists(thumb))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(dosya);
+                        message.AppendLine("[Thumb] Dosya Silindi");
+                        success = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        message.AppendLine("[Thumb] Dosya Silinemedi !!");
+                        success = false;
                     }
                 }
                 else
                 {
-                    message.Append("Dosya Bulunamadı !!");
+                    message.AppendLine("[Thumb] Dosya Bulunamadı !!");
                 }
-                return Json(new { Success = true, Message = message.ToString(),Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+
+                return Json(new { Success = true, Message = message.ToString(), Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
-                return Json(new { Success = true, Message="Silme Sırasında Hata Oluştu",Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, Message = "Silme Sırasında Hata Oluştu", Data = @Url.Content("~/Content/unknown.png") }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
     }
 }

@@ -1,0 +1,98 @@
+﻿@model ik.Models.Icralar
+
+@{
+    ViewBag.Title = "Liste";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Hidden("icraid",@Model.id)
+<div>
+    <div class="col-md-8">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Personel.adsoyad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Personel.adsoyad)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.dosyano)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.dosyano)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.tebligtarih)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tebligtarih)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.alacaklı)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.alacaklı)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.icradaire)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.icradaire)
+            </dd>
+
+            <dt>
+               İcra Ödenen / İcra Tutar  @*@Html.DisplayNameFor(model => model.tutar)*@
+            </dt>
+
+            <dd>
+                @Model.IcraOdemes.Sum(c=>c.tutar) / @Html.DisplayFor(model => model.tutar)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IBAN)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IBAN)
+            </dd>
+
+
+        </dl>
+    </div>
+    <div class="col-md-4">
+        buraya dosya ile ilgili yüklenen dökümanlar gelecek
+    </div>
+</div>
+<div class="clearfix"></div>
+<div id="odenenicralar"></div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(function() {
+            var icraid = $('#icraid').val();
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("IcraOdemeler")',
+                data: {
+                    id: icraid
+                },
+                
+                success: function (response) {
+                    //console.log(response);
+                   $('#odenenicralar').html(response);
+                }
+            });
+
+
+        });
+    </script>
+}

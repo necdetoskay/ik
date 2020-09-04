@@ -172,7 +172,7 @@ namespace ik.Controllers
         }
 
 
-        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan")]
+        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan,KENTKONUT\Oyildiz")]
         public ActionResult PersonelDurum()
         {
             return View();
@@ -191,7 +191,8 @@ namespace ik.Controllers
             return Json(new { Success = true, Data = kriterler }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Users = @"KENTKONUT\yyazici,KENTKONUT\bkalay,KENTKONUT\noskay,KENTKONUT\derya.aslan")]
+        [Authorize]
+
         public ActionResult PersonelListeGetir(int[] birimlist, int[] lokasyonlist, int[] cinsiyetlist, int[] kadrolist, int[] tahsillist)
         {
             var liste = from p in db.Personels where p.cikistarihi == null select p;

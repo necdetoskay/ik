@@ -297,7 +297,8 @@ namespace ik.Controllers
 
         public ActionResult _IcraKontrol(int ay)
         {
-           var liste= db.Icralars.Where(c => c.tamamlanma == false && c.IcraOdemes.Sum(d=>d.tutar)<c.tutar).ToList().Select(c=>new IcraKontrolVM
+            //var liste= db.Icralars.Where(c => c.tamamlanma == false || c.IcraOdemes.Sum(d=>d.tutar)<c.tutar).ToList().Select(c=>new IcraKontrolVM
+            var liste = db.Icralars.Where(c => c.tamamlanma == false).ToList().Select(c=>new IcraKontrolVM
             {
                 AdSoyad = c.Personel.adsoyad,
                 MikroId = c.Personel.mikroid

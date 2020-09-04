@@ -1168,7 +1168,7 @@ namespace ik.Controllers
             return Json(new { Success = record > 0 }, JsonRequestBehavior.AllowGet);
         }
         
-        [AllowAnonymous]
+        [Authorize]
         private void _TarihlerArasiGirisCikisDurum(int id, DateTime baslangic, DateTime bitis, List<PDKSGirisCikis> giriscikis, List<PDKSMazeret> izinler)
         {
          
@@ -1220,6 +1220,7 @@ namespace ik.Controllers
         }
          
 
+        [Authorize]
         [AllowAnonymous]
         public ActionResult TarihlerArasiGirisCikisDurum(int id, DateTime baslangic, DateTime bitis)
         {

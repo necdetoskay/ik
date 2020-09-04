@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using ik.Models;
@@ -193,18 +195,14 @@ namespace ik.Areas.Admin.Controllers
                                 ve.PropertyName, ve.ErrorMessage);
                         }
                     }
-                    throw;
+                   
                 }
-
-
-
-
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
             }
 
 
             ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
-            return PartialView(model);
+            return PartialView("Ekle",model);
         }
 
         public ActionResult FertListe(int pid)
@@ -259,12 +257,13 @@ namespace ik.Areas.Admin.Controllers
         public ActionResult AileFertSil(int id)
         {
             var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == id);
+            StringBuilder sb=new StringBuilder();
             foreach (var ferturl in fert.Ozluk_AileFertleriUrl)
             {
                 var result = IKHelper.Sil(Request, ferturl.Thumb);
-                if (result) Console.WriteLine("thumb silindi");
+                if (result) sb.AppendLine("thumb silindi");
                 result = IKHelper.Sil(Request, ferturl.url);
-                if (result) Console.WriteLine("url silindi");
+                if (result) sb.AppendLine("url silindi");
             }
             db.Ozluk_AileFertleri.Remove(fert);
             db.SaveChanges();
@@ -272,8 +271,29 @@ namespace ik.Areas.Admin.Controllers
             //ferte bağlı url kayıtlarını sil
             //fert url ye bağlı dosyaları sil
             //hepsi silindiyse tr sil
-            return Json(new {Success=true}, JsonRequestBehavior.AllowGet);
+            return Json(new {Success=true,Data=sb.ToString()}, JsonRequestBehavior.AllowGet);
           
+        }
+
+        public ActionResult Duzenle(int fertid)
+        {
+            var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == fertid);
+            ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
+            return PartialView("Ekle",fert);
+        }
+        [HttpPost]
+        [ActionName("Duzenle")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DuzenlePost(int fertid,Ozluk_AileFertleri model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            }
+            ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
+            return PartialView("Ekle", model);
         }
     }
 }

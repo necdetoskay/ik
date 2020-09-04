@@ -31,8 +31,8 @@ namespace ik.Models
         public Nullable<bool> tamamlanma { get; set; }
         public string not { get; set; }
     
+        public virtual Personel Personel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IcraOdeme> IcraOdemes { get; set; }
-        public virtual Personel Personel { get; set; }
     }
 }
