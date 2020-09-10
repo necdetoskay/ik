@@ -18,6 +18,7 @@ namespace ik.Models
         public int ailefertID { get; set; }
         public string url { get; set; }
         public string aciklama { get; set; }
+        public string thumb { get; set; }
     
         public virtual Ozluk_AileFertleri Ozluk_AileFertleri { get; set; }
     }

@@ -37,9 +37,11 @@ namespace ik.Areas.Admin.Controllers
                 sicil.lokasyonID = personel.PersonelDetay.lokasyon;
                 sicil.meslekID = personel.PersonelDetay.meslek;
                 sicil.sgkDosya = personel.PersonelDetay.sgkdosya;
+               
             }
             sicil.birimID = personel.birimid;
             sicil.ikID = personel.id;
+            sicil.mikroID = personel.mikroid.Value;
 
             return PartialView(sicil);
         }

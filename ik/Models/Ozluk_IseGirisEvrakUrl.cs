@@ -18,6 +18,7 @@ namespace ik.Models
         public int isegirisevrakid { get; set; }
         public string url { get; set; }
         public string ekbilgi { get; set; }
+        public string thumb { get; set; }
     
         public virtual Ozluk_IseGirisEvrak Ozluk_IseGirisEvrak { get; set; }
     }

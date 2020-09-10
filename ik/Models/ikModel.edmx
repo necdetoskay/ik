@@ -61,15 +61,6 @@
           <Property Name="ad" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="gerekli" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="Firma">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="firmaad" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="sgkkod" Type="nvarchar(max)" />
-          <Property Name="sira" Type="int" />
-        </EntityType>
         <EntityType Name="GeciciMazeret">
           <Key>
             <PropertyRef Name="id" />
@@ -279,16 +270,7 @@
           <Property Name="ailefertID" Type="int" Nullable="false" />
           <Property Name="url" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="aciklama" Type="nvarchar" MaxLength="25" />
-        </EntityType>
-        <EntityType Name="Ozluk_DigerEvrak">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="evrakadi" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="aciklama" Type="text" />
-          <Property Name="url" Type="nvarchar" MaxLength="250" />
-          <Property Name="personelid" Type="int" Nullable="false" />
+          <Property Name="thumb" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Ozluk_Enum">
           <Key>
@@ -332,6 +314,7 @@
           <Property Name="isegirisevrakid" Type="int" Nullable="false" />
           <Property Name="url" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ekbilgi" Type="text" />
+          <Property Name="thumb" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Ozluk_IseGirisGerekEvrakTip">
           <Key>
@@ -457,23 +440,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="grupid" Type="int" Nullable="false" />
           <Property Name="personelid" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PersonelIhale">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="firmaid" Type="int" Nullable="false" />
-          <Property Name="baslangic" Type="date" Nullable="false" />
-          <Property Name="bitis" Type="date" />
-        </EntityType>
-        <EntityType Name="PersonelIhaleDonemleri">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="personelid" Type="int" Nullable="false" />
-          <Property Name="ihaleid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonelMesai">
           <Key>
@@ -925,20 +891,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Ozluk_Dig__perso__0BF1ACC7">
-          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Ozluk_DigerEvrak" Type="Self.Ozluk_DigerEvrak" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Ozluk_DigerEvrak">
-              <PropertyRef Name="personelid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Ozluk_Enu__enumi__28F7FFC9">
           <End Role="Ozluk_Enum" Type="Self.Ozluk_Enum" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1203,20 +1155,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PersonelF__firma__308E3499">
-          <End Role="Firma" Type="Self.Firma" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="PersonelFirma" Type="Self.PersonelFirma" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Firma">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelFirma">
-              <PropertyRef Name="firmaid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__PersonelF__perso__756D6ECB">
           <End Role="Personel" Type="Self.Personel" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1255,34 +1193,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="PersonelGrup">
-              <PropertyRef Name="personelid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelI__ihale__2F9A1060">
-          <End Role="PersonelIhale" Type="Self.PersonelIhale" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="PersonelIhaleDonemleri" Type="Self.PersonelIhaleDonemleri" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonelIhale">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelIhaleDonemleri">
-              <PropertyRef Name="ihaleid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelI__perso__2EA5EC27">
-          <End Role="Personel" Type="Self.Personel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="PersonelIhaleDonemleri" Type="Self.PersonelIhaleDonemleri" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelIhaleDonemleri">
               <PropertyRef Name="personelid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1453,20 +1363,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TaseronIh__firma__11158940">
-          <End Role="Firma" Type="Self.Firma" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="PersonelIhale" Type="Self.PersonelIhale" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Firma">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelIhale">
-              <PropertyRef Name="firmaid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Task_Deta__perso__666B225D">
           <End Role="Personel" Type="Self.Personel" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1544,7 +1440,6 @@
           <EntitySet Name="birim" EntityType="Self.birim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiniGunler" EntityType="Self.DiniGunler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvrakListe" EntityType="Self.EvrakListe" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Firma" EntityType="Self.Firma" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeciciMazeret" EntityType="Self.GeciciMazeret" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gorev_Detay" EntityType="Self.Gorev_Detay" Schema="dbo" store:Type="Tables" />
@@ -1567,7 +1462,6 @@
           <EntitySet Name="Meslek" EntityType="Self.Meslek" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_AileFertleri" EntityType="Self.Ozluk_AileFertleri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_AileFertleriUrl" EntityType="Self.Ozluk_AileFertleriUrl" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Ozluk_DigerEvrak" EntityType="Self.Ozluk_DigerEvrak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_Enum" EntityType="Self.Ozluk_Enum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_Enum_Detay" EntityType="Self.Ozluk_Enum_Detay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ozluk_EvrakKategori" EntityType="Self.Ozluk_EvrakKategori" Schema="dbo" store:Type="Tables" />
@@ -1585,8 +1479,6 @@
           <EntitySet Name="PersonelDevir" EntityType="Self.PersonelDevir" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelFirma" EntityType="Self.PersonelFirma" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelGrup" EntityType="Self.PersonelGrup" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonelIhale" EntityType="Self.PersonelIhale" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonelIhaleDonemleri" EntityType="Self.PersonelIhaleDonemleri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelMesai" EntityType="Self.PersonelMesai" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelOzlukEvrak" EntityType="Self.PersonelOzlukEvrak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonelUcret" EntityType="Self.PersonelUcret" Schema="dbo" store:Type="Tables" />
@@ -1680,10 +1572,6 @@
             <End Role="Ozluk_Enum_Detay" EntitySet="Ozluk_Enum_Detay" />
             <End Role="Ozluk_AileFertleri" EntitySet="Ozluk_AileFertleri" />
           </AssociationSet>
-          <AssociationSet Name="FK__Ozluk_Dig__perso__0BF1ACC7" Association="Self.FK__Ozluk_Dig__perso__0BF1ACC7">
-            <End Role="Personel" EntitySet="Personel" />
-            <End Role="Ozluk_DigerEvrak" EntitySet="Ozluk_DigerEvrak" />
-          </AssociationSet>
           <AssociationSet Name="FK__Ozluk_Enu__enumi__28F7FFC9" Association="Self.FK__Ozluk_Enu__enumi__28F7FFC9">
             <End Role="Ozluk_Enum" EntitySet="Ozluk_Enum" />
             <End Role="Ozluk_Enum_Detay" EntitySet="Ozluk_Enum_Detay" />
@@ -1760,10 +1648,6 @@
             <End Role="Tahsil" EntitySet="Tahsil" />
             <End Role="PersonelDetay" EntitySet="PersonelDetay" />
           </AssociationSet>
-          <AssociationSet Name="FK__PersonelF__firma__308E3499" Association="Self.FK__PersonelF__firma__308E3499">
-            <End Role="Firma" EntitySet="Firma" />
-            <End Role="PersonelFirma" EntitySet="PersonelFirma" />
-          </AssociationSet>
           <AssociationSet Name="FK__PersonelF__perso__756D6ECB" Association="Self.FK__PersonelF__perso__756D6ECB">
             <End Role="Personel" EntitySet="Personel" />
             <End Role="PersonelFirma" EntitySet="PersonelFirma" />
@@ -1775,14 +1659,6 @@
           <AssociationSet Name="FK__PersonelG__perso__6EF57B66" Association="Self.FK__PersonelG__perso__6EF57B66">
             <End Role="Personel" EntitySet="Personel" />
             <End Role="PersonelGrup" EntitySet="PersonelGrup" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelI__ihale__2F9A1060" Association="Self.FK__PersonelI__ihale__2F9A1060">
-            <End Role="PersonelIhale" EntitySet="PersonelIhale" />
-            <End Role="PersonelIhaleDonemleri" EntitySet="PersonelIhaleDonemleri" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelI__perso__2EA5EC27" Association="Self.FK__PersonelI__perso__2EA5EC27">
-            <End Role="Personel" EntitySet="Personel" />
-            <End Role="PersonelIhaleDonemleri" EntitySet="PersonelIhaleDonemleri" />
           </AssociationSet>
           <AssociationSet Name="FK__PersonelM__perso__218BE82B" Association="Self.FK__PersonelM__perso__218BE82B">
             <End Role="Personel" EntitySet="Personel" />
@@ -1831,10 +1707,6 @@
           <AssociationSet Name="FK__Takip__parentid__4850AF91" Association="Self.FK__Takip__parentid__4850AF91">
             <End Role="Takip" EntitySet="Takip" />
             <End Role="Takip1" EntitySet="Takip" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TaseronIh__firma__11158940" Association="Self.FK__TaseronIh__firma__11158940">
-            <End Role="Firma" EntitySet="Firma" />
-            <End Role="PersonelIhale" EntitySet="PersonelIhale" />
           </AssociationSet>
           <AssociationSet Name="FK__Task_Deta__perso__666B225D" Association="Self.FK__Task_Deta__perso__666B225D">
             <End Role="Personel" EntitySet="Personel" />
@@ -1900,21 +1772,6 @@
           <EntitySet Name="Gorevs" EntityType="ikModel.Gorev" />
           <EntitySet Name="Kadroes" EntityType="ikModel.Kadro" />
           <EntitySet Name="PersonelFirmas" EntityType="ikModel.PersonelFirma" />
-          <EntitySet Name="Firmas" EntityType="ikModel.Firma" />
-          <EntitySet Name="PersonelIhales" EntityType="ikModel.PersonelIhale" />
-          <EntitySet Name="PersonelIhaleDonemleris" EntityType="ikModel.PersonelIhaleDonemleri" />
-          <AssociationSet Name="FK__TaseronIh__firma__111589401" Association="ikModel.FK__TaseronIh__firma__111589401">
-            <End Role="Firma" EntitySet="Firmas" />
-            <End Role="PersonelIhale" EntitySet="PersonelIhales" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelI__ihale__2F9A1060" Association="ikModel.FK__PersonelI__ihale__2F9A1060">
-            <End Role="PersonelIhale" EntitySet="PersonelIhales" />
-            <End Role="PersonelIhaleDonemleri" EntitySet="PersonelIhaleDonemleris" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonelF__firma__308E3499" Association="ikModel.FK__PersonelF__firma__308E3499">
-            <End Role="Firma" EntitySet="Firmas" />
-            <End Role="PersonelFirma" EntitySet="PersonelFirmas" />
-          </AssociationSet>
           <EntitySet Name="Staj_Bolum" EntityType="ikModel.Staj_Bolum" />
           <EntitySet Name="Staj_Evrak" EntityType="ikModel.Staj_Evrak" />
           <EntitySet Name="Staj_Ogrenci" EntityType="ikModel.Staj_Ogrenci" />
@@ -2055,10 +1912,6 @@
             <End Role="Personel" EntitySet="Personels" />
             <End Role="PersonelGrup" EntitySet="PersonelGrups" />
           </AssociationSet>
-          <AssociationSet Name="FK__PersonelI__perso__2EA5EC27" Association="ikModel.FK__PersonelI__perso__2EA5EC27">
-            <End Role="Personel" EntitySet="Personels" />
-            <End Role="PersonelIhaleDonemleri" EntitySet="PersonelIhaleDonemleris" />
-          </AssociationSet>
           <AssociationSet Name="FK__PersonelO__perso__3587F3E0" Association="ikModel.FK__PersonelO__perso__3587F3E0">
             <End Role="Personel" EntitySet="Personels" />
             <End Role="PersonelOzlukEvrak" EntitySet="PersonelOzlukEvraks" />
@@ -2136,11 +1989,6 @@
             <End Role="Ozluk_IseGirisEvrakUrl" EntitySet="Ozluk_IseGirisEvrakUrl" />
           </AssociationSet>
           <EntitySet Name="Ozluk_AileFertleriUrl" EntityType="ikModel.Ozluk_AileFertleriUrl" />
-          <EntitySet Name="Ozluk_DigerEvrak" EntityType="ikModel.Ozluk_DigerEvrak" />
-          <AssociationSet Name="FK__Ozluk_Dig__perso__0BF1ACC7" Association="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7">
-            <End Role="Personel" EntitySet="Personels" />
-            <End Role="Ozluk_DigerEvrak" EntitySet="Ozluk_DigerEvrak" />
-          </AssociationSet>
           <EntitySet Name="IzinBakmaYetkis" EntityType="ikModel.IzinBakmaYetki" />
           <AssociationSet Name="FK__IzinBakmaYe__alt__1FF8A574" Association="ikModel.FK__IzinBakmaYe__alt__1FF8A574">
             <End Role="Personel" EntitySet="Personels" />
@@ -2437,83 +2285,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="personelid" Type="Int32" Nullable="false" />
           <Property Name="firmaid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Firma" Relationship="ikModel.FK__PersonelF__firma__308E3499" FromRole="PersonelFirma" ToRole="Firma" />
           <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelF__perso__756D6ECB" FromRole="PersonelFirma" ToRole="Personel" />
         </EntityType>
-        <EntityType Name="Firma">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="firmaad" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="sgkkod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PersonelIhales" Relationship="ikModel.FK__TaseronIh__firma__111589401" FromRole="Firma" ToRole="PersonelIhale" />
-          <NavigationProperty Name="PersonelFirmas" Relationship="ikModel.FK__PersonelF__firma__308E3499" FromRole="Firma" ToRole="PersonelFirma" />
-          <Property Name="sira" Type="Int32" />
-        </EntityType>
-        <EntityType Name="PersonelIhale">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="firmaid" Type="Int32" Nullable="false" />
-          <Property Name="baslangic" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="bitis" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Firma" Relationship="ikModel.FK__TaseronIh__firma__111589401" FromRole="PersonelIhale" ToRole="Firma" />
-          <NavigationProperty Name="PersonelIhaleDonemleris" Relationship="ikModel.FK__PersonelI__ihale__2F9A1060" FromRole="PersonelIhale" ToRole="PersonelIhaleDonemleri" />
-        </EntityType>
-        <EntityType Name="PersonelIhaleDonemleri">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="personelid" Type="Int32" Nullable="false" />
-          <Property Name="ihaleid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PersonelIhale" Relationship="ikModel.FK__PersonelI__ihale__2F9A1060" FromRole="PersonelIhaleDonemleri" ToRole="PersonelIhale" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__PersonelI__perso__2EA5EC27" FromRole="PersonelIhaleDonemleri" ToRole="Personel" />
-          </EntityType>
-        <Association Name="FK__TaseronIh__firma__111589401">
-          <End Type="ikModel.Firma" Role="Firma" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.PersonelIhale" Role="PersonelIhale" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Firma">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelIhale">
-              <PropertyRef Name="firmaid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelI__ihale__2F9A1060">
-          <End Type="ikModel.PersonelIhale" Role="PersonelIhale" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.PersonelIhaleDonemleri" Role="PersonelIhaleDonemleri" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonelIhale">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelIhaleDonemleri">
-              <PropertyRef Name="ihaleid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelF__firma__308E3499">
-          <End Type="ikModel.Firma" Role="Firma" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.PersonelFirma" Role="PersonelFirma" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Firma">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelFirma">
-              <PropertyRef Name="firmaid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Staj_Bolum">
           <Key>
             <PropertyRef Name="id" />
@@ -3050,7 +2823,6 @@
           <NavigationProperty Name="PersonelDevir" Relationship="ikModel.FK__PersonelD__perso__74AE54BC" FromRole="Personel" ToRole="PersonelDevir" />
           <NavigationProperty Name="PersonelFirmas" Relationship="ikModel.FK__PersonelF__perso__756D6ECB" FromRole="Personel" ToRole="PersonelFirma" />
           <NavigationProperty Name="PersonelGrups" Relationship="ikModel.FK__PersonelG__perso__6EF57B66" FromRole="Personel" ToRole="PersonelGrup" />
-          <NavigationProperty Name="PersonelIhaleDonemleris" Relationship="ikModel.FK__PersonelI__perso__2EA5EC27" FromRole="Personel" ToRole="PersonelIhaleDonemleri" />
           <NavigationProperty Name="PersonelOzlukEvraks" Relationship="ikModel.FK__PersonelO__perso__3587F3E0" FromRole="Personel" ToRole="PersonelOzlukEvrak" />
           <NavigationProperty Name="Rapors" Relationship="ikModel.FK__Rapor__personeli__58671BC9" FromRole="Personel" ToRole="Rapor" />
           <NavigationProperty Name="Yizins" Relationship="ikModel.FK__Yizin__personeli__269AB60B" FromRole="Personel" ToRole="Yizin" />
@@ -3061,7 +2833,6 @@
           <NavigationProperty Name="OzlukEgitimDetays" Relationship="ikModel.FK__OzlukEgit__perso__0F6D37F0" FromRole="Personel" ToRole="OzlukEgitimDetay" />
           <NavigationProperty Name="PersonelMesais" Relationship="ikModel.FK__PersonelM__perso__218BE82B" FromRole="Personel" ToRole="PersonelMesai" />
           <NavigationProperty Name="Ozluk_IseGirisEvrak" Relationship="ikModel.FK__Ozluk_Ise__perso__066DDD9B" FromRole="Personel" ToRole="Ozluk_IseGirisEvrak" />
-          <NavigationProperty Name="Ozluk_DigerEvrak" Relationship="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7" FromRole="Personel" ToRole="Ozluk_DigerEvrak" />
           <NavigationProperty Name="IzinBakmaYetkiAlt" Relationship="ikModel.FK__IzinBakmaYe__alt__1FF8A574" FromRole="Personel" ToRole="IzinBakmaYetki" />
           <NavigationProperty Name="IzinBakmaYetkiUst" Relationship="ikModel.FK__IzinBakmaYe__ust__1F04813B" FromRole="Personel" ToRole="IzinBakmaYetki" />
           <NavigationProperty Name="Ozluk_AileFertleri" Relationship="ikModel.FK__OzlukAile__perso__5540965B" FromRole="Personel" ToRole="Ozluk_AileFertleri" />
@@ -3215,20 +2986,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="PersonelGrup">
-              <PropertyRef Name="personelid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonelI__perso__2EA5EC27">
-          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.PersonelIhaleDonemleri" Role="PersonelIhaleDonemleri" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PersonelIhaleDonemleri">
               <PropertyRef Name="personelid" />
             </Dependent>
           </ReferentialConstraint>
@@ -3596,6 +3353,7 @@
           <Property Name="url" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ekbilgi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Ozluk_IseGirisEvrak" Relationship="ikModel.FK__Ozluk_Ise__isegi__2C938683" FromRole="Ozluk_IseGirisEvrakUrl" ToRole="Ozluk_IseGirisEvrak" />
+          <Property Name="thumb" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Ozluk_Ise__isegi__2C938683">
           <End Type="ikModel.Ozluk_IseGirisEvrak" Role="Ozluk_IseGirisEvrak" Multiplicity="1">
@@ -3620,32 +3378,8 @@
           <Property Name="url" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="aciklama" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Ozluk_AileFertleri" Relationship="ikModel.FK__Ozluk_Ail__ailef__52B92F6B" FromRole="Ozluk_AileFertleriUrl" ToRole="Ozluk_AileFertleri" />
+          <Property Name="thumb" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Ozluk_DigerEvrak">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="evrakadi" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="personelid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Personel" Relationship="ikModel.FK__Ozluk_Dig__perso__0BF1ACC7" FromRole="Ozluk_DigerEvrak" ToRole="Personel" />
-        </EntityType>
-        <Association Name="FK__Ozluk_Dig__perso__0BF1ACC7">
-          <End Type="ikModel.Personel" Role="Personel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ikModel.Ozluk_DigerEvrak" Role="Ozluk_DigerEvrak" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Ozluk_DigerEvrak">
-              <PropertyRef Name="personelid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="IzinBakmaYetki">
           <Key>
             <PropertyRef Name="id" />
@@ -4037,35 +3771,6 @@
             <EntityTypeMapping TypeName="ikModel.PersonelFirma">
               <MappingFragment StoreEntitySet="PersonelFirma">
                 <ScalarProperty Name="firmaid" ColumnName="firmaid" />
-                <ScalarProperty Name="personelid" ColumnName="personelid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Firmas">
-            <EntityTypeMapping TypeName="ikModel.Firma">
-              <MappingFragment StoreEntitySet="Firma">
-                <ScalarProperty Name="sira" ColumnName="sira" />
-                <ScalarProperty Name="sgkkod" ColumnName="sgkkod" />
-                <ScalarProperty Name="firmaad" ColumnName="firmaad" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonelIhales">
-            <EntityTypeMapping TypeName="ikModel.PersonelIhale">
-              <MappingFragment StoreEntitySet="PersonelIhale">
-                <ScalarProperty Name="bitis" ColumnName="bitis" />
-                <ScalarProperty Name="baslangic" ColumnName="baslangic" />
-                <ScalarProperty Name="firmaid" ColumnName="firmaid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonelIhaleDonemleris">
-            <EntityTypeMapping TypeName="ikModel.PersonelIhaleDonemleri">
-              <MappingFragment StoreEntitySet="PersonelIhaleDonemleri">
-                <ScalarProperty Name="ihaleid" ColumnName="ihaleid" />
                 <ScalarProperty Name="personelid" ColumnName="personelid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -4496,6 +4201,7 @@
           <EntitySetMapping Name="Ozluk_IseGirisEvrakUrl">
             <EntityTypeMapping TypeName="ikModel.Ozluk_IseGirisEvrakUrl">
               <MappingFragment StoreEntitySet="Ozluk_IseGirisEvrakUrl">
+                <ScalarProperty Name="thumb" ColumnName="thumb" />
                 <ScalarProperty Name="ekbilgi" ColumnName="ekbilgi" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="isegirisevrakid" ColumnName="isegirisevrakid" />
@@ -4506,20 +4212,10 @@
           <EntitySetMapping Name="Ozluk_AileFertleriUrl">
             <EntityTypeMapping TypeName="ikModel.Ozluk_AileFertleriUrl">
               <MappingFragment StoreEntitySet="Ozluk_AileFertleriUrl">
+                <ScalarProperty Name="thumb" ColumnName="thumb" />
                 <ScalarProperty Name="aciklama" ColumnName="aciklama" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="ailefertID" ColumnName="ailefertID" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ozluk_DigerEvrak">
-            <EntityTypeMapping TypeName="ikModel.Ozluk_DigerEvrak">
-              <MappingFragment StoreEntitySet="Ozluk_DigerEvrak">
-                <ScalarProperty Name="personelid" ColumnName="personelid" />
-                <ScalarProperty Name="url" ColumnName="url" />
-                <ScalarProperty Name="aciklama" ColumnName="aciklama" />
-                <ScalarProperty Name="evrakadi" ColumnName="evrakadi" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

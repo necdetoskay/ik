@@ -1,0 +1,30 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "PersonelYas";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>PersonelYas</h2>
+
+<table class="table table-bordered tab-content">
+    <thead>
+        <tr>
+            <th>Personelin Adı Soyadı</th>
+            <th>Personelin Yaşı</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td> @item.GetType().GetProperty("AdSoyad").GetValue(item, null)</td>
+                <td> @item.GetType().GetProperty("Yas").GetValue(item, null)</td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+@*@foreach (var item in Model)
+    {
+        <li class="list-group-item list-group-item-danger">@item.GetType().GetProperty("adsoyad").GetValue(item, null)</li>
+    }*@

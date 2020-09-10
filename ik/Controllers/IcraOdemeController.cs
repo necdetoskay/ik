@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -88,7 +89,6 @@ namespace ik.Controllers
         public ActionResult Liste(int icraid)
         {
             var bilgi = db.Icralars.FirstOrDefault(c => c.id == icraid);
-
             return View(bilgi);
         }
 
@@ -97,6 +97,7 @@ namespace ik.Controllers
             var icra = db.Icralars.FirstOrDefault(c => c.id == id);
             var liste = icra.IcraOdemes.ToList();
             ViewBag.tc = icra.Personel.tcno;
+            ViewBag.id = id;
             return PartialView(liste);
         }
 
@@ -185,6 +186,90 @@ namespace ik.Controllers
             {
                 return Json(new { Success = false,ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult _OdemeDuzenle(int id)
+        {
+            var odeme = db.IcraOdemes.FirstOrDefault(c => c.id == id);
+            return PartialView("OdemeEkle",odeme);
+        }
+
+        [ActionName("_OdemeDuzenle")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _OdemeDuzenlePost(int id, IcraOdeme model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { Success=true,Data=new{ model.id,model.aciklama,model.tarih,model.tutar}}, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new {Success=false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult _OdemeSil(int id)
+        {
+            var odeme = db.IcraOdemes.FirstOrDefault(c => c.id == id);
+            var sil = _DekontSil(odeme);
+            if(sil)
+                db.IcraOdemes.Remove(odeme);
+            try
+            {
+                db.SaveChanges();
+            
+                return Json(new {Success=true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Success=false,ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult _OdemeEkle(int id)
+        {
+            var odeme=new IcraOdeme()
+            {
+                icraid = id,
+                tarih = DateTime.Today
+            };
+            return PartialView("OdemeEkle", odeme);
+        }
+
+        [ActionName("_OdemeEkle")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _OdemeEklePost(int id,IcraOdeme odeme)
+        {
+
+            var icra = db.Icralars.FirstOrDefault(c => c.id==id);
+            var kalan = icra.tutar - icra.IcraOdemes.Sum(c => c.tutar);
+            if (odeme.tutar > kalan)
+            {
+                ModelState.AddModelError(String.Empty, string.Format("tutar, kalan tutar olan {0} tl den büyük olamaz",kalan));
+            }
+            if (ModelState.IsValid)
+            {
+                db.IcraOdemes.Add(odeme);
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new { Success = true, Data = new { odeme.icraid,odeme.id, odeme.aciklama, odeme.tarih, odeme.tutar } }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { Success=false}, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return PartialView("OdemeEkle", odeme);
+        }
+
+        public ActionResult _İcraOdenenKalan(int id)
+        {
+            var icra = db.Icralars.FirstOrDefault(c => c.id == id);
+            var durum = string.Format("{0} / {1}", icra.IcraOdemes.Sum(c => c.tutar), icra.tutar);
+            return Json(new { Success=true,Data=durum }, JsonRequestBehavior.AllowGet);
         }
     }
 }

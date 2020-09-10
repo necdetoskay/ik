@@ -18,7 +18,6 @@ namespace ik.Models
         public int personelid { get; set; }
         public int firmaid { get; set; }
     
-        public virtual Firma Firma { get; set; }
         public virtual Personel Personel { get; set; }
     }
 }

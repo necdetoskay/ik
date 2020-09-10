@@ -30,12 +30,14 @@
 </style>
 
 @Html.Hidden("tc", (string)ViewBag.tc)
-<table class="table">
+@Html.Hidden("id", (int)ViewBag.id)
+<button title="Yeni Ekle" class="btn" id="odemeekle"><i class="fas fa-file-alt"></i> Yeni Ekle</button>
+<table id="icraodeme" class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Icralar.dosyano)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Icralar.dosyano)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.tarih)
             </th>
@@ -63,48 +65,117 @@
 
             <tr data-id="@item.id" data-icraid="@item.icraid">
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Icralar.dosyano)
-                </td>
-                <td>
+                @*<td class="dosyano">
+                        @Html.DisplayFor(modelItem => item.Icralar.dosyano)
+                    </td>*@
+                <td class="tarih">
                     @Html.DisplayFor(modelItem => item.tarih)
                 </td>
-                <td>
+                <td class="tutar">
                     @Html.DisplayFor(modelItem => item.tutar)
                 </td>
-                <td>
+                <td class="aciklama">
                     @Html.DisplayFor(modelItem => item.aciklama)
                 </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.dosya)
-                    </td>*@
+
                 <td class="thumb" data-id="@item.id" data-url="@item.dosya" data-thumb="@item.thumb">
                 </td>
 
                 <td class="upload upload-div">
+                </td>
+                <td>
+                    <button title="Sil" class="btn sil"><i class="fa fa-trash"></i> Sil</button> <button title="Güncelle" class="btn duzenle"><i class="fa fa-edit"></i> Düzenle</button>
                 </td>
             </tr>
         }
     </tbody>
 
 </table>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-@* <script src="~/Scripts/bootstrap-notify.js"></script>*@
 <script src="~/Scripts/bootstrap-dialog.js"></script>
 <script src="~/Scripts/uploads.js"></script>
+<script src="~/Scripts/moment-with-locales.min.js"></script>
+@Scripts.Render("~/bundles/ikdialog")
 <script type="text/javascript">
     var root = "@(new Uri(Request.Url, Url.Content("~")))";
     var indirurl = '@Url.Action("Indir", "Upload", new {Area=""})';
 
 
-
     $(function () {
 
-       
+        function updateOdemeDurum() {
+            ///<summary>icra durumunda ödenen ve kalan ı günceller</summary>
+            //durumu sorgula ve html güncelle
+            $('.odemedurum').html('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
+            $.ajax({
+                async: true,
+                url: '@Url.Action("_İcraOdenenKalan")',
+                type: 'GET',
+                data: {
+                    id:$('#id').val()
+                },
+                success:function(result) {
+                    $('.odemedurum').html(result.Data);
+                }
+            });
+        }
+
+        function BindSil(sil,id) {
+            sil.on('click', function() {
+                BootstrapDialog.confirm({
+                    title: 'kaydı Sil',
+                    message: 'İcra Ödeme Kaydı Silinsin mi ?',
+                    callback:function(result) {
+                        if (result) {
+                            $.ajax({
+                                async:true,
+                                url: '@Url.Action("_OdemeSil")',
+                                type: 'get',
+                                data: {id:id},
+                                success:function(response) {
+                                    if (response.Success === true) {
+                                        sil.closest("tr").remove();
+
+                                        updateOdemeDurum();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        }
+
+        function BindDuzenle(duzenle,id) {
+            duzenle.on('click', function () {
+                duzenle.ikDialog2({
+                    formurl: '@Url.Action("_OdemeDuzenle")',
+                    title: 'Düzenle',
+                    data: {
+                        id:id
+                    },
+                    complete:function(result) {
+                        if (result.Success === true) {
+                            var data = result.Data;
+                            var tr = duzenle.closest("tr");
+                            tr.find(".aciklama").html(data.aciklama);
+                            tr.find(".tarih").html(moment(data.tarih).format("DD/MM/YYYY"));
+                            tr.find(".tutar").html(data.tutar);
+
+                            updateOdemeDurum();
+                        }
+                    }
+                });
+                //ik dialog çağırılacak
+            });
+        }
 
         function RenderThumb(tr, url, thumb, id) {
             var td = tr.find('.thumb');
-            if (url === '' ) return false;
+            //console.log(url);
+            if (url === '' || typeof (url) ==="undefined") return false;
             var div = $('<div class="img-wrap">');
             div.append('<a href="' + indirurl + '/?url=' + url + '"  target="_blank"><span class="close">&times;</span> <img src = "' + root + thumb + '" data-id="' + id + '"></a>').appendTo(td);
             tr.find('.upload').removeClass('upload');
@@ -138,7 +209,7 @@
             });
             e.preventDefault();
         });
-         
+
             return true;
         }
 
@@ -147,9 +218,14 @@
             var url = td.data("url");
             var thumb = td.data("thumb");
             var id = td.data("id");
-            RenderThumb(tr,url,thumb,id);
+            RenderThumb(tr, url, thumb, id);
+            var sil = tr.find('.sil');
+            BindSil(sil, id);
+            var duzenle = tr.find('.duzenle');
+            BindDuzenle(duzenle,id);
         }
-        function complete(result,uploaddiv) {
+
+        function dosyacomplete(result,uploaddiv) {
             console.table(result);
             console.table(uploaddiv);
             var tr=uploaddiv.closest('tr');
@@ -171,18 +247,24 @@
             });
         }
 
-        function deleted(parameters) {
-
-        }
         function UploadFile(tr) {
            tr.find('.upload').DosyaYukle({
-                uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', 
-                uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', 
-                kayitklasor: '\\Icralar\\' + $('#tc').val(), 
+                uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',
+                uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',
+                kayitklasor: '\\Icralar\\' + $('#tc').val(),
                 targetimgdiv: 'dosyaliste',
-                uploadcomplete: complete,
-                deletecomplete: deleted
+                uploadcomplete: dosyacomplete
+
             });
+        }
+
+        function AddRow(tbody, row) {
+            var aciklama = row.aciklama == null ? "" : row.aciklama;
+            var tr=$('<tr data-id="' + row.id + '" data-icraid="' + row.icraid + '"><td class="tarih">' + moment(row.tarih).format("DD/MM/YYYY") + '</td><td class="tutar">' + row.tutar.toString().replace(".",",") + '</td><td class="aciklama">' +aciklama + '</td><td class="thumb" data-id="' + row.id +'" data-dosya="" data-thumb=""></td>' +
+                '<td class="upload upload-div"></td><td><button title="Sil" class="btn sil"><i class="fa fa-trash"></i> Sil</button> <button title="Güncelle" class="btn duzenle"><i class="fa fa-edit"></i> Düzenle</button></td></tr>');
+            tbody.append(tr);
+            RenderRow(tr);
+            UploadFile(tr);
         }
 
         $('.thumb').each(function () {
@@ -190,8 +272,30 @@
             var tr = td.closest('tr');
             UploadFile(tr);
             RenderRow(tr);
-           
+
         });
 
+        $('#odemeekle').on("click", function() {
+            var odeme = $(this);
+          //  console.log($('#id').val())
+            odeme.ikDialog2({
+                formurl: '@Url.Action("_OdemeEkle")',
+                title: 'İcra Ödemesi Ekle',
+                data: {
+
+                    id:$('#id').val()
+                },
+                complete:function(result) {
+                    if (result.Success === true) {
+                        var data = result.Data;
+                        var tbody = $('#icraodeme > tbody');
+                        AddRow(tbody, data);
+
+                        updateOdemeDurum();
+                    }
+                }
+            });
+        });
+        
     });
 </script>

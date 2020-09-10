@@ -82,8 +82,8 @@ namespace ik.Controllers
                new MaasIsKontrolVM { IsAdi = "Avanslar",Url = @Url.Action("_MikroIkAvans")},
                new MaasIsKontrolVM { IsAdi = "Mesailer",Url=@Url.Action("_IkMikroMesai")},
                new MaasIsKontrolVM { IsAdi = "Huzur Hakları ve Doktor Maaşı",Url=@Url.Action("_HuzurHakları")},
-               new MaasIsKontrolVM { IsAdi = "icra Kontrol",Url=@Url.Action("_IcraKontrol")}
-
+               new MaasIsKontrolVM { IsAdi = "icra Kontrol",Url=@Url.Action("_IcraKontrol")},
+               new MaasIsKontrolVM { IsAdi = "Ücretsiz İzinler",Url=@Url.Action("_UcretsizIzin")}
             };
 
             return View(isler);
@@ -372,6 +372,22 @@ namespace ik.Controllers
             db.PersonelMesais.Remove(mesai);
             db.SaveChanges();
             return Json(new {Success = true}, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult _UcretsizIzin(int yil,int ay)
+        {
+           var son=new DateTime(yil,ay+1,1).AddDays(-1);
+           var izin = (from i in kent.PERSONEL_IZINLERI join pe in kent.PERSONELLERs on i.pz_pers_kod equals pe.per_kod 
+               where  i.pz_izin_tipi.Value == 8 && i.pz_baslangictarih <= son && i.pz_bitistarihi > son select new{ adsoyad=pe.per_adi+" "+pe.per_soyadi}).ToList();
+           if (izin.Any())
+           {
+               ViewBag.success = false;
+           }
+           else
+           {
+               ViewBag.success = true;
+           }
+           return PartialView(izin);
         }
     }
 

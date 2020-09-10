@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <style>
-    .dosyaliste {
+    /* .dosyaliste {
         display: flex;
     }
 
@@ -33,7 +33,7 @@
 
     .uploadphoto {
         margin: 15px;
-    }
+    }*/
 
     .nav-tabs {
         margin: 0;
@@ -80,19 +80,23 @@
             </a>
         </li>
 
+
+
         <li>
             <a href="#isegirisevrak" role="tab" data-toggle="tab">
                 <i class="fa fa-briefcase"></i> İşe Giriş Evrakları
             </a>
         </li>
+
         <li>
-            <a href="#digerevraklar" role="tab" data-toggle="tab">
-                <i class="fa fa-briefcase"></i> Diğer Evraklar
+            <a href="#ailedurum" role="tab" data-toggle="tab">
+                <i class="fa fa-child"></i> Aile Durumu
             </a>
         </li>
+
         <li>
-            <a href="#ailefert" role="tab" data-toggle="tab">
-                <i class="fa fa-child"></i> Aile Fertleri
+            <a href="#kisiyeozel" role="tab" data-toggle="tab">
+                <i class="fa fa-briefcase"></i> Kişiye Özel Evraklar
             </a>
         </li>
         <li>
@@ -106,9 +110,9 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div data-url='@Url.Action("Sicil","Personel",new {Area="Admin"})' data-shown="false" class="tab-pane fade" id="genelbilgi"> </div>
-        <div data-url='@Url.Action("PersonelFertListe", "AileFertleri", new {Area = "Admin"})' data-shown="false" class="tab-pane fade" id="ailefert"> </div>
-        <div data-url="@Url.Action("EvraklariHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="isegirisevrak"> </div>
-        <div data-url="@Url.Action("DigerEvrakHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="digerevraklar"> </div>
+        <div data-url='@Url.Action("PersonelFertListe", "AileFertleri", new {Area = "Admin"})' data-shown="false" class="tab-pane fade" id="ailedurum"> </div>
+        <div data-url="@Url.Action("IseGirisEvraklariHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="isegirisevrak"> </div>
+        <div data-url="@Url.Action("OzelEvrakHazirla", "IseGirisEvrak", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="kisiyeozel"> </div>
         <div data-url="@Url.Action("YillikIzinler", "PersonelBilgi", new {Area = "Admin"})" data-shown="false" class="tab-pane fade" id="yillikizin"> </div>
     </div>
 
@@ -136,7 +140,6 @@
                     beforeSend: function () {
 
                         var a = '@Url.Content("~/Content/giphy.gif")';
-
                         $(content).html('<img src="'+a+'" />');
                     },
                     data: { id: $("#personel option:selected").val() },
@@ -233,24 +236,7 @@
                     }
                     var dosyaresim = $('.personelfoto').find('.dosyaresim');
                     var dosyasil = $('.personelfoto').find('.dosyasil');
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    uploadnamespace.deleteicon = '@Url.Content("/Content/delete-png.png")';
-                    $('.personelfoto >.dosyaliste >.dosya').Deletable({
-                        url: result.Url,
-                        deleted: function (result) {
-                            dosyaresim.attr("src", result.Data);
-                            dosyasil.remove();
-                            console.log(result.Message);
-                            $.ajax({
-                                url:'@Url.Action("_PersonelResimGuncelle","Personel",new {Area= "Admin" })',
-                                type:'post',
-                                data: {id:id,data:''},
-                                success:function(result) {
-                                }
-                            });
-                        }
-                    });
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 }
             });
 

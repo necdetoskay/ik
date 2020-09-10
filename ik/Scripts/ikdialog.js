@@ -14,13 +14,13 @@
                 success: function (result) {
                     // console.log("post başarılı");
                     if (result.Success === true) {
-                        console.log("Dialog Form return true");
+                        //console.log("Dialog Form return true");
                         complete(result);
                         dialogRef.close();
 
                     } else {
                         // alert("hata");
-                        console.log("Dialog Form Post hatası");
+                        //console.log("Dialog Form Post hatası");
                         //$(dialog).html(result);
                         $.validator.unobtrusive.parse(form);
                         formvalidation(form, dialogRef);
@@ -30,7 +30,6 @@
                 }
             });
             return false;
-
         });
     }
 
@@ -102,6 +101,7 @@
     $.fn.ikDialog2 = function (options) {
         var settings = $.extend({
             formurl: '',
+            data:'',
             complete: function (result) { },
             beforeshown: function (settings) { },
             clicked: function (settings) {
@@ -113,7 +113,7 @@
         var avans = $(this);
         var id = ID();
         avans.attr("id", id);
-        alert("");
+     
         BootstrapDialog.show({
                 type: BootstrapDialog.TYPE_WARNING,
                 draggable: true,
@@ -121,6 +121,14 @@
                 message: function (dialog) {
                     var $message = $('<div>Bekleyiniz.......</div>');
                     var dialogyukle = dialog.getData('dialogyukle');
+                    var param = dialog.getData('data');
+                    dialogyukle += "?";
+                    var par = "";
+                    $.each(param,
+                        function (key, value) {
+                            par = par + key + "=" + value + "&";
+                        });
+                    dialogyukle += par;
                     $message.load(dialogyukle);
                     return $message;
                 },
@@ -130,7 +138,8 @@
                     formvalidation(form, dialogRef, settings.complete);
                 },
                 data: {
-                    'dialogyukle': settings.formurl
+                    'dialogyukle': settings.formurl,
+                    'data': settings.data
                  
                     //,'complete': settings.complete
                 },
@@ -154,7 +163,7 @@
                     }
                 ]
             });
-        e.stopPropagation();
+        //e.stopPropagation();
         
 
     }

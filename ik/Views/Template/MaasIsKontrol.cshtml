@@ -71,7 +71,7 @@
                     var t = $(this);
                     if (t.attr("data-url") != "") {
                         $(t.find("td:eq(1)")).html('<img width="50"  src="@Url.Content("~/Content/Loading_icon.gif")" />');
-
+                    
                         var ur = t.attr("data-url");
                         $.ajax({
                             url: ur + "/?ay=" + ay+'&yil='+yil,

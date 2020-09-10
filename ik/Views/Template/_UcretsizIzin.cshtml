@@ -1,0 +1,10 @@
+﻿@model dynamic
+@Html.Hidden("Success",(bool)ViewBag.success)
+    
+    <ul class="list-group">
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item list-group-item-danger">@item.GetType().GetProperty("adsoyad").GetValue(item, null) <span> ücretsiz izin kaydı bulundu.</span></li>
+        }
+
+    </ul>

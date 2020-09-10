@@ -114,6 +114,7 @@
         </button>
         <div class="dropdown-container">
             @Html.ActionLink("Çalışan Personel Sayısı", "CalisanSayi", "DashBoard", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
+            <li>@Html.ActionLink("Personel Yaş Durumları", "PersonelYas", "DashBoard", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))</li>
         </div>
         @Html.ActionLink("Yıllık İzin Görme Yetkileri", "Index", "YillikIzinYetki", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))
         @Html.ActionLink("Personel Özlük Durumu", "Durum", "OzlukHome", null, new { area = "Admin" }).If(new string[] { @"KENTKONUT\noskay", @"KENTKONUT\derya.aslan" }.Contains(User.Identity.Name))

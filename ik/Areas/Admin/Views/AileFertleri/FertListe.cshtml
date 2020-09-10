@@ -3,9 +3,7 @@
 @using ik.Models.DataClasslari
 @using PerpetuumSoft.Knockout
 
-@{
-    var ko = Html.CreateKnockoutContext();
-}
+
 <style>
     .img-wrap {
         position: relative;
@@ -102,28 +100,9 @@
             </td>
             <td>
                 <div data-id="@item.id" class="dosyaliste">
-                    @foreach (var resim in item.Ozluk_AileFertleriUrl)
+                    @foreach (var it in item.Ozluk_AileFertleriUrl)
                     {
-                        @HtmlHelperExtensions.RenderUploadFile(resim.id.ToString(),
-                            Url.Action("Indir", "Upload", new { Area = "", resim.url }),
-                            Url.Content("~/") + resim.Thumb,
-                            "",
-                            Url.Content("~/Content/delete-png.png"))
-
-
-
-                        @*<div class="dosya" data-url="@resim.url" data-id="@resim.id">
-                                <a class="thumba" target="_blank" href="@Url.Action("Indir", "Upload", new {Area="",resim.url})">
-                                    <img src="@Url.Content("~/")@resim.Thumb" class="dosyaresim">
-                                </a>
-                                <a href="javascript:void(0)" class="dosyasil">
-                                    <img src="@Url.Content("~/Content/delete-png.png")" />
-                                </a>
-                            </div>*@
-
-
-
-
+                        <div class="dosya" data-id="@it.id" data-thumb="@it.Thumb" data-url="@it.url"></div>
                     }
                 </div>
             </td>
@@ -134,9 +113,6 @@
             <td>
                 <button class="sil btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Sil</button>
                 <div style="display: contents" class="duzenle"></div>
-                @*<a class="duzenle" href="javascript:void(0)">
-                        <img width="50" src="@Url.Content("~/Content/icons8-edit-64.png")" />
-                    </a>*@
             </td>
         </tr>
     }
@@ -164,10 +140,6 @@
     $(function () {
 
         var root = "@(new Uri(Request.Url, Url.Content("~")))";
-        uploadnamespace.uploadform = root + '/Upload/Yukle';
-        uploadnamespace.uploadform = root + '/Upload/DosyaYukleDialog';
-        uploadnamespace.deleteurl = root + '/Upload/Sil';
-
 
 
 
@@ -334,7 +306,6 @@
         /**Sayfa Yüklendiğinde Hazırlanan Fert resimlerinin silinmesi için hazırlar*/
         $('.dosya').each(function () {
             var dosya = $(this);
-            uploadnamespace.sil(dosya, ferturlsilcompleted);
         });
     });
     </script>

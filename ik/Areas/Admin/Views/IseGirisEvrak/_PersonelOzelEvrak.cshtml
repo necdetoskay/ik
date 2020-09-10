@@ -1,0 +1,306 @@
+﻿@model IEnumerable<ik.Models.Ozluk_IseGirisEvrak>
+
+@{
+    ViewBag.Title = "_PersonelGirisEvrak";
+
+}
+@Html.Hidden("tcno", (string)ViewBag.tcNo)
+<style>
+    textarea {
+        display: block;
+        box-sizing: padding-box;
+        overflow: hidden;
+        padding: 10px;
+        width: 250px;
+        font-size: 14px;
+        border-radius: 6px;
+        box-shadow: 2px 2px 8px rgba(black, .3);
+        border: 0;
+    }
+ 
+    .btn:hover {
+        background-color: RoyalBlue;
+    }
+</style>
+<button class="btn btn-primary" id="ekle">Evrak Ekle</button>
+
+<table class="table" id="isegirisevraktablo">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ozluk_IseGirisGerekEvrakTip.ad)
+        </th>
+        <th>
+            Dosyalar
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.detay)
+        </th>
+        <th>
+            İşlemler
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr data-kayit-id="@item.id">
+            <td>
+                @Html.DisplayFor(modelItem => item.not)
+            </td>
+
+            <td style="width:40%">
+                <div class="dosyaliste">
+                    @foreach (var it in item.Ozluk_IseGirisEvrakUrl)
+                    {
+                        <div class="dosya" data-id="@it.id" data-thumb="@it.Thumb" data-url="@it.url"></div>
+                    }
+                </div>
+            </td>
+            <td>
+                <textarea class='autoExpand detay' rows='1' data-min-rows='1'>@item.detay</textarea>
+            </td>
+            <td>
+                <div class="col-sm-4 uploadgoster"></div>
+                <button class="btn btn-primary ozelevrakkaydet"><i class="fa fa-save"></i> Kaydet</button>
+                <button class="btn btn-warning sil"><i class="fa fa-trash"></i> Sil</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+<link href="~/Content/upload.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/bootstrap-notify.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
+<script src="~/Scripts/uploads.js"></script>
+
+@Scripts.Render("~/bundles/ikdialog")
+<script type="text/javascript">
+
+
+
+
+    $(function () {
+
+        var root = "@(new Uri(Request.Url, Url.Content("~")))";
+        var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
+
+        var pid = $('#tcno').val();
+
+        function RenderThumb(dosya, url, thumb, id) {
+            var td = dosya.find('.dosyaliste');
+            var div = $('<div class="img-wrap" data-id="' + id + '">');
+            div.append('<a href="' + indirurl + '/?url=' + url + '"  target="_blank"><span class="close">&times;</span> <img src = "' + root + thumb + '" data-id="' + id + '"></a>').appendTo(td);
+            return div;
+        }
+
+        function SaveFileToDb(id,url,thumb,div) {
+
+            console.log(div);
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: '@Url.Action("_GirisEvrakKaydet")',
+                data: {
+                    id: id,
+                    url: url,
+                    thumb:thumb
+                },
+                success:function(result) {
+                    if (result.Success === true) {
+                        console.log(result.Data);
+                        div.attr("data-id",result.Data);
+                    }
+                }
+            });
+            //db ye kaydet dönen id yi div içine ekle
+            //silme işlemi hazırla
+        }
+
+        function SilmeHazirla(div) {
+            div.find('.close').on('click', function (e) {
+                BootstrapDialog.confirm({
+                    message: 'Dosya Silinsin mi?',
+                    title: 'Dosya Sil',
+                    callback:function(result) {
+                        if (result) {
+                            var id = div.closest(".img-wrap").data('id');
+                            $.ajax({
+                                async: true,
+                                url: '@Url.Action("_DosyaSil")',
+                                type: 'GET',
+                                data: {
+                                    id:id
+                                },
+                                success: function (response) {
+                                    if (response.Success === true) {
+                                        console.log(response.Message);
+
+                                        div.remove();
+                                        //tr.find('.upload-div').addClass('upload');
+                                    }
+                                }
+                            });
+                        } else {}
+                    }
+
+                });
+                e.preventDefault();
+            });
+        }
+
+        function RowHazirla(tr) {
+            var dosya = tr.find('.dosya');
+            $.each(dosya, function (i, item) {
+                var $item = $(item);
+                var url = $item.data("url");
+                var thumb = $item.data("thumb");
+                var id = $item.data("id");
+                var div = RenderThumb(tr, url, thumb, id);
+                SilmeHazirla(div);
+                $item.remove();
+            });
+        }
+
+        function complete(result, btn) {
+
+            var tr = btn.closest('tr');
+            var id = tr.data("kayit-id");
+            var url = result.DosyaAdi;
+            var thumb = result.Thumb;
+            var div=RenderThumb(tr, url, thumb, -1);
+            SaveFileToDb(id, url, thumb, div);
+        }
+
+        $('.uploadgoster').DosyaYukle({
+            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view
+            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
+            kayitklasor: '\\IseGirisEvraklar\\' + pid, /// değişebilir
+            uploadcomplete: complete,
+            deletecomplete: deleted
+        });
+
+        $('#isegirisevraktablo >tbody >tr').each(function () {
+            var tr = $(this);
+            RowHazirla(tr);
+        });
+
+        $('.ozelevrakkaydet').each(function() {
+            var btn = $(this);
+            btn.on('click', function () {
+                BootstrapDialog.confirm({
+                    message: 'Değişiklikler Kaydedilsin mi?',
+                    title: 'Uyarı',
+                    btnCancelLabel: 'İptal',
+                    btnOKLabel: 'Kaydet',
+                    btnOKClass: 'btn-warning',
+                    callback:function(result) {
+                        if (result) {
+                            var kaydet = btn;
+                            var tr = kaydet.closest('tr');
+                            var detay =tr.find('.detay').val();
+                            var mevcut = tr.find(".button-checkbox").find("button").hasClass("active");
+                            var id = tr.data("kayit-id");
+
+                            $.ajax({
+                                url: '@Url.Action("_OzelEvrakGuncelle")',
+                                async: true,
+                                data: {
+                                    detay: detay,
+                                    id: id
+                                },
+                                type: 'POST',
+                                success:function(response) {
+
+                                }
+                            });
+
+                        } else {
+
+                        }
+                    }
+                });
+
+            });
+
+        });
+
+
+
+        function eklecomplete(result) {
+            console.log(result);
+            if ($("#personel option:selected").index() < 1) return;
+
+            var content = $('#kisiyeozel');
+            var url = content.attr("data-url");
+            var shown ="false";
+            if (shown === "false") {
+                content.attr("data-shown", "true");
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    cache: false,
+                    beforeSend: function () {
+                        var a = '@Url.Content("~/Content/giphy.gif")';
+                        $(content).html('<img src="'+a+'" />');
+                    },
+                    data: { id: $("#personel option:selected").val() },
+                    success: function (result) {
+                        $(content).html(result);
+                    }
+                });
+            }
+        }
+
+        $('#ekle').on('click', function() {
+            var btn = $(this);
+            btn.ikDialog2({
+                formurl: '@Url.Action("_OzelEvrakEkle")',
+                title: 'Yeni Ekle',
+                data: {
+                    id: $("#personel option:selected").val()
+                },
+                buttonText: '',
+                complete: eklecomplete,
+                beforeshown: function(settings) {}
+            });
+        });
+
+        $('.sil').each(function() {
+            var sil = $(this);
+            sil.on('click', function () {
+                var tr = sil.closest('tr');
+                var id = tr.data("kayit-id");
+                BootstrapDialog.confirm({
+                    message: 'Kayıt Silinsin mi?',
+                    title: 'Kaydı Sil',
+                    data: {},
+                    btnOkLabel: 'Sil',
+                    btnCancelLabel: 'İptal',
+                    callback:function(result) {
+                        if (result) {
+                            $.ajax({
+                                async: true,
+                                url: '@Url.Action("OzelEvrakSil")',
+                                type: 'GET',
+                                data: {
+                                    id:id
+                                },
+                                success:function(response) {
+                                    if (response.Success === true) {
+                                        tr.remove();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+          
+        });
+
+
+    });
+</script>

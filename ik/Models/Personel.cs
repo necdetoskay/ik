@@ -24,7 +24,6 @@ namespace ik.Models
             this.Izins = new HashSet<Izin>();
             this.PersonelFirmas = new HashSet<PersonelFirma>();
             this.PersonelGrups = new HashSet<PersonelGrup>();
-            this.PersonelIhaleDonemleris = new HashSet<PersonelIhaleDonemleri>();
             this.PersonelOzlukEvraks = new HashSet<PersonelOzlukEvrak>();
             this.Rapors = new HashSet<Rapor>();
             this.Yizins = new HashSet<Yizin>();
@@ -34,7 +33,6 @@ namespace ik.Models
             this.OzlukEgitimDetays = new HashSet<OzlukEgitimDetay>();
             this.PersonelMesais = new HashSet<PersonelMesai>();
             this.Ozluk_IseGirisEvrak = new HashSet<Ozluk_IseGirisEvrak>();
-            this.Ozluk_DigerEvrak = new HashSet<Ozluk_DigerEvrak>();
             this.IzinBakmaYetkiAlt = new HashSet<IzinBakmaYetki>();
             this.IzinBakmaYetkiUst = new HashSet<IzinBakmaYetki>();
             this.Ozluk_AileFertleri = new HashSet<Ozluk_AileFertleri>();
@@ -77,8 +75,6 @@ namespace ik.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelGrup> PersonelGrups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonelIhaleDonemleri> PersonelIhaleDonemleris { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonelOzlukEvrak> PersonelOzlukEvraks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rapor> Rapors { get; set; }
@@ -96,8 +92,6 @@ namespace ik.Models
         public virtual ICollection<PersonelMesai> PersonelMesais { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IzinBakmaYetki> IzinBakmaYetkiAlt { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

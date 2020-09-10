@@ -1,36 +1,217 @@
 ﻿
 @model IEnumerable<ik.Models.Ozluk_AileFertleri>
 
-@Html.Hidden("tcno",(string)ViewBag.tc)
+@Html.Hidden("tcno", (string)ViewBag.tc)
 
 <div id="fertekle"></div>
 
 <div id="fertListe">
-    @Html.Partial("FertListe", Model)
-</div>
+    <table class="table" id="aileferttablo">
+        <tr>
+            <th>
+                Yakınlık Derecesi
+            </th>
+            <th> @Html.DisplayNameFor(model => model.adsoyad) </th>
+            <th>T.C. No</th>
+         
+            <th> @Html.DisplayNameFor(model => model.dogumTarihi) </th>
+            <th></th>
+            <th></th>
+            <th></th>
+
+            @foreach (var item in Model)
+            {
 
 
+            <tr data-id="@item.id">
+                <td class="tip">
+                    @Html.DisplayFor(modelItem => item.Ozluk_Enum_Detay.degerad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.adsoyad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tcNo)
+                </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.dogumTarihi)
+                </td>
+                <td>
+                    <div data-id="@item.id" class="dosyaliste">
+                        @foreach (var it in item.Ozluk_AileFertleriUrl)
+                        {
+                            <div class="dosya" data-id="@it.id" data-thumb="@it.Thumb" data-url="@it.url"></div>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div class="uploadgoster">
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-primary duzenle"><i class="fa fa-save"></i> Düzenle</button>
+                    <button class="btn btn-warning sil"><i class="fa fa-trash"></i> Sil</button>
+                </td>
+            </tr>
+        }
+        </table>
+    </div>
 
-<script type="text/javascript">
+    <link href="~/Content/upload.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/ikdialog")
+    <script type="text/javascript">
     $(function () {
 
         var id = $('#personel option:selected').val();
-        var url = '@Url.Action("Ekle",new {Area="Admin"})' + '/?pid=' + id;
-
+        var url = '@Url.Action("Ekle",new {Area="Admin"})';//+ '/?pid=' + id;
+        var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
         var updateurl = '@Url.Action("FertListe",new {Area="Admin"})' + '/?pid=' + id;
+        var root = "@(new Uri(Request.Url, Url.Content("~")))";
 
         $('#fertekle').ikDialog({
             formurl: url,
             Title: "Fert Ekle",
             data: {
-            }, complete: function (result) {
+                pid: id
+            },
+            complete: function(result) {
                 console.log(result);
                 $('#fertListe').load(updateurl);
             }
         });
 
+        var pid = $('#tcno').val();
+
+
+        function RenderThumb(tr, url, thumb, id) {
+            var td = tr.find('.dosyaliste');
+            var div = $('<div class="img-wrap" data-id="' + id + '">');
+            div.append('<a href="' + indirurl + '/?url=' + url + '"  target="_blank"><span class="close">&times;</span> <img src = "' + root + thumb + '" data-id="' + id + '"></a>').appendTo(td);
+            return div;
+        }
+
+        function SaveFileToDb(fertid, url, thumb, div) {
+            $.ajax({
+                url: '@Url.Action("AileFertResimEkle")',
+                type: 'GET',
+                data: {
+                    url: url,
+                    thumb:thumb,
+                    fertid: fertid
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        var id = result.ID;
+                        div.attr('data-id', id);
+
+                    }
+                }
+            });
+        }
+
+        function SilmeHazirla(div) {
+            div.find('.close').on('click', function (e) {
+                BootstrapDialog.confirm({
+                    message: 'Dosya Silinsin mi?',
+                    title: 'Dosya Sil',
+                    btnOKLabel: 'Sil',
+                    btnCancelLabel:'İptal',
+                    callback:function(result) {
+                        if (result) {
+                            var id = div.closest(".img-wrap").data('id');
+                            $.ajax({
+                                async: true,
+                                url: '@Url.Action("_DosyaSil")',
+                                type: 'GET',
+                                data: {
+                                    id:id
+                                },
+                                success: function (response) {
+                                    if (response.Success === true) {
+                                        console.log(response.Data);
+                                        div.remove();
+                                        //tr.find('.upload-div').addClass('upload');
+                                    }
+                                }
+                            });
+                        } else {}
+                    }
+
+                });
+                e.preventDefault();
+            });
+        }
+
+
+        function duzenlecomplete(result) {
+            console.table(result);
+        }
+
+        function DuzenleHazirla(tr) {
+            var duzen = tr.find(".duzenle");
+            var id = tr.data("id");
+            duzen.on('click', function() {
+                var dzn = $(this);
+                dzn.ikDialog2({
+                    formurl: '@Url.Action("AileFertDuzenle")',
+                    title: 'Kayıt Düzenle',
+                    data: {
+                       fertid:id
+                    },
+                    buttonClass: 'btn btn-primary',
+                    buttonText: 'Düzenle',
+                    complete: duzenlecomplete
+                });
+
+              
+
+
+            });
+        }
+        function RowHazirla(tr) {
+            var dosya = tr.find('.dosya');
+            $.each(dosya, function (i, item) {
+                var $item = $(item);
+                var url = $item.data("url");
+                var thumb = $item.data("thumb");
+                var id = $item.data("id");
+                var div = RenderThumb(tr, url, thumb, id);
+                SilmeHazirla(div);
+             
+                $item.remove();
+            });
+            DuzenleHazirla(tr);
+        }
+
+        $('#aileferttablo >tbody >tr').each(function () {
+            var tr = $(this);
+            RowHazirla(tr);
+        });
+
+
+
+        function complete(uploadresult, uploaddiv) {
+            var tr = uploaddiv.closest('tr');
+            var dosyaliste = tr.find(".dosyaliste");
+            var url = uploadresult.DosyaAdi;
+            var thumb = uploadresult.Thumb;
+            var div = RenderThumb(tr, url, thumb, -1);
+            dosyaliste.append(div);
+            var fertid = tr.data("id");
+            SaveFileToDb(fertid, url, thumb, div);
+            SilmeHazirla(div);
+        }
+
+        $('.uploadgoster').DosyaYukle({
+            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view
+            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
+            multi: 'true',
+            kayitklasor: '\\IseGirisEvraklar\\' + pid,
+            uploadcomplete: complete
+        });
 
 
     })
-</script>
+    </script>

@@ -52,7 +52,7 @@
                İcra Ödenen / İcra Tutar  @*@Html.DisplayNameFor(model => model.tutar)*@
             </dt>
 
-            <dd>
+            <dd class="odemedurum">
                 @Model.IcraOdemes.Sum(c=>c.tutar) / @Html.DisplayFor(model => model.tutar)
             </dd>
 
@@ -67,28 +67,57 @@
 
         </dl>
     </div>
-    <div class="col-md-4">
-        buraya dosya ile ilgili yüklenen dökümanlar gelecek
+    <div class="col-md-4 evraklar" >
+        @*<div class="upload upload-div"></div>
+        <div class="dosyaliste"></div>*@
     </div>
 </div>
 <div class="clearfix"></div>
 <div id="odenenicralar"></div>
 
 @section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/uploads.js"></script>
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
+         
+            var root = "@(new Uri(Request.Url, Url.Content("~")))";
+            var indirurl = '@Url.Action("Indir", "Upload", new {Area=""})';
+            console.log("root:" + root);
+
+            console.log();
+            function dosyacomplete(result,uploaddiv) {
+                console.table(result);
+                console.log(uploaddiv);
+                var dosyaliste=uploaddiv.closest(".evraklar").find(".dosyaliste");
+                var div = $('<div class="img-wrap">');
+                div.append('<a href="' + indirurl + '/?url=' + result.DosyaAdi + '"  target="_blank"><span class="close">&times;</span> <img src = "' + root + result.Thumb + '" data-id="' + id + '"></a>').appendTo(dosyaliste);
+            }
+
+
             var icraid = $('#icraid').val();
+            $('.upload').DosyaYukle({
+                uploadform: root + 'Upload/DosyaYukleDialog',
+                @*;@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',*@
+                uploadurl: root + 'Upload/Yukle',
+                @*@Url.Action("Yukle", "Upload",new {Area=""})',*@
+                kayitklasor: '\\Icralar\\' +@Model.Personel.tcno,
+                uploadcomplete: dosyacomplete
+            });
+
+
             $.ajax({
                 type: "Get",
                 url: '@Url.Action("IcraOdemeler")',
                 data: {
                     id: icraid
                 },
-                
-                success: function (response) {
+
+                success: function(response) {
                     //console.log(response);
-                   $('#odenenicralar').html(response);
+                    $('#odenenicralar').html(response);
                 }
             });
 

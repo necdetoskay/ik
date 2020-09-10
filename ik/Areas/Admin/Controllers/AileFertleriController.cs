@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using ik.Models;
+using ik.Models.DataClasslari;
 
 namespace ik.Areas.Admin.Controllers
 {
@@ -21,123 +23,7 @@ namespace ik.Areas.Admin.Controllers
         private ikEntities db = new ikEntities();
 
 
-        public async Task<ActionResult> AileFertleri()
-        {
-            return View();
-        }
 
-
-
-
-        // GET: Admin/AileFertleri
-        public async Task<ActionResult> Index()
-        {
-            var ozluk_AileFertleri = db.Ozluk_AileFertleri.Include(o => o.Ozluk_Enum_Detay).Include(o => o.Personel);
-            return View(await ozluk_AileFertleri.ToListAsync());
-        }
-
-        // GET: Admin/AileFertleri/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ozluk_AileFertleri ozluk_AileFertleri = await db.Ozluk_AileFertleri.FindAsync(id);
-            if (ozluk_AileFertleri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ozluk_AileFertleri);
-        }
-
-        // GET: Admin/AileFertleri/Create
-        public ActionResult Create()
-        {
-            ViewBag.yakinlikID = new SelectList(db.Ozluk_Enum_Detay, "id", "degerad");
-            ViewBag.personelID = new SelectList(db.Personels, "id", "adsoyad");
-            return PartialView();
-        }
-
-        // POST: Admin/AileFertleri/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,personelID,yakinlikID,adsoyad,dogumYeri,dogumTarihi,url")] Ozluk_AileFertleri ozluk_AileFertleri)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Ozluk_AileFertleri.Add(ozluk_AileFertleri);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.yakinlikID = new SelectList(db.Ozluk_Enum_Detay, "id", "degerad", ozluk_AileFertleri.yakinlikID);
-            ViewBag.personelID = new SelectList(db.Personels, "id", "adsoyad", ozluk_AileFertleri.personelID);
-            return PartialView(ozluk_AileFertleri);
-        }
-
-        // GET: Admin/AileFertleri/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ozluk_AileFertleri ozluk_AileFertleri = await db.Ozluk_AileFertleri.FindAsync(id);
-            if (ozluk_AileFertleri == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.yakinlikID = new SelectList(db.Ozluk_Enum_Detay, "id", "degerad", ozluk_AileFertleri.yakinlikID);
-            ViewBag.personelID = new SelectList(db.Personels, "id", "adsoyad", ozluk_AileFertleri.personelID);
-            return View(ozluk_AileFertleri);
-        }
-
-        // POST: Admin/AileFertleri/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,personelID,yakinlikID,adsoyad,dogumYeri,dogumTarihi,url")] Ozluk_AileFertleri ozluk_AileFertleri)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(ozluk_AileFertleri).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.yakinlikID = new SelectList(db.Ozluk_Enum_Detay, "id", "degerad", ozluk_AileFertleri.yakinlikID);
-            ViewBag.personelID = new SelectList(db.Personels, "id", "adsoyad", ozluk_AileFertleri.personelID);
-            return View(ozluk_AileFertleri);
-        }
-
-        // GET: Admin/AileFertleri/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ozluk_AileFertleri ozluk_AileFertleri = await db.Ozluk_AileFertleri.FindAsync(id);
-            if (ozluk_AileFertleri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ozluk_AileFertleri);
-        }
-
-        // POST: Admin/AileFertleri/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Ozluk_AileFertleri ozluk_AileFertleri = await db.Ozluk_AileFertleri.FindAsync(id);
-            db.Ozluk_AileFertleri.Remove(ozluk_AileFertleri);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {
@@ -195,16 +81,20 @@ namespace ik.Areas.Admin.Controllers
                                 ve.PropertyName, ve.ErrorMessage);
                         }
                     }
-                   
+
                 }
                 return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
             }
 
 
             ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
-            return PartialView("Ekle",model);
+            return PartialView("Ekle", model);
         }
-
+        /// <summary>
+        /// id si verilen personelin aile fertlerini listeler
+        /// </summary>
+        /// <param name="pid">ik personel id'si</param>
+        /// <returns></returns>
         public ActionResult FertListe(int pid)
         {
             var pers = db.Personels.FirstOrDefault(c => c.id == pid);
@@ -213,13 +103,20 @@ namespace ik.Areas.Admin.Controllers
             return PartialView(liste);
         }
 
-
-        public ActionResult AileFertResimEkle(string url, int fertid)
+        /// <summary>
+        /// /id'si verilen personel ferd i için yüklenen dosya adının database e kaydeder.
+        /// </summary>
+        /// <param name="url">dosya yolu</param>
+        /// <param name="thumb">thumb yolu</param>
+        /// <param name="fertid">kayıtlı aile ferdinin id'si</param>
+        /// <returns></returns>
+        public ActionResult AileFertResimEkle(string url, string thumb, int fertid)
         {
             var ferturl = new Ozluk_AileFertleriUrl
             {
                 ailefertID = fertid,
-                url = url
+                url = url,
+                thumb = thumb
             };
             db.Ozluk_AileFertleriUrl.Add(ferturl);
             db.SaveChanges();
@@ -257,7 +154,7 @@ namespace ik.Areas.Admin.Controllers
         public ActionResult AileFertSil(int id)
         {
             var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == id);
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             foreach (var ferturl in fert.Ozluk_AileFertleriUrl)
             {
                 var result = IKHelper.Sil(Request, ferturl.Thumb);
@@ -271,20 +168,20 @@ namespace ik.Areas.Admin.Controllers
             //ferte bağlı url kayıtlarını sil
             //fert url ye bağlı dosyaları sil
             //hepsi silindiyse tr sil
-            return Json(new {Success=true,Data=sb.ToString()}, JsonRequestBehavior.AllowGet);
-          
+            return Json(new { Success = true, Data = sb.ToString() }, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult Duzenle(int fertid)
         {
             var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == fertid);
             ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
-            return PartialView("Ekle",fert);
+            return PartialView("Ekle", fert);
         }
         [HttpPost]
         [ActionName("Duzenle")]
         [ValidateAntiForgeryToken]
-        public ActionResult DuzenlePost(int fertid,Ozluk_AileFertleri model)
+        public ActionResult DuzenlePost(int fertid, Ozluk_AileFertleri model)
         {
             if (ModelState.IsValid)
             {
@@ -294,6 +191,58 @@ namespace ik.Areas.Admin.Controllers
             }
             ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
             return PartialView("Ekle", model);
+        }
+
+       
+        public ActionResult _DosyaSil(int id)
+        {
+            var evrak = db.Ozluk_AileFertleriUrl.FirstOrDefault(c => c.id == id);
+            var dosya = new DosyaIslemleri();
+            var resulturl = dosya.DosyaSil(Request, evrak.url);
+            var resultthumb = dosya.DosyaSil(Request, evrak.thumb);
+            if ((resulturl == DosyaSilResult.Hata || resultthumb == DosyaSilResult.Hata) &&
+                (resulturl == DosyaSilResult.Silinemedi || resultthumb == DosyaSilResult.Silinemedi))
+            {
+                return Json(new {Success=false,Data= string.Format("Silme işlemi Başarısız: Url:{0}-Thumb:{1}",resulturl.ToString(),resultthumb.ToString()) }, JsonRequestBehavior.AllowGet);
+            }
+
+            db.Ozluk_AileFertleriUrl.Remove(evrak);
+            try
+            {
+                db.SaveChanges();
+                return Json(new { Success = true, Data = string.Format("Silme işlemi Başarılı: Url:{0}-Thumb:{1}", resulturl.ToString(), resultthumb.ToString()) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Data = string.Format("Silme işlemi Başarısız: Url:{0}-Thumb:{1}  Hata:{2}", resulturl.ToString(), resultthumb.ToString(),ex.Message) }, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+
+        public ActionResult AileFertDuzenle(int fertid)
+        {
+            var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == fertid);
+            ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
+            return PartialView(fert);
+        }
+
+        [HttpPost]
+        [ActionName("AileFertDuzenle")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AileFertDuzenlePost(int fertid,Ozluk_AileFertleri model)
+        {
+            if (ModelState.IsValid)
+            {
+                var fert = db.Ozluk_AileFertleri.FirstOrDefault(c => c.id == fertid);
+                fert.tcNo = model.tcNo;
+                fert.adsoyad = model.adsoyad;
+                fert.dogumTarihi = model.dogumTarihi;
+                db.SaveChanges();
+                return Json(new {Success=true,Data=new{ AdSoyad=model.adsoyad, DogumTarihi = model.dogumTarihi.ToShortDateString(),TCNo=model.tcNo} }, JsonRequestBehavior.AllowGet);
+
+            }
+            ViewBag.yakinlikListe = new SelectList(db.Ozluk_Enum_Detay.Where(c => c.enumid == 3), "id", "degerad");
+            return PartialView(model);
         }
     }
 }

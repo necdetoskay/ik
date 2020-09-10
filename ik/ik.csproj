@@ -227,6 +227,7 @@
     </Compile>
     <Compile Include="Models\Cryptography.cs" />
     <Compile Include="Models\DataClasslari\AvansDuzenleVM.cs" />
+    <Compile Include="Models\DataClasslari\Dosyaİşlemleri.cs" />
     <Compile Include="Models\DataClasslari\IzinVM.cs" />
     <Compile Include="Models\DataClasslari\MaasHesap.cs" />
     <Compile Include="Models\DataClasslari\MikroSonGirilenIzinVM.cs" />
@@ -235,14 +236,10 @@
     <Compile Include="Models\DataClasslari\PersonelIzinYilDetayVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelKadroListeVM.cs" />
     <Compile Include="Models\DataClasslari\TumPersonelVM.cs" />
-    <Compile Include="Models\DataClasslari\UploadImageResultVM.cs" />
     <Compile Include="Models\DiniGunler.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EvrakListe.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Firma.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GeciciMazeret.cs">
@@ -302,9 +299,6 @@
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ozluk_AileFertleriUrl.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Ozluk_DigerEvrak.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ozluk_Enum.cs">
@@ -445,12 +439,6 @@
     <Compile Include="Models\PersonelGrup.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonelIhale.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PersonelIhaleDonemleri.cs">
-      <DependentUpon>ikModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\PersonelOzlukEvrak.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
@@ -529,6 +517,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\PersonelBilgi\YillikIzinler.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\PersonelYas.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisEvrak\_PersonelGirisEvrak - Copy.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisEvrak\_PersonelOzelEvrak.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisEvrak\_OzelEvrakEkle.cshtml" />
+    <Content Include="Areas\Admin\Views\AileFertleri\AileFertDuzenle.cshtml" />
     <None Include="Areas\Admin\Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Content\adminstyle.css" />
     <Content Include="Content\Admin\Article-Clean.css" />
@@ -568,9 +561,14 @@
     <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\delete-png.png" />
     <Content Include="Content\switchery.min.css" />
+    <Content Include="Content\upload.css" />
+    <Content Include="Models\nasıl yaptım\boş string değer şart.txt" />
+    <Content Include="Models\nasıl yaptım\dynamic model kullanımı.txt" />
+    <Content Include="Models\nasıl yaptım\editorfor tarih kullanımı.txt" />
     <Content Include="Models\nasıl yaptım\moment tarih format.txt" />
     <Content Include="Models\nasıl yaptım\pdf thumbnail oluşturma.txt" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
+    <Content Include="Scripts\ikcheckboxjs.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\jquery-3.5.1.slim.js" />
@@ -966,13 +964,17 @@
     <Content Include="Scripts\tmpl.js" />
     <Content Include="Scripts\uploads.js" />
     <Content Include="Scripts\uploadscripts.js" />
-    <Content Include="Uploads\Icralar\70507049260\10a6db1f-9a33-496a-8a5b-1217137637f7.png" />
-    <Content Include="Uploads\Icralar\70507049260\19ddb650-057f-4f2a-a8a2-f862411201a8.png" />
-    <Content Include="Uploads\Icralar\70507049260\48c7e965-2429-4baf-8eda-d89e372aa9a5.png" />
-    <Content Include="Uploads\Icralar\70507049260\84c1d45a-bba8-47fc-a172-9ee95f555336.png" />
-    <Content Include="Uploads\Icralar\70507049260\ca7fbdf6-8564-488d-804a-a298844c3cb3.png" />
-    <Content Include="Uploads\Icralar\bf622fa4-8d0a-4b53-a991-349767fe7f93.png" />
-    <Content Include="Uploads\Icralar\efec1dbc-0a7b-462c-9040-004560b72b7c.png" />
+    <Content Include="Uploads\Icralar\24367391106\3319dafb-ef38-4fa6-845f-670fcea0e312.png" />
+    <Content Include="Uploads\Icralar\24367391106\3464d830-477c-42b2-84cd-34dfbf2a1735.png" />
+    <Content Include="Uploads\Icralar\24367391106\417682fb-1bf9-4edf-bebd-70ccf8630c25.png" />
+    <Content Include="Uploads\Icralar\24367391106\457eba70-42b8-4d11-8de8-959659b59896.png" />
+    <Content Include="Uploads\Icralar\24367391106\646aaeba-ec27-4ea1-81fa-6f70dbca070a.png" />
+    <Content Include="Uploads\Icralar\24367391106\thumb\233bc225-e8c8-4538-af46-10a551f28eee.jpg" />
+    <Content Include="Uploads\Icralar\24367391106\thumb\3319dafb-ef38-4fa6-845f-670fcea0e312.jpg" />
+    <Content Include="Uploads\Icralar\24367391106\thumb\3464d830-477c-42b2-84cd-34dfbf2a1735.jpg" />
+    <Content Include="Uploads\Icralar\24367391106\thumb\417682fb-1bf9-4edf-bebd-70ccf8630c25.jpg" />
+    <Content Include="Uploads\Icralar\24367391106\thumb\457eba70-42b8-4d11-8de8-959659b59896.jpg" />
+    <Content Include="Uploads\Icralar\24367391106\thumb\646aaeba-ec27-4ea1-81fa-6f70dbca070a.jpg" />
     <Content Include="Uploads\OzlukBilgi\1082\06d94c8d-4b8d-4697-8f8d-bce76d9df6ac.jpg" />
     <Content Include="Uploads\OzlukBilgi\1082\5ee26407-7a5f-4aaf-9243-6d51193932cd.jpg" />
     <Content Include="Uploads\OzlukBilgi\1082\7c31adf4-3cbc-419a-b703-7d52597aca46.jpg" />
@@ -1066,13 +1068,8 @@
     <Content Include="Areas\Admin\Views\PersonelBilgi\PersonelIKBilgi.cshtml" />
     <Content Include="Areas\Admin\Views\PersonelBilgi\PersonelMikroBilgi.cshtml" />
     <Content Include="Areas\Admin\Views\AileFertleri\AileFertleri.cshtml" />
-    <Content Include="Areas\Admin\Views\AileFertleri\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\AileFertleri\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\AileFertleri\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\AileFertleri\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\AileFertleri\Ekle.cshtml" />
     <Content Include="Areas\Admin\Views\AileFertleri\FertListe.cshtml" />
-    <Content Include="Areas\Admin\Views\AileFertleri\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AileFertleri\PersonelFertListe.cshtml" />
     <Content Include="Areas\Admin\Views\Enum\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Enum\Delete.cshtml" />
@@ -1085,7 +1082,7 @@
     <Content Include="Areas\Admin\Views\EnumDetay\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\EnumDetay\Index.cshtml" />
     <Content Include="Areas\Admin\Views\İseGirisCikisIslemleri\Sozleşme.cshtml" />
-    <Content Include="Areas\Admin\Views\IseGirisEvrak\_PersonelGirisEvrak.cshtml" />
+    <Content Include="Areas\Admin\Views\IseGirisEvrak\_PersonelEvrak.cshtml" />
     <Content Include="Areas\Admin\Views\IseGirisEvrak\Index.cshtml" />
     <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Create.cshtml" />
     <Content Include="Areas\Admin\Views\IseGirisGerekEvrakTip\Delete.cshtml" />
@@ -1503,16 +1500,12 @@
     <Content Include="Views\IcraOdeme\IcraOdemeler.cshtml" />
     <Content Include="Views\Icra\Index -knockoutdeneme .cshtml" />
     <Content Include="Views\Icra\_DevamEdenler.cshtml" />
+    <Content Include="Views\IcraOdeme\OdemeEkle.cshtml" />
+    <Content Include="Views\Template\_UcretsizIzin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\Icralar\70507049260\thumb\10a6db1f-9a33-496a-8a5b-1217137637f7.jpg\" />
-    <Folder Include="Uploads\Icralar\70507049260\thumb\19ddb650-057f-4f2a-a8a2-f862411201a8.jpg\" />
-    <Folder Include="Uploads\Icralar\70507049260\thumb\48c7e965-2429-4baf-8eda-d89e372aa9a5.jpg\" />
-    <Folder Include="Uploads\Icralar\70507049260\thumb\84c1d45a-bba8-47fc-a172-9ee95f555336.jpg\" />
-    <Folder Include="Uploads\Icralar\70507049260\thumb\ca7fbdf6-8564-488d-804a-a298844c3cb3.jpg\" />
-    <Folder Include="Uploads\Icralar\thumb\bf622fa4-8d0a-4b53-a991-349767fe7f93.jpg\" />
-    <Folder Include="Uploads\Icralar\thumb\efec1dbc-0a7b-462c-9040-004560b72b7c.jpg\" />
+    <Folder Include="Uploads\Icralar\70507049260\thumb\" />
     <Folder Include="Uploads\IseGirisEvraklar\38167777466\thumb\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Genel\" />
@@ -1598,7 +1591,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactorr.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.exe" -file  "Z:\Source\Repos\proje\ik\ik\bin\ik.dll" -mono 1 -antitamp 1 -control_flow_obfuscation 1 -necrobit 1  -obfuscation 1 -targetfile "Z:\Source\Repos\proje\ik\ik\bin\ik.dll"  -evaluationenable 1 -evaluationtype trial -time 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo.2&gt;"$(ProjectDir)\Properties\licenses.licx</PreBuildEvent>

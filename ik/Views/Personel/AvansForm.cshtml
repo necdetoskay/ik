@@ -115,58 +115,64 @@
     <script type="text/javascript">
 
 
-            function avanskaydet() {
-                var pid = $("#adsoyad").attr("data-id");
-                var tutar = $("#avanstutar").val();
-                //console.log(pid);
-                //console.log(tutar);
-                if (pid == "" || tutar == "") return;
-                //var r = confirm("Avans kaydedilsin mi");
-                //if (r == false) return;
+        function avanskaydet() {
+            var pid = $("#adsoyad").attr("data-id");
+            var tutar = $("#avanstutar").val();
+            //console.log(pid);
+            //console.log(tutar);
+            if (pid == "" || tutar == "") return;
+            //var r = confirm("Avans kaydedilsin mi");
+            //if (r == false) return;
 
-                $.ajax({
-                    url: '@Url.Action("AvansEkle")',
-                    type: "post",
-                    data: {
-                        personelid: pid, tutar: tutar
-                    }, success: function () {
-                        $.notify({
+            $.ajax({
+                url: '@Url.Action("AvansEkle")',
+                type: "post",
+                data: {
+                    personelid: pid,
+                    tutar: tutar
+                },
+                success: function() {
+                    $.notify({
                             title: '<strong>' + result.AdSoyad + ':</strong>',
                             message: '' + result.EvrakAd + ' Evrak Kaydı Güncellendi.'
-                        }, {
+                        },
+                        {
                             type: 'success'
                         });
-                    }
-                });
-            }
-        var avanskarsılastir = function () {
-            var toplam = 0;
-                $.ajax({
-                    url: '@Url.Action("_AvansKontrol","Personel")',
-                    type: 'GET',
-                    success: function (result) {
-                        // console.log(result);
-                        var avanslar = $('#avanslar');
-                        avanslar.html('');
-                        var table = $('<table  class="table table-bordered"><thead><tr><th>Personel Ad Soyad</th><th>Geçen Ayki Avans tutarı</th><th>Bu Ayki Avans Tutarı</th></tr></thead></table>');
-                        table.append('<tbody id="avanslar"></tbody>');
-                        var row;
-                        if (result.Success === true) {
+                }
+            });
+        }
 
-                            $.each(result.Data, function (di, ditem) {
+        var avanskarsılastir = function() {
+            var toplam = 0;
+            $.ajax({
+                url: '@Url.Action("_AvansKontrol", "Personel")',
+                type: 'GET',
+                success: function(result) {
+                    // console.log(result);
+                    var avanslar = $('#avanslar');
+                    avanslar.html('');
+                    var table = $('<table  class="table table-bordered"><thead><tr><th>Personel Ad Soyad</th><th>Geçen Ayki Avans tutarı</th><th>Bu Ayki Avans Tutarı</th></tr></thead></table>');
+                    table.append('<tbody id="avanslar"></tbody>');
+                    var row;
+                    if (result.Success === true) {
+
+                        $.each(result.Data,
+                            function(di, ditem) {
                                 row = $('<tr data-pid="' + ditem.PID + '" data-id="' + ditem.ID + '"></tr>');
                                 row.append('<td>' + ditem.AdSoyad + '</td><td>' + ditem.GeçenAyTutar + '</td><td><a class="avanstutar" href="javascript:void(0)">' + ditem.BuAyTutar + '</a></td>');
                                 toplam += ditem.BuAyTutar;
 
                                 table.append(row);
                             });
-                            $('#toplam').html(toplam);
-                        }
+                        $('#toplam').html(toplam);
+                    }
 
-                        avanslar.append(table);
-                        $("#avanslar>tr").each(function () {
-                            var tr = $(this);
-                            tr.on('click', function () {
+                    avanslar.append(table);
+                    $("#avanslar>tr").each(function() {
+                        var tr = $(this);
+                        tr.on('click',
+                            function() {
                                 var ttr = $(this);
                                 if (ttr.hasClass("s")) {
                                     ttr.removeClass("s");
@@ -175,60 +181,38 @@
                                 }
 
                             });
-                        });
-                        $('.avanstutar').each(function () {
-                            var avans = $(this);
+                    });
+                    $('.avanstutar').each(function() {
+                        var avans = $(this);
+                        avans.on('click', function() {
                             var id = avans.closest('tr').data("id");
                             var pid = avans.closest('tr').data("pid");
                             var tutar = avans.html();
                             var url = '@Url.Action("_AvansDuzenle")' + '/?id=' + id + '&tutar=' + tutar + '&pid=' + pid;
 
                             var message = id > 0 ? 'Avans tutarı değiştirilsin mi?' : 'Yeni avans girilsin mi?';
-                            
-
-
 
 
                             $(avans).ikDialog2({
                                 formurl: url,
-                                title:'Avans Düzenle',
-                                complete: function (result) {
+                                title: 'Avans Düzenle',
+                                complete: function(result) {
                                     //console.table(result);
                                     avans.html(result.Data);
                                     avanskarsılastir();
                                 }
-                                //, clicked: function (result) {
-                                //    BootstrapDialog.confirm({
-                                //        title: 'Avans İşlemleri',
-                                //        message: message,
-                                //        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                                //        closable: true, // <-- Default value is false
-                                //        draggable: true, // <-- Default value is false
-                                //        btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
-                                //        btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
-                                //        btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
-                                //        callback: function (result) {
-                                //            // result will be true if button was click, while it will be false if users close the dialog directly.
-                                //            if (result) {
-                                //                avanskaydet();
-                                //            }
-                                //        }
-                                //    });
-                                //}
-                            })
+                            });
                         });
-                    }
-                });
-            };
+                        
+                    });
+                }
+            });
+        };
 
 
+        $(function() {
 
-
-
-
-            $(function () {
-
-                @*$('#merkez').on('click', function () {
+            @*$('#merkez').on('click', function () {
                     $.ajax({
                         url: '@Url.Action("_MerkezAvansları")',
                         contentType: 'application/json; charset=utf-8',
@@ -260,15 +244,19 @@
 
 
 
-                avanskarsılastir();
+            avanskarsılastir();
 
-                $('#avanstutar').bind('keypress', function (e) {
-                    return !(e.which != 8 && e.which != 0 &&
-                    (e.which < 48 || e.which > 57) && e.which != 46);
+            $('#avanstutar').bind('keypress',
+                function(e) {
+                    return !(e.which != 8 &&
+                        e.which != 0 &&
+                        (e.which < 48 || e.which > 57) &&
+                        e.which != 46);
                 });
 
 
-                $('#btnYazdir').on('click', function () {
+            $('#btnYazdir').on('click',
+                function() {
                     var mode = 'iframe'; //popup
                     var close = mode == "popup";
                     var options = { mode: mode, popClose: close };
@@ -279,7 +267,8 @@
 
                 });
 
-                $('#btnAra').on('click', function () {
+            $('#btnAra').on('click',
+                function() {
 
                     var avans = $('#avans');
                     avans.html('');
@@ -309,7 +298,7 @@
                         url: '@Url.Action("yaziyaCevir")',
                         method: 'get',
                         data: { 'tutar': miktar.val() },
-                        success: function (data) {
+                        success: function(data) {
                             $('#tutarstr').html(data);
                         }
                     });
@@ -323,7 +312,7 @@
                         btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
                         btnOKLabel: 'Kaydet', // <-- Default value is 'OK',
                         btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
-                        callback: function (result) {
+                        callback: function(result) {
                             // result will be true if button was click, while it will be false if users close the dialog directly.
                             if (result) {
                                 avanskaydet();
@@ -332,51 +321,55 @@
                     });
                 });
 
-                $("#adsoyad").on("propertychange change keyup paste input", function () {
+            $("#adsoyad").on("propertychange change keyup paste input",
+                function() {
                     if ($(this).val() == "") {
                         //$('#personel').empty();
                     }
                 });
-                $("#adsoyad").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '@Url.Action("PersonelAra")',
-                            minLength: 3, dataType: "json",
-                            type: "post",
-                            data: { term: request.term },
-                            success: function (data) {
-                                response($.map(data, function (item) {
+            $("#adsoyad").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '@Url.Action("PersonelAra")',
+                        minLength: 3,
+                        dataType: "json",
+                        type: "post",
+                        data: { term: request.term },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
 
                                     return item;
                                 }));
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                alert("error: " + errorThrown);
-                            }
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            alert("error: " + errorThrown);
+                        }
 
-                        });
-                    },
-                    select: function (event, ui) {
-                        $('#adsoyad').attr('data-id', ui.item.val);
-                        $.ajax({
-                            url: '@Url.Action("_AvansTutar")',
-                            type: 'GET',
-                            data: {
-                                'id': ui.item.val
-                            }, success: function (result) {
-                                if (result.Success === true) {
-                                    $('#sonmaas').html(result.Tutar);
-                                }
+                    });
+                },
+                select: function(event, ui) {
+                    $('#adsoyad').attr('data-id', ui.item.val);
+                    $.ajax({
+                        url: '@Url.Action("_AvansTutar")',
+                        type: 'GET',
+                        data: {
+                            'id': ui.item.val
+                        },
+                        success: function(result) {
+                            if (result.Success === true) {
+                                $('#sonmaas').html(result.Tutar);
                             }
-                        });
+                        }
+                    });
 
-                    },
-                    focus: function (event, ui) {
-                        $(".ui-helper-hidden-accessible").hide();
-                        event.preventDefault();
-                    }
-                });
+                },
+                focus: function(event, ui) {
+                    $(".ui-helper-hidden-accessible").hide();
+                    event.preventDefault();
+                }
             });
+        });
     </script>
 }
 

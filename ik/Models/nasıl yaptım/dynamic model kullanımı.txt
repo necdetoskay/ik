@@ -1,0 +1,4 @@
+﻿  @foreach (var item in Model)
+        {
+            <li class="list-group-item list-group-item-danger">@item.GetType().GetProperty("adsoyad").GetValue(item, null)</li>
+        }

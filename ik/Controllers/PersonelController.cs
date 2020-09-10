@@ -308,31 +308,7 @@ namespace ik.Controllers
 
         }
 
-        public JsonResult Gorevler()
-        {
-            var BirimListe = db.birims.Select(c => new SelectListItem()
-            {
-                Text = c.birimad,
-                Value = c.id.ToString()
-            });
-            var FirmaListe = db.Firmas.Select(c => new SelectListItem()
-            {
-                Text = c.firmaad,
-                Value = c.id.ToString()
-            });
-            var KadroListe = db.Kadroes.Select(c => new SelectListItem()
-            {
-                Text = c.ad,
-                Value = c.id.ToString()
-            });
-            var GorevListe = db.Gorevs.Select(c => new SelectListItem()
-            {
-                Text = c.ad,
-                Value = c.id.ToString()
-            });
-            return Json(new { BirimListe, FirmaListe, KadroListe, GorevListe }, JsonRequestBehavior.AllowGet);
-        }
-
+       
         [HttpPost]
         public JsonResult GorevGuncelle(int personelid, int birim, int firma, int gorev, int kadro)
         {
@@ -373,7 +349,6 @@ namespace ik.Controllers
         public ActionResult PersonelFirma()
         {
             ViewBag.PersonelListe = new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad");
-            ViewBag.FirmaListe = new SelectList(db.Firmas, "id", "firmaad");
             ViewBag.IhaleListe = new SelectList(new List<PersonelFirmaVM>(), "id", "IhaleDonem");
             ViewBag.BirimListe = new SelectList(db.birims, "id", "birimad");
             ViewBag.KadroListe = new SelectList(db.Kadroes, "id", "ad");
@@ -389,7 +364,6 @@ namespace ik.Controllers
         public ActionResult PersonelFirma(PersonelFirmaVM firmaVm)
         {
             ViewBag.PersonelListe = new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad");
-            ViewBag.FirmaListe = new SelectList(db.Firmas, "id", "firmaad");
             ViewBag.IhaleListe = new SelectList(db.PersonelFirmas.Where(c => c.firmaid == firmaVm.FirmaId), "id", "IhaleDonem");
             ViewBag.BirimListe = new SelectList(db.birims, "id", "birimad");
             ViewBag.KadroListe = new SelectList(db.Kadroes, "id", "ad");
@@ -403,24 +377,7 @@ namespace ik.Controllers
                 {
                     var personel = db.Personels.SingleOrDefault(c => c.id == firmaVm.PersonelID);
 
-                    if (personel.PersonelIhaleDonemleris.Any(c => c.ihaleid == firmaVm.IhaleDonem))
-                    {
-                        ViewData["Message"] = "Aynı döneme ait kayıt mevcut";
-                        //return View(firmaVm);
-                        //return RedirectToAction("PersonelFirma");
-                    }
-                    else
-                    {
-                        var pid = new PersonelIhaleDonemleri()
-                        {
-                            ihaleid = firmaVm.IhaleDonem,
-                            personelid = firmaVm.PersonelID
-
-                        };
-                        personel.PersonelIhaleDonemleris.Add(pid);
-                        db.SaveChanges();
-                        //personel.calismadonem = pid.id;
-                    }
+                   
 
                     personel.birimid = firmaVm.Birimi;
                     personel.kadro = firmaVm.KadroTipi;
@@ -447,32 +404,11 @@ namespace ik.Controllers
         }
 
 
-        [HttpPost]
-        public JsonResult _FirmaIhale(int id)
-        {
-            try
-            {
-
-                var donem = db.PersonelIhales.Where(c => c.firmaid == id).Select(c =>
-                    new
-                    {
-                        Tarih1 = c.baslangic,
-                        Tarih2 = c.bitis,
-                        Value = c.id
-                    }).ToList();
-                return Json(new { Success = true, Data = donem }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-
-                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+      
 
 
         public ActionResult TumPersonel()
         {
-            ViewBag.FirmaListe = new SelectList(db.Firmas, "id", "firmaad");
             ViewBag.BirimListe = new SelectList(db.birims, "id", "birimad");
             ViewBag.KadroListe = new SelectList(db.Kadroes, "id", "ad");
             ViewBag.LokasyonListe = new SelectList(db.Lokasyons, "id", "ad");
@@ -1636,6 +1572,7 @@ namespace ik.Controllers
         public int? lokasyonID { get; set; }
         public int? meslekID { get; set; }
         public int? sgkDosya { get; set; }
+        public Guid? mikroID { get; set; }
     }
 
     public class AvansExcelVM

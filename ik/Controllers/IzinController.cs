@@ -165,7 +165,7 @@ namespace ik.Controllers
                     if (yas > 49)
                         hakedilen = 20;
                 }
-                else if(kidemyil<=14)
+                else if (kidemyil <= 14)
                 {
                     hakedilen = 20;
                 }
@@ -204,8 +204,8 @@ namespace ik.Controllers
                     throw;
                 }
             }
-            var yarimlist = db.Yizins.Where(c => c.mikrokayit == false && c.personelid== personelid).Select(c => new {Yıl = c.yil}).ToList();
-            return Json(new { Data = kidem, Kıdem = kıdem, Sicil = personel.sicilno + '-' + ceptel,Yarim= yarimlist }, JsonRequestBehavior.AllowGet);
+            var yarimlist = db.Yizins.Where(c => c.mikrokayit == false && c.personelid == personelid).Select(c => new { Yıl = c.yil }).ToList();
+            return Json(new { Data = kidem, Kıdem = kıdem, Sicil = personel.sicilno + '-' + ceptel, Yarim = yarimlist }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()
@@ -511,15 +511,26 @@ namespace ik.Controllers
 
         }
 
-        public ActionResult _YarimIzinEkle(int id,int yil, int izinid = 0)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">PERSONEL id</param>
+        /// <param name="yil">izin  yılı verilmezse bu yil olacak</param>
+        /// <param name="izinid"></param>
+        /// <returns></returns>
+        public ActionResult _YarimIzinEkle(int id, int yil = -1, int izinid =-1)
         {
+            if (yil == -1)
+                yil = DateTime.Now.Year;
             YarimIzinEkleVM izin;
             if (izinid < 1)
             {
                 izin = new YarimIzinEkleVM
                 {
                     personelID = id,
-                    tarih = DateTime.Now
+                    tarih = DateTime.Now,
+                    yil = yil,
+                    izinID = izinid
                 };
             }
             else
@@ -537,7 +548,7 @@ namespace ik.Controllers
             return PartialView(izin);
         }
         [HttpPost]
-        public JsonResult _YarimIzinEkle(int id,int yil, YarimIzinEkleVM izin, int izinid = 0)
+        public JsonResult _YarimIzinEkle(int id, int yil, YarimIzinEkleVM izin, int izinid = -1)
         {
 
             StringBuilder cons = new StringBuilder();
@@ -545,7 +556,7 @@ namespace ik.Controllers
             try
             {
                 Yizin yi;
-                if (izin.izinID == -1) //yeni izin
+                if (izin.izinID <1) //yeni izin
                 {
                     yi = new Yizin
                     {
@@ -678,10 +689,11 @@ namespace ik.Controllers
                 var izin = db.Izins.FirstOrDefault(c => c.id == id);
                 izin.baslangictarih = model.Başlangıç;
                 izin.bitistarihi = model.Bitiş;
-                izin.aciklama = izin.aciklama.Replace(izin.yil.ToString(), model.Yil.ToString());
+                izin.aciklama = string.Format("{0} YILI IZNINDEN {1} GUN",model.Yil.ToString(),model.Gün.ToString());
                 izin.yil = model.Yil;
+                izin.gun = model.Gün;
                 db.SaveChanges();
-                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true,Data=new{Baslangic=izin.baslangictarih.ToShortDateString(),Bitis=izin.bitistarihi.ToShortDateString(),Gun=izin.gun,Aciklama=izin.aciklama } }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
         }

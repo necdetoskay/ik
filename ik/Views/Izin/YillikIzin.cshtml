@@ -18,6 +18,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#izindurumu">Yıllık İzin Durumu</a></li>
         <li><a data-toggle="tab" href="#mikrosongirilen">Mikro son Girilen İzinler</a></li>
+        <li><a data-toggle="tab" href="#mikroizinler">Mikro İzinleri</a></li>
     </ul>
 </div>
 
@@ -129,13 +130,14 @@
 
             </div>
         </div>
-
-
-
-
         <div id="mikrosongirilen" class="tab-pane fade in">
             <div class="content">
                 <div id="mikroson"></div>
+            </div>
+        </div>
+        <div id="mikroizinler">
+            <div class="content">
+
             </div>
         </div>
     </div>
@@ -304,7 +306,7 @@
 
 
             function yarimizinkontrol(yid) {
-                console.log("yarimizinkontrol fonksiyonu çağırıldı");
+                @*console.log("yarimizinkontrol fonksiyonu çağırıldı");
                 $.ajax({
                     url: '@Url.Action("YarimIzinler", "Izin")',
                     type: 'GET',
@@ -353,7 +355,7 @@
                         }
 
                     }
-                });
+                });*@
             };
 
             function wireupyarimbutton(id) {
@@ -373,17 +375,23 @@
                         console.log('personel seçili değil');
                         return;
                     }
-
-                    //yarım izin ekle dialog çağır
                 });
 
 
             mikrosonizinler();
 
 
-            $('#PersonelListe').on('change',
-                function() {
-                    var id = $(this).val();
+            $('#PersonelListe').on('change', function() {
+                var id = $(this).val();
+
+
+
+
+
+
+
+
+
                     $('#tree').remove();
                     var formurl = '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1;
 
@@ -444,7 +452,7 @@
                                     ek = ' bgcolor="#ffad99">';
                                 } else {
                                     ek = ">";
-                                    yarimbtn = "<input data-toggle='modal' data-target='#myModal' type='button' class='btnYarimEkle' value='Ekle'/>";
+                                    //yarimbtn = "<input data-toggle='modal' data-target='#myModal' type='button' class='btnYarimEkle' value='Ekle'/>";
 
                                 }
                                 izinler.append("<tr" +

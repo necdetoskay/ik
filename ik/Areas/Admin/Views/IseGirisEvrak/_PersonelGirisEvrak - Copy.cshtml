@@ -1,56 +1,10 @@
-﻿@using DevExpress.DashboardCommon.Native.DashboardRestfulService
-@using ik.Models
-@model IEnumerable<ik.Models.Ozluk_IseGirisEvrak>
-
-<style>
-    div.gallery {
-        margin: 5px;
-        border: 1px solid #ccc;
-        float: left;
-        width: 50px;
-    }
-
-        div.gallery:hover {
-            border: 1px solid #777;
-        }
-
-        div.gallery img {
-            /*width: 100%;*/
-            height: auto;
-        }
-
-    div.desc {
-        padding: 15px;
-        text-align: center;
-    }
-</style>
+﻿@model IEnumerable<ik.Models.Ozluk_IseGirisEvrak>
 
 @{
     ViewBag.Title = "_PersonelGirisEvrak";
-    //Layout = "~/Areas/OzlukAdmin/Views/Shared/_Layout.cshtml";
+
 }
 @Html.Hidden("tcno", (string)ViewBag.tcNo)
-
-@helper  dosyaicon(string url)
-{
-var fizikselyol = new FileInfo(Server.MapPath(url));
-var icon = "";
-switch (fizikselyol.Extension)
-{
-    case ".jpg":
-        {
-            icon = url;
-            break;
-        }
-    default:
-        {
-            icon = @Url.Content("~/Content/Adobe-PDF-Document-icon.png");
-            break;
-        }
-}
-    @icon
-}
-
 
 
 <table class="table">
@@ -80,37 +34,27 @@ switch (fizikselyol.Extension)
             </td>
             <td>
                 <input type="checkbox" data-value="@item.mevcut" checked="@item.mevcut" class="js-switch mevcut" />
-
-                @*@Html.CheckBoxFor(c=>item.mevcut)*@
-                @* <input class="mevcut" type="checkbox" data-toggle="toggle" value="@item.mevcut" data-on="<i class='fa fa-play'></i> Mevcut" data-off="<i class='fa fa-pause'></i> Mevcut Değil">*@
             </td>
             <td>
-                <div data-id="@item.id" class="imglist"></div>
-                    @*<div class="dosyalar">
-                @foreach (var resim in item.Ozluk_IseGirisEvrakUrl)
-                {
-                    <div data-id="@resim.id" class="gallery">
-                        <a target="_blank" href="@Url.Content("~/" + resim.url)" style="float:right">
-                            <img src="@dosyaicon(resim.url)" width="50">
-                        </a>
-                        <a href="javascript:void(0)" class="resimsil" style="position: absolute">
-                            <img width="20" src="~/Content/delete-png.png" />
-                        </a>
-                    </div>
-                }
-            </div>*@
-                  
-</td>
+                <div  class="dosyaliste">
+                    @foreach (var it in item.Ozluk_IseGirisEvrakUrl)
+                    {
+                        <div class="dosya" data-id="@it.id" data-thumb="@it.Thumb" data-url="@it.url">
+                           
+                        </div>
+                    }
+                </div>
+            </td>
             <td>
                 <input type="text" data="@item.detay" class="detay" value="@item.detay" />
                 @*@Html.TextBox("detay", item.detay)*@
             </td>
             <td>
-                <div class="col-sm-10 uploadgoster"></div>
+                <div class="col-sm-4 uploadgoster"></div>
                 <div class="col-sm-2">
                     <input type="button" value="Kaydet" class="btn btn-primary kaydet" />
                 </div>
-               
+
             </td>
         </tr>
     }
@@ -125,73 +69,8 @@ switch (fizikselyol.Extension)
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <script src="~/Scripts/bootstrap-notify.js"></script>
 <script src="~/Scripts/bootstrap-dialog.js"></script>
-<script src="~/Scripts/uploadscripts.js"></script>
+<script src="~/Scripts/uploads.js"></script>
 <script type="text/javascript">
-
-
-    function resimsil(resim) {
-        BootstrapDialog.confirm({
-            title: 'Silme İşlemi',
-            message: 'Kayıt Silinsin mi?',
-            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-            closable: true, // <-- Default value is false
-            draggable: true, // <-- Default value is false
-            btnCancelLabel: 'İptal', // <-- Default value is 'Cancel',
-            btnOKLabel: 'Sil', // <-- Default value is 'OK',
-            btnOKClass: 'btn-info', // <-- If you didn't specify it, dialog type will be used,
-            callback: function (result) {
-                // result will be true if button was click, while it will be false if users close the dialog directly.
-                if (result) {
-                    var resimdiv = resim.closest('div');
-                    var resimkayitid = resimdiv.attr('data-id');
-
-                    $.ajax({
-                        url: '@Url.Action("_IseGirisEvrakResmiSil")',
-                        type: 'GET',
-                        data: {
-                            id: resimkayitid
-                        },
-                        success: function (result) {
-                            if (result.Success === true) {
-                                //html sil
-                                resimdiv.remove();
-                                $.notify({
-                                    //title: 'İşe Giriş Evrak Kaydı İşlemi',
-                                    message: result.Message
-                                }, {
-                                    type: 'success'
-                                });
-                            } else {
-                                $.notify({
-                                    //title: 'İşe Giriş Evrak Kaydı İşlemi',
-                                    message: result.Message
-                                }, {
-                                    type: 'danger'
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-
-
-
-    }
-
-    function resimsilbagla() {
-        $('.resimsil').each(function () {
-            var resim = $(this);
-            resim.on('click', function () {
-                resimsil(resim);
-            });
-        });
-    }
-
-    function kayitdegistimi(parameters) {
-
-    }
 
 
     function initcheckbox(classname) {
@@ -202,184 +81,97 @@ switch (fizikselyol.Extension)
         });
     }
 
-
-    function LoadProgressBar(result, islem) {
-        var content = '@Url.Content("~/")' + result.DosyaAdi;
-        var simge = '@Url.Content("~/")' + result.DosyaResmi;
-        //if (result.DosyaAdi.contains(".pdf")) {
-        //    alert("pdf file");
-        //}
-        //console.log(result.DosyaAdi);
-
-        var progressbar = islem.find(".progressbar-5");
-        var progressLabel = $(".progress-label");
-        progressbar.show();
-        $(progressbar).progressbar({
-            //value: false,
-            change: function () {
-                progressLabel.text(
-                    progressbar.progressbar("value") + "%"); // Showing the progress increment value in progress bar
-            },
-            complete: function () {
-                progressLabel.text("Loading Completed!");
-                progressbar.progressbar("value", 0); //Reinitialize the progress bar value 0
-                progressLabel.text("");
-                progressbar.hide(); //Hiding the progress bar
-                ;
-
-                var silresmi = '@Url.Content("~/Content/delete-png.png")';
-
-                var tr = islem.closest('tr');
-                tr.find('.dosyalar').append('<div data-id="' + result.KayitNo + '" class="gallery"><a target="_blank" href="' + content + '" style="float:right"><img width="50"  src="' + simge + '" /></a>' +
-                    '<a  href="javascript:void(0)" class="resimsil" style="position: absolute"><img  width="20" src="' + silresmi + '" /></a>' +
-                    '</div>');
-                var yeniresim = tr.find('.resimsil');
-                yeniresim.on('click', function () {
-                    resimsil(yeniresim);
-                });
-
-                //var markup = "<tr><td>" + result + "</td><td><a href='#' onclick='DeleteFile(\"" + result + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td></tr>"; // Binding the file name
-                //$("#yuklenendosyalar tbody").append(markup);
-                islem.find('.iptalislem').trigger('click');
-                $('#Files').val('');
-                $('#FileBrowse').find("*").prop("disabled", false);
-            }
-        });
-
-        function progress() {
-            var val = progressbar.progressbar("value") || 0;
-            progressbar.progressbar("value", val + 1);
-            if (val < 99) {
-                setTimeout(progress, 25);
-            }
-        }
-
-        setTimeout(progress, 100);
-    }
-
-
-    function dosyayukle(kayitid, islem) {
-        var fileUpload = islem.find(".Files").get(0);
-        var files = fileUpload.files;
-        // Create FormData object
-        var fileData = new FormData();
-        // Looping over all files and add it to FormData object
-        for (var i = 0; i < files.length; i++) {
-            fileData.append(files[i].name, files[i]);
-        }
-        var pid = $('#personel option:selected').val();
-
-        var url = '@Url.Action("DosyaYukle","Upload",new {Area=""})';
-        url = url + '/?pid=' + pid + '&kayitid=' + kayitid;
-        //console.log(url);
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            contentType: false, // Not to set any content header
-            processData: false, // Not to process data
-            data: fileData,
-            async: false,
-            success: function (result) {
-
-                console.table(result);
-                //console.log(result.DosyaAdi);
-
-                //***** burada result içeriği incelenecek
-                //yüklenen resim kaydın yanına getirildiğinde resim id side getirilmeli _restrictMinMax silmek için result içerisinde resim id getirilebiliyorsa
-                //html olarak işlenecek
-
-
-                if (result.DosyaAdi != "") {
-                    $('#FileBrowse').find("*").prop("disabled", true);
-                    LoadProgressBar(result, islem); //calling LoadProgressBar function to load the progress bar.
-                }
-            },
-            error: function (err) {
-                alert(err.statusText);
-            }
-        });
-
-
-
-    }
-
-
-    function dosyayukleekle(islemdiv) {
-        islemdiv.html('<button title="Dosya Yükle" type="button" class="btn btn-default uploadgoster" aria-label="Left Align"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> </button>');
-
-        $('.uploadgoster').each(function () {
-            var btn = $(this);
-            btn.on('click', function () {
-                var islem = btn.closest('.islem');
-                islem.html(' <div  class="col-sm-8 yukleislem"> <input type="file" class="Files"/> </div> <div class="col-sm-2">   ' +
-                    '<input type="button" class="btn btn-danger UploadBtn" value="Yükle"/></div><div class="col-sm-2"> ' +
-                    '<button class="iptalislem">İptal</button> </div>' +
-                    '<div class="row"> <div class="col-sm-12"><div class="progressbar-5"> <div class="progress-label"> </div> </div> </div> </div>');
-                var iptal = islem.find('.iptalislem');
-                iptal.on('click', function () {
-                    dosyayukleekle(iptal.closest('.islem'));
-                });
-
-                islem.find('.UploadBtn').on('click', function () {
-                    var kayitid = islem.closest('tr').attr('data-kayit-id');
-                    dosyayukle(kayitid, islem);
-                });
-
-            });
-        });
-    }
-
-
-
     $(function () {
-        function deleted(targetimgdiv) { }
+        var root = "@(new Uri(Request.Url, Url.Content("~")))";
+        //uploadnamespace.uploadform = root + '/Upload/Yukle';
+        //uploadnamespace.uploadform = root + '/Upload/DosyaYukleDialog';
+        //uploadnamespace.deleteurl = root + '/Upload/Sil';
 
-        function complete(uploadresult, targetimgdiv, resimdiv) {
+         var indirurl = "@Url.Action("Indir", "Upload", new {Area=""})";
+
+
+
+       // console.log(root);
+        function deleted(targetimgdiv) {
+           alert(targetimgdiv);
+          console.log(targetimgdiv);
+           var urlid = targetimgdiv.attr("data-id");
+            $.ajax({
+                url: '@Url.Action("_GirisEvrakSil")',
+                type: 'GET',
+                data: {
+                    id: urlid
+                }, success: function (result) {
+                    if (result.Success === true) {
+                        targetimgdiv.remove();
+                    }
+                }
+            });
+        }
+        function dosyasil(element) {
+            console.log(element);
+            var imgdiv = element;
+            var dosya = imgdiv.find('a').attr('href');
+            uploadnamespace.sil(imgdiv,dosya,deleted);
         }
 
-        var pid = $('#tcno').val();
-
-        $('.uploadgoster').TopluDosyaYukle({
-            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})',///standart view
-            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})',///standart dosya uplaod işlemleri
-            deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})',///standart yüklenen dosyayı silme işlemleri
-            kayitklasor: '\\IseGirisEvraklar\\' + pid,/// değişebilir
-            targetimgdiv: 'imglist',
-            uploadcomplete: complete,
-            deletecomplete: deleted
-
-
-        });
-
-
-
-
-        // resimsilbagla();
 
         initcheckbox('.js-switch');
 
-        return;
+
+
+        function resimekle(targetdiv, id, url, thumb) {
+            var dosya = $('<div class="dosya" data-id="' + id + '"><a class="thumba" target="_blank" href=' + indirurl + '/?url='+ url + '><img src="'+root+'/' + thumb + '" ' +
+                'class="dosyaresim"></a><a href = "javascript:void(0)" class= "dosyasil" ><img src="' + root + '/Content/delete-png.png" /></a></div>');
+            targetdiv.append(dosya);
+            dosyasil(dosya);
+        }
+
+        function complete(uploadresult, uploaddiv) {
+            var evrid = uploaddiv.closest('tr').attr("data-kayit-id");
+            var dosyaliste = uploaddiv.closest('tr').find('.dosyaliste');
+            $.ajax({
+                url: '@Url.Action("_GirisEvrakEkle")',
+                type: 'GET',
+                data: {
+                    id: evrid,
+                    url: uploadresult.DosyaAdi
+                },
+                success: function (result) {
+                    if (result.Success === true) {
+                        console.log(result.ID);
+                        resimekle(dosyaliste, result.ID, uploadresult.DosyaAdi, uploadresult.Thumb);
+                        var check = $(uploaddiv.closest("tr")).find("input:checkbox");
+                        if (!check.attr("checked"))
+                            check.trigger('click');
+                    }
+                }
+            });
+
+        }
+
+
+        $(".dosya").each(function () {
+            dosyasil($(this));
+        });
+
+        var pid = $('#tcno').val();
+
+
+        $('.uploadgoster').DosyaYukle({
+            uploadform: '@Url.Action("DosyaYukleDialog","Upload",new {Area=""})', ///standart view
+            uploadurl: '@Url.Action("Yukle", "Upload",new {Area=""})', ///standart dosya uplaod işlemleri
+            deleteurl: '@Url.Action("Sil", "Upload",new {Area=""})', ///standart yüklenen dosyayı silme işlemleri
+            kayitklasor: '\\IseGirisEvraklar\\' + pid, /// değişebilir
+            targetimgdiv: 'dosyaliste',
+            uploadcomplete: complete,
+            deletecomplete: deleted
+        });
+
         $('.mevcut').each(function () {
             var mevcut = $(this);
             mevcut.change(function () {
-                //hem detay hemde mevcut u kontrol et
-
-                //var deger1 = mevcut.prop('checked');
-                //var deger2 = mevcut.attr('data-value').toLowerCase();
-                //console.log(deger1 + ' ' + deger2);
-                //if (deger1.toString() !== deger2) {
-                //    mevcut.closest('tr').find('.kaydet').prop('disabled', false);
-                //} else {
-
-                //}
             });
-        });
-
-
-        $('.islem').each(function () {
-            var islem = $(this);
-            dosyayukleekle(islem);
         });
 
         $('.kaydet').each(function () {
@@ -389,7 +181,6 @@ switch (fizikselyol.Extension)
                 var detay = tr.find('.detay').val();
                 var mevcut = tr.find('.mevcut');
                 var id = tr.attr('data-kayit-id');
-
                 $.ajax({
                     url: '@Url.Action("_GirisEvrakKayitGuncelle")',
                     type: 'GET',
@@ -417,8 +208,6 @@ switch (fizikselyol.Extension)
                     }
                 });
             });
-
         });
-
     });
 </script>

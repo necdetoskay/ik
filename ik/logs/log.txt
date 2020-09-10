@@ -70,3 +70,9 @@ INFO  2020-09-02 16:08:51,591 363066ms UploadController       Yukle             
 INFO  2020-09-02 16:09:32,181 403656ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
 INFO  2020-09-02 16:10:09,901 441375ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
 INFO  2020-09-02 16:13:01,656 23673ms UploadController       Yukle              - jpeg thumb kayýt hatasý GDI+ içinde genel bir hata oluþtu.
+INFO  2020-09-09 12:17:08,435 300182ms seGirisEvrakController __DosyaSil         - Bulunamadý
+INFO  2020-09-09 12:17:08,469 300216ms seGirisEvrakController __DosyaSil         - Bulunamadý
+INFO  2020-09-09 12:22:50,515 22632ms seGirisEvrakController __DosyaSil         - Bulunamadý
+INFO  2020-09-09 12:22:50,534 22651ms seGirisEvrakController __DosyaSil         - Bulunamadý
+INFO  2020-09-09 12:25:50,897 21988ms seGirisEvrakController __DosyaSil         - Bulunamadý
+INFO  2020-09-09 12:25:50,917 22008ms seGirisEvrakController __DosyaSil         - Bulunamadý

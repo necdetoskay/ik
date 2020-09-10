@@ -44,9 +44,6 @@ namespace ik.Models
         public virtual DbSet<Gorev> Gorevs { get; set; }
         public virtual DbSet<Kadro> Kadroes { get; set; }
         public virtual DbSet<PersonelFirma> PersonelFirmas { get; set; }
-        public virtual DbSet<Firma> Firmas { get; set; }
-        public virtual DbSet<PersonelIhale> PersonelIhales { get; set; }
-        public virtual DbSet<PersonelIhaleDonemleri> PersonelIhaleDonemleris { get; set; }
         public virtual DbSet<Staj_Bolum> Staj_Bolum { get; set; }
         public virtual DbSet<Staj_Evrak> Staj_Evrak { get; set; }
         public virtual DbSet<Staj_Ogrenci> Staj_Ogrenci { get; set; }
@@ -88,7 +85,6 @@ namespace ik.Models
         public virtual DbSet<Ozluk_IseGirisEvrak> Ozluk_IseGirisEvrak { get; set; }
         public virtual DbSet<Ozluk_IseGirisEvrakUrl> Ozluk_IseGirisEvrakUrl { get; set; }
         public virtual DbSet<Ozluk_AileFertleriUrl> Ozluk_AileFertleriUrl { get; set; }
-        public virtual DbSet<Ozluk_DigerEvrak> Ozluk_DigerEvrak { get; set; }
         public virtual DbSet<IzinBakmaYetki> IzinBakmaYetkis { get; set; }
         public virtual DbSet<Ozluk_AileFertleri> Ozluk_AileFertleri { get; set; }
         public virtual DbSet<Ozluk_EvrakKategori> Ozluk_EvrakKategori { get; set; }
