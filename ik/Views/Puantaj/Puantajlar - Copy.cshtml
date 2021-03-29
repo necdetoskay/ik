@@ -1,0 +1,1061 @@
+﻿
+@{
+    ViewBag.Title = "Puantajlar";
+}
+<style>
+
+    .y {
+        background-color: blanchedalmond;
+    }
+
+    .table-responsive {
+        font-size: 10px;
+    }
+
+        .table-responsive > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            padding: 0px;
+        }
+
+    .ad {
+        white-space: nowrap;
+    }
+
+    .p {
+        /*width: 30px;
+        height: 30px;*/
+    }
+
+    th {
+        vertical-align: bottom;
+        text-align: center;
+    }
+
+        th span {
+            -ms-writing-mode: tb-rl;
+            -webkit-writing-mode: vertical-rl;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            white-space: nowrap;
+        }
+
+
+    span.gm {
+        background-color: lightgrey;
+    }
+
+    td, th {
+        display: table-cell;
+        border: 1px solid;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+        td.eksik {
+            background-color: red;
+        }
+
+    .dik {
+        transform: rotate(90deg);
+        transform-origin: left top 0;
+        float: left;
+    }
+
+    .pers > .ht, .pers > .ht, .pers > .rt, .pers > .rt {
+        background-color: gray;
+    }
+</style>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+<link href="~/Content/jquery.contextMenu.min.css" rel="stylesheet" />
+
+
+<p class="row">
+    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Puantaj Hesap Ayarları</a>
+</p>
+<div class="row">
+    <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">Hesap Parametreleri</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="gridRadios" id="check45saat" value="" checked>
+                                <label class="form-check-label" for="check45saat">
+                                    Haftalık 45 Saat Kesintisi Yap
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="gridRadios" id="dakikaaktar" value="" checked>
+                                <label class="form-check-label" for="dakikaaktar">
+                                    Haftadan Artan Dakikaları Birleştir
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="gridRadios" id="eksiksaat" value="">
+                                <label class="form-check-label" for="eksiksaat">
+                                    Eksik Saat Hesapla
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h2>Puantajlar</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-4">
+            <input type="date" id="tarih1" value="2020-08-31" />
+            <input type="date" id="tarih2" value="2020-09-27" />
+        </div>
+        <div class="form-group col-md-4">
+            <input type="button" id="hazirla" class="btn btn-primary" value="Hazırla" />
+            <span id="wait"></span>
+        </div>
+    </div>
+
+    <div>
+        <div class="form-group col-md-4">
+            <label class="" for="personel">Personeller</label>
+            <select id="personel" class="form-control" multiple="multiple"></select>
+        </div>
+        <div class="form-group col-md-4">
+            <input type="button" id="puantaj" class="btn btn-primary" value="Puantaj" />
+        </div>
+    </div>
+
+
+    <div id="tablo"></div>
+</div>
+
+<div id="yazdır">
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Puantaj Rapor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="rapor" class="table table-responsive">
+
+                        <tbody id="raporbody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Excele Gönder</button>
+                    <button type="button" id="btnYazdir" class="btn btn-primary">Yazdır</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="girissaat" class="col-sm-2 col-form-label">Giriş Saati</label>
+                            <div class="col-sm-10">
+                                <input type="time" class="form-control" id="girissaat" placeholder="Giriş Saati">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="girissaat" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <a href="javascript:reverse();"><span onclick="" class="glyphicon glyphicon-refresh"></span></a>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cikissaat" class="col-sm-2 col-form-label">Çıkış Saat</label>
+                            <div class="col-sm-10">
+                                <input type="time" class="form-control" id="cikissaat" placeholder="Çıkış Saati">
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Mesai Durumu</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="radioNormal" value="Normal Mesai" checked>
+                                        <label class="form-check-label" for="radioNormal">
+                                            Normal Mesai
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="radioGece" value="Gece Mesaisi">
+                                        <label class="form-check-label" for="radioGece">
+                                            Gece Mesaisi
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="radioHaftaTatil" value="Hafta Tatili">
+                                        <label class="form-check-label" for="radioHaftaTatil">
+                                            Hafta Tatili
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="radioResmiTatil" value="Resmi Tatil">
+                                        <label class="form-check-label" for="radioResmiTatil">
+                                            Resmi Tatil
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        @*<div class="form-group row">
+                                <div class="col-sm-2">Checkbox</div>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                        <label class="form-check-label" for="gridCheck1">
+                                            Example checkbox
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/imzatakip.js"></script>
+    <script src="~/Scripts/jquery.contextMenu.min.js"></script>
+    <script src="~/Scripts/jquery.ui.position.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.PrintArea.js"></script>
+    <script type="text/javascript">
+
+    moment.updateLocale('en', { week: { dow: 1 } });
+    var puantajlar = [];/*serverda dönen personelin tüm giriş çıkış mazeret bilgileri*/
+    var puantaj = [];/*hesaplamalar için kullanılıyor*/
+
+
+    Date.prototype.addDays = function(days) {
+        this.setDate(this.getDate() + parseInt(days));
+        return this;
+    };
+
+    /*10 dan küçük rakamları 01 şeklinde formatlamak için*/
+    function n(d) {
+        return d > 9 ? "" + d : "0" + d;
+    }
+
+
+    function reverse() {/* puantaj giriş çıkış yerini değiştirmek için*/
+        var form = $(document.getElementById("exampleModal"));
+        var giris = form.find("#girissaat");
+        var cikis = form.find("#cikissaat");
+        var temp = giris.val();
+        giris.val(cikis.val());
+        cikis.val(temp);
+    }
+    $.fn.ustTD=function () {
+        var alt = $(this);
+        var id = alt.closest("tr").data("id");
+        var tarih = alt.data("gun");
+        var ust = $('#body').find('tr.bilgi[data-id="' + id + '"]').find('td[data-gun="'+tarih+'"]');
+
+        return $(ust);
+    }
+
+    $(function() {
+
+       
+
+
+
+        function puantajYap(id) {
+            var puantaj = new Object();
+            puantaj.haftalar = [];
+            puantaj.yillikizin = 0;
+            puantaj.calismagun = 0;
+            puantaj.rapor = 0;
+            puantaj.fm1 = 0;
+            puantaj.fm2 = 0;
+            puantaj.gm = 0;
+            puantaj.fm1artandakika = 0;
+            puantaj.fm2artandakika = 0;
+
+            var chck = $('#check45saat').prop("checked");
+            var eksikkes = $('#eksiksaat').prop("checked");
+            var artanbirlestir = $('#dakikaaktar').prop("checked");
+            var fm1 = 0;
+            var gm = 0;
+            var fm2 = 0;
+            var calismagun = 0;
+            var rapor = 0;
+            var yillikizin = 0;
+            var gunler = $('#body > tr.alt[data-id="' + id +'"]>td.g');
+            var sonfm1td;
+            var sonfm2td;
+            $.each(gunler, function(index, gun) { /*gunler each başlangıç*/
+
+                /*her gün için işlem yap */
+                var tdg = $(gun);
+                var haftaningunu = moment(tdg.attr("data-gun")).day();
+
+
+
+                var result = jQuery.grep(puantaj.haftalar,
+                    function(item, i) {
+                        return item.hafta === tdg.data("hafta");
+                    });
+
+                var hafta ;
+                if(result.length===0) {
+                    hafta = new Object();
+                    hafta.hafta = tdg.data("hafta");
+
+                    hafta.fm1saat = 0;
+                    if (chck)
+                        hafta.fm1dakika = -300;
+                    else hafta.fm1dakika = 0;
+
+                    hafta.toplamfm1 = 0;
+
+                    hafta.gmsaat = 0;
+                    hafta.gm = 0;
+                    hafta.gmdakika = 0;
+                    hafta.toplamgm = 0;
+
+                    hafta.fm2saat = 0;
+                    hafta.fm2dakika = 0;
+                    hafta.toplamfm2 = 0;
+
+                    hafta.yillikizin = 0;
+                    hafta.rapor = 0;
+                    hafta.sgkgun = 0;
+
+
+
+                }
+                else {/*aynı hafta devam*/
+                    var hft = jQuery.grep(puantaj.haftalar, function(item, i) {
+                            return item.hafta === tdg.data("hafta");
+                    });
+                    if (hft.length > 0)
+                        hafta = hft[0];
+
+
+                }
+
+                var giris = moment(tdg.attr("data-giris"), "HH:mm");
+                var cikis = moment(tdg.attr("data-cikis"), "HH:mm");
+
+
+                var ust=tdg.ustTD();
+                if(giris.isValid()&&cikis.isValid()) { /*giriş ve çıkış saatleri varsa*/
+                    var fark = 0;
+                    puantaj.calismagun++;
+
+                    if (tdg.find("span").hasClass("nm") || tdg.find("span").hasClass("ht")) {/*haftaiçi ve hafta onu*/
+
+                        if(giris<cikis) {
+                            fark = cikis.diff(giris, "minutes");
+
+                            if(!tdg.find("span").hasClass("y")) {
+                                fark -= 60;
+                            }
+                            if(tdg.find("span").hasClass("nm")) {
+                                fark -= 480;
+                            } else if (tdg.find("span").hasClass("ht")) {
+
+                            }
+
+
+                            if (eksikkes) {
+                                hafta.fm1dakika += fark;
+                            } else {
+                                if (fark > 0) {
+                                    hafta.fm1dakika += fark;
+                                }
+                            }
+
+
+                            var saat =(hafta.fm1dakika/60)|0;
+                            if(saat>0) {
+                                ust.html(saat);
+                                sonfm1td = ust;
+                               hafta.fm1saat += saat;
+                               hafta.fm1dakika = (hafta.fm1dakika % 60);
+                               ust.attr("data-fm1", hafta.fm1saat);
+                            }
+                            hafta.toplamfm1 += fark;
+                        }else {
+                            tdg.addClass("eksik");
+                        }
+                        ust.attr("toplamfm1", hafta.toplamfm1);
+                    } else if (tdg.find("span").hasClass("rt")) {/* resmi tatil*/
+
+                        if(giris<cikis) {
+                            fark = cikis.diff(giris, "minutes");
+
+
+
+                            if(!tdg.find("span").hasClass("y")) {
+                                fark -= 60;
+                            }
+                            hafta.fm2dakika += fark;
+                            var saat =(hafta.fm2dakika/60)|0;
+                            if(saat>0) {
+                                tdg.ustTD().html(saat);
+                                hafta.fm2saat += saat;
+                                hafta.fm2dakika = (hafta.fm2dakika % 60);
+                                ust.attr("data-fm2", hafta.fm2saat);
+                            }
+                            hafta.toplamfm2 += fark;
+                        }else {
+                            tdg.addClass("eksik");
+                        }
+                        ust.attr("toplamfm2", hafta.toplamfm2);
+
+                    }
+                    else { /*gece mesaisi*/
+                        fark = moment("23:59", "HH:mm").diff(giris, "minutes") + cikis.diff(moment("00:00", "HH:mm"), "minutes");
+
+                        fark -= 450;
+                        hafta.gmdakika += fark;
+                        var gmsaat =(hafta.gmdakika/60)|0;
+                        if (gmsaat>0) {
+                            tdg.ustTD().html(gmsaat);
+                            ust.attr("data-gm", gmsaat);
+                            hafta.gm += gmsaat;
+
+
+                            hafta.gmsaat += gmsaat;
+                            hafta.gmdakika = (hafta.gmdakika % 60);
+                        }
+                        hafta.toplamgm += fark;
+                        ust.attr("toplamgm", hafta.toplamgm);
+                    }
+
+                    ust.attr("data-mesai", fark);
+                    ust.attr("title", fark);
+                } /*giriş ve çıkış saatleri varsa sonu*/
+                else { /*giriş veya çıkış saati veya hiçbiri yoksa ya hafta tatili ya gelmemiş veya giriş veya çıkışta kart basmamış*/
+                    if(haftaningunu===6 ||haftaningunu===0) {
+                        puantaj.calismagun++;
+                    }else if(tdg.hasClass("m")) {
+                        var mzrt = tdg.find("span").attr("data-m");
+                        if(mzrt==="yi") {
+                            puantaj.yillikizin++;
+                        }else if(mzrt==="rpr") {
+                            puantaj.rapor++;
+                        }
+                    }else {
+                        tdg.addClass("eksik");
+                    }
+                    
+
+                }
+
+
+
+                puantaj.haftalar.push(hafta);
+
+
+                /*
+                 * TOPLAM SAYILARI GÖSTER
+                 */
+
+                if(moment(tdg.data("gun")).day()===0) {
+                    console.log(hafta);
+                   fm1 += hafta.fm1saat;
+                    gm += hafta.gmsaat;
+                    fm2 += hafta.fm2saat;
+                    var id=tdg.closest('tr').attr("data-id");
+                    var tr = $('#body>tr[data-id="' + id + '"].ust');
+                    tr.find(".fm1").html(fm1);
+                    tr.find(".gm").html(gm);
+                    tr.find(".fm2").html(fm2);
+                    tr.find(".clsgn").html(puantaj.calismagun+puantaj.yillikizin);
+                    tr.find(".yllkzn").html(puantaj.yillikizin);
+                    tr.find(".rpr").html(puantaj.rapor);
+
+                    if (artanbirlestir) {
+                        if(eksikkes) {
+                            puantaj.fm1artandakika = puantaj.fm1artandakika+ hafta.fm1dakika+hafta.gmdakika;
+                        }else {
+                            if(hafta.fm1dakika>0)
+                                puantaj.fm1artandakika += hafta.fm1dakika;
+                        }
+                  
+
+                        if (puantaj.fm1artandakika>=30) { //saate çevir kalanı eksi olarak artan dakikaya kaydet
+                            console.log("+1");
+                            var fm11=sonfm1td.attr("data-fm1");
+                            fm11++;
+                            sonfm1td.attr("data-fm1", fm11);
+                            fm1 = parseInt(sonfm1td.html());
+                            fm1++;
+                            sonfm1td.html(fm11);
+                            puantaj.fm1artandakika -= 60;
+                            hafta.gmdakika = 0;
+                            
+                        }
+                        if (puantaj.fm2artandakika>30) { //saate çevir kalanı eksi olarak artan dakikaya kaydet
+                            console.log("artan saat=1");
+                            puantaj.fm1artandakika -= 60;
+                            hafta.gmdakika = 0;
+                        }
+                        console.log(puantaj.fm1artandakika);
+                    }
+                   
+                     
+
+                }
+            }); /*gunler each bitiş*/
+          
+        }
+
+        $.contextMenu({
+            selector: '.g',
+            items: {
+                giriscikisguncelle: {
+                    name: "Giriş Çıkış Saat Güncelle",
+                    icon: "fa-calc",
+                    callback: function (key, options) {
+                        var td = options.$trigger;
+                        // console.log(td);
+                        var giris = td.data("giris");
+                        var cikis = td.data("cikis");
+
+                        $('#exampleModal').on('show.bs.modal', function () {
+                            var modal = $(this);
+                            var modalbody = $(modal.find('.modal-body'));
+
+                            var modalgiris=modalbody.find('#girissaat');
+                            var modalcikis=modalbody.find('#cikissaat');
+                            modalgiris.val(giris);
+                            modalcikis.val(cikis);
+
+                            if(td.find("span").hasClass("gm")) {
+                                modalbody.find("#radioGece").prop("checked", true);
+                            }else if( td.find("span").hasClass("rt")) {
+                                modalbody.find("#radioResmiTatil").prop("checked", true);
+                            } else if (td.find("span").hasClass("nm")){
+                                modalbody.find("#radioNormal").prop("checked", true);
+                            }else{
+                                modalbody.find("#radioHaftaTatil").prop("checked", true);
+                            }
+                            modalbody.find("#radioGece").on("click", function() {
+                                td.find("span").removeClass().addClass("gm");
+                                if(moment(modalgiris.val(),"HH:mm")<moment(modalcikis.val(),"HH:mm")) {
+                                    reverse();
+                                    td.attr("data-giris", modalgiris.val());
+                                    td.attr("data-cikis", modalcikis.val());
+                                    td.attr("title", modalgiris.val() + '-' + modalcikis.val());
+                                    td.ustTD().html("");
+                                }
+
+                            });
+                            modalbody.find("#radioNormal").on("click", function() {
+                                td.find("span").removeClass().addClass("nm");
+                                if (moment(modalgiris.val(), "HH:mm") > moment(modalcikis.val(), "HH:mm")) {
+                                    reverse();
+                                }
+                                td.attr("data-giris", modalgiris.val());
+                                td.attr("data-cikis", modalcikis.val());
+                                td.attr("title", modalgiris.val() + '-' + modalcikis.val());
+                                td.ustTD().html("");
+                                //gerekirse saatleri değiştir
+                            });
+                            modalbody.find("#radioHaftaTatil").on("click", function() {
+                                td.find("span").removeClass().addClass("ht");
+                            });
+                            modalbody.find("#radioResmiTatil").on("click", function() {
+                                td.find("span").removeClass().addClass("rt");
+                            });
+
+                        });
+                        $('#exampleModal').on('hidden', function () {
+                            $('form').find('input[type=text], input[type=time], input[type=radio], input[type=email], textarea').val('');
+                        });
+
+                        $('#exampleModal').modal({
+
+                        });
+
+                        return true;
+                        BootstrapDialog.show({
+                            title: 'Giriş Çıkış Saat Düzenle',
+                            message: $('#puantajgunduzenle'),
+                            buttons: [{
+                                label: 'Güncelle',
+                                action: function (dialog) {
+                                    var body = dialog.getModalBody();
+                                    var grs = body.find("#girissaat");
+                                    var cks = body.find("#cikissaat");
+                                    var grsval = grs.val();
+                                    var cksval = cks.val();
+                                    if (grsval === "" || cksval === "") {
+                                        dialog.close();
+                                        return false;
+                                    }
+
+                                    console.log(grsval);
+                                    if (td.hasClass("m")) {//saat güncelleme tatil veya mazeretli güne yapılacaksa
+                                        td.removeClass("m").addClass("nm");
+                                        td.html("<span>X</span>");
+                                    }
+                                    td.attr("data-giris", grs);
+                                    td.attr("data-cikis", cks);
+                                    td.attr("title", grs.val() + "-" + cks.val());
+                                    dialog.close();
+                                    return true;
+                                }
+
+                            }],
+                            onshow: function (dialog) {
+                                var body = dialog.getModalBody();
+                                var form = body.find('#puantajgunduzenle');
+                                form.removeClass("hidden");
+                                var grs = form.find("#girissaat");
+                                var cks = form.find("#cikissaat");
+                                grs.val(giris);
+                                cks.val(cikis);
+                                //console.log(body);
+                            },onhide:function (dialog) {
+                                var body = dialog.getModalBody();
+                                var form = body.find('#puantajgunduzenle');
+                                form.addClass("hidden");
+
+                                var grs = body.find("#girissaat");
+                                var cks = body.find("#cikissaat");
+                                grs.val("");
+                                cks.val("");
+                            }
+
+                        });
+                    },
+                    visible: function (key, options) {
+
+                        return true;
+                    }
+                }
+                ,yemek: {// y varsa kaldır
+                    name:'Yemek Arası Kesme',
+                    callback: function (key, options) {
+                        var td = options.$trigger;
+                        var sp = td.find("span");
+                        if(sp.hasClass("y")) {
+                            sp.removeClass("y");
+                        }
+
+                    }, visible: function (key, options) {
+                        var td = options.$trigger;
+                        var sp = td.find("span");
+                        if(sp.hasClass("y")) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                ,yemekkes: {//y ekle
+                    name: 'Yemek Arası Kes',
+                    callback: function (key, options) {
+                        var td = options.$trigger;
+                        var sp = td.find("span");
+                        if (!sp.hasClass("y")) {
+                            sp.addClass("y");
+                        }
+
+                    }, visible: function (key, options) {
+                        var td = options.$trigger;
+                        var sp = td.find("span");
+                        if (sp.hasClass("y")) {
+                            return false;
+                        }
+                        //eğer nm değilse
+                        return true;
+                    }
+                }
+                //,yillikizin: {
+                //    name:"Yıllık İzin",
+                //    callback: function (key, options) {
+                //        var td = options.$trigger;
+                //        td.removeAttr("data-giris");
+                //        td.removeAttr("data-cikis");
+                //        td.removeAttr("title");
+                //        td.removeClass("nm").addClass("m");
+                //        var sp = $('<span>');
+                //        sp.attr("data-m", "yi").html("Y.İ.");
+                //        td.html(sp);
+
+                //    }, visible: function (key, options) {
+                //        var td = options.$trigger;
+                //        if(td.find("span").data("m")==="yi") {
+                //            return false;
+                //        }
+                //        return true;
+                //    }
+                //},
+                //raporlu: {
+                //    name:"Raporlu",
+                //    callback: function (key, options) {
+                //        var td = options.$trigger;
+                //        td.removeAttr("data-giris");
+                //        td.removeAttr("data-cikis");
+                //        td.removeAttr("title");
+                //        td.removeClass("nm").addClass("m");
+                //        if (td.hasClass("eksik"))
+                //            td.removeClass("eksik");
+                //        var sp = $('<span>');
+                //        sp.attr("data-m", "rpr").html("R");
+                //        td.html(sp);
+
+                //    }, visible: function (key, options) {
+                //        var td = options.$trigger;
+                //        if(td.find("span").data("m")==="rpr") {
+                //            return false;
+                //        }
+                //        return true;
+
+                //    }
+                //},
+                //temizle: {
+                //    name:"Temizle",
+                //    callback: function (key, options) {
+                //        var td = options.$trigger;
+                //        if (td.hasClass( "ht")) {
+                //            td.removeAttr("data-giris");
+                //            td.removeAttr("data-cikis");
+                //            td.removeAttr("title");
+                //            td.html("<span>");
+                //            td.removeClass("nm").addClass( "ht").addClass("eksik");
+
+                //        }
+                //    }, visible: function (key, options) {
+                //        var td = options.$trigger;
+                //        if (td.hasClass( "ht"))
+                //            return true;
+                //        return false;
+                //    }
+                //}
+            }
+        });
+        $.contextMenu({
+            selector:'.gun',
+            items: {
+                resmitatil: {
+                    name:'Resmi Tatil',
+                    callback: function (key, options) {
+                        var td = options.$trigger;
+                        td.addClass("rt");
+                        td.gunler();
+                        //tüm satırları getir
+                    }, visible: function (key, options) {
+                        var td = options.$trigger;
+                        if (td.hasClass("rt"))
+                            return false;
+                        return true;
+                    }
+                },
+                temizle: {
+
+                }
+            }
+        });
+        $.contextMenu({
+            selector:'.adsoyad',
+            items: {
+                puantajyap: {
+                    name:'Puantaj Yap',
+                    callback: function (key, options) {
+                        var td = options.$trigger;
+
+                        var personelid=td.closest(".bilgi").attr("data-id");
+                        puantajYap(personelid);
+                        //haftalara ayır
+                        //gün gün hesap yap
+                    }
+                }
+            }
+        });
+
+
+
+
+        $('.modal-dialog').draggable();
+
+        jQuery.fn.gunler=function () {
+            var th = $(this);
+            var tarih = th.data("date");
+            var trs = $('#body>tr>td[data-gun="'+tarih+'"]');
+            trs.removeClass("nm").removeClass( "ht").addClass("rt");
+            trs.find("span").removeClass().addClass("rt");
+           // console.log(trs);
+        }
+
+
+        var personelbirimlisteurl = '@Url.Action("_imzatakippersonelliste", "Personel")';
+        personelliste(personelbirimlisteurl); //dropdown doldur
+
+
+        var gun = 0;
+        var persbilgi = 5; //personel bilgilerini veren sütun sayısı
+        var puantajbilgi = 7; //personel puantaj bilgilerini veren sütun sayısı
+
+        function tablobaslikciz(t1, t2) { //t1 başlangıç tarihi, t2 bitiş tarihi
+            gun = 0;
+            var tablo = $('#tablo');
+            tablo.html('');
+            var table = $('<table id="puantajtablo" ></table>');
+
+            var tr = $('<tr class="head"></tr>');
+            tr.append('<th ><span>SIRA NO</span></th><th ><span>SİCİL NO</span></th><th >PERSONEL <br /> ADI SOYADI</th><th ><span>HİZMET <br /> KADROSU</span></th><th ><span>ÇALIŞMA ŞEKLİ</span></th>');
+            for (var i = t1; i <= t2; i.addDays(1)) {
+                var th = $('<th data-hafta="' + moment(i).week() + '"  class="gun" data-date="' + moment(i).format("YYYY-MM-DD") + '">' + n(i.getDate()) + '</th>');
+                tr.append(th);
+                gun++;
+            }
+            tr.append('<th ><span>ÇALIŞMA GÜNÜ</span></th><th ><span>YILLIK İZİN</span></th><th ><span>DİĞER İZİN</span></th><th ><span>RAPOR</span></th><th ><span>ÜCRETSİZ İZİN</span></th><th ><span>FM1(NORMAL)</span></th><th ><span>FM2(NORMAL)</span></th><th><span>GM(NORMAL)</span></th>');
+            table.append(tr).append('<tbody id="body"></tbody>');
+            tablo.append(table);
+        };// end of tablobaslikciz
+
+        $('#hazirla').on('click', function() {
+            var t1 = $('#tarih1').val();
+            var t2 = $('#tarih2').val();
+            tablobaslikciz(new Date(t1), new Date(t2));
+        }); /*end of #hazirla click*/
+
+
+        function gunpuantaj(td) {
+            //console.log(td);
+            if(td.hasClass("m")) {//mazeretli gün;
+                switch (td.find("span").data("m")) {
+                case "yi":
+                    td.find("span").html("Y.İ.");
+                    break;
+                case "rpr":
+                    td.find("span").html("R");
+                    break;
+
+                default:
+                }
+            }else {
+                var giris = td.data("giris");
+                var cikis = td.data("cikis");
+                if(giris==undefined || cikis==undefined) {
+                    //console.log("giriş yok");
+                    if(td.hasClass("ht")) {
+
+                    }else{
+                        td.addClass("eksik");
+                    }
+                }else {
+                    td.find("span").html("X");
+                    td.attr("title", giris + "-" + cikis);
+                    if (giris < cikis){
+                        if(!td.find("span").hasClass( "ht"))
+                            td.find("span").addClass("nm");
+                    } else {
+                        td.find("span").addClass("gm");
+                    }
+                }
+
+                //console.log(giris);
+            }
+        }
+
+
+        
+
+        function personelPuantajEkle(ip,item) {  //==================================================================>  personel bilgilerini puantaj tablosuna işle
+            var birim = item.birim;
+
+            //var gunler = item.gunler;
+            var personelid = item.personelID;
+            var personeladsoyad = item.personeladsoyad;
+            var personelkod = item.personelkod;
+            @*
+            classlar
+            g ayın günleri
+            m mazeretli gün yıllık izin veya rapor
+            hs haftasonu
+            yi yıllık izin
+            rpr rapor
+            nm normal mesaiş
+            gm gece mesaisi
+            t resmi tatil
+            *@
+
+
+
+
+            var body = $('#body');
+            var tr = $('<tr  data-id="' + personelid + '" class="pers bilgi ust"></tr>');
+            tr.append('<td rowspan="2" class="h">' + (ip + 1) + '</td><td rowspan="2" class="h pkod">' +
+                personelkod+ '</td><td rowspan="2" class="h adsoyad">' +
+                personeladsoyad + '</td><td rowspan="2" class="h">İŞÇİ</td><td class="h">F.M.</td>');
+
+            var gunler = $('table > tr > th.gun');
+
+            for (var i = 0; i < gunler.length; i++) {  //mesai saat satır
+                var g = moment($(gunler[i]).data("date"));
+
+                var td = $('<td></td>');//td oluştur
+                td.attr("data-gun", $(gunler[i]).data("date"));
+                var gg = g.day();
+                if (gg === 0 || gg === 6) {//hafta sonu ise
+                    td.addClass( "ht");
+                    td.find("span").addClass( "ht");
+                } else {
+                    //td.addClass("hi"); //hafta içi 8 saat kesilecek
+                }
+                tr.append(td);
+            }// end of mesai saat satır
+
+            tr.append('<td  rowspan="2" class="h clsgn"></td>');
+            tr.append('<td  rowspan="2" class="h yllkzn"></td>');
+            tr.append('<td  rowspan="2" class="h dgrnz"></td>');
+            tr.append('<td  rowspan="2" class="h rpr"></td>');
+            tr.append('<td  rowspan="2" class="h crtszzn"></td>');
+            tr.append('<td  rowspan="2" class="h fm1"></td>');
+            tr.append('<td  rowspan="2" class="h fm2"></td>');
+            tr.append('<td  rowspan="2" class="h gm"></td>');
+            body.append(tr);
+            //////////////////////////////////////////////////////////////////////// üst satır oluşturuldu
+
+            var trr = $('<tr class="pers alt" data-id="'+personelid+'"></tr>');
+
+            for (var k = 0; k < persbilgi; k++) {
+                if (k < 4) {} else { trr.append('<td class="h">N.G.</td>'); }
+            }
+            body.append(trr);
+            //return false;
+            //var header = $('#puantajtablo tr.head');
+
+            for (var ix = 0; ix < item.gunler.length; ix++) {
+                var gun = item.gunler[ix];
+                var gn=moment(gun.tarih);
+                var td = $('<td class="g" data-gun="'+gn.format("YYYY-MM-DD")+'"><span></span></td>');
+                if (gn.day() === 0 || gn.day() === 6) {
+                    td.addClass( "ht");
+                    td.find("span").addClass( "ht");
+                }
+
+                //personelgunpuantajisle(gn.format("YYYY-MM-DD"));
+
+
+
+                var giris = moment(gun.Giris);
+                var cikis = moment(gun.Cikis);
+                if(giris.isValid()) {
+                    td.attr("data-giris", giris.format("HH:mm"));
+                }
+                if (cikis.isValid()) {
+                    td.attr("data-cikis", cikis.format("HH:mm"));
+                }
+                if(gun.mazeretler.length>0) {
+                    switch (gun.mazeretler[0].tatilID) {
+                    case 6:
+                        td.addClass("m");
+                        var s = td.find("span");
+                        s.attr("data-m", "yi");
+                        break;
+                    case 7:
+                            td.addCltd.find("span");
+                        s.attr("data-m", "rpr");
+                    default:
+                    }
+                }
+                else {
+                    if(gun.hareketler.length<2) {//giriş yok veya giriş yada çıkış eksik
+                        if(td.hasClass("m")){
+
+                        }else {
+                            if(!td.hasClass("ht"))
+                                td.addClass("eksik");
+                        }
+                    }
+                }
+                td.attr("data-hafta", gun.hafta);
+                td.attr("data-gun", moment(gun.tarih).format("YYYY-MM-DD"));
+                gunpuantaj(td);
+
+
+                trr.append(td);
+            }
+            body.append(trr);
+            //PUANTAJLARI günlere işle
+
+
+        }// end of personelPuantajEkle
+
+        $('#puantaj').on('click', function() {
+                $('#body').empty();
+                var t1 = $('#tarih1').val();
+                var t2 = $('#tarih2').val();
+                var table = $("#puantajtablo");
+                var btn = $(this);
+                $('#wait').html('....Bekleyiniz... <img src="@Url.Content("~/Content/giphy.gif")"/>');
+
+                $.ajax({
+                    url: '@Url.Action("_Puantaj", "Pdks")',
+                    type: 'GET',
+                    data: {
+                        'liste': $('#personel').val(),
+                        'tarih1': t1,
+                        'tarih2': t2
+                    },
+                    dataType: "json",
+                    traditional: true,
+                    success: function(result) { //result seçilen personel bilgileri ve giriş çıkışları
+                        //if (result.Success === false)
+                        //    return false;
+                        puantajlar= result;
+                        $.each(result, function(i, item) { //seçili personellerin puantajını döndürür
+
+                            personelPuantajEkle(i,item);
+                        });
+                    }
+                });
+
+                $('#wait').html('');
+
+        }); /* end of #puantaj click*/
+
+    }); @*end of function*@
+    </script> @*end of scripts*@
+}   @*end of section*@

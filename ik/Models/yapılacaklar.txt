@@ -3,6 +3,7 @@ ilişik kesme formu (12.04.2019)
 etiket yönetimi
 personel özlük yönetim
 belli aralık görev ekleme
+çalışma belgesi
 
 
 

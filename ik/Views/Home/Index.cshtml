@@ -180,7 +180,7 @@
     <div class="col-md-4">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#geckalanlar">Geç Kalanlar</a></li>
-            <li><a data-toggle="tab" href="#unutanlar">Çıkışta Kart Basmayanlar</a></li>
+            @*<li><a data-toggle="tab" href="#unutanlar">Çıkışta Kart Basmayanlar</a></li>*@
 
         </ul>
 
@@ -206,9 +206,9 @@
                     </div>
                 </p>
             </div>
-            <div id="unutanlar" class="tab-pane fade">
+            @*<div id="unutanlar" class="tab-pane fade">
                 <ol id="unutkanlar"></ol>
-            </div>
+            </div>*@
 
         </div>
 
@@ -218,32 +218,10 @@
 
 </div>
 
-@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="aciklama"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="rutintamamla" class="btn btn-primary">Tamamla</button>
-            </div>
-
-
-        </div>
-    </div>
-</div>*@
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery.PrintArea.js"></script>
-   @* <script src="~/Scripts/bootstrap-dialog.js"></script>*@
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script src="~/Scripts/bootstrap-notify.min.js"></script>
     <script src="~/Scripts/DialogForm.js"></script>
@@ -365,6 +343,7 @@
                 }
             });
         }
+        
         function cikistakartbasmayanlar() {
             var now = new Date();
             $.ajax({
@@ -394,12 +373,13 @@
                     var ul = $('<ul class= "list-group"></ul>');
                     //target.append();
                     for (var i = 0; i < response.length; i++) {
-                        ul.append('<li class="list-group-item list-group-item-danger">' + response[i].adsoyad + '</li>');
+                        ul.append('<li data-id="' + response[i].ID+'" class="list-group-item list-group-item-danger"> ' + response[i].adsoyad + '</li>');
                     }
                   
                     target.html(ul);
                     $('#girisyapmayan').html(response.length);
                     target.find('.loading').remove();
+
                 }
             });
         }
@@ -425,6 +405,7 @@
                 }
             });
         }
+        
         function geckalanlar() {
             var ur = '@Url.Action("PersonelGecKalma", "Personel")';
             var now = new Date();
@@ -583,7 +564,7 @@
 
 
             rutinyukle();
-            cikistakartbasmayanlar();
+            //cikistakartbasmayanlar();
             mazeretsizgelmeyenler();
             mazeretligelmeyenler();
             geckalanlar();

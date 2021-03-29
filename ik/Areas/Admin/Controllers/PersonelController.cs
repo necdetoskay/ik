@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ik.Areas.Admin.Data;
 
 namespace ik.Areas.Admin.Controllers
 {
@@ -18,6 +19,123 @@ namespace ik.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public ActionResult _personelMikroBilgi(Guid guid)
+        {
+            var a = ke.PERSONELLERs.FirstOrDefault(c => c.per_cikis_tar.Value == new DateTime(1899, 12, 31) & c.per_Guid == guid);
+            if (a == null)
+                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                Success = true,
+                Data = new
+                {
+                    Cins = a.per_nuf_cinsiyet.Value,
+                    Dogumtarih = a.per_nuf_dogum_tarih.Value.ToString("yyyy-MM-dd"),
+                    CepTel = a.per_tel_cepno,
+                    TC = a.Per_TcKimlikNo,
+                    Kod = a.per_kod,
+                    IBAN = a.per_ucr_hesapno,
+                    IseGiris = a.per_giris_tar.Value.ToString("yyyy-MM-dd")
+                }
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult YeniPersonel()
+        {
+            ViewBag.birimListe = new SelectList(db.birims, "id", "fullad");
+
+
+
+            //pdks isim listesi
+            ViewBag.lokasyonListe = new SelectList(db.Lokasyons, "id", "ad");
+            ViewBag.gorevListe = new SelectList(db.Gorevs, "id", "ad");
+            ViewBag.cinsiyetListe = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Kadın", Value = "1"},
+                new SelectListItem {Text = "Erkek", Value = "0"}
+            };
+
+
+            ViewBag.tahsilListe = new SelectList(db.Tahsils, "id", "ad");
+            ViewBag.sgkdosyaListe = new SelectList(db.SgkDosyas, "id", "ad");
+
+            var mikroper = ke.PERSONELLERs.Where(c => c.per_cikis_tar.Value == new DateTime(1899, 12, 31)).Select(c => new
+            {
+                Value = c.per_adi + " " + c.per_soyadi,
+                Text = c.per_Guid
+            }).OrderBy(c => c.Value);
+
+
+            ViewBag.mikroListe = new SelectList(mikroper, "Text", "Value");
+            return PartialView();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("YeniPersonel")]
+        public ActionResult YeniPersonelPost(YeniPersonelVM model)
+        {
+            model.cinsiyet = bool.Parse(model.cinsiyet.ToString());
+            ModelState.Remove("cinsiyet");
+            if (ModelState.IsValid)
+            {
+                var personel = new Personel
+                {
+                    adsoyad = model.adsoyad,
+                    birimid = model.birimid,
+                    dogumtarihi = model.dogumtarih,
+                    giristarihi = model.isegiris,
+                    pdksid = int.Parse(model.pdksid),
+                    mikroid = model.mikroid,
+                    puantaj = model.puantaj,
+                    kadro = 1,
+                    iban = model.iban,
+                    sicilno = model.Kod,
+                    tcno = model.tcno
+                };
+                personel.PersonelDetay = new PersonelDetay
+                {
+                    cinsiyeti = model.cinsiyet,
+                    lokasyon = model.lokasyon,
+                    gorev = model.gorev,
+                    tahsili = model.tahsil,
+                    sgkdosya = model.sgkdosya
+                };
+                db.Personels.Add(personel);
+                db.SaveChanges();
+
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            }
+            var mikroper = ke.PERSONELLERs.Where(c => c.per_cikis_tar.Value == new DateTime(1899, 12, 31)).Select(c => new
+            {
+                Value = c.per_adi + " " + c.per_soyadi,
+                Text = c.per_Guid
+            }).OrderBy(c => c.Value);
+            ViewBag.mikroListe = new SelectList(mikroper, "Text", "Value");
+            ViewBag.birimListe = new SelectList(db.birims, "id", "fullad");
+            ViewBag.cinsiyetListe = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Kadın", Value = "1"},
+                new SelectListItem {Text = "Erkek", Value = "0"}
+            };
+            //pdks isim listesi
+            ViewBag.lokasyonListe = new SelectList(db.Lokasyons, "id", "ad");
+            ViewBag.gorevListe = new SelectList(db.Gorevs, "id", "ad");
+            ViewBag.cinsiyetListe = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Kadın", Value = "1"},
+                new SelectListItem {Text = "Erkek", Value = "0"}
+            };
+
+
+            ViewBag.tahsilListe = new SelectList(db.Tahsils, "id", "ad");
+            ViewBag.sgkdosyaListe = new SelectList(db.SgkDosyas, "id", "ad");
+            return PartialView(model);
+        }
+
+
+
+
         public ActionResult Sicil(int id)
         {
             ViewBag.gorevListe = new SelectList(db.Gorevs.OrderBy(c => c.ad), "id", "ad");
@@ -37,7 +155,7 @@ namespace ik.Areas.Admin.Controllers
                 sicil.lokasyonID = personel.PersonelDetay.lokasyon;
                 sicil.meslekID = personel.PersonelDetay.meslek;
                 sicil.sgkDosya = personel.PersonelDetay.sgkdosya;
-               
+
             }
             sicil.birimID = personel.birimid;
             sicil.ikID = personel.id;
@@ -116,7 +234,7 @@ namespace ik.Areas.Admin.Controllers
             }
         }
         public ActionResult PersonelSgkDosyaKontrolEt(int id)
-         {
+        {
             var personel = db.Personels.FirstOrDefault(c => c.id == id);
             if (personel == null) return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
             var mevcutsube = personel.PersonelDetay.SgkDosya1.Ad;
@@ -152,14 +270,16 @@ namespace ik.Areas.Admin.Controllers
             return Json(new { Success = success, Data = mevcutsube }, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         public ActionResult _SelectList()
         {
-            var liste = db.Personels.Where(c => c.cikistarihi == null && c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
+            var liste = db.Personels.Where(c =>  c.kadro < 3).OrderBy(c => c.adsoyad).Select(c => new
             {
                 Text = c.adsoyad,
                 Value = c.id,
                 Thumb = c.PersonelDetay.thumb
             }).ToList();
+          
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
 
@@ -207,7 +327,7 @@ namespace ik.Areas.Admin.Controllers
                 var url = personel.PersonelDetay.thumb;
                 if (url != null)
                     return Json(new { Success = true, Url = url }, JsonRequestBehavior.AllowGet);
-                return Json(new { Success = false, Url = "/Content/unknown.png"}, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = false, Url = "/Content/unknown.png" }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Success = false, Url = "/Content/unknown.png" }, JsonRequestBehavior.AllowGet);
         }

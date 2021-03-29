@@ -71,18 +71,6 @@ function AutoComplete(id, url,select) {
             if (typeof select !== 'undefined' && $.isFunction(select)) {
                 select(ui.item.val);
             }
-
-            //alert(ui.item.val);
-            //$.ajax({
-            //    url: '@Url.Action("PersonelImzaListe")',
-            //    data: { personelid: ui.item.val },
-            //    type: 'GET',
-            //    success: function (data) {
-            //        $(document).attr("title", data.SicilNo);
-
-            //        //personelListe(data.Data);
-            //    }
-            //});
         }
     });
 }

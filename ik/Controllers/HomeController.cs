@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DALPDKS;
 using ik.Models;
+
+
 
 namespace ik.Controllers
 {
@@ -69,11 +72,12 @@ namespace ik.Controllers
         }
 
 
+      
         public ActionResult Index()
         {
-            //var maashesap = new ik.Models.DataClasslari.MaasHesap();
-            //maashesap.VergiDilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2020);
-            //maashesap.MaasHesapDenemeTest();
+
+            //var pdks = new PDKS();
+            //pdks.Girisler(new DateTime(2020, 10, 01), new DateTime(2020, 10, 10));
             return View();
         }
         //public struct Kesinti

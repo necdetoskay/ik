@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "Ibraname";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+<style type="text/css">
+    .ui-helper-hidden-accessible {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
+        background: blue;
+    }
+
+    .ui-autocomplete {
+        -moz-background-clip: padding;
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background-clip: padding-box;
+        background-color: #ffffff;
+        *border-bottom-width: 2px;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        *border-right-width: 2px;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        float: left;
+        left: 0;
+        list-style: none;
+        margin: 0 0 10px 25px;
+        min-width: 160px;
+        padding: 4px 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
+    }
+</style>
+
+
+
+
+<form>
+    <div class="form-group row">
+        <label for="adsoyad" class="col-sm-2 col-form-label">Personel Adı Soyadı</label>
+        <div class="col-sm-10">
+            <input type="text" id="personel" class="form-control-plaintext" id="adsoyad" value="">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="giris" class="col-sm-2 col-form-label">İşe Giriş Tarihi</label>
+        <div class="col-sm-2">
+            <input type="date" class="form-control" data-bind="Date: giris">
+        </div>
+        @*<label for="cikis" class="col-sm-2 col-form-label">İşten Ayrılış Tarihi</label>
+            <div class="col-sm-2">
+                <input type="date" class="form-control-plaintext" id="cks" data-bind="date:cikis">
+            </div>
+            <label for="kidemgun" class="col-sm-2 col-form-label">Kıdem Günü</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control-plaintext" id="kidemgun" >
+            </div>*@
+    </div>
+    @*<div class="form-group row">
+            <label for="brutmaas" class="col-sm-2 col-form-label">Brüt Maaş</label>
+            <div class="col-sm-10">
+                <input type="text" readonly="" class="form-control-plaintext" id="brutmaas" value="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="izin" class="col-sm-2 col-form-label">Kalan İzin</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control-plaintext" id="izin" value="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="gvm" class="col-sm-2 col-form-label">Velir Vergisi Matrah</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control-plaintext" id="gvm" value="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="sosyalyardm" class="col-sm-2 col-form-label">Sosyal Yardım (Yemek)</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control-plaintext" id="sosyalyardm" value="">
+            </div>
+        </div>*@
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <input type="button" class="form-control hidden" id="hesapla" value="Hesapla">
+        </div>
+    </div>
+
+</form>
+
+@section scripts
+{
+    <script src="~/Scripts/ik.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
+    <script src="~/Scripts/knockout.mapping.js"></script>
+    <script type="text/javascript">
+
+
+        var viewModel =function () {
+           var self = this;
+          // self.adsoyad= ko.observable();
+           self.giris= ko.observable();
+           //self.cikis= ko.observable();
+           //self.brutMaas= ko.observable();
+           //self.kalanizin= ko.observable();
+           //self.gelirvergimatrh= ko.observable();
+           //self.sosyalyard= ko.observable();
+           //self.kidemgun=ko.computed(function() {
+
+           //    return moment(self.cikis).diff(moment(self.giris), "days");
+           // },this);
+        };
+
+      
+      
+
+
+
+
+        function AutoCompleteSelect(res) {
+            $('#hesapla').removeClass("hidden");
+            $.ajax({
+                async:true,
+                url:'@Url.Action("_IbranameBilgi")',
+                type:'GET',
+                data:{id:res},
+                success:function (response) {
+
+                  //  viewModel.adsoyad=$("#personel").text();
+                    viewModel.giris=response.Data.Giris;
+                    ////if(moment(response.Data.Cikis).format("DD-MM-YYYY")==="30-12-1899") {
+                    ////    response.Data.Cikis = new Date();
+                    ////}
+                    //viewModel.cikis(response.Data.Cikis);
+
+
+                    //$('#kidemgun').val(cikis.diff(giris,"days"));
+
+                    //$('#brutmaas').val(response.Data.Brut);
+                    //$('#izin').val(response.Data.Izin);
+                    //$('#gvm').val(response.Data.GelirVergisiMatrah);
+                    //$('#sosyalyardm').val(response.Data.Yemek);
+                    //console.log(moment(viewModel.giris));
+                }
+            });
+        }
+
+
+        $(function() {
+            ko.bindingHandlers.Date = {
+                init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    var value = ko.utils.unwrapObservable(valueAccessor()),
+                        allBindings = allBindingsAccessor();
+
+                    var format = allBindings.format || 'YYYY-MM-DD'; 
+           
+                    if (value !== null && value !== '') {
+                        $(element).html(moment(value).format(format));
+                    }
+                },
+
+                update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    var val = ko.utils.unwrapObservable(valueAccessor());
+                    $(element).val(val);
+                }
+            };
+      
+            ko.applyBindings(new viewModel());
+            AutoComplete("#personel", '@Url.Action("PersonelAra")', AutoCompleteSelect);
+            $('#hesapla').on('click', function() {
+
+            });
+
+
+        });
+    </script>
+}

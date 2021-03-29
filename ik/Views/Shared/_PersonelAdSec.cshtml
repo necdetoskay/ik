@@ -35,16 +35,15 @@
 </style>
 
 <div class="form-group">
-    @Html.Label("Personel Ad", new {@class = "control-label col-md-2"})
+    @Html.Label("Personel Ad", new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        <input type="text" id="personel" name="personel" placeholder="Ad yazınız"/>
+        <input type="text" id="personel" name="personel" placeholder="Ad yazınız" />
     </div>
 </div>
 
-@using (Html.BeginScripts())
-{
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script type="text/javascript">
+
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript">
         $(function () {
             $("#personel").on("propertychange change keyup paste input", function () {
                 if ($(this).val() == "") {
@@ -55,7 +54,6 @@
 
             $("#personel").autocomplete({
                 source: function (request, response) {
-                
                     $.ajax({
                         url: '@Url.Action("AutoComplete", "PTakip")',
                         minLength: 3,
@@ -64,7 +62,10 @@
                         data: { term: request.term },
                         success: function (data) {
                             response($.map(data, function (item) {
-                                return item;
+                                return {
+                                    label: item.adsoyad,
+                                    val: item.id
+                                };
                             }));
                         },
                         error: function (xhr, textStatus, errorThrown) {
@@ -74,22 +75,26 @@
                 },
                 minLeght: 3,
                 search: function() {
-                  
+
                     $(this).addClass('working');
                 },
-                response    : function(){$(this).removeClass('working');},
+                response    : function() {
+                    $(this).removeClass('working');
+                  
+                },
                 select: function (event, ui) {
                     $('#personel').attr('data-id', ui.item.val);
-                    if (typeof AutoCompleteSelected == 'function') {
-                        AutoCompleteSelected($(this).attr("data-id"));
+
+
+                    if (typeof window.AutoCompleteSelected == 'function') {
+                        window.AutoCompleteSelected($('#personel').data("id"));
                     }
-                    
+
                 },focus:function(event, ui) {
                     $(".ui-helper-hidden-accessible").hide();
                     event.preventDefault();
                 }
             });
         });
-    </script>
-}
+</script>
 

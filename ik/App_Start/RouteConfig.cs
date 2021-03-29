@@ -14,6 +14,7 @@ namespace ik
                 defaults: new { controller = "YillikIznim", action = "Index" }
             );
 
+
             routes.MapRoute(
                 name: "PersonelDurum",
                 url: "PersonelDurum",

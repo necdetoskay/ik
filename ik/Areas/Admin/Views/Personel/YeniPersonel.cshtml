@@ -1,0 +1,213 @@
+﻿@model ik.Areas.Admin.Data.YeniPersonelVM
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#perbilgi">Personel Bilgileri</a></li>
+                <li><a data-toggle="tab" href="#detaybilgi">Detay Bilgileri</a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="tab-content">
+                <div id="perbilgi" class="tab-pane fade in active">
+                    <div class="content">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.mikroid, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.mikroid, (SelectList)ViewBag.mikroListe, "Mikro Kaydı Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.mikroid, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.pdksid, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.pdksid, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.pdksid, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Kod, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Kod, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Kod, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.adsoyad, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.adsoyad, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.adsoyad, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.birimid, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.birimid, (SelectList)ViewBag.birimListe, "Birim Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.birimid, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.puantaj, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.puantaj)
+                                    @Html.ValidationMessageFor(model => model.puantaj, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tcno, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.tcno, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.tcno, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.isegiris, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(x => x.isegiris, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                @Html.ValidationMessageFor(model => model.isegiris, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.dogumtarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(x => x.dogumtarih, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                @Html.ValidationMessageFor(model => model.dogumtarih, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.iban, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.iban, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.iban, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="detaybilgi" class="tab-pane fade in">
+                    <div class="content">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.lokasyon, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DropDownListFor(model => model.lokasyon, (SelectList)ViewBag.lokasyonListe, "Lokasyon Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.lokasyon, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.gorev, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DropDownListFor(model => model.gorev, (SelectList)ViewBag.gorevListe, "Görev Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.gorev, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.cinsiyet, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DropDownListFor(model => model.cinsiyet, (IEnumerable<SelectListItem>)ViewBag.cinsiyetListe, "Cinsiyeti", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.cinsiyet, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tahsil, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DropDownListFor(model => model.tahsil, (SelectList)ViewBag.tahsilListe, "Tahsil Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.tahsil, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.thumb, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.thumb, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.thumb, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.mailadres, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.mailadres, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.mailadres, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.sgkdosya, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.sgkdosya, (SelectList)ViewBag.sgkdosyaListe, "Sgk Dosyasını Seçiniz", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.sgkdosya, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ebysad, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ebysad, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ebysad, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ebysifre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ebysifre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ebysifre, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#mikroid').on("change",
+            function() {
+                var guid=$(this).find("option:selected").val();
+                var ad = $(this).find("option:selected").text();
+                $.ajax({
+                    url: '@Url.Action("_personelMikroBilgi","Personel",new{Area="Admin"})',
+                    type:'GET',
+                    data: {
+                        guid:guid
+                    },
+                    success:function (result) {
+                        if(result.Success===true) {
+                            $('#cinsiyet').val(result.Data.Cins);
+                            $('#dogumtarih').val(result.Data.Dogumtarih);
+                            $('#iban').val(result.Data.IBAN);
+                            $('#isegiris').val(result.Data.IseGiris);
+                            $('#tcno').val(result.Data.TC);
+                            $('#Kod').val(result.Data.Kod);
+                            $('#adsoyad').val(ad);
+
+                        }
+                    }
+
+                });
+                //Cins = a.per_nuf_cinsiyet.Value,
+                //    Dogumtarih = a.per_nuf_dogum_tarih.Value.ToShortDateString(),
+                //    CepTel = a.per_tel_cepno,
+                //    TC = a.Per_TcKimlikNo,
+                //    Kod = a.per_kod,
+                //    IBAN = a.per_ucr_hesapno
+            });
+    })
+</script>

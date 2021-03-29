@@ -19,29 +19,64 @@
             @Html.DisplayNameFor(model => model.Yizin.id)
         </th>
         <th></th>
+        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr style="background-color: @(item.Yizin.mikrokayit?"green":"red")">
-        <td>
-            @Html.DisplayFor(modelItem => item.belgesayi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tarih)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.baslangic)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.bitis)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Yizin.id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Yizin.mikrokayit)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr data-id="@item.Yizin.id" style="background-color: @(item.Yizin.mikrokayit?"green":"red")">
+            <td>
+                @Html.DisplayFor(modelItem => item.belgesayi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.baslangic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bitis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yizin.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yizin.mikrokayit)
+            </td>
+            <td>
+                <input class='@(!item.Yizin.mikrokayit ? "duzenle btn btn-primary" : "btn btn-primary")' type="button" value="Düzenle" />
+            </td>
+        </tr>
+    }
 
 </table>
+<script src="~/Scripts/ikdialog.js"></script>
+<script type="text/javascript">
+    $(function() {
+
+        $('.duzenle').each(function() {
+            var btn = $(this);
+            btn.on("click", function() {
+                $(this).ikDialog3({
+                    formurl:'@Url.Action("_YarimIzinDuzenle")',
+                    data: {
+                        id:btn.closest("tr").attr("data-id")
+                    },complete:function (response) {
+                        @*var url = '@Url.Action("_PersonelYarimIzinleri")';
+                        $.ajax({
+                            url: url,
+                            type: 'get',
+                            data: { id: id },
+                            success: function(result) {
+                                $('#yarimizin >.content').html(result);
+                            }
+                        });*@
+                    }
+                });
+
+            });
+
+        });
+
+
+    });
+</script>

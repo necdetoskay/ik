@@ -1,0 +1,2 @@
+﻿haftanın ilk gününü pazartesi yapma////////////////////////////////////////
+ moment.updateLocale('en', { week: {dow: 1} });

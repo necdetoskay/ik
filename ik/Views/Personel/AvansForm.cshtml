@@ -149,7 +149,7 @@
                 url: '@Url.Action("_AvansKontrol", "Personel")',
                 type: 'GET',
                 success: function(result) {
-                    // console.log(result);
+                   // console.log(result);
                     var avanslar = $('#avanslar');
                     avanslar.html('');
                     var table = $('<table  class="table table-bordered"><thead><tr><th>Personel Ad Soyad</th><th>Geçen Ayki Avans tutarı</th><th>Bu Ayki Avans Tutarı</th></tr></thead></table>');
@@ -184,26 +184,34 @@
                     });
                     $('.avanstutar').each(function() {
                         var avans = $(this);
-                        avans.on('click', function() {
-                            var id = avans.closest('tr').data("id");
-                            var pid = avans.closest('tr').data("pid");
-                            var tutar = avans.html();
-                            var url = '@Url.Action("_AvansDuzenle")' + '/?id=' + id + '&tutar=' + tutar + '&pid=' + pid;
+                        avans.on('click',
+                            function() {
+                                var id = avans.closest('tr').data("id");
+                                var pid = avans.closest('tr').data("pid");
+                                var tutar = avans.html();
+                                var url = '@Url.Action("_AvansDuzenle")';
 
-                            var message = id > 0 ? 'Avans tutarı değiştirilsin mi?' : 'Yeni avans girilsin mi?';
+                                var message = id > 0 ? 'Avans tutarı değiştirilsin mi?' : 'Yeni avans girilsin mi?';
 
 
-                            $(avans).ikDialog2({
-                                formurl: url,
-                                title: 'Avans Düzenle',
-                                complete: function(result) {
-                                    //console.table(result);
-                                    avans.html(result.Data);
-                                    avanskarsılastir();
-                                }
+                                $(avans).ikDialog2({
+                                    formurl: url,
+                                    message:message,
+                                    title: 'Avans Düzenle',
+                                    data: {
+                                        id: id,
+                                        pid: pid,
+                                        tutar:tutar
+                                    },
+
+                                    complete: function(result) {
+                                        //console.table(result);
+                                        avans.html(result.Data);
+                                        avanskarsılastir();
+                                    }
+                                });
                             });
-                        });
-                        
+
                     });
                 }
             });

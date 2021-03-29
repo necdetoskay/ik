@@ -4,10 +4,14 @@
 }
 
 <style type="text/css">
-    .ui-helper-hidden-accessible { position: absolute; left: -9999px; }
-     .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
-         background: blue;
-     }
+    .ui-helper-hidden-accessible {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .ui-menu .ui-menu-item a.sbiAnchor.ui-state-hover {
+        background: blue;
+    }
 
     .ui-autocomplete {
         -moz-background-clip: padding;
@@ -43,7 +47,7 @@
 <h2>Index</h2>
 
 <div class="form-group">
-   @*@Html.Label("Personel Ad", new { @class = "control-label col-md-2" })*@
+    @*@Html.Label("Personel Ad", new { @class = "control-label col-md-2" })*@
     <div class="col-md-6">
         <input type="text" id="personel" name="personel" />
         @*@Html.DropDownList("PersonelListe", (SelectList) ViewBag.personelListe, "Personel Seçiniz..", new {htmlAttributes = new {@class = "form-control datetime"}})*@
@@ -74,7 +78,8 @@
                 <span data-bind="text: klasorno"></span>
             </div>
         </div>
-        <div class="form-group row"><label class="col-sm-4 col-form-label">İhale Tipi</label>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">İhale Tipi</label>
             <div class="col-sm-8">
                 <span data-bind="text: ihaletipi"></span>
             </div>
@@ -87,14 +92,15 @@
         </div>
     </div>
 
-   
+
 </div>
 
 
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     <script src="~/Scripts/ik.js"></script>
-    <script src="~/Scripts/knockout-min.js"></script>
+
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
     <script type="text/javascript">
 
 
@@ -136,7 +142,7 @@
 
                     }
                     else {
-                        alert("KAyıt getirilemedi");
+                        alert("Kayıt getirilemedi");
                     }
                 }
             });

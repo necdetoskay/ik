@@ -114,7 +114,6 @@
 
                 load.addClass("hidden");
 
-
                 pers.on('change', (function () {
                     $('#' + options.targetdiv).html("");
                     var selected = $("#personel option:selected");
@@ -135,15 +134,16 @@
                             type: 'GET',
                             data: { id: selected.val() },
                             success: function (result) {
-                                load.addClass("hidden");
+                             
                                 settings.change(result);
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
-                                load.addClass("hidden");
+                              
                                 alert(xhr.status);
                                 alert(thrownError);
                             }
                         });
+                        load.addClass("hidden");
                     }
                     
                 }));

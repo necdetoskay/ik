@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ik</RootNamespace>
     <AssemblyName>ik</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -37,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +52,10 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="DALPDKS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DALPDKS\bin\Debug\DALPDKS.dll</HintPath>
     </Reference>
     <Reference Include="DelegateDecompiler, Version=0.9.1.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
       <HintPath>..\packages\DelegateDecompiler.0.9.1.0\lib\net40-Client\DelegateDecompiler.dll</HintPath>
@@ -163,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AileFertleriController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ARaporController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\EnumController.cs" />
     <Compile Include="Areas\Admin\Controllers\EnumDetayController.cs" />
@@ -178,6 +184,7 @@
     <Compile Include="Areas\Admin\Data\PersonelIseGirisEvrakDurumVM.cs" />
     <Compile Include="Areas\Admin\Data\PersonelMikroBilgi.cs" />
     <Compile Include="Areas\Admin\Data\PersonelIKBilgi.cs" />
+    <Compile Include="Areas\Admin\Data\YeniPersonelVM.cs" />
     <Compile Include="Controllers\ArsivController.cs" />
     <Compile Include="Controllers\DahililerController.cs" />
     <Compile Include="Controllers\DatatablesTestController.cs" />
@@ -188,6 +195,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IcraController.cs" />
     <Compile Include="Controllers\IcraOdemeController.cs" />
+    <Compile Include="Controllers\ikRaporController.cs" />
     <Compile Include="Controllers\ImzaTakipController.cs" />
     <Compile Include="Controllers\IzinController.cs" />
     <Compile Include="Controllers\KentIhaleController.cs" />
@@ -227,9 +235,13 @@
     </Compile>
     <Compile Include="Models\Cryptography.cs" />
     <Compile Include="Models\DataClasslari\AvansDuzenleVM.cs" />
+    <Compile Include="Models\DataClasslari\AylikGecKalmaVM.cs" />
+    <Compile Include="Models\DataClasslari\CustomAuthorize.cs" />
+    <Compile Include="Models\DataClasslari\DataPDKS.cs" />
     <Compile Include="Models\DataClasslari\Dosyaİşlemleri.cs" />
     <Compile Include="Models\DataClasslari\IzinVM.cs" />
     <Compile Include="Models\DataClasslari\MaasHesap.cs" />
+    <Compile Include="Models\DataClasslari\MaasHesaplaSt.cs" />
     <Compile Include="Models\DataClasslari\MikroSonGirilenIzinVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelFirmaVM.cs" />
     <Compile Include="Models\DataClasslari\PersonelGorevVM.cs" />
@@ -237,6 +249,15 @@
     <Compile Include="Models\DataClasslari\PersonelKadroListeVM.cs" />
     <Compile Include="Models\DataClasslari\TumPersonelVM.cs" />
     <Compile Include="Models\DiniGunler.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EtiketDetay.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EtiketGrup.cs">
+      <DependentUpon>ikModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EtiketTanim.cs">
       <DependentUpon>ikModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EvrakListe.cs">
@@ -522,7 +543,6 @@
     <Content Include="Areas\Admin\Views\IseGirisEvrak\_PersonelOzelEvrak.cshtml" />
     <Content Include="Areas\Admin\Views\IseGirisEvrak\_OzelEvrakEkle.cshtml" />
     <Content Include="Areas\Admin\Views\AileFertleri\AileFertDuzenle.cshtml" />
-    <None Include="Areas\Admin\Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Content\adminstyle.css" />
     <Content Include="Content\Admin\Article-Clean.css" />
     <Content Include="Content\Admin\bootstrap.min.css" />
@@ -547,6 +567,11 @@
     <Content Include="Content\fonts\weathericons-regular-webfont.svg" />
     <Content Include="Content\icons8-delete-trash-50.png" />
     <Content Include="Content\icons8-edit-64.png" />
+    <Content Include="Content\Icon\excel.png" />
+    <Content Include="Content\Icon\pdf.png" />
+    <Content Include="Content\Icon\png.png" />
+    <Content Include="Content\Icon\rar.jpg" />
+    <Content Include="Content\Icon\word.png" />
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themify-icons.css" />
@@ -563,12 +588,18 @@
     <Content Include="Content\switchery.min.css" />
     <Content Include="Content\upload.css" />
     <Content Include="Models\nasıl yaptım\boş string değer şart.txt" />
+    <Content Include="Models\nasıl yaptım\date set value.txt" />
     <Content Include="Models\nasıl yaptım\dynamic model kullanımı.txt" />
     <Content Include="Models\nasıl yaptım\editorfor tarih kullanımı.txt" />
+    <Content Include="Models\nasıl yaptım\moment işlemler.txt" />
     <Content Include="Models\nasıl yaptım\moment tarih format.txt" />
     <Content Include="Models\nasıl yaptım\pdf thumbnail oluşturma.txt" />
+    <Content Include="Areas\Admin\Views\ARapor\TopluTcKontrol.cshtml" />
+    <Content Include="Areas\Admin\Views\ARapor\Ibraname.cshtml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\ikcheckboxjs.js" />
+    <None Include="Scripts\jquery-1.4.2-vsdoc.js" />
+    <Content Include="Scripts\ikTabList.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\jquery-3.5.1.slim.js" />
@@ -916,7 +947,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Models\modal form.txt" />
-    <Content Include="Models\CODE.txt" />
     <Content Include="Models\form html kodları.txt" />
     <Content Include="Models\ikModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -949,14 +979,11 @@
     <Content Include="Scripts\jquery.svg3dtagcloud.min.js" />
     <Content Include="Scripts\jquery.treetable.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
-    <Content Include="Scripts\knockout-3.1.0.debug.js" />
-    <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
-    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
-    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\knockout-date-bindings.js" />
+    <Content Include="Scripts\knockout.mapping.js" />
     <Content Include="Scripts\ozlukadmin.js" />
     <Content Include="Scripts\pace.min.js" />
-    <Content Include="Scripts\perpetuum.knockout.js" />
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\sidebar.js" />
     <Content Include="Scripts\sugar.js" />
@@ -1030,8 +1057,6 @@
     <Content Include="Models\kentModel.edmx.diagram">
       <DependentUpon>kentModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\Report\Avans\merkez.xls" />
-    <Content Include="Content\Report\Avans\khk.xls" />
     <Content Include="Views\Upload\DosyaYukleDialog.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
@@ -1502,9 +1527,24 @@
     <Content Include="Views\Icra\_DevamEdenler.cshtml" />
     <Content Include="Views\IcraOdeme\OdemeEkle.cshtml" />
     <Content Include="Views\Template\_UcretsizIzin.cshtml" />
+    <Content Include="Views\Personel\PdksKontrol.cshtml" />
+    <Content Include="Views\Puantaj\_EditGirisCikis.cshtml" />
+    <Content Include="Areas\Admin\Views\Personel\YeniPersonel.cshtml" />
+    <Content Include="Views\PTakip\PersonelDurum.cshtml" />
+    <Content Include="Views\Template\MaasIsKontrol - Copy.cshtml" />
+    <Content Include="Views\Puantaj\Puantajlar - Copy.cshtml" />
+    <Content Include="Views\Rapor\GecKalmaDurum.cshtml" />
+    <Content Include="Views\Izin\_YarimIzinDuzenle.cshtml" />
+    <Content Include="Views\ikRapor\Index.cshtml" />
+    <Content Include="Views\ikRapor\_GunlukRapor.cshtml" />
+    <Content Include="Views\ikRapor\_MazeretliGelmeyenler.cshtml" />
+    <Content Include="Views\ikRapor\_GecKalanlar.cshtml" />
+    <Content Include="Views\ikRapor\_HaftalikRapor.cshtml" />
+    <Content Include="Views\Pdks\_PersonelMazeretEkle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Report\Avans\" />
     <Folder Include="Uploads\Icralar\70507049260\thumb\" />
     <Folder Include="Uploads\IseGirisEvraklar\38167777466\thumb\" />
     <Folder Include="Uploads\Temp\" />

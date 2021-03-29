@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "TopluTcKontrol";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>TopluTcKontrol</h2>
+
+<div>
+    <textarea id="clip"></textarea>
+    <input id="sorgula" type="button" value="Sorgula"/>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#sorgula').on('click', function() {
+                var array = $('#clip').val().split('\n');
+                $.ajax({
+                    async:true,
+                    url:'@Url.Action("_TopluTcSorgula")',
+                    type:'Post',
+                    data: {
+                        array:array
+                    },
+                    success:function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
+}

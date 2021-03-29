@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ik.Models;
+using ik.Models.DataClasslari;
 using Microsoft.Ajax.Utilities;
 using MySql.Data.MySqlClient;
 using PtakipDAL;
@@ -14,9 +15,10 @@ using WebGrease.Css.Extensions;
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
-    [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
+    [CustomAuthorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
     public class PTakipController : Controller
     {
+
         // GET: PTakip
         private readonly ikEntities db = new ikEntities();
 
@@ -25,7 +27,14 @@ namespace ik.Controllers
             db.Dispose();base.Dispose(disposing);
         }
 
-
+       
+        [Authorize]
+       
+        public ActionResult PersonelDurum()
+        {
+            Response.SuppressFormsAuthenticationRedirect = true;
+            return PartialView();
+        }
 
         public ActionResult Index()
         {
@@ -155,6 +164,7 @@ namespace ik.Controllers
             return PartialView(ds);
         }
 
+       
         public JsonResult MazeretliGelmeyenler(DateTime tarih1)
         {
             var dset = new ikDSet();
@@ -174,27 +184,23 @@ namespace ik.Controllers
                 com.CommandText =
                     string.Format(
                         "select personel_izin.id, personel_izin.personel_id,personel_izin.tarih,personel_izin.gidis_saat,personel_izin.gelis_saat,personel_izin.aciklama,tatil_id,tatil_tablo.aciklama  as IzinTur from personel_izin inner join tatil_tablo on personel_izin.tatil_id=tatil_tablo.id");// where tarih='{0}'",
-                       // tarih1.ToString("yyyy-MM-dd"));
+                                                                                                                                                                                                                                                                                                        // tarih1.ToString("yyyy-MM-dd"));
                 adapter.Fill(dset.personel_izin);
-
+                ikDSet.personel_kartlariRow pers=null;
 
                 con.Close();
-
-                //foreach (var p in dset.personel_kartlari)
-                //{
-                //    Console.WriteLine(p.birim);
-                //}
-
                 foreach (var personel in dset.personel_kartlari)
                 {
+                    pers=personel;
                     try
                     {
-                        
-                       
-                        var personelIzinRow = dset.personel_izin.Where(c=>c.tarih==tarih1.Date).FirstOrDefault(c => c.personel_id == personel.id);
-                        if (personelIzinRow != null) {
-                            Console.WriteLine(personelIzinRow.ItemArray);
-                            if(personelIzinRow.tatil_id==9 && personelIzinRow.gidis_saat>new TimeSpan(8,30,0)) continue;
+
+
+                        var personelIzinRow = dset.personel_izin.Where(c => c.tarih == tarih1.Date).FirstOrDefault(c => c.personel_id == personel.id);
+                        if (personelIzinRow != null)
+                        {
+                            //Console.WriteLine(personelIzinRow.ItemArray);
+                            if ((personelIzinRow.tatil_id == 9 || personelIzinRow.tatil_id==10) && personelIzinRow.gidis_saat > new TimeSpan(8, 30, 0)) continue;
                             personel.Takip = personelIzinRow.IzinTur;
                             var id = personelIzinRow.id;
                             var aciklama = personelIzinRow.aciklama;
@@ -205,11 +211,11 @@ namespace ik.Controllers
                             while (true)
                             {
                                 var tarih2 = tarih.AddDays(1);
-                                if(tarih2.DayOfWeek== DayOfWeek.Sunday)
+                                if (tarih2.DayOfWeek == DayOfWeek.Sunday)
                                     tarih2 = tarih2.AddDays(1);
 
                                 var next =
-                                    dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid&& c.aciklama==ac);
+                                    dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid && c.aciklama == ac);
 
                                 if (next == null)
                                 {
@@ -218,7 +224,7 @@ namespace ik.Controllers
                                     //if (tarih == null) tarih = DateTime.Now;
                                     personel.isbasi = tarih.ToShortDateString();
                                     break;
-                                    
+
                                 }
                                 tarih = tarih2;
                             }
@@ -229,7 +235,7 @@ namespace ik.Controllers
                                 if (tarih2.DayOfWeek == DayOfWeek.Sunday)
                                     tarih2 = tarih2.AddDays(-1);
 
-                                var next =dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid && c.aciklama == ac);
+                                var next = dset.personel_izin.SingleOrDefault(c => c.tarih == tarih2 && c.personel_id == pid && c.aciklama == ac);
 
                                 if (next == null)
                                 {
@@ -248,7 +254,7 @@ namespace ik.Controllers
 
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception ex)                    
                     {
                         Console.WriteLine(ex.Message);
                     }
@@ -261,17 +267,25 @@ namespace ik.Controllers
             //var data =
             //  dset.personel_kartlari.Where(c => c.Takip != null)
             //      .Select(c => new { adsoyad = c.adi + " " + c.soyadi, aciklama = c.Takip, isbasi = "", baslama = "", birimad = c.birim });
-            return Json(data.OrderBy(c=>c.adsoyad), JsonRequestBehavior.AllowGet);
+            return Json(data.OrderBy(c => c.adsoyad), JsonRequestBehavior.AllowGet);
+
+
+           
         }
         public JsonResult MazeretsizGelmeyenler(DateTime tarih1)
         {
            PerkotekContext pc=new PerkotekContext();
             pc.PuantajHazirla(tarih1, tarih1);
 
-            var liste = pc.personel.Where(c => !c.PTarihs.Any());
-            //var liste= pc.personel.Where(c => c.PTarihs.Any(d => d.Giris == new TimeSpan(0, 0, 0)));
+           
+            var tumgun =pc.personel.Where(c => c.PTarihs.Any(d => d.Izins.Any(e => e.Saatlik==false))).Select(f=>f.ID);
+            var tt = pc.personel.Where(c => !tumgun.Contains(c.ID)).ToList();
+           
+           // var l = tt.Where(c => c.PTarihs.Any(d=>!d.Harekets.Any())).ToList();//hareket olmayanlar
+            var l =  tt.Where(c => !c.PTarihs.Any());
 
-            var data =liste.Select(c => new { adsoyad = c.AdSoyad, c.ID });
+            var yarim=tt.Where(c => c.PTarihs.Any(d => d.Izins.Any(e => e.Gidis==new TimeSpan(08,30,00)))).Select(f=>f.ID);
+            var data =l.Where(c => !yarim.Contains(c.ID)).Select(c => new { adsoyad = c.AdSoyad, c.ID });
             return Json(data.OrderBy(c => c.adsoyad), JsonRequestBehavior.AllowGet);
             
         }
@@ -487,7 +501,7 @@ namespace ik.Controllers
         public object cikis_saat { get; set; }
     }
 
-    //personel_id  personelAdSoyad tarih  giris_saat  cikis_saat
+   
 
 
 }

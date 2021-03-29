@@ -7,19 +7,26 @@
 }
 
 <style>
-        .green {
-            background-color: green;
-        }
+    .tableFixHead          { overflow-y: auto; height: 100px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
 
-        .red {
-            background-color: red;
-        }
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%; }
+    th, td { padding: 8px 16px; }
+    th     { background:#eee; }
+    .green {
+        background-color: green;
+    }
 
-        .table-fixed {
-            width: 100%;}
+    .red {
+        background-color: red;
+    }
+
+    .table-fixed {
+        width: 100%;}
 
 
-            /*.table-fixed thead {
+    /*.table-fixed thead {
       position: sticky;
       position: -webkit-sticky;
       top: 0;
@@ -28,20 +35,20 @@
       color: #fff;
     }*/
 
-            /*This will work on every browser*/
-            .table-fixed thead th {
-                position: sticky;
-                position: -webkit-sticky;
-                top: 0;
-                z-index: 999;
-                background-color: #000;
-                color: #fff;
-            }
+    /*This will work on every browser*/
+    .table-fixed thead th {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 999;
+        background-color: #000;
+        color: #fff;
+    }
 </style>
 <h2>MaasKontrol</h2>
 
 
-<table class="table table-fixed">
+<table class="table table-fixed tableFixHead">
     <thead>
         <tr>
             <th>

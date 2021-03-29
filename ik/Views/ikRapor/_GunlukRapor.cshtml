@@ -1,0 +1,23 @@
+﻿
+<div id="gunlukrapor"></div>
+
+<script src="~/Scripts/ikTabList.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#gunlukrapor').TabList({
+            loadgif:'<img src="@Url.Content("~/Content/giphy.gif")" />',
+            tabs:[
+                {
+                    cssClass:'fa fa-home',
+                    title:' İzinli Personeller',
+                    contenturl:'@Url.Action("_MazeretliGelmeyenler")'
+                },
+                {
+                    contenturl: '@Url.Action("_GecKalanlar")',
+                    cssClass:'fa fa-user',
+                    title: ' Geç Kalanlar'
+                }
+            ]
+        });
+    });
+</script>

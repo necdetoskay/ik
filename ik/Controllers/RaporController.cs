@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ik.Models;
 using PtakipDAL;
 
+
 namespace ik.Controllers
 {
     [FilterConfig.CustomActionFilter]
@@ -14,7 +15,7 @@ namespace ik.Controllers
     public class RaporController : Controller
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        PerkotekContext pdb = new PerkotekContext();
+        PtakipDAL.PerkotekContext pdb = new PerkotekContext();
         ikEntities db = new ikEntities();
         protected override void Dispose(bool disposing)
         {
@@ -32,6 +33,25 @@ namespace ik.Controllers
 
 
 
+        public ActionResult GecKalmaDurum()
+        {
+            ViewBag.ayListe = new SelectList(new List<SelectListItem>()
+            {
+                new SelectListItem {Text="Ocak", Value = "1"},
+                new SelectListItem {Text="Şubat", Value = "2"},
+                new SelectListItem {Text="Mart", Value = "3"},
+                new SelectListItem {Text="Nisan", Value = "4"},
+                new SelectListItem {Text="Mayıs", Value = "5"},
+                new SelectListItem {Text="Haziran", Value = "6"},
+                new SelectListItem {Text="Temmuz", Value = "7"},
+                new SelectListItem {Text="Ağustos", Value = "8"},
+                new SelectListItem {Text="Eylül", Value = "9"},
+                new SelectListItem {Text="Ekim", Value = "10"},
+                new SelectListItem {Text="Kasım", Value = "11"},
+                new SelectListItem {Text="Aralık", Value = "12"},
+            }, "Value", "Text");
+            return PartialView();
+        }
 
         public JsonResult _Personelikitariharasıgiriscikis(int personelid, DateTime tarih1, DateTime tarih2, bool haftatatili = false, bool resmitatil = false, bool tumu = false)
         {
@@ -462,15 +482,18 @@ namespace ik.Controllers
             return View();
         }
 
+
+       
+
         [Authorize(Users = @"KENTKONUT\noskay,KENTKONUT\derya.aslan")]
         [HttpPost]
         public ActionResult IzinleriHesapla(string[] personeller)
         {
 
-            var list= new List<IzinRapor>();
+            var list = new List<IzinRapor>();
             foreach (var personell in personeller)
             {
-             
+
                 var pid = int.Parse(personell);
                 var personel = db.Personels.SingleOrDefault(c => c.pdksid == pid);
                 var kidem = new List<Kidem>();
@@ -478,6 +501,7 @@ namespace ik.Controllers
                 var kidembaslangic = personel.giristarihi.Value;
                 var kidembitis = personel.giristarihi.Value;
                 var kidemyil = 1;
+
 
                 if (personel.PersonelDevir != null)
                 {
@@ -533,7 +557,7 @@ namespace ik.Controllers
                         if (yas > 49)
                             hakedilen = 20;
                     }
-                    else if(kidemyil>=6 & kidemyil<15)
+                    else if (kidemyil >= 6 & kidemyil < 15)
                     {
                         hakedilen = 20;
                     }
@@ -564,12 +588,12 @@ namespace ik.Controllers
                 {
                     if (kdm.yil < DateTime.Now.Year)
                     {
-                        kalan += (int) (kdm.hakedilenizin - kdm.kullanilan);
+                        kalan += (int)(kdm.hakedilenizin - kdm.kullanilan);
                     }
                     else
                     {
                         var tarih = personel.kidemtarihi ?? personel.giristarihi;
-                        var kdmtarih=new DateTime(kdm.yil,tarih.Value.Month,tarih.Value.Day);
+                        var kdmtarih = new DateTime(kdm.yil, tarih.Value.Month, tarih.Value.Day);
                         if (DateTime.Now.Date < kdmtarih)
                         {
                             // 
@@ -588,7 +612,7 @@ namespace ik.Controllers
                 }
                 list.Add(izinrapor);
             }
-          
+
 
             return Json(list, JsonRequestBehavior.AllowGet);
 
@@ -598,10 +622,10 @@ namespace ik.Controllers
 
     public class IzinRapor
     {
-        public string  AdSoyad { get; set; }
+        public string AdSoyad { get; set; }
         public int KalanIzin { get; set; }
         public string HakedilecekTrih { get; set; }
-        public int  HakedilecekIzin { get; set; }
+        public int HakedilecekIzin { get; set; }
     }
 
     public class MaasNet

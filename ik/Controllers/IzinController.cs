@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,6 +19,7 @@ namespace ik.Controllers
     public class IzinController : Controller
     {
         private readonly ikEntities db = new ikEntities();
+        
 
         protected override void Dispose(bool disposing)
         {
@@ -520,8 +522,8 @@ namespace ik.Controllers
         /// <returns></returns>
         public ActionResult _YarimIzinEkle(int id, int yil = -1, int izinid =-1)
         {
-            if (yil == -1)
-                yil = DateTime.Now.Year;
+            //if (yil == -1)
+            //    yil = DateTime.Now.Year;
             YarimIzinEkleVM izin;
             if (izinid < 1)
             {
@@ -529,7 +531,7 @@ namespace ik.Controllers
                 {
                     personelID = id,
                     tarih = DateTime.Now,
-                    yil = yil,
+                    //yil = yil,
                     izinID = izinid
                 };
             }
@@ -696,6 +698,43 @@ namespace ik.Controllers
                 return Json(new { Success = true,Data=new{Baslangic=izin.baslangictarih.ToShortDateString(),Bitis=izin.bitistarihi.ToShortDateString(),Gun=izin.gun,Aciklama=izin.aciklama } }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult _PersonelMikroIzinleri(int id)
+        {
+            var personel = db.Personels.FirstOrDefault(c => c.id == id);
+            var mikroid = personel.mikroid;
+            using (var kent=new KENTEntities())
+            {
+                var izinliste = (from p in kent.PERSONELLERs
+                    join pi in kent.PERSONEL_IZINLERI on p.per_kod equals pi.pz_pers_kod
+                    where (p.per_Guid == mikroid & pi.pz_izin_tipi.Value==0)  
+                    select new {Baslangic=pi.pz_baslangictarih.Value,Bitis=pi.pz_bitistarihi.Value,Gun=pi.pz_gun_sayisi,Aciklama=pi.pz_izin_aciklama }).ToList().OrderBy(c=>c.Baslangic);
+                return Json(new { Success = true ,Data=izinliste}, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new {Success=false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult _YarimIzinDuzenle(int id)
+        {
+            var izin = db.Yizins.FirstOrDefault(c=>c.id==id);
+            return PartialView(izin);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _YarimIzinDuzenle(int id,Yizin model)
+        {
+            if(ModelState.IsValid)
+            {
+                var izin=db.Yizins.FirstOrDefault(c => c.id==id);
+                izin.yil = model.yil;
+                db.SaveChanges();
+                return Json(new {Success = true}, JsonRequestBehavior.AllowGet);
+            }
+            return PartialView(model);
         }
     }
 }

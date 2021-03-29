@@ -83,8 +83,10 @@
                                 var son = $('<div></div>').append(result);
                                 var Success = $(son).find('#Success').val();
                                 if (Success==="True") {
+								t.removeClass();
                                     t.addClass("yesil");
                                 } else {
+								t.removeClass();
                                     t.addClass("red");
                                 }
                                 var detay = $('<a href="#"><span class="glyphicon glyphicon-list" style="margin:3px 0 0 0"></span></a>');

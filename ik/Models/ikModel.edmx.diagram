@@ -102,6 +102,11 @@
         <EntityTypeShape EntityType="ikModel.PersonelMesai" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
       <Diagram DiagramId="ca673b4b730e413c82ce26beda27b4b5" Name="etiket" >
+        <EntityTypeShape EntityType="ikModel.EtiketDetay" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="ikModel.EtiketGrup" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="ikModel.EtiketTanim" Width="1.5" PointX="0.75" PointY="1.125" />
+        <AssociationConnector Association="ikModel.FK__EtiketDet__etike__4BD727B2" />
+        <AssociationConnector Association="ikModel.FK__EtiketGru__etike__48FABB07" />
       </Diagram>
       <Diagram DiagramId="a34fd7d3fac54633ad5810d449e76d93" Name="gorev" >
         <EntityTypeShape EntityType="ikModel.Gorev_Detay" Width="1.5" PointX="0.75" PointY="1" />

@@ -1,4 +1,46 @@
 ﻿
+<div style="margin: 20px" id="selectlist"></div>
 
 
 
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+    var root = "@(new Uri(Request.Url, Url.Content("~")))";
+    $(function() {
+
+        var select = $('#selectlist');
+        var pers = $('<select id="personel"></select>');
+        pers.append('<option>Personel Seçiniz</option>');
+        select.append(pers);
+        select.append('<img class="" id="loading" src="' + root + '/Content/Loading_icon.gif" /> <span id="sayi"></span>');
+        var load = $('#loading');
+        $.ajax({
+            url: root+'/Admin/Personel/_SelectList',
+            type: 'GET',
+            success: function(result) {
+                var say = 0;
+                $.each(result,
+                    function(i, item) {
+                        pers.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        say = i;
+                    });
+                $('#sayi').html(say + 1 + ' kişi bulundu');
+
+                load.addClass("hidden");
+                pers.on('change',function() {
+                    var selected = $("#personel option:selected");
+                    if (selected.index() === 0) {
+                        return;
+                    }else {
+                        if ($.isFunction(window.PersonelListSelectedChange)) {
+                            window.PersonelListSelectedChange(selected.val());
+                        }
+                    }
+                });
+
+            }
+        });
+
+    });
+</script>

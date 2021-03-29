@@ -18,7 +18,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#izindurumu">Yıllık İzin Durumu</a></li>
         <li><a data-toggle="tab" href="#mikrosongirilen">Mikro son Girilen İzinler</a></li>
-        <li><a data-toggle="tab" href="#mikroizinler">Mikro İzinleri</a></li>
+
     </ul>
 </div>
 
@@ -40,8 +40,9 @@
                         <div class="col-md-10">
                             @Html.DropDownList("PersonelListe", (SelectList)ViewBag.personelListe, "Personel Seçiniz..", new { htmlAttributes = new { @class = "form-control datetime" } })
                             <button type="button" id="btnYazdir" class="btn btn-default">Yazdır</button><span id="kıdemtarih"></span>
-                            <div id="bilgi" class="bilgi">buraya personel sgk dosya bilgisi gibi şeyler getirilebilir</div>
-                            <div id="yarimekle"></div>
+                            <div id="bilgi" class="bilgi clearfix">
+                                <div class="col-md-6" id="yarimekle"></div><div class="col-md-6" id="izinekle"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -49,6 +50,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#izin">Yıllık İzinler</a></li>
                             <li><a data-toggle="tab" href="#yarimizin">Yarım Gün İzinler</a></li>
+                            <li><a data-toggle="tab" href="#mikroizinleri">Mikro İzinleri</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-12">
@@ -79,31 +81,26 @@
                             <div id="yarimizin" class="tab-pane fade in">
                                 <div class="content"> </div>
                             </div>
+                            <div id="mikroizinleri" class="tab-pane fade in">
+                                <div class="content">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Başlangıç Tarihi</th>
+                                                <th>Bitiş Tarihi</th>
+                                                <th>Gün sayısı</th>
+                                                <th>Açıklama</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="mikroizinbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
-
-
-                    @*yıllık izinler tablosu*@
-                    @*<div class="form-group">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Yıl</th>
-                                    <th>Hakedilen</th>
-                                    <th>Kullanılan</th>
-                                    <th>Kalan</th>
-                                    <th>Kanuni</th>
-
-
-                                </tr>
-                                </thead>
-                                <tbody id="result"></tbody>
-                            </table>
-                            <div class="h4">
-                                <span>Toplam Kalan İzin: </span><span id="toplamkalan"></span>
-                            </div>
-                        </div>*@
-
                 </div>
 
                 @*yarım izinler tablosu*@
@@ -135,11 +132,7 @@
                 <div id="mikroson"></div>
             </div>
         </div>
-        <div id="mikroizinler">
-            <div class="content">
 
-            </div>
-        </div>
     </div>
 </div>
 
@@ -154,12 +147,13 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script src="~/Scripts/izin.js"></script>
     @*<script src="~/Scripts/DialogForm.js"></script>*@
     <script src="~/Scripts/ikdialog.js"></script>
 
     <script type="text/javascript">
-        $(function () {
+        $(function() {
 
             //////////////// İZİN TABLOSUNU YAZDIR //////////////////////////
             $('#btnYazdir').on('click',
@@ -171,6 +165,7 @@
                     $("#yazdır").printArea(options);
                     //avans ı database e kaydet
                 });
+
             //////////////////// PERSONELİN TÜM YARIM İZİNLERİNİ LİSTELE ///////////////////
             function personelkullandigiyarimizinlistesi(id, url) {
                 $.ajax({
@@ -182,6 +177,7 @@
                     }
                 });
             }
+
             ////////// SON GİRİLEN İZİNLER TABI DOLDUR ////////////////////////////////
             $.ajax({
                 url: '@Url.Action("_SonGirilenIzinlerPaged", "Mikro")',
@@ -193,7 +189,7 @@
             });
 
 
-            var yarimizinleridus = function () {
+            var yarimizinleridus = function() {
                 console.log("yarimizinleridus fonksiyonu çağırıldı");
                 $('#yarimtablo > table> tbody>tr').each(function(i) {
                     if (i > 0) {
@@ -305,58 +301,7 @@
             };
 
 
-            function yarimizinkontrol(yid) {
-                @*console.log("yarimizinkontrol fonksiyonu çağırıldı");
-                $.ajax({
-                    url: '@Url.Action("YarimIzinler", "Izin")',
-                    type: 'GET',
-                    data: { id: yid },
-                    success: function(result) {
-                        if (result.Success === true) {
-                            var parent = $('#yazdır');
-                            $('#tree').remove();
-                            var table = $('<table id="tree" class="table table-bordered">');
-                            $.each(result.data,
-                                function(i, item) {
-                                    console.log(item);
-                                    //  table.append('<tr class="treegrid-1"><td>' + item.Yıl + '</td><td></td><td></td><td></td></tr>');
-                                    //console.log(item.Yıl);
-                                    $.each(item.Detay,
-                                        function(i2, item2) {
-                                            table.append('<tr><td>' +
-                                                item.Yıl +
-                                                '</td><td>' +
-                                                item2.belgesayi +
-                                                '</td><td>' +
-                                                item2.tarih.toDDMMYYY() +
-                                                '</td><td>' +
-                                                item2.baslangic +
-                                                '</td><td>' +
-                                                item2.bitis +
-                                                '</td><td><input data-yil="' +
-                                                item.Yıl +
-                                                '" data-id="' +
-                                                item.PID +
-                                                '" data-yid="' +
-                                                item.ID +
-                                                '" data-yil="' +
-                                                item.Yıl +
-                                                '" data-toggle="modal" data-target="#myModal" type="button" class="btnYarimEkle" value="Ekle"/></td></tr>');
-                                            //console.log(item2.belgesayi);
-                                        });
-
-                                });
-                            parent.append(table);
-                            //wireupyarimeklebtn
-
-                            // $('#tree').treegrid();
-                        } else {
-                            //$('#tree').remove();
-                        }
-
-                    }
-                });*@
-            };
+           
 
             function wireupyarimbutton(id) {
                 $('.btnYarimEkle').each(function() {
@@ -380,22 +325,41 @@
 
             mikrosonizinler();
 
+            function mikroizinleriyukle(id, element) {
+                element.html(); //loading yapılacak
+                $.ajax({
+                    async: true,
+                    url: '@Url.Action("_PersonelMikroIzinleri")',
+                    type: 'GET',
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        if (response.Success === true) {
+                            console.table(response.Data);
+                            var body = $("#mikroizinbody");
+                            $.each(response.Data, function(i, item) {
+                                body.append('<tr><td>' + moment(item.Baslangic).format("DD/MM/YYYY") + '</td><td>' + moment(item.Bitis).format("DD/MM/YYYY")+'</td><td>'+item.Gun+'</td><td>'+item.Aciklama+'</td></tr>');
+                            });
+                        }
+                    }
+                });
+            }
 
-            $('#PersonelListe').on('change', function() {
-                var id = $(this).val();
 
+            $('#PersonelListe').on('change',
+                function() {
+                    var id = $(this).val();
 
-
-
-
-
-
+                    mikroizinleriyukle(id, $('#mikroizinleriyukle'));
 
 
                     $('#tree').remove();
                     var formurl = '@Url.Action("_YarimIzinEkle")' + '/?id=' + id + '&izinid=' + -1;
 
                     $('#yarimekle').html("");
+                    $('#izinekle').html("");
+                   
                     var updateurl = '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id;
                     $('#yarimekle').ikDialog({
                         formurl: formurl,
@@ -407,6 +371,18 @@
                             $('#yarimtablo').load(updateurl);
                         }
                     });
+
+                    $('#izinekle').ikDialog({
+                        formurl: '@Url.Action("_PersonelMazeretEkle","Pdks")',
+                        title:'İzin Giriş Formu',
+                        data: {
+                            id:id
+                        },success:function (response) {
+
+                        }
+                    });
+
+
                     var url = '@Url.Action("_PersonelYarimIzinleri")' + '/?id=' + id;
 
                     $('#yarimizinler').on('click',
@@ -420,7 +396,6 @@
                                         url: $(this).attr("data-target"),
                                         type: 'GET',
                                         data: {
-
                                         },
                                         success: function(result) {
                                             var content = $('#content');
@@ -485,7 +460,6 @@
                             // yarimizinkontrol(id);
                             var personelyarimizinurl = '@Url.Action("_PersonelYarimIzinListele")' + '/?id=' + id;
                             personelyarimizinyukle(personelyarimizinurl, "yarimtablo");
-
 
 
                             var url = '@Url.Action("_PersonelYarimIzinleri")';

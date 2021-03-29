@@ -112,9 +112,9 @@
         var tablo = $('#mesaitablo');
         $('#yeniekle').empty();
         $('#yeniekle').ikDialog({
-            formurl: '@Url.Action("_MesaiDuzenle")' + '/?id=-1&ay='+tablo.data("ay")+'&yil='+tablo.data("yil"),
+            formurl: '@Url.Action("_MesaiDuzenle")',
             Title: "Mesai Ekle",
-            buttonText: 'Ekle',
+            title: 'Ekle',
             buttonClass: 'btn btn-primary',
             data: {
                 ay: '@ViewBag.ay',
@@ -138,7 +138,7 @@
             mesai.ikDialog({
                 formurl: url,
                 Title: "Mesai Düzenle",
-                buttonText: 'Düzenle',
+                title: 'Düzenle',
                 buttonClass: 'btn btn-primary',
                 data: {
                     ay: '@ViewBag.ay',

@@ -53,6 +53,29 @@
           <Property Name="ad" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="tarih" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="EtiketDetay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="etiketgrupid" Type="int" Nullable="false" />
+          <Property Name="ad" Type="nvarchar" MaxLength="55" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EtiketGrup">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="etikettanimid" Type="int" Nullable="false" />
+          <Property Name="ad" Type="nvarchar" MaxLength="55" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EtiketTanim">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ad" Type="nvarchar" MaxLength="55" Nullable="false" />
+        </EntityType>
         <EntityType Name="EvrakListe">
           <Key>
             <PropertyRef Name="id" />
@@ -682,6 +705,34 @@
             </Principal>
             <Dependent Role="birim">
               <PropertyRef Name="birimAmiri" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EtiketDet__etike__4BD727B2">
+          <End Role="EtiketGrup" Type="Self.EtiketGrup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EtiketDetay" Type="Self.EtiketDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtiketGrup">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EtiketDetay">
+              <PropertyRef Name="etiketgrupid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EtiketGru__etike__48FABB07">
+          <End Role="EtiketTanim" Type="Self.EtiketTanim" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EtiketGrup" Type="Self.EtiketGrup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtiketTanim">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EtiketGrup">
+              <PropertyRef Name="etikettanimid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1439,6 +1490,9 @@
           <EntitySet Name="Avanslar" EntityType="Self.Avanslar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="birim" EntityType="Self.birim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiniGunler" EntityType="Self.DiniGunler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EtiketDetay" EntityType="Self.EtiketDetay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EtiketGrup" EntityType="Self.EtiketGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EtiketTanim" EntityType="Self.EtiketTanim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvrakListe" EntityType="Self.EvrakListe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeciciMazeret" EntityType="Self.GeciciMazeret" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="dbo" store:Type="Tables" />
@@ -1511,6 +1565,14 @@
           <AssociationSet Name="FK__birim__birimAmir__208CD6FA" Association="Self.FK__birim__birimAmir__208CD6FA">
             <End Role="Personel" EntitySet="Personel" />
             <End Role="birim" EntitySet="birim" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EtiketDet__etike__4BD727B2" Association="Self.FK__EtiketDet__etike__4BD727B2">
+            <End Role="EtiketGrup" EntitySet="EtiketGrup" />
+            <End Role="EtiketDetay" EntitySet="EtiketDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EtiketGru__etike__48FABB07" Association="Self.FK__EtiketGru__etike__48FABB07">
+            <End Role="EtiketTanim" EntitySet="EtiketTanim" />
+            <End Role="EtiketGrup" EntitySet="EtiketGrup" />
           </AssociationSet>
           <AssociationSet Name="FK__GeciciMaz__perso__662B2B3B" Association="Self.FK__GeciciMaz__perso__662B2B3B">
             <End Role="Personel" EntitySet="Personel" />
@@ -2030,6 +2092,17 @@
           <AssociationSet Name="FK__IcraOdeme__icrai__1AD3FDA4" Association="ikModel.FK__IcraOdeme__icrai__1AD3FDA4">
             <End Role="Icralar" EntitySet="Icralars" />
             <End Role="IcraOdeme" EntitySet="IcraOdemes" />
+          </AssociationSet>
+          <EntitySet Name="EtiketDetays" EntityType="ikModel.EtiketDetay" />
+          <EntitySet Name="EtiketGrups" EntityType="ikModel.EtiketGrup" />
+          <EntitySet Name="EtiketTanims" EntityType="ikModel.EtiketTanim" />
+          <AssociationSet Name="FK__EtiketDet__etike__4BD727B2" Association="ikModel.FK__EtiketDet__etike__4BD727B2">
+            <End Role="EtiketGrup" EntitySet="EtiketGrups" />
+            <End Role="EtiketDetay" EntitySet="EtiketDetays" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EtiketGru__etike__48FABB07" Association="ikModel.FK__EtiketGru__etike__48FABB07">
+            <End Role="EtiketTanim" EntitySet="EtiketTanims" />
+            <End Role="EtiketGrup" EntitySet="EtiketGrups" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="birim">
@@ -3578,6 +3651,61 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EtiketDetay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="etiketgrupid" Type="Int32" Nullable="false" />
+          <Property Name="ad" Type="String" Nullable="false" MaxLength="55" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EtiketGrup" Relationship="ikModel.FK__EtiketDet__etike__4BD727B2" FromRole="EtiketDetay" ToRole="EtiketGrup" />
+        </EntityType>
+        <EntityType Name="EtiketGrup">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="etikettanimid" Type="Int32" Nullable="false" />
+          <Property Name="ad" Type="String" Nullable="false" MaxLength="55" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EtiketDetays" Relationship="ikModel.FK__EtiketDet__etike__4BD727B2" FromRole="EtiketGrup" ToRole="EtiketDetay" />
+          <NavigationProperty Name="EtiketTanim" Relationship="ikModel.FK__EtiketGru__etike__48FABB07" FromRole="EtiketGrup" ToRole="EtiketTanim" />
+        </EntityType>
+        <EntityType Name="EtiketTanim">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ad" Type="String" Nullable="false" MaxLength="55" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EtiketGrups" Relationship="ikModel.FK__EtiketGru__etike__48FABB07" FromRole="EtiketTanim" ToRole="EtiketGrup" />
+        </EntityType>
+        <Association Name="FK__EtiketDet__etike__4BD727B2">
+          <End Type="ikModel.EtiketGrup" Role="EtiketGrup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.EtiketDetay" Role="EtiketDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtiketGrup">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EtiketDetay">
+              <PropertyRef Name="etiketgrupid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EtiketGru__etike__48FABB07">
+          <End Type="ikModel.EtiketTanim" Role="EtiketTanim" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ikModel.EtiketGrup" Role="EtiketGrup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtiketTanim">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EtiketGrup">
+              <PropertyRef Name="etikettanimid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4285,6 +4413,32 @@
                 <ScalarProperty Name="tutar" ColumnName="tutar" />
                 <ScalarProperty Name="tarih" ColumnName="tarih" />
                 <ScalarProperty Name="icraid" ColumnName="icraid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EtiketDetays">
+            <EntityTypeMapping TypeName="ikModel.EtiketDetay">
+              <MappingFragment StoreEntitySet="EtiketDetay">
+                <ScalarProperty Name="ad" ColumnName="ad" />
+                <ScalarProperty Name="etiketgrupid" ColumnName="etiketgrupid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EtiketGrups">
+            <EntityTypeMapping TypeName="ikModel.EtiketGrup">
+              <MappingFragment StoreEntitySet="EtiketGrup">
+                <ScalarProperty Name="ad" ColumnName="ad" />
+                <ScalarProperty Name="etikettanimid" ColumnName="etikettanimid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EtiketTanims">
+            <EntityTypeMapping TypeName="ikModel.EtiketTanim">
+              <MappingFragment StoreEntitySet="EtiketTanim">
+                <ScalarProperty Name="ad" ColumnName="ad" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

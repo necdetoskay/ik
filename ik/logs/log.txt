@@ -76,3 +76,6 @@ INFO  2020-09-09 12:22:50,515 22632ms seGirisEvrakController __DosyaSil         
 INFO  2020-09-09 12:22:50,534 22651ms seGirisEvrakController __DosyaSil         - Bulunamadý
 INFO  2020-09-09 12:25:50,897 21988ms seGirisEvrakController __DosyaSil         - Bulunamadý
 INFO  2020-09-09 12:25:50,917 22008ms seGirisEvrakController __DosyaSil         - Bulunamadý
+ERROR 2020-09-14 14:02:03,060 55507ms PersonelController     _MerkezAvanslarý   - Ne yazýk ki Z:\Source\Repos\proje\ik\ik\Content\Report\Avans\merkez.xls öðesini bulamadýk. Taþýnmýþ, yeniden adlandýrýlmýþ veya silinmiþ olabilir mi?
+ERROR 2020-09-14 14:02:23,479 75926ms PersonelController     _MerkezAvanslarý   - Ne yazýk ki Z:\Source\Repos\proje\ik\ik\Content\Report\Avans\merkez.xls öðesini bulamadýk. Taþýnmýþ, yeniden adlandýrýlmýþ veya silinmiþ olabilir mi?
+ERROR 2020-09-14 14:04:50,335 13412ms PersonelController     _MerkezAvanslarý   - Ne yazýk ki Z:\Source\Repos\proje\ik\ik\Content\Report\Avans\merkez.xls öðesini bulamadýk. Taþýnmýþ, yeniden adlandýrýlmýþ veya silinmiþ olabilir mi?

@@ -18,7 +18,8 @@ namespace ik.Controllers
         {
             return View();
         }
-
+        [OverrideAuthorization]
+        [Authorize(Users = @"KENTKONUT\noskay")]
         public ActionResult Puantajlar()
         {
             return View();
@@ -99,12 +100,12 @@ namespace ik.Controllers
             foreach (var pers in query.GroupBy(c => c.sicilno))
             {
                 vergiindirim = 0;
-                if (pers.Key == "0450")
+                if (pers.Key == "0450") //engelli vergi iadesi
                 {
                     vergiindirim = 350;
                 }
                 tip = 0;
-                if (pers.Key == "1375")
+                if (pers.Key == "1375") //sgdp hesaplaması
                 {
                     tip = 1;
                 }
@@ -198,16 +199,16 @@ namespace ik.Controllers
                     İşsizlikPay = 0
                 };
             }
-            var yemekistisna = 5.89;
+            //var yemekistisna =7.155m;
 
-            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2020).vergi_dilim_detay.ToList();
+            var dilim = db.vergi_dilim.FirstOrDefault(c => c.yil == 2021).vergi_dilim_detay.ToList();
             brütmaaş = ((brütmaaş / 30) * sgkgun);// 4307.32m;
             double brütyemek = yemek;//Math.Round(sgkgun < 22 ? (yemek / 22.0) * sgkgun : yemek);
 
 
 
 
-            var yemekistisnatutar = 129;//Math.Round(yemekistisna * 22,2);
+            var yemekistisnatutar = 157.41;//Math.Round(yemekistisna * 22,2);
             var sgkmatrah = Math.Round(brütmaaş + brütyemek - yemekistisnatutar + mesai + mesai2, 2);
             sgkmatrah = sgkmatrah > 22072.5 ? 22072.5 : sgkmatrah;
             double işsizlikprim = 0;

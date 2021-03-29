@@ -27,7 +27,7 @@
                 <td class="yil">
                     @Html.DisplayFor(modelItem => item.yil)
                 </td>
-                <td>
+                <td class="belgeno">
                     @Html.DisplayFor(modelItem => item.belgeNo)
                 </td>
                 <td>
@@ -49,19 +49,68 @@
 
 </table>
 
-
+<link href="~/Content/jquery.contextMenu.min.css" rel="stylesheet" />
 <link href="~/Content/themes/base/all.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <script src="~/Scripts/bootstrap-dialog.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-
+<script src="~/Scripts/jquery.contextMenu.min.js"></script>
+<script src="~/Scripts/bootstrap-dialog.js"></script>
 <script src="~/Scripts/izin.js"></script>
 @*<script src="~/Scripts/DialogForm.js"></script>*@
 <script src="~/Scripts/ikdialog.js"></script>
 <script type="text/javascript">
     $(function () {
+        $.contextMenu({
+            selector:'.belgeno',
+            items: {
+                puantajyap: {
+                    name:'Mazeret Gir',
+                    callback: function (key, options) {
+                        var td = options.$trigger;
+                        var izinid = td.closest("tr").attr("data-izinID");
+                        $.ajax({
+                            async:true,
+                            url: '@Url.Action("MazeretIzinEkle","Pdks")',
+                            type:'GET',
+                            data: {
+                                izinid:izinid
+                            },
+                            success:function (response) {
+                                if(response.Success===true) {
+                                    BootstrapDialog.show({
+                                        type: BootstrapDialog.TYPE_SUCCESS,
+                                        title: 'Başarılı',
+                                        message: 'İşlem Başarılı',
+                                        buttons: [{
+                                            label: 'Tamam'
+                                        }]
+                                    });     
+                                }else {
+                                    BootstrapDialog.show({
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        title: 'Hata Oluştu',
+                                        message: 'İşlem Başarısız',
+                                        buttons: [{
+                                            label: 'Tamam'
+                                        }]
+                                    });     
+
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+
+
+
+
+
         $('#yarimtablo > table> tbody>tr').each(function (i) {
             if (i > 0) {
                 var tr = $(this);
@@ -100,7 +149,7 @@
             var formurl ='@Url.Action("_YarimIzinEkle")';
             row.ikDialog({
                 formurl: formurl,
-                title: "Yarım İzin Ekle",
+                title: "Yarım Tamamla",
                 data: {
                     izinid: izinid,
                     id: id,

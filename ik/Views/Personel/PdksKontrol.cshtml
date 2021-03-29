@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "PdksKontrol";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<button class="btn btn-primary" id="sorgula"> Sorgula</button>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function() {
+
+            @*$.ajax({
+                async: true,
+                url: '@Url.Action("TCKontrol","Pdks")',
+                type: 'GET',
+                data: {},
+                success: function(response) {
+
+                }
+            });*@
+        });
+    </script>
+}

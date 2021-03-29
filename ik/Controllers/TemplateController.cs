@@ -43,17 +43,17 @@ namespace ik.Controllers
 
 
         [HttpPost]
-        public ActionResult _MaasHesapla(string brutucret, string devkumgvm, string agi, string istisna,string istisnatutar)
+        public ActionResult _MaasHesapla(string brutucret, string devkumgvm, string agi, string istisna, string istisnatutar)
         {
-            var brut = decimal.Parse(brutucret.Replace(".",","));
+            var brut = decimal.Parse(brutucret.Replace(".", ","));
             var devredenkumulatifgvm = decimal.Parse(devkumgvm.Replace(".", ","));
             var agitutar = decimal.Parse(agi.Replace(".", ","));
-            var istisnamı = istisna=="on"?true:false;
+            var istisnamı = istisna == "on" ? true : false;
             var istisnatutarı = decimal.Parse(istisnatutar.Replace(".", ","));
 
-           
+
             var maashesap = new MaasHesap()
-            {              
+            {
                 //Ucret = 5478.29m,
                 YemekUcret = 571.85m,
                 AGI = 264.87m,
@@ -62,11 +62,11 @@ namespace ik.Controllers
                 VergiDilim = db.vergi_dilim.SingleOrDefault(c => c.yil == 2020),
                 DevredenGelirVergiMatrah = 20527.7m// 20527.70m
             };
-            var hesap=maashesap.Hesapla();
-           
+            var hesap = maashesap.Hesapla();
 
 
-            
+
+
             return PartialView(hesap);
         }
 
@@ -92,8 +92,8 @@ namespace ik.Controllers
         {
             var yıl = DateTime.Now.Year;
             var bas = new DateTime(yıl, ay, 1);
-            var son =bas.AddMonths(1).AddDays(-1);
-           // var son = new DateTime(yıl, ay + 1, 1).Subtract(new TimeSpan(1, 0, 0));
+            var son = bas.AddMonths(1).AddDays(-1);
+            // var son = new DateTime(yıl, ay + 1, 1).Subtract(new TimeSpan(1, 0, 0));
             var ikavans = db.Avanslars.Where(c => c.tarih >= bas && c.tarih <= son).ToList();//.Sum(c=>c.tutar);
 
             var mikroavans = (from pt in kent.PERSONEL_TAHAKKUKLARI
@@ -146,7 +146,7 @@ namespace ik.Controllers
                         }).ToList();
 
 
-                huzurlar.ForEach(c => c.Tutar = kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod) == null ? 0 : kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm30.Value+ kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm26.Value);
+                huzurlar.ForEach(c => c.Tutar = kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod) == null ? 0 : kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm30.Value + kent.PERSONEL_TAHAKKUKLARI.FirstOrDefault(d => d.pt_maliyil == yıl & d.pt_tah_ay == ay & d.pt_pkod == c.Kod).pt_sosyrdm26.Value);
 
 
 
@@ -170,14 +170,14 @@ namespace ik.Controllers
 
         }
 
-        public ActionResult _IkMikroMesai(int ay,int yil)
+        public ActionResult _IkMikroMesai(int ay, int yil)
         {   //ik mesaileri oku
             ViewBag.ay = ay;
             ViewBag.yil = yil;
             var yıl = yil;
             var ikmesai = db.PersonelMesais.Where(c => c.ay == ay & c.yil == yıl).Select(c => new
             {
-                ID=c.id,
+                ID = c.id,
                 AdSoyad = c.Personel.adsoyad,
                 IkMesai1 = c.mesai1,
                 IkMesai2 = c.mesai2,
@@ -238,13 +238,9 @@ namespace ik.Controllers
         public ActionResult _RaporKontrol(int ay)
         {
             var now = DateTime.Now;
-            //rapor tarih aralığını seç
             var start = new DateTime(now.Year, ay, 1).AddDays(-1);
             var fin = new DateTime(now.Year, ay, 1).AddMonths(1).AddDays(-1);
-            //var fin = new DateTime(now.Year, ay + 1, 1).AddDays(-1);
-
-
-
+          
             var perk = new PerkotekContext();
             var lste = perk.SGKGunRaporKontrol(start, fin);
 
@@ -274,52 +270,71 @@ namespace ik.Controllers
 
 
         }
+      
+
+        private  List<YemekParaKontrolVM> _SGKGun(int ay)
+        {
+            var netyemek = (double)(400.0 / 22);
+            var yıl = DateTime.Now.Year;
+            var list = (from pt in kent.PERSONEL_TAHAKKUKLARI
+                join p in kent.PERSONELLERs on pt.pt_pkod equals p.per_kod
+                where pt.pt_maliyil == yıl & pt.pt_tah_ay == ay & pt.pt_sskgunu < 22
+                select new YemekParaKontrolVM
+                {
+                    AdSoyad = p.per_adi + " " + p.per_soyadi,
+                    SGKgun = (int)pt.pt_sskgunu,
+                    YemekPara = pt.pt_sosyrdm8.Value,
+                    Hesaplanan = (netyemek * pt.pt_sskgunu.Value) 
+                }).ToList();
+            return list;
+        }
+
+        public JsonResult _SGKGunYemekKontrol(int ay)
+        {
+            var list = _SGKGun(ay);
+            var yemek = true;
+            foreach (var yemekPara in list)
+            {
+                if (Math.Abs(yemekPara.Hesaplanan - yemekPara.YemekPara) > 1)
+                {
+                    yemek = false;
+                    break;
+                }
+            }
+            return Json(new { Success = yemek, Data = list }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult _SGKGunYemek(int ay)
         {
-            var netyemek = (double)(400.0 / 22);
-
-            var yıl = DateTime.Now.Year;
-            var list = (from pt in kent.PERSONEL_TAHAKKUKLARI
-                        join p in kent.PERSONELLERs on pt.pt_pkod equals p.per_kod
-                        where pt.pt_maliyil == yıl & pt.pt_tah_ay == ay & pt.pt_sskgunu < 22
-                        select new YemekParaKontrolVM
-                        {
-                            AdSoyad = p.per_adi + " " + p.per_soyadi,
-                            SGKgun = (int)pt.pt_sskgunu,
-                            YemekPara = pt.pt_sosyrdm8.Value,
-                            Hesaplanan = netyemek * pt.pt_sskgunu.Value
-
-
-                        }).ToList();
+            var list = _SGKGun(ay);
             return PartialView(list);
         }
 
         public ActionResult _IcraKontrol(int ay)
         {
-            //var liste= db.Icralars.Where(c => c.tamamlanma == false || c.IcraOdemes.Sum(d=>d.tutar)<c.tutar).ToList().Select(c=>new IcraKontrolVM
-            var liste = db.Icralars.Where(c => c.tamamlanma == false).ToList().Select(c=>new IcraKontrolVM
+            
+            var liste = db.Icralars.Where(c => c.tamamlanma == false).ToList().Select(c => new IcraKontrolVM
             {
                 AdSoyad = c.Personel.adsoyad,
                 MikroId = c.Personel.mikroid
-                
+
             }).ToList();
             liste.ForEach(c =>
             {
 
-                using (var mikro=new KENTEntities())
+                using (var mikro = new KENTEntities())
                 {
                     var kod = mikro.PERSONELLERs.FirstOrDefault(e => e.per_Guid == c.MikroId).per_kod;
 
 
-                   var pt= mikro.PERSONEL_TAHAKKUKLARI.FirstOrDefault(
-                        d => d.pt_pkod == kod && d.pt_tah_ay == ay && d.pt_maliyil == DateTime.Now.Year);
+                    var pt = mikro.PERSONEL_TAHAKKUKLARI.FirstOrDefault(
+                         d => d.pt_pkod == kod && d.pt_tah_ay == ay && d.pt_maliyil == DateTime.Now.Year);
 
                     if (pt != null)
                     {
-                        c.MikroIcra = (decimal) pt.pt_ozksnt3.Value;
+                        c.MikroIcra = (decimal)pt.pt_ozksnt3.Value;
                         var hesap = Math.Round(((pt.pt_net - pt.pt_asgarigecimindirimi + pt.pt_ozksnt5 + pt.pt_otobes_tutari + pt.pt_ozksnt12 +
-                                                 pt.pt_ozksnt3.Value)/4).Value,2);
+                                                 pt.pt_ozksnt3.Value) / 4).Value, 2);
                         c.IcraHesaplanan = (decimal)hesap;
                     }
                 }
@@ -331,7 +346,6 @@ namespace ik.Controllers
         public ActionResult GunlukRapor()
         {
             return View();
-            throw new NotImplementedException();
         }
 
 
@@ -340,54 +354,57 @@ namespace ik.Controllers
             return View();
         }
 
-        public ActionResult _MesaiDuzenle(int ay, int yil,int id=-1)
+        public ActionResult _MesaiDuzenle(int ay, int yil, int id = -1)
         {
             ViewBag.personelListe =
                 new SelectList(db.Personels.Where(c => c.cikistarihi == null).OrderBy(c => c.adsoyad), "id", "adsoyad");
-            var mesai =id>1? db.PersonelMesais.FirstOrDefault(c => c.id == id):new PersonelMesai(){ay = ay,yil = yil,personelID = id};
+            var mesai = id > 1 ? db.PersonelMesais.FirstOrDefault(c => c.id == id) : new PersonelMesai() { ay = ay, yil = yil, personelID = id };
             return PartialView(mesai);
         }
         [HttpPost]
-        public ActionResult _MesaiDuzenle(int id,PersonelMesai model)
+        public ActionResult _MesaiDuzenle(int id, PersonelMesai model)
         {
             if (ModelState.IsValid)
             {
-               if(model.id>10)
-                   db.Entry(model).State =EntityState.Modified;
-               else
-               {
-                   db.PersonelMesais.Add(model);
-               }
-               
-               db.SaveChanges();
-                return Json(new {Success=true,Data=model,AdSoyad=model.Personel.adsoyad }, JsonRequestBehavior.AllowGet);
+                var persenel = db.Personels.FirstOrDefault(c => c.id == model.personelID);
+                if (model.id > 10)
+                    db.Entry(model).State = EntityState.Modified;
+                else
+                {
+                    db.PersonelMesais.Add(model);
+                }
+
+                db.SaveChanges();
+                return Json(new { Success = true, Data = model, AdSoyad = persenel.adsoyad }, JsonRequestBehavior.AllowGet);
             }
-            
+
             return PartialView(model);
         }
 
         public ActionResult _MesaiSil(int id)
         {
-            var mesai =  db.PersonelMesais.FirstOrDefault(c => c.id == id);
+            var mesai = db.PersonelMesais.FirstOrDefault(c => c.id == id);
             db.PersonelMesais.Remove(mesai);
             db.SaveChanges();
-            return Json(new {Success = true}, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult _UcretsizIzin(int yil,int ay)
+        public ActionResult _UcretsizIzin(int yil, int ay)
         {
-           var son=new DateTime(yil,ay+1,1).AddDays(-1);
-           var izin = (from i in kent.PERSONEL_IZINLERI join pe in kent.PERSONELLERs on i.pz_pers_kod equals pe.per_kod 
-               where  i.pz_izin_tipi.Value == 8 && i.pz_baslangictarih <= son && i.pz_bitistarihi > son select new{ adsoyad=pe.per_adi+" "+pe.per_soyadi}).ToList();
-           if (izin.Any())
-           {
-               ViewBag.success = false;
-           }
-           else
-           {
-               ViewBag.success = true;
-           }
-           return PartialView(izin);
+            var son = new DateTime(yil, ay + 1, 1).AddDays(-1);
+            var izin = (from i in kent.PERSONEL_IZINLERI
+                        join pe in kent.PERSONELLERs on i.pz_pers_kod equals pe.per_kod
+                        where i.pz_izin_tipi.Value == 8 && i.pz_baslangictarih <= son && i.pz_bitistarihi > son
+                        select new { adsoyad = pe.per_adi + " " + pe.per_soyadi }).ToList();
+            if (izin.Any())
+            {
+                ViewBag.success = false;
+            }
+            else
+            {
+                ViewBag.success = true;
+            }
+            return PartialView(izin);
         }
     }
 

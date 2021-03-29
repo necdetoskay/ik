@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
@@ -950,7 +951,7 @@ namespace ik.Controllers
 
         public ActionResult _PersonelSelectList()
         {
-            var pers = db.Personels.Where(c => c.cikistarihi == null)
+            var pers = db.Personels//.Where(c => c.cikistarihi == null)
                .Select(d => new
                {
                    Text = d.adsoyad,
@@ -965,8 +966,17 @@ namespace ik.Controllers
             var mikroid = db.Personels.FirstOrDefault(c => c.id == id);
             var mikro = ke.PERSONELLERs.FirstOrDefault(c => c.per_Guid == mikroid.mikroid);
             var liste = ke.PERSONEL_TAHAKKUKLARI.Where(c => c.pt_pkod == mikro.per_kod).OrderByDescending(c => c.pt_maliyil).ThenByDescending(c => c.pt_tah_ay).FirstOrDefault();
-            var net = (int)(liste.pt_net + liste.pt_ozksnt + liste.pt_otobes_tutari) / 2;
+            var netmaas =
+                MaasHesaplaSt.MaasHesap(Math.Round(liste.pt_brutucret.Value, 2), 
+                    Math.Round(liste.pt_sosyrdm.Value, 2), 
+                    liste.pt_ozksnt5.Value, 
+                    liste.pt_otobes_tutari.Value, 
+                    Math.Round(liste.pt_devgvmatrah.Value, 2), liste.pt_asgarigecimindirimi.Value);
+
+            //var net = (int)(liste.pt_net + liste.pt_ozksnt + liste.pt_otobes_tutari) / 2;
+            var net = (int)(netmaas.Net) / 2;
             return Json(new { Success = true, Tutar = net }, JsonRequestBehavior.AllowGet);
+            //mesaisiz maaş hesaplanacak
 
         }
 
@@ -1104,7 +1114,7 @@ namespace ik.Controllers
                   //HttpContext.Server.MapPath(
                   //      @Url.Content(string.Format("~/Content/Report/Avans/{0}", kadro == 1 ? "merkez.xls" : "khk.xls")));
 
-                  HttpContext.Server.MapPath(@Url.Content(string.Format("~/Content/Report/Avans/{0}", kadro == 1 ? "merkez.xls" : "khk.xls")));
+                  HttpContext.Server.MapPath(@Url.Content(string.Format("~/Content/Report/Avans/{0}", kadro == 1 ? "merkez.xlsx" : "khk.xls")));
 
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(DosyaYolu, 0, true, 5, "", "", true,
@@ -1129,7 +1139,7 @@ namespace ik.Controllers
 
                 //Response.ContentType = "application/vnd.ms-excel";
                 var filename =
-                    Server.MapPath(@Url.Content(string.Format("~/Content/Report/Avans/__{0}.xls", Guid.NewGuid())));
+                    Server.MapPath(@Url.Content(string.Format("~/Content/Report/Avans/__{0}.xlsx", Guid.NewGuid())));
 
 
                 xlWorkbook.SaveAs(filename); xlWorkbook.Close(true, null, null);
@@ -1141,7 +1151,7 @@ namespace ik.Controllers
 
                 //return File(fileByteArray, System.Net.Mime.MediaTypeNames.Application.Octet,
                 //    kadro == 1 ? "merkez.xls" : "khk.xls");
-                return File(fileByteArray, "application/vnd.ms-excel", kadro == 1 ? "merkez.xls" : "khk.xls");
+                return File(fileByteArray, "application/vnd.ms-excel", kadro == 1 ? "merkez.xlsx" : "khk.xls");
 
                 //Response.Clear();
                 //MemoryStream ms = new MemoryStream(fileByteArray);
@@ -1561,7 +1571,17 @@ namespace ik.Controllers
             }
             return Json(new { Success = true ,Data=adet}, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult PdksKontrol()
+        {
+            return View();
+        }
+
+
+      
     }
+
+   
 
     public class SicilVM
     {

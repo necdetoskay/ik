@@ -91,5 +91,8 @@ namespace ik.Models
         public virtual DbSet<Ozluk_IseGirisGerekEvrakTip> Ozluk_IseGirisGerekEvrakTip { get; set; }
         public virtual DbSet<Icralar> Icralars { get; set; }
         public virtual DbSet<IcraOdeme> IcraOdemes { get; set; }
+        public virtual DbSet<EtiketDetay> EtiketDetays { get; set; }
+        public virtual DbSet<EtiketGrup> EtiketGrups { get; set; }
+        public virtual DbSet<EtiketTanim> EtiketTanims { get; set; }
     }
 }

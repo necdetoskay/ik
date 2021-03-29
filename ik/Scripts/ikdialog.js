@@ -36,7 +36,7 @@
     function formyukle(dialogdiv, settings) {
        
         var id = ID();
-        $('<button id="' + id + '" class="' + settings.buttonClass + '">' + settings.buttonText+'</button>').appendTo(dialogdiv);
+        $('<button id="' + id + '" class="' + settings.buttonClass + '">' + settings.title+'</button>').appendTo(dialogdiv);
 
         $('#' + id).on('click', function () {
 
@@ -98,6 +98,78 @@
         });
 
     }
+
+    $.fn.ikDialog3 = function (options) {
+        var settings = $.extend({
+                formurl: '',
+                title: '',
+                data: {},
+                buttonClass: 'btn btn-primary',
+                buttonText: 'Yeni Ekle',
+                complete: function (result) { },
+             
+            }, options);
+         
+            BootstrapDialog.show({
+                draggable: true,
+                title: settings.title,
+                message: function (dialog) {
+                    var $message = $('<div>Bekleyiniz.......</div>');
+                    var dialogyukle = dialog.getData('dialogyukle');
+                    var param = dialog.getData('data');
+                    dialogyukle += "?";
+                    var par = "";
+                    $.each(param,
+                        function (key, value) {
+                            par = par + key + "=" + value+"&";
+                        });
+                    dialogyukle += par;
+                    $message.load(dialogyukle);
+                    return $message;
+                },
+                onshown: function (dialogRef) {
+                    var form = dialogRef.getModalBody().find('form');
+                    //console.log(settings.data);
+                    //form.append("data", settings.data);
+                    $.validator.unobtrusive.parse(form);
+
+                    formvalidation(form, dialogRef, settings.complete);
+
+                },
+                data: {
+                    'dialogyukle': settings.formurl,
+                    'data': settings.data
+                    //,'complete': settings.complete
+                },
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                buttons: [
+                    {
+                        label: 'Kaydet',
+                        //hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+                        action: function (dialogRef) {
+                            var form = dialogRef.getModalBody().find('form');
+                            //console.log(dialogRef.getData('data'));
+                            $(form).submit();
+                        }
+                    }, {
+                        label: 'İptal',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }
+                ]
+            });
+          
+
+      
+    }
+
+
+
+
+
     $.fn.ikDialog2 = function (options) {
         var settings = $.extend({
             formurl: '',

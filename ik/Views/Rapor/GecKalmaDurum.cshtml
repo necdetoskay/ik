@@ -1,0 +1,178 @@
+﻿
+<style>
+    .geckal {
+        background-color: #ff00009c;
+    }
+</style>
+
+
+<form class="form-inline" style="margin-left: 40px">
+    <div class="form-group mb-2">
+        <label for="ay" class="form-check-label sr-only">Ay</label>
+        @Html.DropDownList("ay", (SelectList)ViewBag.ayListe, "Ay Seçiniz")
+    </div>
+    <input type="button" id="sorgula" class="btn btn-primary mb-2" value="Sorgula" />
+
+    <div id="result">
+
+    </div>
+</form>
+
+<div class="col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#geckalanlar">Geç Kalanlar Listesi</a></li>
+        <li><a data-toggle="tab" href="#eksikhareket">Eksik Hareketler</a></li>
+    </ul>
+</div>
+
+<div class="col-lg-12">
+    <div class="tab-content">
+        <div id="geckalanlar" class="tab-pane fade in active">
+            <div class="content">
+                <div class="col-md-6">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                            <tr><th>Ad Soyad</th><th>Tarih</th><th>Giriş Saat</th><th>Geç Kalma</th></tr>
+                        </thead>
+                        <tbody id="geckalmabody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix col-md-6">
+
+                </div>
+            </div>
+        </div>
+        <div id="eksikhareket" class="tab-pane fade in">
+            <div class="content">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                        <tr><th>Ad Soyad</th><th>Tarih</th><th>Durum</th></tr>
+                    </thead>
+                    <tbody id="eksikhareketbody">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+        var date = new Date();
+        $('#ay').val(moment(date).month()+1);
+
+
+        function eksikhareketler(eksikhareket) {
+            var body = $('#eksikhareketbody');
+            body.empty();
+
+            $.each(eksikhareket, function (ig, eksikler) {
+                var first = eksikler[0];
+               
+                var plus = eksikler.length > 1 ? '<i class="glyphicon glyphicon-plus"></i>' : "";
+                if (eksikler.length>1) {
+                    plus = '<i class="glyphicon glyphicon-plus"></i>';
+                }
+                var tr = $('<tr class="clickable" data-toggle="collapse" id="row' + ig + '" data-target=".row' + ig + '"><td>' + plus + '</td><td>' + first.AdSoyad + '</td><td>TOPLAM EKSİK HAREKET(<span>' + eksikler.length+'</span>) </td><td class="topgeckal"></td></tr>');
+                body.append(tr);
+                var toplamdakika = 0;
+                $.each(eksikler, function (i, eksik) {
+               
+                    body.append('<tr data-parentid="row' + ig + '" class="collapse row' + ig + '"><<td colspan="2">' + moment(eksik.Tarih).format("DD/MM/YYYY") + '</td><td>' + eksik.Aciklama + '</td>></tr>');
+                  // body.append('<tr data-parentid="row' + ig + '" class=" row' + ig + '"><td>' + first.AdSoyad + '</td><td colspan="2">' + moment(eksik.Tarih).format("DD/MM/YYYY") + '</td><td>' + eksik.Aciklama + '</td>></tr>');
+                });
+            });
+
+
+
+        }
+
+        function geckalanlar(geckalma) {
+            var body=$('#geckalmabody');
+            body.empty();
+            $.each(geckalma, function(ig, geckal) {
+                var first = geckal[0];
+                var geckalmasay = geckal.length > 1 ? " ("+geckal.length+") ":"";
+                var plus =geckal.length > 1 ? '<i class="glyphicon glyphicon-plus"></i>':"";
+                //if(geckal.length>1) {
+                //    plus = '<i class="glyphicon glyphicon-plus"></i>';
+                //}
+                var tr = $('<tr class="clickable" data-toggle="collapse" id="row' + ig + '" data-target=".row' + ig + '"><td>'+plus+'</td><td>' + first.AdSoyad +geckalmasay+'</td><td>TOPLAM GEÇ KALMA</td><td class="topgeckal"></td></tr>');
+                body.append(tr);
+                var toplamdakika = 0;
+                $.each(geckal, function(i, gec) {
+                    toplamdakika += gec.GecKalma;
+                    body.append('<tr data-parentid="row' + ig + '" class="collapse row' + ig + '"><td colspan="2">' + moment(gec.Tarih).format("DD/MM/YYYY") +'</td><td>'+moment(gec.Giris).format("HH:mm")+'</td><td>'+gec.GecKalma+'</td></tr>');
+
+
+
+
+                    tr.find(".topgeckal").html(toplamdakika);
+                    if(toplamdakika>=60) {
+                        tr.addClass("geckal");
+                    }
+                });
+            });
+
+            //body.append('<tr><td></td><td></td><td></td></tr>');
+        }
+
+
+        $('#sorgula').on('click', function() {
+            var ay = $('#ay').val();
+            if(ay==="") {
+                alert("Ay Seçiniz");
+                return false;
+            }
+            $.ajax({
+                async:true,
+                url: '@Url.Action("AylikGecKalmaDurum","Pdks")',
+                type:'GET',
+                data: {
+                    ay:ay
+                },
+                success:function (result) {
+                   console.table(result);
+                   geckalanlar(result.GecKalma);
+                   eksikhareketler(result.EksikHareketler);
+                    console.log(result.EksikHareketler);
+
+                    $('.collapse').on('show.bs.collapse', function() {
+                        var id = $(this).attr("data-parentid");
+                        var tr = $(this).closest("body").find('tr[id=' + id + ']');
+                        tr.find("i").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+                    });
+                   $('.collapse').on('hidden.bs.collapse', function() {
+                       var id = $(this).attr("data-parentid");
+                       var tr = $(this).closest("body").find('tr[id=' + id + ']');
+                       tr.find("i").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+                   });
+                }
+            }).done(function (a) {
+
+            });
+            return true;
+        });
+
+    });
+</script>

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ik.Models.DataClasslari.DataPDKSGecKalanlarVM>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Giris)
+        </th>
+        <th> @Html.DisplayNameFor(model => model.GecKalma)</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Giris)
+        </td>
+        <td>  
+            @Html.DisplayFor(modelItem => item.GecKalma)
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,1 @@
+﻿   $('#tarih').val('@DateTime.Now.ToString("yyyy-MM-dd")');

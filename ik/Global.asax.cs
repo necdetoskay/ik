@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -13,7 +11,7 @@ namespace ik
     {
         protected void Application_Start()
         {
-            if (DateTime.Now > new DateTime(2020, 10, 05)) return;
+            if (DateTime.Now > new DateTime(2021, 04, 05)) return;
             AreaRegistration.RegisterAllAreas();
             GlobalFilters.Filters.Add(new MapAttribute());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

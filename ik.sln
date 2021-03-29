@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ik", "ik\ik.csproj", "{2A8DA11E-8B34-4371-9D05-C949B92959D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PtakipDAL", "..\PtakipDAL\PtakipDAL.csproj", "{0FF7A883-D923-4428-B7D4-92CACE118E88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALPDKS", "DALPDKS\DALPDKS.csproj", "{51A9472E-7B37-4700-A58F-657A4CB8B0EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{0FF7A883-D923-4428-B7D4-92CACE118E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF7A883-D923-4428-B7D4-92CACE118E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF7A883-D923-4428-B7D4-92CACE118E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51A9472E-7B37-4700-A58F-657A4CB8B0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51A9472E-7B37-4700-A58F-657A4CB8B0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51A9472E-7B37-4700-A58F-657A4CB8B0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51A9472E-7B37-4700-A58F-657A4CB8B0EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F36C8BD-81AF-4282-82F8-7758B80E6581}
 	EndGlobalSection
 EndGlobal

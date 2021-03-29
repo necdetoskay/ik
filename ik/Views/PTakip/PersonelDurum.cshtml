@@ -1,0 +1,100 @@
+﻿
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<div class="col-md-4">
+
+    <div style="margin: 20px" class="form-group row">
+        <label for="tarih" class="col-2 col-form-label">Tarih</label>
+        <div class="col-10">
+            <input class="form-control" onchange="tarihdegisti()" type="date" id="tarih">
+        </div>
+    </div>
+
+    <div style="margin: 20px" class="form-group row">
+        <div id="selectlist"></div>
+    </div>
+
+    <div style="margin: 20px; font-size: 24px;" id="evrakliste"><img id="loading" class="hidden" src="~/Content/giphy.gif" /></div>
+
+</div>
+<div class="clearfix"></div>
+
+@Scripts.Render("~/bundles/jquery")
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/ozlukadmin.js"></script>
+<script type="text/javascript">
+
+
+    function personelsorgula(id) {
+        var personel = $('#personel');
+        var target = $('#evrakliste');      
+        personel.attr("disabled", "disabled");
+        $.ajax({
+            async: true,
+            url: '@Url.Action("PersonelGunDurum","Pdks")',
+            type: 'GET',
+            data: {
+                id: id,
+                tarih: $('#tarih').val()
+            },
+            success: function(response) {
+                if (response.Success === true) {
+                    var durum = response.Data;
+                    if (durum < 0)
+                        target.html('<p class="bg-danger">GİRİŞ BULUNAMADI</p>');
+                    else {
+                        if (durum === 0)
+                            target.html('<p class="bg-success">GİRİŞ BULUNDU</p>');
+                        else if (durum === 6)
+                            target.html('<p class="bg-info">YILLIK İZİNLİ</p>');
+                        else if (durum === 7)
+                            target.html('<p class="bg-info">RAPORLU</p>');
+                    }
+
+                }
+            }
+
+        }).done(function() {
+            personel.attr("disabled", false);
+        });
+      
+    }
+
+
+    function selectlistchange(result) {
+        $('#loading').addClass("hidden");
+        var personel = $("#personel").find("option:selected");
+        if (personel.index() > 0) {
+            personelsorgula(personel.val());
+        }
+    }
+
+    function tarihdegisti() {
+        var personel = $("#personel").find("option:selected");
+        if (personel.index()>0) {
+            personelsorgula(personel.val());
+        }
+       
+    }
+
+    $(function() {
+        $('#tarih').val('@DateTime.Now.ToString("yyyy-MM-dd")');
+
+        $('#selectlist').MakeSelectList({
+            loadimgurl: '@Url.Content("~/Content/Loading_icon.gif")',
+            listurl: '@Url.Action("_SelectList", "Personel", new {Area = "Admin"})',
+            targetdiv: 'evrakliste',
+            change: function (result) {
+                selectlistchange(result);
+                //console.log("seleclist changed " + result);
+            }
+        });
+    });
+
+</script>
